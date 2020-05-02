@@ -18,7 +18,7 @@ end
 
 
 W=[]; V=[];
-for i=1:4
+for i=1:(deg+1)
    W=[W sdpvar(size_Wi,size_Wi)];
    V=[V sdpvar(size_Vi,size_Vi)];
 end
@@ -63,14 +63,10 @@ constraints=[constraints, sum_colums_A(1,1:end-1)==[zeros(1,size(A,1)-1)]   ];
 constraints=[constraints, sum_colums_A(end)==1];
 
 %I want to maximize the absolute value of the determinant of A
-obj=-computeDet(A)
+obj=-computeDet(A);
 %obj=-abs(det(A,'polynomial')); %Should I put abs() here?
 
-     
-A_bezier=[-1 3 -3 1;
-          3 -6  3 0;
-         -3  3  0 0;
-          1  0  0 0]';
+A_bezier=computeMatrixForBezier(deg, "m11");
    
 A_guess=A_bezier;
 
@@ -83,18 +79,21 @@ settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver'
 result=optimize(constraints,obj,settings);
 %check(constraints)
 
-A_value=value(A);
+A_minvo=value(A);
 
-disp("abs(|A_bezier|/|A_mio|)=")
-abs(det(A_bezier)/det(A_value))
+disp("abs(|A_bezier|/|A_minvo|)=")
+abs(det(A_bezier)/det(A_minvo))
 
 %%
 
- 
-figure
 syms t real
-T=[t*t*t t*t t 1]';
-fplot(A_value*T, [-1,1])
+T=[];
+for i=0:(deg)
+   T=[t^i ;T];
+end
+    
+
+fplot(A_minvo*T, [-1,1])
 
 
 %%
@@ -105,15 +104,11 @@ pol_z=[1 -0.1 -1 -4]';%[a b c d]
 
 
 %%
-figure; hold on;
-fplot3(pol_x'*T,pol_y'*T,pol_z'*T,[-1 1],'r','LineWidth',3);
-% axis equal
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A_value,'b');
+% figure; hold on;
+% fplot3(pol_x'*T,pol_y'*T,pol_z'*T,[-1 1],'r','LineWidth',3);
+% % axis equal
+% volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A_value,'b');
 %volumen_bezier=plot_convex_hull(pol_x,pol_y,pol_z,A_bezier,'g');
-disp("abs(|A_bezier|/|A_mio|)=")
-abs(det(A_bezier)/det(A_value))
-% disp("volumen_mio/volumen_bezier=")
-% volumen_mio/volumen_bezier
 
 function constraints=getPsdConstraints(A)
 constraints=[];
@@ -122,6 +117,17 @@ if(size(A,1)==1)
     return;
 elseif(size(A,1)==2)
     constraints=[A(1,1)>=0, A(2,2)>=0, (A(1,1)*A(2,2)-A(1,2)*A(2,1))>=0]  
+    return;
+elseif(size(A,1)==3)
+
+    tmp=A(2:3, 2:3); %delete 3
+    constraints=[constraints getPsdConstraints(tmp)] 
+    tmp=A([1, 3:end], [1, 3:end]); %delete 2
+    constraints=[constraints getPsdConstraints(tmp)]
+    tmp=A(1:2, 1:2); %delete 3
+    constraints=[constraints getPsdConstraints(tmp)] 
+    
+    constraints=[constraints computeDet(A)>=0]
     return;
 else
     error('NOT YET IMPLEMENTED')
