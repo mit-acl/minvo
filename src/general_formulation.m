@@ -3,7 +3,7 @@ set(0,'DefaultFigureWindowStyle','docked') %'normal'
 %Useful to plot the result: http://nurbscalculator.in/
 %READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
-deg=3;
+deg=5;
 deg_is_even = (rem(deg, 2) == 0);
 
 if(deg_is_even==1)
@@ -63,19 +63,21 @@ constraints=[constraints, sum_colums_A(1,1:end-1)==[zeros(1,size(A,1)-1)]   ];
 constraints=[constraints, sum_colums_A(end)==1];
 
 %I want to maximize the absolute value of the determinant of A
-obj=-computeDet(A);
-%obj=-abs(det(A,'polynomial')); %Should I put abs() here?
+%obj=-computeDet(A); %This is needed when using fmincon (det(A,'polynomial') doesnt work) 
+obj=-det(A,'polynomial');
 
 A_bezier=computeMatrixForBezier(deg, "m11");
    
 A_guess=A_bezier;
 
+A_guess=getGuessA(deg,"m11");
+
 assign(A,A_guess);
 
 clear t
 disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ipopt' 'knitro' 'scip'
-settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
-% settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'ipopt.tol',1e-10,'debug',1);
+settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+% settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
 result=optimize(constraints,obj,settings);
 %check(constraints)
 
@@ -120,7 +122,7 @@ elseif(size(A,1)==2)
     return;
 elseif(size(A,1)==3)
 
-    tmp=A(2:3, 2:3); %delete 3
+    tmp=A(2:3, 2:3); %delete 1
     constraints=[constraints getPsdConstraints(tmp)] 
     tmp=A([1, 3:end], [1, 3:end]); %delete 2
     constraints=[constraints getPsdConstraints(tmp)]

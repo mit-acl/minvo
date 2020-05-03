@@ -9,30 +9,12 @@ for i=1:length(tmp)
 
 end
 
-
-
-
 syms tt real
 
 if(interval=="m11") %[-1,1]
-    tt=t/2.0+0.5;
-    T=[];
-    
-    for i=0:(deg)
-        T=[tt^i T];
-    end
-    
-    tmp=Abz*T';
 
-    Abz=[];
+   Abz= convertAFrom00toM11(Abz);
 
-    for i=1:(deg+1)
-        Abz=[Abz ;double(vpa(coeffs(tmp(i),'All')))];
-    end
-    
-
-    
-%     subs(Abz,t,tt);
 elseif(interval=="01")%[0,1]
     %Don't do anything
 else

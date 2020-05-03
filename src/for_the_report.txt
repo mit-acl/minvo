@@ -1,0 +1,5 @@
+He usado:
+
+--> globtipoly
+--> Julia
+--> Yalmip
