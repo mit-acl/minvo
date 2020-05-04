@@ -3,7 +3,7 @@ set(0,'DefaultFigureWindowStyle','docked') %'normal'
 %Useful to plot the result: http://nurbscalculator.in/
 %READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
-deg=5;
+deg=3;
 deg_is_even = (rem(deg, 2) == 0);
 
 if(deg_is_even==1)
@@ -35,7 +35,8 @@ for i=1:(deg+1)
     Vi=V(:,(i-1)*size_Vi+1:i*size_Vi);
 
     %Wi and Vi are psd matrices <=> All ppal minors are >=0
-    constraints=[constraints, getPsdConstraints(Wi), getPsdConstraints(Vi)];   
+%     constraints=[constraints, getPsdConstraints(Wi), getPsdConstraints(Vi)];   
+    constraints=[constraints, Wi>=0, Vi>=0]; %Works when using solvemoment sdp
     
     Tvi=[];
     for i=0:(size(Vi,1)-1)
@@ -53,8 +54,7 @@ for i=1:(deg+1)
         lambdai=(t+1)*Twi'*Wi*Twi + (1-t)*Tvi'*Vi*Tvi;
     end
     coeffs_lambdai=flip(coefficients(lambdai,t))';
-    A=[A; coeffs_lambdai];
-        
+    A=[A; coeffs_lambdai]; 
     
 end
 
@@ -78,7 +78,8 @@ clear t
 disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ipopt' 'knitro' 'scip'
 settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
-result=optimize(constraints,obj,settings);
+% result=optimize(constraints,obj,settings); 
+result=solvemoment(constraints,obj,[],3);
 %check(constraints)
 
 A_minvo=value(A);

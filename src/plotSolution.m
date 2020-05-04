@@ -3,17 +3,17 @@ set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
 set(0,'defaulttextInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
 
-folder='imgs';
-name_figure=[folder,'/minvo_and_bernstein'];
+
+name_figure='imgs/plots_basis';
 
 syms t real
 interv=[-1,1];
 figure;
-n_rows=2;
+n_rows=3;
 n_cols=4+1;
 
 subplot(n_rows,n_cols,1); hold on
-set(gcf, 'Position',  [500, 500, 2000, 550])
+set(gcf, 'Position',  [500, 500, 2000, 750])
 
 T1=[t 1]';
 T2=[t*t t 1]';
@@ -42,6 +42,14 @@ for degree=1:4
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'))
    box on
+   
+   subplot(n_rows,n_cols,2*n_cols+degree);
+   fplot(lagrangePoly(linspace(-1,1,degree+1))*T,interv);
+   xlabel('t'); %ylim([0,inf]);
+   title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'))
+   box on
+   
+   
 end
 
 % set(gca, 'Position',[0.7813, 0.1100, 0.0371, 0.8150]);
@@ -63,6 +71,61 @@ exportAsPdf(gcf,name_figure)
 
 
 
+
+%%
+figure; hold on;
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+subplot(1,2,1);hold on
+
+A=getGuessA(2,"m11");
+
+v1=[0.1, 0.5];
+v2=[0.2  1.1];
+v3=[0.35,  0.1]; 
+
+
+vx=[v1(1)  v2(1)  v3(1)]';
+vy=[v1(2)  v2(2)  v3(2)]';
+
+P=[v1; v2; v3];
+[k,av] = convhull(P);
+fill(P(k,1),P(k,2),'g','LineWidth',1)
+alpha 0.2
+axis equal
+ylim([0 2.0])
+pol_x=A'*vx;
+pol_y=A'*vy;
+
+plot(0,0,'*')
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
+
+subplot(1,2,2);hold on
+A=computeMatrixForBezier(2,"m11");
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
+
+
+vx=inv(A')*pol_x;
+vy=inv(A')*pol_y;
+
+v1=[vx(1) vy(1)];
+v2=[vx(2) vy(2)];  
+v3=[vx(3) vy(3)];
+
+P=[v1; v2; v3];
+[k,av] = convhull(P);
+fill(P(k,1),P(k,2),'b','LineWidth',1)
+alpha 0.2
+axis equal
+ylim([0 2.0])
+plot(0,0,'*')
+
+a1=subplot(1,2,1);
+a2=subplot(1,2,2);
+allYLim = get([a1 a2], {'YLim'});
+allYLim = cat(2, allYLim{:});
+set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
+
+exportAsSvg(gcf,'imgs/comparison2d')
 
 %%
 figure;
@@ -92,9 +155,6 @@ arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 subplot(1,2,2); hold on; 
 
 A=computeMatrixForBezier(3,"m11");
-% pol_xbz=A'*vx;
-% pol_ybz=A'*vy;
-% pol_zbz=A'*vz;
 
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b');
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
@@ -110,20 +170,6 @@ arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
-exportAsSvg(gcf,'imgs/comparison3d')
+% exportAsSvg(gcf,'imgs/comparison3d')
 
-% text(0,0,1.5,'$x$');
-
-% zlim([min(vz)-0.2,max(vz)+0.2])
-% fplot3(pol_x'*T3,pol_y'*T3,0.0*pol_z'*T3,interv,'--r','LineWidth',1);
-% fplot3(0.0*pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,4'--r','LineWidth',1);
-% fplot3(pol_x'*T3,0.0*pol_y'*T3,pol_z'*T3,interv,'--r','LineWidth',1);
-
-% camlight
-% lighting gouraud
-% camproj perspective
-% view(30, 30)
-% shading flat %flat interp
-% light
-% lighting phong
 

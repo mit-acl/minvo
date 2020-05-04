@@ -191,6 +191,49 @@ MINVO Basis: Finding Simpleces with Minimum Volume Enclosing Polynomial
 
 \begin_layout Author
 Jesus Tordesillas Torres
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The author is with the Aerospace Controls Laboratory, MIT, 77 Massachusetts
+ Ave., Cambridge, MA, USA
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+tt
+\backslash
+{jtorde
+\backslash
+}@mit.edu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+ 18.0651 Final Project  	
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -230,22 +273,31 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Abstract
-In this work I compare four different adaptive controllers to estimate the
- mass and inertia matrix of a quadrotor, which is an underactuated system.
- First, the dynamic model of a quadrotor is derived and decoupled.
- Then, the tracking error based (TEB), constant gain (CG), bounded-gain-forgetti
-ng (BGF) and cushioned-floor (CF) adaptive controllers are implemented and
- compared under a persistently exciting signal both with constant and time-varyi
-ng parameters.
- Finally, once the parameters have been estimated, a feedback linearization
- and input-ouput decopling of the quadrotor using dynamic extension is proposed
- to allow the tracking of a trajectory specified in the space of the flat
- outputs 
-\begin_inset Formula $\left[\begin{array}{cccc}
-x & y & z & \psi\end{array}\right]^{T}$
+Applications such as computer graphics rendering, path planning for robotics
+ and patch splitting algorithms greatly benefit from having an 
+\begin_inset Formula $n-$
 \end_inset
 
- (position and yaw angle).
+simplex that encloses a given polynomial curve.
+ Probably the most common curve used for this is the Bezier curves, which
+ ensure that the curve is contained inside the convex hull of its control
+ points.
+ However, it is known that this convex hull is not the one with smallest
+ volume, causing therefore great conservatism in all the applications mentioned
+ before.
+ This project derives and presents the MINVO basis, a polynomial basis that
+ generates the smallest 
+\begin_inset Formula $n-$
+\end_inset
+
+simplex that encloses any given polynomial curve.
+ Global Optimality is proven for 
+\begin_inset Formula $n=1,2,3,4$
+\end_inset
+
+ using Sum-Of-Squares (SOS) Programming and Moment Relaxations.
+ Finally, some applications of the benefit of the use of this MINVO basis
+ are also presented.
  
 \end_layout
 
@@ -253,11 +305,99 @@ x & y & z & \psi\end{array}\right]^{T}$
 Introduction
 \end_layout
 
-\begin_layout Section
-Related work
+\begin_layout Standard
+The ability to approximate the space occupied by a given polynomial curve
+ with a polyhedra is crucial for many applications, and is the one that
+ enables real-time processing .
+ For intance, in the path planning community, a sequence of overlapping
+ polyhedra is usually generated in the free space, and then the constraint
+ of the trajectory being in free space can be easily enforced by imposing
+ that the control points of the associated Bezier curve or B-Spline are
+ inside those polyhedra (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tordesillas2019faster,preiss2017trajectory,sahingoz2014generation"
+literal "false"
+
+\end_inset
+
+ for instance).
+ This allows to obtain impose a finite number of convex contraints, instead
+ of continuous constraints of the form 
+\begin_inset Formula $c(x,t)\le0\;\forall t$
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+In the 
+\end_layout
+
+\begin_layout Plain Layout
+My PhD research is on trajectory planning and obstacle avoidance for drones.
+ For the trajectories, I use Bézier curves.
+ To ensure that they do not collide with the obstacles, I generate a convex
+ corridor (sequence of overlapping polyhedra) in the free space, and then
+ I force the control points of the Bézier curve to be inside this convex
+ corridor.
+ This guarantees that the trajectories are collision free, because the Bézier
+ curves have the property that the curve is completely contained in the
+ convex hull of its control points.
+ A video of these polyhedra is available here: 
+\begin_inset CommandInset href
+LatexCommand href
+name "https://www.youtube.com/watch?v=fkkkgomkX10"
+target "https://www.youtube.com/watch?v=fkkkgomkX10"
+literal "false"
+
+\end_inset
+
+.
+ However, the main 
+\series bold
+problem
+\series default
+ with this approach is that the convex hull of the control points of a Bézier
+ curve is sometimes very conservative with respect to the curve itself.
+ In other words, there exist other points whose convex hull also contains
+ that curve, and whose volume is smaller than the volume of the convex hull
+ of the Bézier control points.
+\end_layout
+
+\begin_layout Plain Layout
+Rendering
+\end_layout
+
+\begin_layout Plain Layout
+), since it usally allows to ensure that a trajectory is completely contained
+ in a polytope by simply ensuring that the control points of the trajectory
+ are inside that polytope.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+The need of convex hulls of minimum volumes is They are also used in 
+\end_layout
+
+\begin_layout Plain Layout
+Benefit of using the convex hull of the control points of a cuve: 
+\begin_inset Quotes eld
+\end_inset
+
+approximates the space occupied by the curve by a finite number of points.
+\end_layout
+
+\begin_layout Plain Layout
+==================
+\end_layout
+
+\begin_layout Plain Layout
 So far the only paper I have found that tries to solve the same problem
  is the reference 
 \begin_inset CommandInset citation
@@ -328,6 +468,106 @@ moment-SDP
  
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Related work
+\end_layout
+
+\begin_layout Standard
+Probably the paper most related to the problem this project is trying to
+ solve is 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "herron1989polynomial"
+literal "false"
+
+\end_inset
+
+.
+ In that work, the authors imposed a ad-hoc form for the polynomials that
+ form the basis, and then solved the optimization problem over the roots
+ of those polynomials.
+ They were able to find a local minimum (for that specific form of the polynomia
+ls) for 
+\begin_inset Formula $n=2$
+\end_inset
+
+ and 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ These project goes further, and tries to find global optimal solutions
+ over all possible polynomials, and for higher degrees 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A similar problem has also been studied in the hyperspectral unmixing of
+ the remote sensing community, which consists of trying to find, in a given
+ image pixel, the proportions (or abundances) of each macroscopic materials
+ (endmembers) contained in that pixel 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "uezato2019hyperspectral"
+literal "false"
+
+\end_inset
+
+.
+ One way to address this problem is to find the simplex with minimum volume
+ that encloses a set of points (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hendrix2013minimum"
+literal "false"
+
+\end_inset
+
+ for instance).
+ However, the fact of dealing with many data points, and not necessarily
+ distributed along a polynomial curve, leads to these works to generate
+ different iterative algorithms to solve it (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rogge2006iterative,iordache2009unmixing,velez2003iterative"
+literal "false"
+
+\end_inset
+
+ for instance).
+ 
+\end_layout
+
+\begin_layout Standard
+Explicar convex hull algorithms?
+\end_layout
+
+\begin_layout Standard
+Other related works are 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kanazawa2014minimal"
+literal "false"
+
+\end_inset
+
+, that gives a bound for the volume of the smallest 
+\begin_inset Formula $n-$
+\end_inset
+
+simplex that encloses a given convex body.
+ 
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float figure
 wide false
@@ -358,7 +598,7 @@ Change 1)these are the guesses from GPOPS!!! The MINVO (left) is guaranteed
 -order polynomial curve in red.
  On the right, the simplex found using the Bezier Basis.
  The ratio between the two volumes is guaranteed to be 
-\begin_inset Formula $\frac{V_{MINVO}}{V_{Berns}}=0.4237$
+\begin_inset Formula $\frac{V_{MINVO}}{V_{Berns}}\approx0.4237$
 \end_inset
 
 
@@ -720,41 +960,6 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 The importance of this problem
 \end_layout
 
-\begin_layout Standard
-My PhD research is on trajectory planning and obstacle avoidance for drones.
- For the trajectories, I use Bézier curves.
- To ensure that they do not collide with the obstacles, I generate a convex
- corridor (sequence of overlapping polyhedra) in the free space, and then
- I force the control points of the Bézier curve to be inside this convex
- corridor.
- This guarantees that the trajectories are collision free, because the Bézier
- curves have the property that the curve is completely contained in the
- convex hull of its control points.
- A video of these polyhedra is available here: 
-\begin_inset CommandInset href
-LatexCommand href
-name "https://www.youtube.com/watch?v=fkkkgomkX10"
-target "https://www.youtube.com/watch?v=fkkkgomkX10"
-literal "false"
-
-\end_inset
-
-.
- However, the main 
-\series bold
-problem
-\series default
- with this approach is that the convex hull of the control points of a Bézier
- curve is sometimes very conservative with respect to the curve itself.
- In other words, there exist other points whose convex hull also contains
- that curve, and whose volume is smaller than the volume of the convex hull
- of the Bézier control points.
-\end_layout
-
-\begin_layout Standard
-Rendering
-\end_layout
-
 \begin_layout Section
 Approach
 \end_layout
@@ -961,6 +1166,13 @@ where in the last step we have used the fact that everything inside the
 \end_layout
 
 \begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset Box Boxed
 position "t"
 hor_pos "c"
@@ -1023,6 +1235,13 @@ s.t. & \lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t}\ge0\quad\foral
 \end_layout
 
 \begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Note that Problem 2 is 
 \series bold
 independent 
@@ -1071,7 +1290,7 @@ If
 \begin_inset Formula 
 \[
 \lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]\iff\left\{ \begin{array}{c}
-\lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\left((t+1)\boldsymbol{W}_{i}\hat{\boldsymbol{t}}+(1-t)\boldsymbol{V}_{i}\right)\hat{\boldsymbol{t}}\\
+\lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\left((t+1)\boldsymbol{W}_{i}+(1-t)\boldsymbol{V}_{i}\right)\hat{\boldsymbol{t}}\\
 \boldsymbol{W}_{i}\in\mathbb{S}_{+}^{\frac{n+1}{2}},\boldsymbol{V}_{i}\in\mathbb{S}_{+}^{\frac{n+1}{2}}
 \end{array}\right.
 \]
@@ -1132,11 +1351,381 @@ where
 \end_layout
 
 \begin_layout Section
+Results
+\end_layout
+
+\begin_layout Standard
+Optimization
+\end_layout
+
+\begin_layout Standard
+The optimization problem above has been solved using the IPOPT 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wachter2006implementation"
+literal "false"
+
+\end_inset
+
+ nonconvex solver, through the Yalmip 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Lofberg2004"
+literal "false"
+
+\end_inset
+
+ interface.
+ The minimums found for 
+\begin_inset Formula $n=1,2,3,4$
+\end_inset
+
+ are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:minvo_and_bernstein"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The bernstein polynomial basis is also shown for comparison.
+ 
+\end_layout
+
+\begin_layout Standard
+One natural question to ask is whether the basis found consitutes a global
+ minimizer for problem.
+ To answer this problem, we can make use of Lasserre's moment method 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lasserre2001"
+literal "false"
+
+\end_inset
+
+.
+ By increasing the order of the moment relaxation, one can find tighter
+ lower bounds of the original nonconvex polynomial optimization problem.
+ 
+\end_layout
+
+\begin_layout Standard
+Note also that any permutation of rows of A will also be a global minimizer
+ for the problem.
+ In other words, if 
+\end_layout
+
+\begin_layout Standard
+lambda_i is the distance
+\end_layout
+
+\begin_layout Standard
+Note how all the colums of A sum up to 1.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison2d.pdf
+	lyxscale 130
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Change 1)these are the guesses from GPOPS!!! The MINVO (left) is guaranteed
+ to be the smallest (irregular) triangle that encloses the 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+-order polynomial curve in red.
+ On the right, the simplex found using the Bezier Basis.
+ The ratio between the two volumes is guaranteed to be 
+\begin_inset Formula $\frac{V_{MINVO}}{V_{Berns}}\approx0.7697$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:comparison2d"
+
+\end_inset
+
+ for any 
+\begin_inset Formula $3^{rd}$
+\end_inset
+
+-order polynomial curve.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matrices found
+\end_layout
+
+\begin_layout Standard
+The matrices found are given in the table (up to 3 significant digits) 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Degree
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left[\begin{array}{cc}
+-\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} & \frac{1}{2}
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left[\begin{array}{ccc}
+0.375 & -\frac{\sqrt{3}}{4} & 0.125\\
+0.75 & 0 & 0.75\\
+0.375 & \frac{\sqrt{3}}{4} & 0.125
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left[\begin{array}{cccc}
+-0.430 & 0.456 & -0.0269 & 0.000410\\
+0.834 & -0.456 & -0.792 & 0.499\\
+-0.834 & -0.456 & 0.792 & 0.499\\
+0.430 & 0.456 & 0.0269 & 0.000410
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left[\begin{array}{ccccc}
+\\
+\\
+\\
+\\
+\\
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conversion from Bezier to MINVO
+\end_layout
+
+\begin_layout Section
+Applied
+\end_layout
+
+\begin_layout Standard
+Benefits of using the MINVO basis
+\end_layout
+
+\begin_layout Standard
+Rendering
+\end_layout
+
+\begin_layout Standard
+Path Planning example
+\end_layout
+
+\begin_layout Standard
+https://www.sciencedirect.com/science/article/abs/pii/016783969390015U
+\end_layout
+
+\begin_layout Standard
+Comentar algo de los B-Splines?
+\end_layout
+
+\begin_layout Standard
+Plot convex hull azul en 3D
+\end_layout
+
+\begin_layout Section
 Others
 \end_layout
 
 \begin_layout Standard
 Poner el ratio Volumen Minvo/Volumen Bezier
+\end_layout
+
+\begin_layout Standard
+Other ways to interpret the cost function (wronskian)
+\end_layout
+
+\begin_layout Standard
+Other ways to interpret the basis: 
+\end_layout
+
+\begin_layout Standard
+Derive the 
+\begin_inset Quotes eld
+\end_inset
+
+dual of the problem
+\begin_inset Quotes erd
+\end_inset
+
+ (maximum ruled surface generated by polynomial curves inside that convex
+ body)
 \end_layout
 
 \begin_layout Standard
@@ -1148,7 +1737,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename src/imgs/minvo_and_bernstein.pdf
+	filename src/imgs/plots_basis.pdf
 	lyxscale 130
 	width 100text%
 
@@ -1409,64 +1998,48 @@ Conclusions and Future Work
 \end_layout
 
 \begin_layout Standard
-In this paper I studied how the TEB, CG, BFG and CF adaptive controllers
- can be applied to a quadrotor to do parameter estimation.
- I did different simulations with both constant and time-varying parameters,
- showing that BFG and CF can achieve better performance, and have much less
- oscillatory behavior than TEB or CG.
- Once the parameters were estimated, I presented a way to feedback linearize
- and input-ouput decouple the dynamics of the quadrotor using dynamic extension.
+The exciting results of this project can naturally lead to the following
+ questions:
+\end_layout
+
+\begin_layout Itemize
+Does there exist a closed-form solution for any degree 
+\begin_inset Formula $n$
+\end_inset
+
+? 
+\end_layout
+
+\begin_layout Itemize
+Does there exist a recursivity formula to obtain the solution of problem
+ 3 for 
+\begin_inset Formula $n$
+\end_inset
+
+ given the previous solutions 
+\begin_inset Formula $1:n-1$
+\end_inset
+
+? Will this recursivity formula allow to easily prove global optimality
+ for all 
+\begin_inset Formula $n$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Section
+Conclusions and Future Work
+\end_layout
+
+\begin_layout Standard
+The author would like to thank Prof.
+ Gilbert Strang, Ashkan M.
+ Jasour, Juan José Madrigal and Marc Adillón for helpul insights and discussions.
  
 \end_layout
 
 \begin_layout Standard
-As future work, I would like to continue exploring the feedback linearization.
- Particularly, I would like to use robust input-output feedback linearization
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset CommandInset citation
-LatexCommand cite
-key "slotine1993robust"
-literal "false"
-
-\end_inset
-
- t
-\end_layout
-
-\end_inset
-
-o handle the case where some parameters were estimated with some error,
- or there are some disturbances, and therefore the feedback linearization
- is not exact.
- Moreover, in this project I have decoupled the parameter estimation task
- from the tracking of the flat variables 
-\begin_inset Formula $\left[\begin{array}{cccc}
-x_{d} & y_{d} & z_{d} & \psi_{d}\end{array}\right]^{T}$
-\end_inset
-
- task.
- I would like to investigate if there is a way to do both things at the
- same time (i.e.
- achieve a good tracking of 
-\begin_inset Formula $\left[\begin{array}{cccc}
-x_{d} & y_{d} & z_{d} & \psi_{d}\end{array}\right]^{T}$
-\end_inset
-
- when the inertia matrix and the mass of the drone are completely unknown).
- 
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
 
 \lang english
 \begin_inset CommandInset bibtex
@@ -1474,11 +2047,6 @@ LatexCommand bibtex
 btprint "btPrintCited"
 bibfiles "bibliography"
 options "bibtotoc,unsrt"
-
-\end_inset
-
-
-\end_layout
 
 \end_inset
 

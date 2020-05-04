@@ -1,6 +1,6 @@
 close all; clc; clear;
 
-n=5; %breaks (not enough memory) if n>3 
+n=3; %breaks (not enough memory) if n>3 
 
 mpol('B',n-1,1)
 mpol('R',(n+1)/2, (n-1)/2)

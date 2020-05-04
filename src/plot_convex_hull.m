@@ -1,3 +1,4 @@
+
 function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
     cx=pol_x;
     cy=pol_y;
@@ -43,8 +44,6 @@ function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
      camlight
      lighting phong
 %    
-%  
-
     [k1,volume] = convhull(vx,vy,vz);
 
     s2=trisurf(k1,vx,vy,vz,'LineWidth',1,'FaceColor',color)
