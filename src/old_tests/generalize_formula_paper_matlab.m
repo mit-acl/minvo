@@ -3,7 +3,7 @@ syms t
 
 % global R B_solved determ
 
-deg=4;
+deg=6;
 n=deg;
 
 W=[];
@@ -94,8 +94,8 @@ else %Deg is even
        W=[W;pol];
    else
        Bi=sym(strcat('B',num2str(n/2+1))); B=[B; Bi];
-       pol=B(i)*(t+1)*(t-1);
-       for j=1:(n/4 - 2)
+       pol=-B(i)*(t+1)*(t-1);
+       for j=1:((n-2)/4)
             Rij=sym(strcat('R',num2str(i),num2str(j)));R=[R; Rij];
             pol=pol*((t-Rij)^2)*((t+Rij)^2);
        end
@@ -169,7 +169,7 @@ gs = GlobalSearch('Display','iter');
 ms = MultiStart('Display','iter','UseParallel',true);
 
 disp('Running, it usually takes some time until the parpool starts');
-[xgs,~,~,~,solsgs] = run(ms,problem,30); %8000
+[xgs,~,~,~,solsgs] = run(ms,problem,300); %8000
 
 % [xms,~,~,~,solsgs] = run(ms,problem,100);
 
