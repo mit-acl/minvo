@@ -18,14 +18,14 @@ function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
 %     plot3(v2(1),v2(2),v2(3),'-o','Color',color,'MarkerSize',10)
 %     plot3(v3(1),v3(2),v3(3),'-o','Color',color,'MarkerSize',10)
 %     plot3(v4(1),v4(2),v4(3),'-o','Color',color,'MarkerSize',10)
-    
-    [x,y,z] = sphere(50);
-    radius=0.02;
+
     color_vertex=[.98 .45 .02];
-    s1 = surf(x*radius+v1(1),y*radius+v1(2),z*radius+v1(3),'FaceColor',color_vertex,'LineStyle','none' );
-    s2 = surf(x*radius+v2(1),y*radius+v2(2),z*radius+v2(3),'FaceColor',color_vertex,'LineStyle','none');
-    s3 = surf(x*radius+v3(1),y*radius+v3(2),z*radius+v3(3),'FaceColor',color_vertex,'LineStyle','none');
-    s4 = surf(x*radius+v4(1),y*radius+v4(2),z*radius+v4(3),'FaceColor',color_vertex,'LineStyle','none');
+    radius=0.02;
+s1=plotSphere(v1,radius, color_vertex);
+s2=plotSphere(v2,radius, color_vertex);
+s3=plotSphere(v3,radius, color_vertex);
+s4=plotSphere(v4,radius, color_vertex);
+
 %     
 %     
 %     set(s1,'facecolor',color_vertex);

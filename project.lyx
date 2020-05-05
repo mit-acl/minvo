@@ -13,7 +13,7 @@
 \usepackage{hyperref}
 
 \usepackage{courier}
-
+\usepackage{array}
 
 \usepackage{color}
 
@@ -204,11 +204,7 @@ status open
 
  
 \backslash
-tt
-\backslash
-{jtorde
-\backslash
-}@mit.edu
+tt{jtorde}@mit.edu
 \end_layout
 
 \end_inset
@@ -604,7 +600,7 @@ Change 1)these are the guesses from GPOPS!!! The MINVO (left) is guaranteed
 
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:minvo_and_bernstein-1"
+name "fig:comparison3d"
 
 \end_inset
 
@@ -639,6 +635,79 @@ vskip-2ex
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Notation
+\end_layout
+
+\begin_layout Standard
+Upper-case bold letters 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ will represent matrices, while lower-case bold letters 
+\begin_inset Formula $\boldsymbol{a}$
+\end_inset
+
+ will represent column vectors.
+ 
+\begin_inset Formula $conv(M)$
+\end_inset
+
+ will represent the convex hull of the set 
+\begin_inset Formula $M$
+\end_inset
+
+.
+ 
+\begin_inset Formula $|\cdot|$
+\end_inset
+
+ will represent the determinant operator, and the symbol 
+\begin_inset Formula $\propto$
+\end_inset
+
+ will represent 
+\begin_inset Quotes eld
+\end_inset
+
+proportional to
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The subscript 
+\begin_inset Formula $\cdot_{k\times n}$
+\end_inset
+
+ will denote the size of a matrix (rows 
+\begin_inset Formula $\times$
+\end_inset
+
+ columns).
+ 
+\begin_inset Formula $\boldsymbol{1}$
+\end_inset
+
+ will denote a column vector of ones of appropriate size.
+ 
+\begin_inset Formula $\boldsymbol{a}\ge\boldsymbol{b}$
+\end_inset
+
+ will denote an element-wise inequality.
+ Let us also denote the define the vector 
+\begin_inset Formula $\boldsymbol{e}:=\left[\begin{array}{ccccc}
+0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}$
+\end_inset
+
+.
+ The operator 
+\begin_inset Formula $abs(\cdot)$
+\end_inset
+
+ will represent the absolute value.
+ 
 \end_layout
 
 \begin_layout Section
@@ -681,7 +750,7 @@ status open
 \end_inset
 
  points 
-\begin_inset Formula $\boldsymbol{v}_{1},...,\boldsymbol{v}_{n+1}\in\mathbb{R}^{n}$
+\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$
 \end_inset
 
 .
@@ -699,11 +768,16 @@ status open
 
 .
  The points 
-\begin_inset Formula $\boldsymbol{v}_{1},...,\boldsymbol{v}_{n+1}\in\mathbb{R}^{n}$
+\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$
 \end_inset
 
  are called the vertexes of the simplex.
- 
+ Let us also define the matrix 
+\begin_inset Formula $\boldsymbol{V}:=\left[\begin{array}{ccc}
+\boldsymbol{v}_{0} & \cdots & \boldsymbol{v}_{n}\end{array}\right]$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -759,23 +833,40 @@ and dimension
 \end_inset
 
 : Parametric curve 
-\begin_inset Formula $\boldsymbol{p}(t):=\left[\begin{array}{ccc}
-p_{1}(t) & \cdots & p_{k}(t)\end{array}\right]^{T}$
+\begin_inset Formula $\boldsymbol{p}(t):=\left[\begin{array}{c}
+p_{0}(t)\\
+\vdots\\
+p_{k-1}(t)
+\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}=\sum_{j=0}^{n}\boldsymbol{p}_{j}t^{j}=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\boldsymbol{t}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}\boldsymbol{t}
+\end{array}\right]$
 \end_inset
 
 , where 
-\begin_inset Formula $p_{i}(t)$
+\begin_inset Formula $p_{i}(t)=\boldsymbol{c}_{i}^{T}\boldsymbol{t}$
 \end_inset
 
  is a polynomial of degree 
 \begin_inset Formula $n$
 \end_inset
 
-: 
+.
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 p_{i}(t)=\sum_{j=0}^{n}p_{i,j}t^{j}=\boldsymbol{p}_{i}^{T}\boldsymbol{t},\qquad c_{i,j}\in\mathbb{R},t\in\mathbb{R}
 \]
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -789,6 +880,19 @@ In this paper, we will use the polynomial curves of the form
 
 th order polyomial curve.
  
+\begin_inset Formula $\boldsymbol{P}$
+\end_inset
+
+ will denote the matrix 
+\begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}
+\end{array}\right]_{k\times n}\equiv\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times n}$
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -806,8 +910,15 @@ t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}$
 \end_layout
 
 \begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Let us also define the permutation matrix 
-\begin_inset Formula $P=\left[\begin{array}{cccc}
+\begin_inset Formula $Q=\left[\begin{array}{cccc}
 0 & \cdots & 0 & 1\\
 0 & \cdots & 1 & 0\\
 \vdots & \iddots & \vdots & \vdots\\
@@ -823,7 +934,7 @@ Problem definition
 \end_layout
 
 \begin_layout Standard
-This project investigate the following problem:
+This project investigates the two following problems:
 \end_layout
 
 \begin_layout Standard
@@ -881,7 +992,7 @@ th order polyomial curve
  In other words:
 \begin_inset Formula 
 \[
-\min_{S\in S^{n}}\quad vol(S)
+\min_{S\in S^{n}}\quad f_{1}:=vol(S)
 \]
 
 \end_inset
@@ -956,213 +1067,9 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
  
 \end_layout
 
-\begin_layout Section
-The importance of this problem
-\end_layout
-
-\begin_layout Section
-Approach
-\end_layout
-
 \begin_layout Standard
-The volume of an 
-\begin_inset Formula $n-$
-\end_inset
-
-simplex 
-\begin_inset Formula $S\in S^{n}$
-\end_inset
-
- with vertexes 
-\begin_inset Formula $\boldsymbol{v}_{1},...,\boldsymbol{v}_{n+1}\in\mathbb{R}^{n}$
-\end_inset
-
- is given by:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-vol(S)=\frac{1}{n!}\left|\left[\begin{array}{cc}
-\boldsymbol{v}_{1}^{T} & 1\\
-\boldsymbol{v}_{2}^{T} & 1\\
-\vdots & \vdots\\
-\boldsymbol{v}_{n+1}^{T} & 1
-\end{array}\right]\right|
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $|\cdot|$
-\end_inset
-
- represents the determinant operator.
- 
-\end_layout
-
-\begin_layout Standard
-Now note that the constraint 
-\begin_inset Formula $\boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]$
-\end_inset
-
- is equivalent to 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
- being a convex combination of the vertexes of the simplex in the interval
- 
-\begin_inset Formula $[-1,1]$
-\end_inset
-
-:
-\begin_inset Formula 
-\[
-\left.\begin{array}{c}
-\boldsymbol{p}(t)=\sum_{i=1}^{n+1}\lambda_{i}(t)\boldsymbol{v}_{i}\\
-\sum_{i}\lambda_{i}(t)=1\quad\forall t\\
-\lambda_{i}(t)\ge0\quad\forall i,\forall t\in[-1,1]
-\end{array}\right\} 
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Now, 
-\series bold
-assuming
-\series default
- ??? Taking?? that 
-\begin_inset Formula $\lambda_{i}(t)$
-\end_inset
-
- as an 
-\begin_inset Formula $n$
-\end_inset
-
--th degree polynomial 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\lambda_{i}(t)=\sum_{j=0}^{n}\lambda_{i,j}t^{j}=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},\qquad\lambda_{i,j}\in\mathbb{R},t\in\mathbb{R}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-j es el degree de cada monomio
-\end_layout
-
-\begin_layout Standard
-i es el index de cada vertex
-\end_layout
-
-\begin_layout Standard
-and matching the coefficients we have that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\boldsymbol{p}_{i}^{T}=\underbrace{\left[\begin{array}{cccc}
-\boldsymbol{\lambda}_{1} & \boldsymbol{\lambda}_{2} & \cdots & \boldsymbol{\lambda}_{n+1}\end{array}\right]}_{:=\boldsymbol{A}^{T}}\begin{bmatrix}\left(\boldsymbol{v}_{1}\right)_{i}\\
-\left(\boldsymbol{v}_{2}\right)_{i}\\
-\vdots\\
-\left(\boldsymbol{v}_{n+1}\right)_{i}
-\end{bmatrix}\quad\forall i
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where we have also defined the 
-\begin_inset Formula $(n+1)\times(n+1)$
-\end_inset
-
- matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
-.
- The 
-\begin_inset Formula $i$
-\end_inset
-
--th row of this matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- contains the coefficients of the polynomial 
-\begin_inset Formula $\lambda_{i}(t)$
-\end_inset
-
-.
- Now note that the second constraint can be rewritten as 
-\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\left[\begin{array}{ccccc}
-0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Therefore, we can now write:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-vol(S)=\frac{1}{n!}\left|\left[\begin{array}{cc}
-\boldsymbol{v}_{1}^{T} & 1\\
-\boldsymbol{v}_{2}^{T} & 1\\
-\vdots & \vdots\\
-\boldsymbol{v}_{n+1}^{T} & 1
-\end{array}\right]\right|=\frac{1}{n!}\left|\left[\begin{array}{cccc}
-A^{-T}\boldsymbol{p}_{1} & A^{-T}\boldsymbol{p}_{2} & \cdots & \boldsymbol{1}_{(n+1)\times1}\end{array}\right]\right|
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-=\frac{1}{n!}\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{cccc}
-\boldsymbol{p}_{1} & \boldsymbol{p}_{2} & \cdots & \underbrace{\boldsymbol{A}^{T}\boldsymbol{1}_{(n+1)\times1}}_{=\left[\begin{array}{ccccc}
-0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}}\end{array}\right]\right|\propto\left|A^{-1}\right|
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where in the last step we have used the fact that everything inside the
- second determinant is given (i.e.
- not a decision variable of the optimization problem), and the fact that
- 
-\begin_inset Formula $\left|A\right|=\left|A^{T}\right|$
-\end_inset
-
-.
+As we will prove later in the report, problem 1 is closely connected to
+ the following problem: 
 \end_layout
 
 \begin_layout Standard
@@ -1196,18 +1103,43 @@ status open
 \series bold
 Problem 
 \series default
-2: 
-\end_layout
+2: Given the vertexes 
+\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}$
+\end_inset
 
-\begin_layout Plain Layout
+ of an 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex 
+\begin_inset Formula $S$
+\end_inset
+
+, find the 
+\begin_inset Formula $n-$
+\end_inset
+
+th order polyomial curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ contained in 
+\begin_inset Formula $S$
+\end_inset
+
+, whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
+\end_inset
+
+ span a paralellogram with largest volume.
+ In other words:
 \begin_inset Formula 
 \[
-\max_{\boldsymbol{A}}\quad\left|\underbrace{\left[\begin{array}{c}
-\boldsymbol{\lambda}_{1}^{T}\\
-\boldsymbol{\lambda}_{2}^{T}\\
-\vdots\\
-\boldsymbol{\lambda}_{n+1}^{T}
-\end{array}\right]}_{:=\boldsymbol{A}}\right|
+\max_{\boldsymbol{p}(t)}\quad f_{2}:=\left|\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{1}\end{array}\right]\right|=\left|\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}^{T}
+\end{array}\right]\right|
 \]
 
 \end_inset
@@ -1219,8 +1151,422 @@ Problem
 \begin_inset Formula 
 \[
 \begin{array}{cc}
-s.t. & \lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t}\ge0\quad\forall t\in[-1,1]\;,\forall i\\
- & \sum\lambda_{i}(t)=1
+s.t. & \boldsymbol{p}(t)\in S:=conv(\{\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\})\quad\forall t\in[-1,1]\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+https://mathworld.wolfram.com/Parallelepiped.html
+\end_layout
+
+\begin_layout Plain Layout
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\xout off
+\uuline off
+\uwave off
+\noun off
+\color none
+vol(conv(
+\backslash
+{
+\backslash
+boldsymbol{p}_{0},
+\backslash
+boldsymbol{p}_{1},...,
+\backslash
+boldsymbol{p}_{n}
+\backslash
+})
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Transformation
+\end_layout
+
+\begin_layout Standard
+In this section we show that the verteces of optimal simplex of problem
+ 1 is given by 
+\begin_inset Formula $\boldsymbol{A}^{-1}\boldsymbol{P}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+solution of problem 1 (problem 2 respectively) can be obtained by using
+ a linear transformation of the given by a matrix 
+\end_layout
+
+\begin_layout Standard
+First of all, note that the constraint 
+\begin_inset Formula $\boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ being a convex combination of the vertexes of the simplex in the interval
+ 
+\begin_inset Formula $[-1,1]$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left.\begin{array}{c}
+\boldsymbol{p}(t)=\sum_{i=1}^{n+1}\lambda_{i}(t)\boldsymbol{v}_{i}\\
+\sum_{i}\lambda_{i}(t)=1\quad\forall t\\
+\lambda_{i}(t)\ge0\quad\forall i,\forall t\in[-1,1]
+\end{array}\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Taking 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ as an 
+\begin_inset Formula $n$
+\end_inset
+
+-th degree polynomial:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{i}(t)=\sum_{j=0}^{n}\lambda_{i,j}t^{j}=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},\qquad\lambda_{i,j}\in\mathbb{R},t\in\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and matching the coefficients we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{P}=\boldsymbol{V}\underbrace{\left[\begin{array}{c}
+\boldsymbol{\lambda}_{1}^{T}\\
+\boldsymbol{\lambda}_{2}^{T}\\
+\vdots\\
+\boldsymbol{\lambda}_{n+1}^{T}
+\end{array}\right]}_{:=\boldsymbol{A}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{c}_{i}=\underbrace{\left[\begin{array}{cccc}
+\boldsymbol{\lambda}_{1} & \boldsymbol{\lambda}_{2} & \cdots & \boldsymbol{\lambda}_{n+1}\end{array}\right]}_{:=\boldsymbol{A}^{T}}\begin{bmatrix}\left(\boldsymbol{v}_{0}\right)_{i}\\
+\left(\boldsymbol{v}_{1}\right)_{i}\\
+\vdots\\
+\left(\boldsymbol{v}_{n}\right)_{i}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where we have also defined the 
+\begin_inset Formula $(n+1)\times(n+1)$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $i$
+\end_inset
+
+-th row of this matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ contains the coefficients of the polynomial 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+.
+ Now note that the second constraint can be rewritten as 
+\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}^{T}$
+\end_inset
+
+(or equivalently 
+\begin_inset Formula $\boldsymbol{e}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Objective Function of Problem 1
+\end_layout
+
+\begin_layout Standard
+The volume of an 
+\begin_inset Formula $n-$
+\end_inset
+
+simplex 
+\begin_inset Formula $S\in S^{n}$
+\end_inset
+
+ with vertexes 
+\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$
+\end_inset
+
+ is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{1}:=vol(S)=\frac{1}{n!}\left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\frac{1}{n!}\left|\left[\begin{array}{cc}
+\boldsymbol{A}^{-T}\boldsymbol{P}^{T} & \boldsymbol{1}_{(n+1)\times1}\end{array}\right]\right|=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\frac{1}{n!}\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
+\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}_{(n+1)\times1}}_{=\boldsymbol{e}^{T}}\end{array}\right]\right|\propto
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+j es el degree de cada monomio
+\end_layout
+
+\begin_layout Plain Layout
+i es el index de cada vertex
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $=\frac{1}{n!}\left|\left[\begin{array}{cc}
+\boldsymbol{P}^{T} & \boldsymbol{1}\end{array}\right]\right|=\frac{1}{n!}\left|\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{1}^{T}
+\end{array}\right]\right|$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where in the last step we have used the fact that everything inside the
+ second determinant is given (i.e.
+ not a decision variable of the optimization problem), and the fact that
+ 
+\begin_inset Formula $\left|A\right|=\left|A^{T}\right|$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Objective Function of Problem 2
+\end_layout
+
+\begin_layout Standard
+Similarly to the previous subsection, we have that
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f_{2}:=\left|\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}^{T}
+\end{array}\right]\right|=\left|\left[\begin{array}{c}
+\boldsymbol{V}\\
+\underbrace{\boldsymbol{e}^{T}\boldsymbol{A}^{-1}}_{=\boldsymbol{1}^{T}}
+\end{array}\right]\boldsymbol{A}\right|\propto\left|\boldsymbol{A}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Equivalent Formulation for problem 1 and 2
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Problem 
+\series default
+3: 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\max_{\boldsymbol{A}}\quad\left|\boldsymbol{A}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+s.t. & \boldsymbol{A}\boldsymbol{t}\ge\boldsymbol{0}\quad\forall t\in[-1,1]\\
+ & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}^{T}
 \end{array}
 \]
 
@@ -1283,13 +1629,17 @@ If
 \begin_inset Formula $n$
 \end_inset
 
- is odd:
+ is odd, 
+\begin_inset Formula $\lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]$
+\end_inset
+
+ if and only if
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]\iff\left\{ \begin{array}{c}
+\left\{ \begin{array}{c}
 \lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\left((t+1)\boldsymbol{W}_{i}+(1-t)\boldsymbol{V}_{i}\right)\hat{\boldsymbol{t}}\\
 \boldsymbol{W}_{i}\in\mathbb{S}_{+}^{\frac{n+1}{2}},\boldsymbol{V}_{i}\in\mathbb{S}_{+}^{\frac{n+1}{2}}
 \end{array}\right.
@@ -1301,17 +1651,21 @@ If
 \end_layout
 
 \begin_layout Standard
-if 
+If 
 \begin_inset Formula $n$
 \end_inset
 
- is even
+ is even, 
+\begin_inset Formula $\lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]$
+\end_inset
+
+ if and only if
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]\iff\left\{ \begin{array}{c}
+\left\{ \begin{array}{c}
 \lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\left(\boldsymbol{W}_{i}+(t+1)(1-t)\boldsymbol{V}_{i}\right)\hat{\boldsymbol{t}}\\
 \boldsymbol{W}_{i}\in\mathbb{S}_{+}^{\frac{n}{2}+1},\boldsymbol{V}_{i}\in\mathbb{S}_{+}^{\frac{n}{2}}
 \end{array}\right.
@@ -1348,6 +1702,65 @@ where
 
 .
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/relationships_problems.pdf
+	lyxscale 130
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Relationship between problems 1,2,3: The optimal solution of the problems
+ 1 and 2 can be directly obtained from the solution of problem 3
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:relationships_problems"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -1392,7 +1805,7 @@ noprefix "false"
 \end_inset
 
 .
- The bernstein polynomial basis is also shown for comparison.
+ Both the Bernstein basis and the Lagrange basis are also shown for comparison.
  
 \end_layout
 
@@ -1413,6 +1826,251 @@ literal "false"
  
 \end_layout
 
+\begin_layout Subsection
+From the view point of Problem 1
+\end_layout
+
+\begin_layout Standard
+In problem 1, the polynomial curve is given and we obtain the simplex we
+ smallest volume.
+ For 
+\begin_inset Formula $n=2$
+\end_inset
+
+, the simplex found for a given polynomial is shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison2d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The simplex found using the Bernstein basis is also shown for comparison.
+ Note how the MINVO basis is able to generate.
+ In particular, it is guaranteed that the ratio between volume of the simplex
+ generated using the MINVO basis and the volume of the simplex generated
+ using the Bernstein basis is the following one:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{abs\left(|\boldsymbol{A}_{Berns}|\right)}{abs\left(|\boldsymbol{A}_{MINVO}|\right)}\approx\frac{0.25}{0.3248}\approx0.7697
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that this ratio is independent of the polynomial given.
+ For 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the simplexes found are showin in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison3d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and the ratio is the following one:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{abs\left(|\boldsymbol{A}_{Berns}|\right)}{abs\left(|\boldsymbol{A}_{MINVO}|\right)}\approx\frac{0.1406}{0.3319}\approx0.4236
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $n=4$
+\end_inset
+
+, the ratio is 
+\begin_inset Formula $\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{|A_{Berns}|}{|A_{MINVO}|}\approx\frac{0.1406}{0.3319}\approx0.4236$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From the view point of Problem 2
+\end_layout
+
+\begin_layout Standard
+In problem 2, the 
+\begin_inset Formula $n-$
+\end_inset
+
+simplex 
+\begin_inset Formula $S$
+\end_inset
+
+ is given, and we obtain the polynomial curve that is contained in 
+\begin_inset Formula $S$
+\end_inset
+
+, whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
+\end_inset
+
+ span a paralellogram with largest volume.
+ The results for a regular triangle and tetrahedron are shown in Figs.
+ and .
+ As we can see from the figures, the polynomial generated by the MINVO basis
+ occupies much more space than the one generated using the Bernstein polynomial.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison2d_simplex_given.pdf
+	lyxscale 130
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Change 1)these are the guesses from GPOPS!!! Optimal solution for Problem
+ 2 with 
+\begin_inset Formula $n=2$
+\end_inset
+
+.
+ The triangle is given, and the red polynomial curve using the MINVO basis
+ is the one whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
+\end_inset
+
+ span a rectangle with largest area, while being contained in the triangle.
+ On the right, the curve obtained using the Bernstein basis.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison3d_simplex_given.pdf
+	lyxscale 130
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Change 1)these are the guesses from GPOPS!!! 2) CHANGE THE ORDER OF VERTEXES
+ IN THE SECOND FIGURE Optimal solution for Problem 2 with 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ The tetrahedron is given, and the red polynomial curve using the MINVO
+ basis is the one whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{3},\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
+\end_inset
+
+ span a paralellogram with largest volume, while being contained in the
+ tetrahedron.
+ On the right, the curve obtained using the Bernstein basis.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+=======
+\end_layout
+
 \begin_layout Standard
 Note also that any permutation of rows of A will also be a global minimizer
  for the problem.
@@ -1424,8 +2082,16 @@ lambda_i is the distance
 \end_layout
 
 \begin_layout Standard
+iff for univariate
+\end_layout
+
+\begin_layout Standard
 Note how all the colums of A sum up to 1.
  
+\end_layout
+
+\begin_layout Standard
+Once we
 \end_layout
 
 \begin_layout Standard
@@ -1506,13 +2172,82 @@ Matrices found
 \end_layout
 
 \begin_layout Standard
-The matrices found are given in the table (up to 3 significant digits) 
+The matrices found are given in the table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:table_matrices"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ The results for 
+\begin_inset Formula $n=3$
+\end_inset
+
+ and 
+\begin_inset Formula $n=4$
+\end_inset
+
+ for the MINVO basis are given up to 3 significant digits.
+ Note that for both the MINVO basis and the Bezier basis, 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+setlength
+\backslash
+extrarowheight{1pt}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+setlength
+\backslash
+tabcolsep{0pt}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+renewcommand{
+\backslash
+arraystretch}{1.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="5" columns="2">
+<lyxtabular version="3" rows="5" columns="3">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <row>
@@ -1520,7 +2255,30 @@ The matrices found are given in the table (up to 3 significant digits)
 \begin_inset Text
 
 \begin_layout Plain Layout
-Degree
+
+\series bold
+\begin_inset space \hspace{}
+\length 0.1cm
+\end_inset
+
+MINVO 
+\begin_inset space \hspace{}
+\length 0.05cm
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1529,7 +2287,7 @@ Degree
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\boldsymbol{A}$
+\begin_inset Formula $abs\left(\left|\boldsymbol{A}\right|\right)$
 \end_inset
 
 
@@ -1551,14 +2309,26 @@ Degree
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{2}\left[\begin{array}{cc}
+-1 & 1\\
+1 & 1
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 <cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\left[\begin{array}{cc}
--\frac{1}{2} & \frac{1}{2}\\
-\frac{1}{2} & \frac{1}{2}
-\end{array}\right]$
+\begin_inset Formula $\frac{1}{2}=0.5$
 \end_inset
 
 
@@ -1580,7 +2350,7 @@ Degree
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1589,6 +2359,18 @@ Degree
 0.75 & 0 & 0.75\\
 0.375 & \frac{\sqrt{3}}{4} & 0.125
 \end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx0.3247$
 \end_inset
 
 
@@ -1610,7 +2392,7 @@ Degree
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1620,6 +2402,18 @@ Degree
 -0.834 & -0.456 & 0.792 & 0.499\\
 0.430 & 0.456 & 0.0269 & 0.000410
 \end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx0.3319$
 \end_inset
 
 
@@ -1641,7 +2435,7 @@ Degree
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1659,6 +2453,251 @@ Degree
 
 \end_inset
 </cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+FILL
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\series bold
+ 
+\begin_inset space \hspace{}
+\length 0.05cm
+\end_inset
+
+
+\series default
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset space \hspace{}
+\length 0.1cm
+\end_inset
+
+BERNSTEIN 
+\begin_inset space \hspace{}
+\length 0.05cm
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $abs\left(\left|\boldsymbol{A}\right|\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{2}\left[\begin{array}{cc}
+-1 & 1\\
+1 & 1
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{2}=0.5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{4}\left[\begin{array}{ccc}
+1 & -2 & 1\\
+-2 & 0 & 2\\
+1 & 2 & 1
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{4}=0.25$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{8}\left[\begin{array}{cccc}
+-1 & 3 & -3 & 1\\
+3 & -3 & -3 & 3\\
+-3 & -3 & 3 & 3\\
+1 & 3 & 3 & 1
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{9}{64}\approx0.1406$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $n=4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{1}{16}\left[\begin{array}{ccccc}
+1 & -4 & 6 & -4 & 1\\
+-4 & 8 & 0 & -8 & 4\\
+6 & 0 & -12 & 0 & 6\\
+-4 & -8 & 0 & 8 & 4\\
+1 & 4 & 6 & 4 & 1
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{3}{32}\approx0.0937$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
 </row>
 </lyxtabular>
 
@@ -1667,8 +2706,160 @@ Degree
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results obtained for the MINVO basis, and the matrices using the Bernstein
+ basis.
+ Each polynomial in the basis is given by the rows of 
+\begin_inset Formula $\boldsymbol{A}\boldsymbol{t}$
+\end_inset
+
+, with 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+.
+ The bigger the absolute value of the determinant, the smaller the associated
+ simplex 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:table_matrices"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Conversion from Bezier to MINVO
+\end_layout
+
+\begin_layout Standard
+Define 
+\begin_inset Formula $\boldsymbol{A}:=\left[\begin{array}{c}
+\boldsymbol{\lambda}_{1}^{T}\\
+\boldsymbol{\lambda}_{2}^{T}\\
+\boldsymbol{\lambda}_{3}^{T}
+\end{array}\right]_{3\times3}$
+\end_inset
+
+ , 
+\begin_inset Formula $\boldsymbol{t}:=\left[\begin{array}{ccc}
+t^{2} & t & 1\end{array}\right]^{T}$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{1}$
+\end_inset
+
+ the vector of ones.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Problem
+\series default
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\max_{\boldsymbol{A}\in\mathbb{R}^{3\times3}}\quad\left|\boldsymbol{A}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+s.t. & \lambda_{i}(t)\ge0\quad\forall t\in[-1,1],\;\;\forall i\\
+ & \sum\lambda_{i}(t)=1\quad\forall t\in[-1,1]
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+All the local minima found satisfy 
+\begin_inset Formula $\lambda_{1}(t)=\lambda_{3}(-t)$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{2}(t)=\lambda_{2}(-t)$
+\end_inset
+
+.
+ What's the formal proof to show that that is the case? (I'd like to impose
+ it as a constraint, as it would allow me to reduce the number of variables,
+ specially when 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ is quite big)
 \end_layout
 
 \begin_layout Section
@@ -1726,6 +2917,14 @@ dual of the problem
 
  (maximum ruled surface generated by polynomial curves inside that convex
  body)
+\end_layout
+
+\begin_layout Standard
+Decir que A es invertible
+\end_layout
+
+\begin_layout Standard
+https://mathworld.wolfram.com/HadamardsMaximumDeterminantProblem.html
 \end_layout
 
 \begin_layout Standard
@@ -1791,210 +2990,13 @@ vskip-2ex
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide true
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename figs/feedback_lin.pdf
-	lyxscale 130
-	width 100text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Feedback linearization and input-output decoupling of a quadrotor using
- dynamic extension.
- 
-\begin_inset Formula $s$
-\end_inset
-
-, 
-\begin_inset Formula $j$
-\end_inset
-
-, 
-\begin_inset Formula $a$
-\end_inset
-
- and 
-\begin_inset Formula $v$
-\end_inset
-
- denote snap, jerk, acceleration and velocity respectively.
- Based on 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "mistler2001exact"
-literal "false"
-
-\end_inset
-
-.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:feedback_lin"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Box Boxed
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-thickness "0.4pt"
-separation "3pt"
-shadowsize "4pt"
-framecolor "black"
-backgroundcolor "none"
-status open
-
-\begin_layout Plain Layout
-Let us define the parametric curve 
-\begin_inset Formula $\boldsymbol{p}(t):=\left[\begin{array}{ccc}
-p_{1}(t) & \cdots & p_{n}(t)\end{array}\right]^{T}\in\mathbb{R}^{n}$
-\end_inset
-
-, where 
-\begin_inset Formula $p_{i}(t)$
-\end_inset
-
- is a 
-\begin_inset Formula $n^{th}$
-\end_inset
-
--degree polynomial, with 
-\begin_inset Formula $t\in[0,1]$
-\end_inset
-
-.
- Find 
-\begin_inset Formula $n+1$
-\end_inset
-
- points in 
-\begin_inset Formula $\mathbb{R}^{n}$
-\end_inset
-
- such that the convex hull of those points contains 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
- and has minimum volume.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset VSpace 0.2cm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-For 
-\begin_inset Formula $n=2$
-\end_inset
-
-, this problem tries to find the triangle with the smallest area that contains
- the curve 
-\begin_inset Formula $\left[\begin{array}{cc}
-x(t) & y(t)\end{array}\right]^{T}$
-\end_inset
-
- (both 
-\begin_inset Formula $2^{nd}$
-\end_inset
-
--deg polynomials).
- For 
-\begin_inset Formula $n=3$
-\end_inset
-
-, it tries to find the tetrahedron with the smallest volume that contains
- the curve 
-\begin_inset Formula $\left[\begin{array}{ccc}
-x(t) & y(t) & z(t)\end{array}\right]^{T}$
-\end_inset
-
-(all 
-\begin_inset Formula $3^{rd}$
-\end_inset
-
--deg polynomials).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Conclusions and Future Work
+\end_layout
+
+\begin_layout Standard
+This work derived and presented MINVO, a polynomial basis that .
+ The key features
 \end_layout
 
 \begin_layout Standard

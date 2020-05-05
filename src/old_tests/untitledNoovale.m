@@ -962,9 +962,10 @@ a=1.0;
 
 alpha=120; 
 beta=alpha-90
-v1=[-a*cosd(beta), -a*sind(beta)];
-v2=[0  a];
-v3=[a*cosd(beta),  -a*sind(beta)]; 
+offset=-0.63
+v1=[-a*cosd(beta), -a*sind(beta)+offset ];
+v2=[0  a+offset];
+v3=[a*cosd(beta),  -a*sind(beta)+offset]; 
 
 % v1=[-a 0];
 % v3=[a 0];
@@ -979,13 +980,15 @@ v3=[a*cosd(beta),  -a*sind(beta)];
 vx=[v1(1)  v2(1)  v3(1)]';
 vy=[v1(2)  v2(2)  v3(2)]';
 
-P=[v1; v2; v3];
-[k,av] = convhull(P);
+V=[v1; v2; v3];
+[k,av] = convhull(V);
 
-plot(P(:,1),P(:,2),'*');plot(P(k,1),P(k,2))
+plot(V(:,1),V(:,2),'*');plot(V(k,1),V(k,2))
 
 pol_x=sol2.A'*vx;
 pol_y=sol2.A'*vy;
+
+P=[pol_x'; pol_y'];
 
 fplot(pol_x'*T2, pol_y'*T2,[-1 1],'r','LineWidth',3)
 axis equal
@@ -1023,9 +1026,29 @@ scatter(centroid_area(1),centroid_area(2),405,'*','blue');
 plot(polyin)
 
 
-figure; hold on;
-fplot(dot(poly,v2-v1),interv);
-fplot(pol_x'*T2,interv);
+v0=[0,0]';
+v1=P(:,1);
+v2=P(:,2);
+v3=v1+v2;
+% v4=v1+v2;
+% v5=v2+v3;
+% v6=v1+v3;
+% v7=v1+v2+v3;
+Q=[v0'; v1'; v2'; v3']
+Q=Q
+
+
+[k,av] = convhull(Q);
+
+plot(Q(:,1),Q(:,2),'*');plot(Q(k,1),Q(k,2))
+
+% [k1,volume] = convhull(Q(:,1),Q(:,2),Q(:,3));
+% s2=trisurf(k1,Q(:,1),Q(:,2),Q(:,3),'LineWidth',1,'FaceColor','red')
+
+
+% figure; hold on;
+% fplot(dot(poly,v2-v1),interv);
+% fplot(pol_x'*T2,interv);
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1083,6 +1106,8 @@ vz=a*[1  1  -1  -1 ]';
 pol_x=sol3.A'*vx;
 pol_y=sol3.A'*vy;
 pol_z=sol3.A'*vz;
+
+P=[pol_x'; pol_y'; pol_z'];
 
 plot_convex_hull(pol_x,pol_y,pol_z,sol3.A','red'); hold on;
 % plot_convex_hull(pol_x,pol_y,pol_z,sol3.Abz','blue'); hold on;
@@ -1160,7 +1185,20 @@ scatter3(poly_05(1),poly_05(2),poly_05(3),100,'Filled','green')
 scatter3(poly_m05(1),poly_m05(2),poly_m05(3),100,'Filled','green')
 
 
+v1=P(:,1);
+v2=P(:,2);
+v3=P(:,3);
+v4=v1+v2;
+v5=v2+v3;
+v6=v1+v3;
+v7=v1+v2+v3;
+v8=[0 0 0]';
+Q=[v1 v2 v3 v4 v5 v6,v7,v8]
+[k1,volume] = convhull(Q(1,:),Q(2,:),Q(3,:));
+s2=trisurf(k1,Q(1,:),Q(2,:),Q(3,:),'LineWidth',1,'FaceColor','blue')
+alpha 0.3
 
+%%
 samples_t=-1:0.01:1;
 samples_poly=double(subs(poly,t,samples_t));
 centroid_curve=sum(samples_poly,2)/length(samples_t);
@@ -1168,7 +1206,9 @@ scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blu
 
 
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
-trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','FaceColor','cyan','EdgeColor','k')
+% trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','FaceColor','cyan','EdgeColor','k')
+
+
 %  alpha 0.1
 % [k2,av2] = convhull(samples_poly(2,:)',samples_poly(1,:)',samples_poly(3,:)');
 % trisurf(k2,samples_poly(2,:)',samples_poly(1,:)',samples_poly(3,:)','FaceColor','cyan','EdgeColor','k')
