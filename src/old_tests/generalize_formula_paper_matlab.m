@@ -3,7 +3,8 @@ syms t
 
 % global R B_solved determ
 
-deg=3;
+deg=4;
+n=deg;
 
 W=[];
 
@@ -17,53 +18,112 @@ if(deg_is_even==0)
     
     B=sym('B',[((deg+1)/2),1],'real');
     R=sym('R',[(deg+1)/2,(deg-1)/2],'real');
+    index_B=1;
     
-    for i=1:((deg+1)/2)
-        pol=-B(i)*(t-1);
+%     for i=1:((deg+1)/2)
+%         pol=-B(i)*(t-1);
+%         for j=1:(deg-1)/2
+%             pol=pol*((t-R(i,j))^2);
+%         end
+%         pol
+%         W=[W;pol];
+%     end
+
+    for i=1:2:deg
+        pol=-B(index_B)*(t-1);
         for j=1:(deg-1)/2
-            pol=pol*((t-R(i,j))^2);
+            pol=pol*((t-R(index_B,j))^2);
         end
         pol
         W=[W;pol];
+        index_B=index_B+1;
     end
-else %Deg is even
-    %WORK IN PROGRESS!!!!!!!!!!!!!!!!!!!!!!
-
-    B=sym('B',[(deg/2 +1),1],'real');
-    R=sym('R',[deg/2 +1,(deg-1)/2],'real');
     
-    for i=1:2:((deg)/2)
-        pol=-B(i);
-        for j=1:(deg)/2
-            pol=pol*((t-R(i,j))^2);
+    W=[W;subs(W,t,-t)] %Insert the other half
+    
+else %Deg is even
+
+    n_2_is_even = (rem(n/2, 2) == 0);
+    if(n_2_is_even)
+        Ia=2:2:(n/2);
+        Ib=1:2:(n/2); %n/2+1
+    else
+        Ia=2:2:(n/2); %n/2+1
+        Ib=1:2:(n/2); 
+    end
+    
+    B=[]; %sym('B',[(deg/2+1),1],'real');
+    R=[];
+%     R=sym('R',[deg/2+1,100],'real');
+    
+    for index=1:size(Ia,2)
+        i=Ia(index);
+        Bi=sym(strcat('B',num2str(i))); B=[B; Bi];
+        pol=-Bi*(t+1)*(t-1);
+        for j=1:(n-2)/2
+            Rij=sym(strcat('R',num2str(i),num2str(j))); R=[R; Rij];
+            pol=pol*((t-Rij)^2);
         end
         W=[W;pol];
+        W=[W;subs(pol,t,-t)];
     end  
  
-   for i=2:2:((deg)/2)
-       pol=-B(i)*(t-1)*(t+1);
-        for j=1:(deg-2)/2
-            pol=pol*((t-R(i,j))^2);
-        end
-        W=[W;pol];
+   for index=1:size(Ib,2)
+       i=Ib(index);
+       Bi=sym(strcat('B',num2str(i))); B=[B; Bi];
+       pol=Bi;
+       for j=1:(n/2)
+            Rij=sym(strcat('R',num2str(i),num2str(j))); R=[R; Rij];
+            pol=pol*((t-Rij)^2);
+       end
+       W=[W;pol];
+       W=[W;subs(pol,t,-t)];
+
    end  
+   
+   %Now, for the labmda that is in the middle, force it to have symmetrical
+   %roots
+   i=n/2+1;
+   if(n_2_is_even)
+       Bi=sym(strcat('B',num2str(n/2+1))); B=[B; Bi];
+       pol=B(i);
+       for j=1:(n/4)
+            Rij=sym(strcat('R',num2str(i),num2str(j))); R=[R; Rij];
+            pol=pol*((t-Rij)^2)*((t+Rij)^2);
+       end
+       W=[W;pol];
+   else
+       Bi=sym(strcat('B',num2str(n/2+1))); B=[B; Bi];
+       pol=B(i)*(t+1)*(t-1);
+       for j=1:(n/4 - 2)
+            Rij=sym(strcat('R',num2str(i),num2str(j)));R=[R; Rij];
+            pol=pol*((t-Rij)^2)*((t+Rij)^2);
+       end
+       W=[W;pol];
+   end
+   
+%    disp('W before')
+%    W
+%    disp('W after')
+%    W=[W;subs(W(1:n/2,:),t,-t)] %Insert the other half
  
 end
 
-%Insert the other half
-W=[W;subs(W,t,-t)]
 
 %Solve for the coefficients:
 coeffic=coeffs(sum(W),t,'All'); %When using All, no flip!! (gives directly [a  b c d]
 
 coeffic=[zeros(1,deg+1-length(coeffic)) coeffic];
-
+%%
 disp("Solving linear system")
 solution=solve(coeffic==[zeros(1,deg) 1],B); %This is a linear system
+
+% solve(coeffic(3:5)==[0 0 1],B);
 
 disp("struct2array")
 if(deg~=1)
     B_solved=(struct2array(solution)');
+    B_solved=B_solved(:);
 else
     B_solved=solution;
 end
@@ -81,7 +141,11 @@ for i=1:length(W)
 end
 disp("Computing the determinant")
 %Compute the determinant
-determ=computeDetSmartly(A);
+if(deg_is_even==0)
+    determ=computeDetSmartly(A);
+else
+    determ=det(A)
+end
 
 
 
@@ -104,7 +168,8 @@ gs = GlobalSearch('Display','iter');
 % Construct a MultiStart object based on our GlobalSearch attributes
 ms = MultiStart('Display','iter','UseParallel',true);
 
-[xgs,~,~,~,solsgs] = run(ms,problem,8000);
+disp('Running, it usually takes some time until the parpool starts');
+[xgs,~,~,~,solsgs] = run(ms,problem,30); %8000
 
 % [xms,~,~,~,solsgs] = run(ms,problem,100);
 
@@ -130,12 +195,21 @@ ms = MultiStart('Display','iter','UseParallel',true);
 % xms
 
 %%%%%%%%%%%%%%%%%%%%
-
+%% 
 B_solution=vpa(subs(B_solved,R,xgs));
 A_solution=double(vpa(subs(A,R,xgs)));
 det(A_solution)
 
 A=A_solution;
+
+syms t real
+T=[];
+for i=0:(deg)
+   T=[t^i ;T];
+end
+interv=[-1,1];
+figure;
+fplot(A_solution*T,interv)
 
 rootsA=[];
 for i=1:size(A_solution,1)
