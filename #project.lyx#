@@ -294,23 +294,7 @@ simplex that encloses any given polynomial curve.
  using Sum-Of-Squares (SOS) Programming and Moment Relaxations.
  Finally, some applications of the benefit of the use of this MINVO basis
  are also presented.
- We show that the MINVO basis is able to obtain a volume that is 
-\begin_inset Formula $2.36$
-\end_inset
-
- times smaller for 
-\begin_inset Formula $n=3$
-\end_inset
-
-, and 
-\begin_inset Formula $903$
-\end_inset
-
- times smaller when 
-\begin_inset Formula $n=7$
-\end_inset
-
-
+ 
 \end_layout
 
 \begin_layout Section
@@ -793,17 +777,7 @@ status open
 \boldsymbol{v}_{0} & \cdots & \boldsymbol{v}_{n}\end{array}\right]$
 \end_inset
 
-.
- A simplex whose vertexes are 
-\begin_inset Formula $\{\boldsymbol{0},\boldsymbol{e}_{1},\boldsymbol{e}_{2},...,\boldsymbol{e}_{n}\}$
-\end_inset
 
-(where 
-\begin_inset Formula $\boldsymbol{e}_{i}$
-\end_inset
-
- are the vectors of the canonical basis) will be called a standard simplex.
- 
 \end_layout
 
 \end_inset
@@ -1236,10 +1210,6 @@ boldsymbol{p}_{1},...,
 boldsymbol{p}_{n}
 \backslash
 })
-\end_layout
-
-\begin_layout Plain Layout
-vpa(det(computeMatrixForBezier(3,"m11"))/det(getSolutionA(3,"m11"))
 \end_layout
 
 \end_inset
@@ -1815,14 +1785,33 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Change 1)these are the guesses from GPOPS!!! For a standard simplex in 3D,
- the curve in red is 
-\begin_inset Formula $\boldsymbol{p}(t)=\left[\begin{array}{ccc}
-\lambda_{1}(t) & \lambda_{2}(t) & \lambda_{3}(t)\end{array}\right]^{T}$
+Change 1)these are the guesses from GPOPS!!! For a regular tetrahedron with
+ vertexes in 
+\begin_inset Formula $\left[\begin{array}{ccc}
+0 & 0 & 0\end{array}\right]^{T}$
 \end_inset
 
-.
- Hence, the basis functions 
+, 
+\begin_inset Formula $\left[\begin{array}{ccc}
+1 & 0 & 0\end{array}\right]^{T}$
+\end_inset
+
+, 
+\begin_inset Formula $\left[\begin{array}{ccc}
+0 & 1 & 0\end{array}\right]^{T}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left[\begin{array}{ccc}
+0 & 0 & 1\end{array}\right]^{T}$
+\end_inset
+
+, the curve in red is 
+\begin_inset Formula $\boldsymbol{p}(t)=\left[\begin{array}{ccc}
+\lambda_{1}(t) & \lambda_{2}(t) & 1\end{array}\right]^{T}$
+\end_inset
+
+basis functions 
 \begin_inset Formula $\lambda_{1}(t)$
 \end_inset
 
@@ -1834,12 +1823,9 @@ Change 1)these are the guesses from GPOPS!!! For a standard simplex in 3D,
 \begin_inset Formula $\lambda_{3}(t)$
 \end_inset
 
- and 
-\begin_inset Formula $\lambda_{4}(t)$
-\end_inset
-
- represent the distance to the faces of the tetrahedron to the curve.
- 
+ represent the distance to the faces of the tetrahedron that lie on the
+ euclidean planes.
+ The curve 
 \end_layout
 
 \end_inset
@@ -1960,36 +1946,11 @@ If
 \series default
 \bar default
  define 
-\begin_inset Formula $\mathcal{I}_{a}$
-\end_inset
-
- the set of even integers 
-\begin_inset Formula $\in\left[1,\frac{n}{2}\right]$
-\end_inset
-
-, and 
-\begin_inset Formula $\mathcal{I}_{b}$
-\end_inset
-
- the set of odd integers 
-\begin_inset Formula $\in\left[1,\frac{n}{2}\right]$
-\end_inset
-
-: 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
 \begin_inset Formula $\mathcal{I}_{a}:=2,4,..,\frac{n}{2}$
 \end_inset
 
  and 
 \begin_inset Formula $\mathcal{I}_{b}:=1,3,..\frac{n}{2}$
-\end_inset
-
-Cuidado que n/2 esta incluido o no si n/2 es odd o even
-\end_layout
-
 \end_inset
 
 
@@ -2206,6 +2167,17 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{abs\left(|\boldsymbol{A}_{Berns}|\right)}{abs\left(|\boldsymbol{A}_{MINVO}|\right)}\approx\frac{0.25}{0.3248}\approx0.7697
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Note that this ratio is independent of the polynomial given.
  For 
 \begin_inset Formula $n=3$
@@ -2226,6 +2198,17 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{abs\left(|\boldsymbol{A}_{Berns}|\right)}{abs\left(|\boldsymbol{A}_{MINVO}|\right)}\approx\frac{0.1406}{0.3319}\approx0.4236
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 For 
 \begin_inset Formula $n=4$
 \end_inset
@@ -2235,253 +2218,6 @@ For
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\align center
-\begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="2">
-<features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\series bold
-\begin_inset space \hspace{}
-\length 0.1cm
-\end_inset
-
-MINVO 
-\begin_inset space \hspace{}
-\length 0.05cm
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\frac{vol\left(S_{MINVO}\right)}{vol\left(S_{Berns}\right)}=\frac{abs\left(|\boldsymbol{A}_{Berns}|\right)}{abs\left(|\boldsymbol{A}_{MINVO}|\right)}$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $=1$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=2$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.7697$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=3$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.4237$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=4$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.1651$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=5$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.0449$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=6$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.00848$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=7$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.00110$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-</lyxtabular>
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This means that, for instance, the 
-\series bold
-MINVO basis is able to obtain a simplex that is
-\series default
- 
-\series bold
-
-\begin_inset Formula $\approx903$
-\end_inset
-
- times smaller
-\series default
- than the one achieved using the Bernstein basis.
- 
 \end_layout
 
 \begin_layout Subsection
@@ -2819,7 +2555,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
+<lyxtabular version="3" rows="5" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2887,8 +2623,6 @@ MINVO
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\frac{1}{2}\left[\begin{array}{cc}
 -1 & 1\\
 1 & 1
@@ -2930,8 +2664,6 @@ MINVO
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\left[\begin{array}{ccc}
 0.375 & -\frac{\sqrt{3}}{4} & 0.125\\
 0.75 & 0 & 0.75\\
@@ -2974,8 +2706,6 @@ MINVO
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\left[\begin{array}{cccc}
 -0.430 & 0.456 & -0.0269 & 0.000410\\
 0.834 & -0.456 & -0.792 & 0.499\\
@@ -3003,7 +2733,7 @@ MINVO
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3015,162 +2745,16 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\left[\begin{array}{ccccc}
--1.108 & -0.8108 & 0.9602 & 0.8108 & 0.1483\\
--1.108 & 0.8108 & 0.9602 & -0.8108 & 0.1483\\
-0.5255 & -0.5758 & -0.09435 & 0.1381 & 0.03023\\
-0.5255 & 0.5758 & -0.09435 & -0.1381 & 0.03023\\
-1.166 & 0 & -1.732 & 0 & 0.643
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.5678$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=5$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\left[\begin{array}{cccccc}
--0.7392 & 0.7769 & 0.3302 & -0.3773 & -0.0365 & 0.04589\\
-1.503 & -1.319 & -1.366 & 1.333 & -0.121 & 0.002895\\
--1.75 & 0.5424 & 2.777 & -0.9557 & -1.064 & 0.4512\\
-1.75 & 0.5424 & -2.777 & -0.9557 & 1.064 & 0.4512\\
--1.503 & -1.319 & 1.366 & 1.333 & 0.121 & 0.002895\\
-0.7392 & 0.7769 & -0.3302 & -0.3773 & 0.0365 & 0.04589
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx1.6987$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=6$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\left[\begin{array}{ccccccc}
--2.227 & 2.055 & 2.281 & -2.299 & -0.08426 & 0.2433 & 0.0312\\
--2.227 & -2.055 & 2.281 & 2.299 & -0.08426 & -0.2433 & 0.0312\\
-2.59 & 1.408 & -4.27 & -2.468 & 1.58 & 1.081 & 0.152\\
-2.59 & -1.408 & -4.27 & 2.468 & 1.58 & -1.081 & 0.152\\
-1.06 & -1.134 & -0.7357 & 0.8348 & 0.1053 & -0.1368 & 0.01836\\
-1.06 & 1.134 & -0.7357 & -0.8348 & 0.1053 & 0.1368 & 0.01836\\
--2.844 & 0 & 5.45 & 0 & -3.203 & 0 & 0.5969
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx9.1027$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=7$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\left[\begin{array}{cccccccc}
--1.637 & 1.707 & 1.563 & -1.682 & -0.3586 & 0.4143 & -0.006851 & 2.854\cdot10^{-5}\\
-3.343 & -3.285 & -3.947 & 4.173 & 0.6343 & -0.9385 & -0.02111 & 0.05961\\
--4.053 & 2.722 & 6.935 & -4.96 & -2.706 & 2.269 & -0.2129 & 0.00535\\
-4.478 & -1.144 & -9.462 & 2.469 & 6.311 & -1.745 & -1.312 & 0.435\\
--4.478 & -1.144 & 9.462 & 2.469 & -6.311 & -1.745 & 1.312 & 0.435\\
-4.053 & 2.722 & -6.935 & -4.96 & 2.706 & 2.269 & 0.2129 & 0.00535\\
--3.343 & -3.285 & 3.947 & 4.173 & -0.6343 & -0.9385 & 0.02111 & 0.05961\\
-1.637 & 1.707 & -1.563 & -1.682 & 0.3586 & 0.4143 & 0.006851 & 2.854\cdot10^{-5}
+\\
+\\
+\\
+\\
+\\
 \end{array}\right]$
 \end_inset
 
@@ -3183,10 +2767,7 @@ MINVO
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx89.0191$
-\end_inset
-
-
+FILL
 \end_layout
 
 \end_inset
@@ -3207,7 +2788,7 @@ MINVO
 \series default
 
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
+<lyxtabular version="3" rows="5" columns="3">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3275,8 +2856,6 @@ BERNSTEIN
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\frac{1}{2}\left[\begin{array}{cc}
 -1 & 1\\
 1 & 1
@@ -3318,8 +2897,6 @@ BERNSTEIN
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\frac{1}{4}\left[\begin{array}{ccc}
 1 & -2 & 1\\
 -2 & 0 & 2\\
@@ -3362,8 +2939,6 @@ BERNSTEIN
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\frac{1}{8}\left[\begin{array}{cccc}
 -1 & 3 & -3 & 1\\
 3 & -3 & -3 & 3\\
@@ -3391,7 +2966,7 @@ BERNSTEIN
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -3403,12 +2978,10 @@ BERNSTEIN
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\size scriptsize
 \begin_inset Formula $\frac{1}{16}\left[\begin{array}{ccccc}
 1 & -4 & 6 & -4 & 1\\
 -4 & 8 & 0 & -8 & 4\\
@@ -3423,155 +2996,11 @@ BERNSTEIN
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\frac{3}{32}\approx0.0937$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=5$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\frac{1}{32}\left[\begin{array}{cccccc}
--1 & 5 & -10 & 10 & -5 & 1\\
-5 & -15 & 10 & 10 & -15 & 5\\
--10 & 10 & 20 & -20 & -10 & 10\\
-10 & 10 & -20 & -20 & 10 & 10\\
--5 & -15 & -10 & 10 & 15 & 5\\
-1 & 5 & 10 & 10 & 5 & 1
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.076293$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=6$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\frac{1}{64}\left[\begin{array}{ccccccc}
-1 & -6 & 15 & -20 & 15 & -6 & 1\\
--6 & 24 & -30 & 0 & 30 & -24 & 6\\
-15 & -30 & -15 & 60 & -15 & -30 & 15\\
--20 & 0 & 60 & 0 & -60 & 0 & 20\\
-15 & 30 & -15 & -60 & -15 & 30 & 15\\
--6 & -24 & -30 & 0 & 30 & 24 & 6\\
-1 & 6 & 15 & 20 & 15 & 6 & 1
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $\approx0.077247$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $n=7$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size scriptsize
-\begin_inset Formula $\frac{1}{128}\left[\begin{array}{cccccccc}
--1 & 7 & -21 & 35 & -35 & 21 & -7 & 1\\
-7 & -35 & 63 & -35 & -35 & 63 & -35 & 7\\
--21 & 63 & -21 & -105 & 105 & 21 & -63 & 21\\
-35 & -35 & -105 & 105 & 105 & -105 & -35 & 35\\
--35 & -35 & 105 & 105 & -105 & -105 & 35 & 35\\
-21 & 63 & 21 & -105 & -105 & 21 & 63 & 21\\
--7 & -35 & -63 & -35 & 35 & 63 & 35 & 7\\
-1 & 7 & 21 & 35 & 35 & 21 & 7 & 1
-\end{array}\right]$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.098612$
+\begin_inset Formula $\frac{3}{32}\approx0.0937$
 \end_inset
 
 
@@ -3588,24 +3017,11 @@ BERNSTEIN
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-ORDENAR LA BASIS FOR N=6!! Results obtained for the MINVO basis, and the
- matrices using the Bernstein basis.
+Results obtained for the MINVO basis, and the matrices using the Bernstein
+ basis.
  Each polynomial in the basis is given by the rows of 
 \begin_inset Formula $\boldsymbol{A}\boldsymbol{t}$
 \end_inset
@@ -3931,8 +3347,7 @@ Conclusions and Future Work
 \begin_layout Standard
 The author would like to thank Prof.
  Gilbert Strang, Ashkan M.
- Jasour, Kasra Khosoussi, Juan José Madrigal and Marc Adillón for helpul
- insights and discussions.
+ Jasour, Juan José Madrigal and Marc Adillón for helpul insights and discussions.
  
 \end_layout
 

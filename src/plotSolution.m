@@ -9,11 +9,11 @@ name_figure='imgs/plots_basis';
 syms t real
 interv=[-1,1];
 figure;
-n_rows=3;
-n_cols=4+1;
+n_rows=6;
+n_cols=4;
 
 subplot(n_rows,n_cols,1); hold on
-set(gcf, 'Position',  [500, 500, 2000, 750])
+set(gcf, 'Position',  [500, 500, 2000, 2100])
 
 T1=[t 1]';
 T2=[t*t t 1]';
@@ -22,6 +22,8 @@ T4=[t*t*t*t t*t*t t*t t 1]';
 T5=[t^5 T4']';
 T6=[t^6 T5']';
 T7=[t^7 T6']';
+
+font_size_title=12;
 
 for degree=1:4
    
@@ -32,42 +34,72 @@ for degree=1:4
 
 
    subplot(n_rows,n_cols,degree);
-   fplot(getGuessA(degree,"m11")*T,interv);
+   fplot(getSolutionA(degree,"m11")*T,interv);
    xlabel('t'); ylim([0,inf]);
-   title(strcat('\textbf{MINVO, n=',num2str(degree),'}'))
+   title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title )
    box on
    
    subplot(n_rows,n_cols,n_cols+degree);
    fplot(computeMatrixForBezier(degree,"m11")*T,interv);
    xlabel('t'); ylim([0,inf]);
-   title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'))
+   title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,2*n_cols+degree);
    fplot(lagrangePoly(linspace(-1,1,degree+1))*T,interv);
    xlabel('t'); %ylim([0,inf]);
-   title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'))
+   title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    
 end
 
+
+for degree=5:7 %TODO: Add 8
+   
+   T=[];
+    for i=0:(degree)
+       T=[t^i ;T];
+    end
+
+   subplot(n_rows,n_cols,3*n_cols+1+(degree-5));
+   fplot(getSolutionA(degree,"m11")*T,interv);
+   xlabel('t'); ylim([0,inf]);
+   title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title)
+   box on
+   
+   subplot(n_rows,n_cols,4*n_cols+1+(degree-5));
+   fplot(computeMatrixForBezier(degree,"m11")*T,interv);
+   xlabel('t'); ylim([0,inf]);
+   title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
+   box on
+   
+   subplot(n_rows,n_cols,5*n_cols+1+(degree-5));
+   fplot(lagrangePoly(linspace(-1,1,degree+1))*T,interv);
+   xlabel('t'); %ylim([0,inf]);
+   title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
+   box on
+   
+   
+end
+
+
 % set(gca, 'Position',[0.7813, 0.1100, 0.0371, 0.8150]);
 
-sp_hand1=subplot(n_rows,n_cols,[n_cols, 2*n_cols])
-plot(0,0,  0,0,  0,0,  0,0,  0,0,  0,0)
+sp_hand1=subplot(n_rows,n_cols,[16, 20, 24])
+plot(0,0,  0,0,  0,0,  0,0,  0,0,  0,0, 0,0 ,0,0,  0,0, 0,0,  0,0)
 axis off
-lgd=legend('$\lambda_1(t)$','$\lambda_2(t)$','$\lambda_3(t)$','$\lambda_4(t)$','$\lambda_5(t)$')
-lgd.FontSize = 12;
+lgd=legend('$\lambda_1(t)$','$\lambda_2(t)$','$\lambda_3(t)$','$\lambda_4(t)$','$\lambda_5(t)$','$\lambda_6(t)$','$\lambda_7(t)$','$\lambda_8(t)$')
+lgd.FontSize = 17;
 
-lgd.Position = [0.9,0.7,1,0.3].*lgd.Position;
+lgd.Position = [0.9,0.9,1,0.3].*lgd.Position;
 
-pos1 = get(sp_hand1, 'Position') % gives the position of current sub-plot
-new_pos1 = [1,1,0.1,1].*pos1 %smaller width
-set(sp_hand1, 'Position',new_pos1 ) % set new position of current sub - plot
+% pos1 = get(sp_hand1, 'Position') % gives the position of current sub-plot
+% new_pos1 = [1,1,0.1,1].*pos1 %smaller width
+% set(sp_hand1, 'Position',new_pos1 ) % set new position of current sub - plot
 
 
-% exportAsPdf(gcf,name_figure)
+exportAsPdf(gcf,name_figure)
 
 
 
@@ -77,7 +109,7 @@ figure; hold on;
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 subplot(1,2,1);hold on
 
-A=getGuessA(2,"m11");
+A=getSolutionA(2,"m11");
 
 v1=[0.1, 0.5];
 v2=[0.2  1.1];
@@ -146,7 +178,7 @@ v1=V(:,2);
 v2=V(:,3);
 v3=V(:,4);
 
-A=getGuessA(3,"m11");
+A=getSolutionA(3,"m11");
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -186,7 +218,7 @@ figure; hold on;
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 subplot(1,2,1);hold on
 
-A=getGuessA(2,"m11");
+A=getSolutionA(2,"m11");
 
 
 v1=[0.5,  0.0];
@@ -267,7 +299,7 @@ v1=V(:,2);
 v2=V(:,3);
 v3=V(:,4);
 
-A=getGuessA(3,"m11");
+A=getSolutionA(3,"m11");
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -314,3 +346,75 @@ arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
 % exportAsSvg(gcf,'imgs/comparison3d_simplex_given')
 
+%%
+%% RESULT for 3D for a given simplex
+figure;
+subplot(1,2,1);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+
+view1=150;
+view2=30;
+
+vx=[0  1            0         0 ]';
+vy=[0  0            1         0]';
+vz=[0  0            0         1]';
+
+
+v1=[vx(1) vy(1) vz(1)]';
+v2=[vx(2) vy(2) vz(2)]';  
+v3=[vx(3) vy(3) vz(3)]';
+v4=[vx(4) vy(4) vz(4)]'; 
+
+V=[vx'; vy'; vz'];
+
+v0=V(:,1);
+v1=V(:,2);
+v2=V(:,3);
+v3=V(:,4);
+
+A=getSolutionA(3,"m11");
+pol_x=A'*vx;
+pol_y=A'*vy;
+pol_z=A'*vz;
+
+P=[pol_x'; pol_y'; pol_z']
+
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g');
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+view(view1, view2)
+ axis equal;
+ylim([-1.5,1.5]);
+
+arrow3d([0 0 0],[0 0 1.5],10,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 1.5 0],10,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1.5 0 0],10,'cylinder',[0.2,0.1]);
+
+
+% roots_poly=real(roots(A(1,:))); %real to avoid numerical approximations
+% plotSphere(position, radius, color)
+
+subplot(1,2,2); hold on; 
+
+A=computeMatrixForBezier(3,"m11");
+
+pol_x=A'*vx;
+pol_y=A'*vy;
+pol_z=A'*vz;
+
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b');
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+view(view1, view2)
+axis equal;
+ylim([-1.5,1.5]); 
+
+a1=subplot(1,2,1);
+a2=subplot(1,2,2);
+allYLim = get([a1 a2], {'YLim'});
+allYLim = cat(2, allYLim{:});
+set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
+
+arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+
+exportAsSvg(gcf,'imgs/tetrahedron_parallel_planes')

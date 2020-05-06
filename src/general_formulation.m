@@ -35,8 +35,8 @@ for i=1:(deg+1)
     Vi=V(:,(i-1)*size_Vi+1:i*size_Vi);
 
     %Wi and Vi are psd matrices <=> All ppal minors are >=0
-%     constraints=[constraints, getPsdConstraints(Wi), getPsdConstraints(Vi)];   
-    constraints=[constraints, Wi>=0, Vi>=0]; %Works when using solvemoment sdp
+    constraints=[constraints, getPsdConstraints(Wi), getPsdConstraints(Vi)];   
+%     constraints=[constraints, Wi>=0, Vi>=0]; %Works when using solvemoment sdp
     
     Tvi=[];
     for i=0:(size(Vi,1)-1)
@@ -76,16 +76,25 @@ assign(A,A_guess);
 
 clear t
 disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ipopt' 'knitro' 'scip'
-settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+
+
+settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+% settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
-% result=optimize(constraints,obj,settings); 
-result=solvemoment(constraints,obj,[],4);
+result=optimize(constraints,obj,settings); 
+% result=solvemoment(constraints,obj,[],4);
 %check(constraints)
 
 A_minvo=value(A);
 
-disp("abs(|A_bezier|/|A_minvo|)=")
-abs(det(A_bezier)/det(A_minvo))
+disp("abs(|A_minvo|)=")
+abs(det(A_minvo))
+% disp("abs(|A_bezier|/|A_minvo|)=")
+% abs(det(A_bezier)/det(A_minvo))
+
+%%
+% [Fd,objd,X,free] = dualize(constraints,-det(A))
+% optimize(Fd,-objd);
 
 %%
 
@@ -115,26 +124,41 @@ pol_z=[1 -0.1 -1 -4]';%[a b c d]
 
 function constraints=getPsdConstraints(A)
 constraints=[];
-if(size(A,1)==1)
-    constraints=[A(1,1)>=0];
-    return;
-elseif(size(A,1)==2)
-    constraints=[A(1,1)>=0, A(2,2)>=0, (A(1,1)*A(2,2)-A(1,2)*A(2,1))>=0]  
-    return;
-elseif(size(A,1)==3)
 
-    tmp=A(2:3, 2:3); %delete 1
-    constraints=[constraints getPsdConstraints(tmp)] 
-    tmp=A([1, 3:end], [1, 3:end]); %delete 2
-    constraints=[constraints getPsdConstraints(tmp)]
-    tmp=A(1:2, 1:2); %delete 3
-    constraints=[constraints getPsdConstraints(tmp)] 
-    
-    constraints=[constraints computeDet(A)>=0]
-    return;
-else
-    error('NOT YET IMPLEMENTED')
+%See Theorem 17 Of Lecture 5 of https://homepages.cwi.nl/~monique/eidma-seminar-parrilo/Parrilo-LectureNotes-EIDMA.pdf
+
+sdpvar lambda;
+n=size(A,1);
+charac_poly=computeDet(lambda*eye(size(A,1))-A);
+
+coeffs_charac_poly=coefficients(charac_poly,lambda); %[p0 p1 ... p_n-1 1]
+
+size(coeffs_charac_poly)
+for(i=0:(n-1))
+    j=i+1;
+    constraints=[constraints coeffs_charac_poly(j)*((-1)^(n-i))>=0 ];
 end
+% 
+% if(size(A,1)==1)
+%     constraints=[A(1,1)>=0];
+%     return;
+% elseif(size(A,1)==2)
+%     constraints=[A(1,1)>=0, A(2,2)>=0, (A(1,1)*A(2,2)-A(1,2)*A(2,1))>=0]  
+%     return;
+% elseif(size(A,1)==3)
+% 
+%     tmp=A(2:3, 2:3); %delete 1
+%     constraints=[constraints getPsdConstraints(tmp)] 
+%     tmp=A([1, 3:end], [1, 3:end]); %delete 2
+%     constraints=[constraints getPsdConstraints(tmp)]
+%     tmp=A(1:2, 1:2); %delete 3
+%     constraints=[constraints getPsdConstraints(tmp)] 
+%     
+%     constraints=[constraints computeDet(A)>=0]
+%     return;
+% else
+%     error('NOT YET IMPLEMENTED')
+% end
     
    
 end

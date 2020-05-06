@@ -1,6 +1,10 @@
 function result=computeDet(A)
 
-if(size(A,1)==2)
+if(size(A,1)==1)
+    
+result=A(1,1);
+
+elseif(size(A,1)==2)
     
 result=A(1,1)*A(2,2)-A(1,2)*A(2,1);
     

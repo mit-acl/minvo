@@ -107,6 +107,10 @@ fplot(lambda2, interv);
 fplot(lambda3, interv);
 fplot(lambda4, interv);
 
+[V,D]=eig(double(V1))
+
+lambda1_novale=(1-t)*Tf'*D*Tf
+fplot(lambda1_novale, interv,'--');
 % fplot(t*Tf'*W1, interv);
 % fplot((1-t)*Tf'*V1*Tf, interv);
 % fplot(lambda1/(1-t), interv); %This is a polynomial that is positive for all 
