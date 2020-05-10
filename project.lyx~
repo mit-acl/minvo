@@ -275,9 +275,9 @@ Applications such as computer graphics rendering, path planning for robotics
 \end_inset
 
 simplex that encloses a given polynomial curve.
- Probably the most common curve used for this is the Bezier curves, which
- ensure that the curve is contained inside the convex hull of its control
- points.
+ Probably Bezier curves (which use the Bernstein basis) are the most common
+ choice for this, since it is guaranteed that the curve is contained inside
+ the convex hull of its control points.
  However, it is known that this convex hull is not the one with smallest
  volume, causing therefore great conservatism in all the applications mentioned
  before.
@@ -287,13 +287,6 @@ simplex that encloses a given polynomial curve.
 \end_inset
 
 simplex that encloses any given polynomial curve.
- Global Optimality is proven for 
-\begin_inset Formula $n=1,2,3,4$
-\end_inset
-
- using Sum-Of-Squares (SOS) Programming and Moment Relaxations.
- Finally, some applications of the benefit of the use of this MINVO basis
- are also presented.
  We show that the MINVO basis is able to obtain a volume that is 
 \begin_inset Formula $2.36$
 \end_inset
@@ -310,7 +303,13 @@ simplex that encloses any given polynomial curve.
 \begin_inset Formula $n=7$
 \end_inset
 
+.
+ Global optimality is discussed and proven for some 
+\begin_inset Formula $n$
+\end_inset
 
+ using Sum-Of-Squares (SOS) Programming and moment relaxations.
+ 
 \end_layout
 
 \begin_layout Section
@@ -319,8 +318,8 @@ Introduction
 
 \begin_layout Standard
 The ability to approximate the space occupied by a given polynomial curve
- with a polyhedra is crucial for many applications, and is the one that
- enables real-time processing .
+ with a polyhedra is crucial for many applications.
+ This and is the one that enables real-time processing .
  For intance, in the path planning community, a sequence of overlapping
  polyhedra is usually generated in the free space, and then the constraint
  of the trajectory being in free space can be easily enforced by imposing
@@ -490,6 +489,11 @@ Related work
 \end_layout
 
 \begin_layout Standard
+Bezier has many applications such as...
+ Many of these applications make use of the convex hull property to ...
+\end_layout
+
+\begin_layout Standard
 Probably the paper most related to the problem this project is trying to
  solve is 
 \begin_inset CommandInset citation
@@ -654,10 +658,523 @@ vskip-2ex
 \end_layout
 
 \begin_layout Section
-Notation
+Notation and Definitions
 \end_layout
 
 \begin_layout Standard
+This project will use the following notation:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="19" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Symbol
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scalar
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{a}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Column vector 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Matrix
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Set of points
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $conv(A)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Convex hull of the set 
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $|\boldsymbol{A}|$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Determinant of A
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $abs(a)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Absolute value of 
+\begin_inset Formula $a$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\propto$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Proportional to
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\cdot_{m\times n}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Size of a matrix (
+\begin_inset Formula $m$
+\end_inset
+
+ rows 
+\begin_inset Formula $\times$
+\end_inset
+
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ columns)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{a}\ge\boldsymbol{b}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Element-wise inequality
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{1}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Column vector of ones
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Column vector of zeros
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{e}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\left[\begin{array}{ccccc}
+0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\left[\begin{array}{ccc}
+t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}\\
+\text{(\ensuremath{n} given by the context)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\hat{\boldsymbol{t}}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\left[\begin{array}{cccc}
+1 & \cdots & t^{n-1} & t^{n}\end{array}\right]^{T}\\
+\text{(\ensuremath{n} given by the context)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{S}_{+}^{m}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Positive semidefinite cone}\\
+\text{(set of all symmetric positive }\\
+\text{semidefinite m\times m matrices)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $vol(\cdot)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Volume of a polyhedron
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $dist(\boldsymbol{a},\boldsymbol{\pi})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Distance between the point 
+\begin_inset Formula $\boldsymbol{a}$
+\end_inset
+
+ and the plane 
+\begin_inset Formula $\boldsymbol{\pi}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Upper-case bold letters 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
@@ -726,12 +1243,47 @@ proportional to
  
 \end_layout
 
-\begin_layout Section
-Mathematical background
+\begin_layout Plain Layout
+\begin_inset Formula $p_{i}(t)=\sum_{j=0}^{n}p_{i,j}t^{j}=\boldsymbol{p}_{i}^{T}\boldsymbol{t},\qquad c_{i,j}\in\mathbb{R},t\in\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\left[\begin{array}{cccc}
+0 & \cdots & 0 & 1\\
+0 & \cdots & 1 & 0\\
+\vdots & \iddots & \vdots & \vdots\\
+1 & 0 & 0 & 0
+\end{array}\right]\\
+\text{(Permutation matrix)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $=\sum_{j=0}^{n}\boldsymbol{p}_{j}t^{j}=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\boldsymbol{t}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}\boldsymbol{t}
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Throughout this paper, we will use the following definitions: 
+Let us also introduce the two following common definitions and their respective
+ notations: 
 \end_layout
 
 \begin_layout Standard
@@ -770,25 +1322,33 @@ status open
 \end_inset
 
 .
- We will use the letter 
+ These points are called the 
+\series bold
+vertexes
+\series default
+ of the simplex.
+ The letter 
 \begin_inset Formula $S$
 \end_inset
 
- to denote a simplex, and we will denote the set of all possible 
-\begin_inset Formula $n$
-\end_inset
-
--simplexes as 
+ will denote simplex, while 
 \begin_inset Formula $S^{n}$
 \end_inset
 
-.
- The points 
-\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$
+ will denote the set of all possible 
+\begin_inset Formula $n$
 \end_inset
 
- are called the vertexes of the simplex.
- Let us also define the matrix 
+-simpleces.
+ A simplex 
+\begin_inset Formula $S$
+\end_inset
+
+ is often characterized by its 
+\series bold
+matrix of vertexes
+\series default
+ 
 \begin_inset Formula $\boldsymbol{V}:=\left[\begin{array}{ccc}
 \boldsymbol{v}_{0} & \cdots & \boldsymbol{v}_{n}\end{array}\right]$
 \end_inset
@@ -798,11 +1358,15 @@ status open
 \begin_inset Formula $\{\boldsymbol{0},\boldsymbol{e}_{1},\boldsymbol{e}_{2},...,\boldsymbol{e}_{n}\}$
 \end_inset
 
-(where 
+, where 
 \begin_inset Formula $\boldsymbol{e}_{i}$
 \end_inset
 
- are the vectors of the canonical basis) will be called a standard simplex.
+ are the vectors of the canonical basis, is called a
+\series bold
+ standard simplex
+\series default
+.
  
 \end_layout
 
@@ -863,11 +1427,7 @@ and dimension
 p_{0}(t)\\
 \vdots\\
 p_{k-1}(t)
-\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}=\sum_{j=0}^{n}\boldsymbol{p}_{j}t^{j}=\left[\begin{array}{c}
-\boldsymbol{c}_{0}^{T}\boldsymbol{t}\\
-\vdots\\
-\boldsymbol{c}_{k-1}^{T}\boldsymbol{t}
-\end{array}\right]$
+\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}$
 \end_inset
 
 , where 
@@ -879,24 +1439,7 @@ p_{k-1}(t)
 \end_inset
 
 .
- 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-p_{i}(t)=\sum_{j=0}^{n}p_{i,j}t^{j}=\boldsymbol{p}_{i}^{T}\boldsymbol{t},\qquad c_{i,j}\in\mathbb{R},t\in\mathbb{R}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-In this paper, we will use the polynomial curves of the form 
+ In this project, we will use the polynomial curves of the form 
 \begin_inset Formula $k=n$
 \end_inset
 
@@ -905,11 +1448,11 @@ In this paper, we will use the polynomial curves of the form
 \end_inset
 
 th order polyomial curve.
- 
+ The elements of 
 \begin_inset Formula $\boldsymbol{P}$
 \end_inset
 
- will denote the matrix 
+ are the coefficient of the polynomials, and will be denoted as 
 \begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
 \boldsymbol{c}_{0}^{T}\\
 \vdots\\
@@ -918,16 +1461,7 @@ th order polyomial curve.
 \boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times n}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
-where 
-\begin_inset Formula $\boldsymbol{t}:=\left[\begin{array}{ccc}
-t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}$
-\end_inset
-
-
+.
 \end_layout
 
 \end_inset
@@ -942,25 +1476,13 @@ t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}$
 
 \end_layout
 
-\begin_layout Standard
-Let us also define the permutation matrix 
-\begin_inset Formula $Q=\left[\begin{array}{cccc}
-0 & \cdots & 0 & 1\\
-0 & \cdots & 1 & 0\\
-\vdots & \iddots & \vdots & \vdots\\
-1 & 0 & 0 & 0
-\end{array}\right]$
-\end_inset
-
-.
-\end_layout
-
 \begin_layout Section
 Problem definition
 \end_layout
 
 \begin_layout Standard
-This project investigates the two following problems:
+As discussed in the introduction, the goal of this project is to investigate
+ the following optimization problem:
 \end_layout
 
 \begin_layout Standard
@@ -1014,11 +1536,16 @@ th order polyomial curve
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
+ in the interval 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
 .
  In other words:
 \begin_inset Formula 
 \[
-\min_{S\in S^{n}}\quad f_{1}:=vol(S)
+\min_{S\in S^{n}}\quad f_{1}:=vol(S)\propto abs\left(\left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|\right)
 \]
 
 \end_inset
@@ -1055,7 +1582,7 @@ For instance, for
 \begin_inset Formula $n=2$
 \end_inset
 
-, this problem tries to find the triangle with the smallest area that contains
+, Problem 1 tries to find the triangle with the smallest area that contains
  the curve 
 \begin_inset Formula $\left[\begin{array}{cc}
 x(t) & y(t)\end{array}\right]^{T}$
@@ -1073,7 +1600,7 @@ x(t) & y(t)\end{array}\right]^{T}$
 \begin_inset Formula $2^{nd}$
 \end_inset
 
--deg polynomials.
+-degree polynomials.
  For 
 \begin_inset Formula $n=3$
 \end_inset
@@ -1089,13 +1616,11 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_inset
 
 -deg polynomials).
- And so on.
- 
 \end_layout
 
 \begin_layout Standard
-As we will prove later in the report, problem 1 is closely connected to
- the following problem: 
+As will be proven later in the report, problem 1 is closely connected this
+ other optimization problem:
 \end_layout
 
 \begin_layout Standard
@@ -1157,15 +1682,15 @@ th order polyomial curve
 \begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
 \end_inset
 
- span a paralellogram with largest volume.
+ span a parallelogram with largest volume.
  In other words:
 \begin_inset Formula 
 \[
-\max_{\boldsymbol{p}(t)}\quad f_{2}:=\left|\left[\begin{array}{ccc}
-\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{1}\end{array}\right]\right|=\left|\left[\begin{array}{c}
+\max_{\boldsymbol{p}(t)}\quad f_{2}:=abs\left(\left|\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{1}\end{array}\right]\right|\right)=abs\left(\left|\left[\begin{array}{c}
 \boldsymbol{P}\\
 \boldsymbol{e}^{T}
-\end{array}\right]\right|
+\end{array}\right]\right|\right)
 \]
 
 \end_inset
@@ -1177,7 +1702,7 @@ th order polyomial curve
 \begin_inset Formula 
 \[
 \begin{array}{cc}
-s.t. & \boldsymbol{p}(t)\in S:=conv(\{\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\})\quad\forall t\in[-1,1]\end{array}
+s.t. & \boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]\end{array}
 \]
 
 \end_inset
@@ -1242,17 +1767,12 @@ boldsymbol{p}_{n}
 vpa(det(computeMatrixForBezier(3,"m11"))/det(getSolutionA(3,"m11"))
 \end_layout
 
-\end_inset
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
 
-
-\end_layout
-
-\begin_layout Section
-Transformation
-\end_layout
-
-\begin_layout Standard
-In this section we show that the verteces of optimal simplex of problem
+\begin_layout Plain Layout
+In this section we show that the vertexes of optimal simplex of problem
  1 is given by 
 \begin_inset Formula $\boldsymbol{A}^{-1}\boldsymbol{P}$
 \end_inset
@@ -1260,30 +1780,113 @@ In this section we show that the verteces of optimal simplex of problem
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 solution of problem 1 (problem 2 respectively) can be obtained by using
- a linear transformation of the given by a matrix 
+ a linear transformation of the given by a matrix
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{c}_{i}=\underbrace{\left[\begin{array}{cccc}
+\boldsymbol{\lambda}_{1} & \boldsymbol{\lambda}_{2} & \cdots & \boldsymbol{\lambda}_{n+1}\end{array}\right]}_{:=\boldsymbol{A}^{T}}\begin{bmatrix}\left(\boldsymbol{v}_{0}\right)_{i}\\
+\left(\boldsymbol{v}_{1}\right)_{i}\\
+\vdots\\
+\left(\boldsymbol{v}_{n}\right)_{i}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+j es el degree de cada monomio
+\end_layout
+
+\begin_layout Plain Layout
+i es el index de cada vertex
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $=\frac{1}{n!}\left|\left[\begin{array}{cc}
+\boldsymbol{P}^{T} & \boldsymbol{1}\end{array}\right]\right|=\frac{1}{n!}\left|\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{1}^{T}
+\end{array}\right]\right|$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Equivalent Formulation
 \end_layout
 
 \begin_layout Standard
-First of all, note that the constraint 
+A invertible, non-degenerate simplex
+\end_layout
+
+\begin_layout Standard
+Cambiar a lambda_0 en las figures
+\end_layout
+
+\begin_layout Subsection
+Constraints of Problem 1 and 2:
+\end_layout
+
+\begin_layout Standard
+Both problems share the same constraint 
 \begin_inset Formula $\boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]$
 \end_inset
 
- is equivalent to 
+.
+ Note that this constraint is equivalent to 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
- being a convex combination of the vertexes of the simplex in the interval
- 
-\begin_inset Formula $[-1,1]$
+ being a convex combination of the vertexes 
+\begin_inset Formula $\boldsymbol{v}_{i}$
+\end_inset
+
+ of the simplex for 
+\begin_inset Formula $t\in[-1,1]$
 \end_inset
 
 :
 \begin_inset Formula 
 \[
 \left.\begin{array}{c}
-\boldsymbol{p}(t)=\sum_{i=1}^{n+1}\lambda_{i}(t)\boldsymbol{v}_{i}\\
+\boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}\\
 \sum_{i}\lambda_{i}(t)=1\quad\forall t\\
 \lambda_{i}(t)\ge0\quad\forall i,\forall t\in[-1,1]
 \end{array}\right\} 
@@ -1303,21 +1906,10 @@ Taking
 \begin_inset Formula $n$
 \end_inset
 
--th degree polynomial:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\lambda_{i}(t)=\sum_{j=0}^{n}\lambda_{i,j}t^{j}=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},\qquad\lambda_{i,j}\in\mathbb{R},t\in\mathbb{R}
-\]
-
+-th degree polynomial 
+\begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 and matching the coefficients we have that:
 \end_layout
 
@@ -1325,52 +1917,12 @@ and matching the coefficients we have that:
 \begin_inset Formula 
 \[
 \boldsymbol{P}=\boldsymbol{V}\underbrace{\left[\begin{array}{c}
+\boldsymbol{\lambda}_{0}^{T}\\
 \boldsymbol{\lambda}_{1}^{T}\\
-\boldsymbol{\lambda}_{2}^{T}\\
 \vdots\\
-\boldsymbol{\lambda}_{n+1}^{T}
+\boldsymbol{\lambda}_{n}^{T}
 \end{array}\right]}_{:=\boldsymbol{A}}
 \]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-And therefore:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-\boldsymbol{c}_{i}=\underbrace{\left[\begin{array}{cccc}
-\boldsymbol{\lambda}_{1} & \boldsymbol{\lambda}_{2} & \cdots & \boldsymbol{\lambda}_{n+1}\end{array}\right]}_{:=\boldsymbol{A}^{T}}\begin{bmatrix}\left(\boldsymbol{v}_{0}\right)_{i}\\
-\left(\boldsymbol{v}_{1}\right)_{i}\\
-\vdots\\
-\left(\boldsymbol{v}_{n}\right)_{i}
-\end{bmatrix}
-\]
-
-\end_inset
-
-
-\end_layout
 
 \end_inset
 
@@ -1400,7 +1952,22 @@ where we have also defined the
 \end_inset
 
 .
- Now note that the second constraint can be rewritten as 
+ Note that we can also write:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now note that the second constraint can be rewritten as 
 \begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}^{T}$
 \end_inset
 
@@ -1416,26 +1983,15 @@ Objective Function of Problem 1
 \end_layout
 
 \begin_layout Standard
-The volume of an 
-\begin_inset Formula $n-$
-\end_inset
-
-simplex 
-\begin_inset Formula $S\in S^{n}$
-\end_inset
-
- with vertexes 
-\begin_inset Formula $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$
-\end_inset
-
- is given by:
+Given the previous relationships, note that, 
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-f_{1}:=vol(S)=\frac{1}{n!}\left|\left[\begin{array}{cc}
-\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|=
+\left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|=\left|\left[\begin{array}{cc}
+\boldsymbol{A}^{-T}\boldsymbol{P}^{T} & \boldsymbol{1}\end{array}\right]\right|=
 \]
 
 \end_inset
@@ -1446,60 +2002,9 @@ f_{1}:=vol(S)=\frac{1}{n!}\left|\left[\begin{array}{cc}
 \begin_layout Standard
 \begin_inset Formula 
 \[
-=\frac{1}{n!}\left|\left[\begin{array}{cc}
-\boldsymbol{A}^{-T}\boldsymbol{P}^{T} & \boldsymbol{1}_{(n+1)\times1}\end{array}\right]\right|=
+=\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
+\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}^{T}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
 \]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-=\frac{1}{n!}\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
-\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}_{(n+1)\times1}}_{=\boldsymbol{e}^{T}}\end{array}\right]\right|\propto
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-j es el degree de cada monomio
-\end_layout
-
-\begin_layout Plain Layout
-i es el index de cada vertex
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Formula $=\frac{1}{n!}\left|\left[\begin{array}{cc}
-\boldsymbol{P}^{T} & \boldsymbol{1}\end{array}\right]\right|=\frac{1}{n!}\left|\left[\begin{array}{c}
-\boldsymbol{P}\\
-\boldsymbol{1}^{T}
-\end{array}\right]\right|$
-\end_inset
-
-
-\end_layout
 
 \end_inset
 
@@ -1511,10 +2016,16 @@ where in the last step we have used the fact that everything inside the
  second determinant is given (i.e.
  not a decision variable of the optimization problem), and the fact that
  
-\begin_inset Formula $\left|A\right|=\left|A^{T}\right|$
+\begin_inset Formula $\left|\boldsymbol{A}\right|=\left|\boldsymbol{A}^{T}\right|$
 \end_inset
 
 .
+ Therefore, we can conclude that 
+\begin_inset Formula $f_{1}\propto abs\left(\frac{1}{|\boldsymbol{A}|}\right)$
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1528,7 +2039,7 @@ Similarly to the previous subsection, we have that
 \begin_layout Standard
 \begin_inset Formula 
 \[
-f_{2}:=\left|\left[\begin{array}{c}
+\left|\left[\begin{array}{c}
 \boldsymbol{P}\\
 \boldsymbol{e}^{T}
 \end{array}\right]\right|=\left|\left[\begin{array}{c}
@@ -1542,8 +2053,119 @@ f_{2}:=\left|\left[\begin{array}{c}
 
 \end_layout
 
+\begin_layout Standard
+And therefore, 
+\begin_inset Formula $f_{2}\propto abs\left(\left|\boldsymbol{A}\right|\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+===========
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{4}+\sum_{i=0}^{3}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{4}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+defining now
+\begin_inset Formula $\boldsymbol{n}$
+\end_inset
+
+ as the normal vector to the plane 
+\begin_inset Formula $\boldsymbol{\pi}$
+\end_inset
+
+ formed by the points 
+\begin_inset Formula $\boldsymbol{v}_{0}$
+\end_inset
+
+,
+\begin_inset Formula $\boldsymbol{v}_{1}$
+\end_inset
+
+,
+\begin_inset Formula $\boldsymbol{v}_{2}$
+\end_inset
+
+, and with 
+\begin_inset Formula $\boldsymbol{n}^{T}\boldsymbol{p}(t)\ge0$
+\end_inset
+
+ (i.e.
+ pointing towards the interior of the tetrahedron), we have that: 
+\begin_inset Formula 
+\[
+dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{4}\right)\cdot\boldsymbol{n}=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\sum_{i=0}^{3}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{4}\right)\cdot\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{4},\boldsymbol{\pi}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{0}(t)=\frac{dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right)}{dist\left(\boldsymbol{v}_{4},\boldsymbol{\pi}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And a similar reasoning applies for 
+\begin_inset Formula $\lambda_{2}(t)$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{3}(t)$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{3}(t)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+pi is the plane
+\end_layout
+
 \begin_layout Subsection
 Equivalent Formulation for problem 1 and 2
+\end_layout
+
+\begin_layout Standard
+Therefore, we can solve problem 1 (or problem 2 respectively) for 
+\series bold
+any
+\series default
+ given polynomial curve (any given simplex) by solving the following problem:
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1583,7 +2205,7 @@ Problem
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\max_{\boldsymbol{A}}\quad\left|\boldsymbol{A}\right|
+\max_{\boldsymbol{A}}\quad abs\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -1596,7 +2218,7 @@ Problem
 \[
 \begin{array}{cc}
 s.t. & \boldsymbol{A}\boldsymbol{t}\ge\boldsymbol{0}\quad\forall t\in[-1,1]\\
- & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}^{T}
+ & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}
 \end{array}
 \]
 
@@ -1618,43 +2240,41 @@ s.t. & \boldsymbol{A}\boldsymbol{t}\ge\boldsymbol{0}\quad\forall t\in[-1,1]\\
 \end_layout
 
 \begin_layout Standard
-Note that Problem 2 is 
-\series bold
-independent 
-\series default
-of the given polynomial.
- This means that the matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- found can be applied to all the polynomials given.
+The relationship between the three problems is given in Fig.
  
-\end_layout
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:relationships_problems"
+plural "false"
+caps "false"
+noprefix "false"
 
-\begin_layout Standard
-Note that Problem 2 is clearly nonconvex, since the objective function is
- the determinant of a non-symmetric matrix.
- Moreover, it has infinite constraints.
- 
-\end_layout
-
-\begin_layout Standard
-We can use now Sum-Of-Squares programming(iff for univariate polynomials),
- let us try to rewrite the second constraint of problem 2:.
- [Theorem 5 for Pablo P].
- Defining 
-\begin_inset Formula $\hat{\boldsymbol{t}}:=\boldsymbol{P}\boldsymbol{t}$
 \end_inset
 
- (i.e.
- the vector 
-\begin_inset Formula $\boldsymbol{t}$
-\end_inset
-
- with all its elements flipped), 
+.
+ Note that Problem 3 is nonconvex, since the objective function is the determina
+nt of a non-symmetric matrix.
+ The geometric interpretation of problem a 
 \end_layout
 
 \begin_layout Standard
+We can use now Sum-Of-Squares programming, which is an 
+\emph on
+if and only if 
+\emph default
+condition for univariate polynomials to rewrite the second constraint of
+ problem 2 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Parrilo09"
+literal "false"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
 If 
 \begin_inset Formula $n$
 \end_inset
@@ -1680,7 +2300,7 @@ If
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Itemize
 If 
 \begin_inset Formula $n$
 \end_inset
@@ -1693,10 +2313,21 @@ If
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Cuidado que ahora no puedo sacar factor comun a t_hat (pues son de different
+ size)
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula 
 \[
 \left\{ \begin{array}{c}
-\lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\left(\boldsymbol{W}_{i}+(t+1)(1-t)\boldsymbol{V}_{i}\right)\hat{\boldsymbol{t}}\\
+\lambda_{i}(t)=\hat{\boldsymbol{t}}^{T}\boldsymbol{W}_{i}\hat{\boldsymbol{t}}+\hat{\boldsymbol{t}}^{T}(t+1)(1-t)\boldsymbol{V}_{i}\hat{\boldsymbol{t}}\\
 \boldsymbol{W}_{i}\in\mathbb{S}_{+}^{\frac{n}{2}+1},\boldsymbol{V}_{i}\in\mathbb{S}_{+}^{\frac{n}{2}}
 \end{array}\right.
 \]
@@ -1707,16 +2338,19 @@ If
 \end_layout
 
 \begin_layout Standard
-where 
-\begin_inset Formula $\mathbb{S}_{+}^{m}$
+Note that the 
+\emph on
+if and only if
+\emph default
+ condition applies because it is a univariate polynomial 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Parrilo09"
+literal "false"
+
 \end_inset
 
- denotes the positive semidefinite cone (i.e.
- the set of all symmetric positive semidefinite 
-\begin_inset Formula $m\times m$
-\end_inset
-
- matrices).
+.
  We end up therefore with a nonconvex finite-dimensional optimization problem,
  where the decision variables are the positive semidefinite matrices 
 \begin_inset Formula $\boldsymbol{W}_{i}$
@@ -1727,7 +2361,7 @@ where
 \end_inset
 
 , 
-\begin_inset Formula $i\in[1,n+1]$
+\begin_inset Formula $i\in[0,n]$
 \end_inset
 
 .
@@ -1869,7 +2503,7 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-One disadvantage of the problem 3 is that it becomes intractable 
+One disadvantage of problem 3 is that it becomes intractable 
 \end_layout
 
 \begin_layout Standard
@@ -1902,7 +2536,7 @@ Problem
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\max_{\boldsymbol{A}}\quad\left|\boldsymbol{A}\right|
+\max_{\boldsymbol{A}}\quad abs\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -1936,10 +2570,10 @@ If
 \begin_inset Formula 
 \[
 \begin{array}{c}
-\lambda_{i}(t)=-b_{i}(t-1)\stackrel[j=1]{\frac{n-1}{2}}{\prod}(t-t_{j})^{2}\quad i=1,3,...,n\\
-\lambda_{i}(t)=\lambda_{n-i+2}(-t)\quad\quad\quad i=2,4,...,n+1\\
-b_{i}\ge0\quad i=1,3,...,n\\
-\sum_{i}\lambda_{i}(t)=1
+\lambda_{i}(t)=-b_{i}(t-1)\stackrel[j=1]{\frac{n-1}{2}}{\prod}(t-t_{j})^{2}\quad i=0,2,...,n-1\\
+\lambda_{i}(t)=\lambda_{n-i+2}(-t)\quad\quad\quad i=1,3,...,n\\
+b_{i}\ge0\quad i=0,2,...,n-1\\
+\sum_{i=0}^{i=n}\lambda_{i}(t)=1
 \end{array}
 \]
 
@@ -1963,16 +2597,16 @@ If
 \begin_inset Formula $\mathcal{I}_{a}$
 \end_inset
 
- the set of even integers 
-\begin_inset Formula $\in\left[2,\frac{n}{2}\right]$
+ the set of odd integers 
+\begin_inset Formula $\in\left[0,\frac{n}{2}-1\right]$
 \end_inset
 
 , and 
 \begin_inset Formula $\mathcal{I}_{b}$
 \end_inset
 
- the set of odd integers 
-\begin_inset Formula $\in\left[1,\frac{n}{2}\right]$
+ the set of even integers 
+\begin_inset Formula $\in\left[0,\frac{n}{2}-1\right]$
 \end_inset
 
 : 
@@ -2001,9 +2635,9 @@ Cuidado que n/2 esta incluido o no si n/2 es odd o even
 \begin{array}{c}
 \lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{2}}{\prod}(t-t_{j})^{2}\quad i\in\mathcal{I}_{a}\\
 \lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{2}}{\prod}(t-t_{j})^{2}\quad\quad\quad i\in\mathcal{I}_{b}\\
-\lambda_{j}(t)=\lambda_{n-i+1}(-t)\quad\quad\quad i=\frac{n}{2}+2,...,n+1\\
-b_{i}\ge0\quad i\le\frac{n}{2}+1\\
-\sum_{i}\lambda_{i}(t)=1
+\lambda_{j}(t)=\lambda_{n-i+1}(-t)\quad\quad\quad i=\frac{n}{2}+1,...,n\\
+b_{i}\ge0\quad i\le\frac{n}{2}\\
+\sum_{i=0}^{i=n}\lambda_{i}(t)=1
 \end{array}
 \]
 
@@ -2027,7 +2661,7 @@ If
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}+1
+\lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
 
 \end_inset
@@ -2050,7 +2684,7 @@ If
 \begin_layout Plain Layout
 \begin_inset Formula 
 \[
-\lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}+1
+\lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
 
 \end_inset
@@ -2138,7 +2772,7 @@ literal "false"
 \end_inset
 
  interface.
- The minimums found for 
+ The minima found for 
 \begin_inset Formula $n=1,2,3,4$
 \end_inset
 
@@ -2171,7 +2805,8 @@ literal "false"
 
 .
  By increasing the order of the moment relaxation, one can find tighter
- lower bounds of the original nonconvex polynomial optimization problem.
+ lower bounds of the original nonconvex polynomial.
+ optimization problem.
  
 \end_layout
 
@@ -2819,8 +3454,10 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="3">
+<lyxtabular version="3" rows="8" columns="5">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2857,7 +3494,7 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2865,6 +3502,28 @@ MINVO
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Problem 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Problem 4
 \end_layout
 
 \end_inset
@@ -2900,7 +3559,7 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2908,6 +3567,24 @@ MINVO
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Global Optimum
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Global Optimum
 \end_layout
 
 \end_inset
@@ -2944,7 +3621,7 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2952,6 +3629,30 @@ MINVO
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Global Optimum
 \end_layout
 
 \end_inset
@@ -2989,7 +3690,7 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2997,6 +3698,30 @@ MINVO
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Global Optimum
 \end_layout
 
 \end_inset
@@ -3035,11 +3760,41 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $\approx0.5678$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
 \end_inset
 
 
@@ -3082,11 +3837,41 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $\approx1.6987$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
 \end_inset
 
 
@@ -3130,11 +3915,41 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $\approx9.1027$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
 \end_inset
 
 
@@ -3179,11 +3994,41 @@ MINVO
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 \begin_inset Formula $\approx89.0191$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{c}
+\text{Local Optimum}\\
+\text{(at least)}
+\end{array}$
 \end_inset
 
 
@@ -3655,6 +4500,10 @@ Conversion from Bezier to MINVO
 \end_layout
 
 \begin_layout Standard
+Cambiar a lambda_0 en las figuras
+\end_layout
+
+\begin_layout Standard
 Define 
 \begin_inset Formula $\boldsymbol{A}:=\left[\begin{array}{c}
 \boldsymbol{\lambda}_{1}^{T}\\
@@ -3784,6 +4633,10 @@ Comentar algo de los B-Splines?
 Plot convex hull azul en 3D
 \end_layout
 
+\begin_layout Standard
+Citar a los que usan Bezier para elementos finitos
+\end_layout
+
 \begin_layout Section
 Others
 \end_layout
@@ -3819,6 +4672,10 @@ Decir que A es invertible
 
 \begin_layout Standard
 https://mathworld.wolfram.com/HadamardsMaximumDeterminantProblem.html
+\end_layout
+
+\begin_layout Standard
+Subdivision
 \end_layout
 
 \begin_layout Standard

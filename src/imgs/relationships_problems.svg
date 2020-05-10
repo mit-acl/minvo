@@ -72,16 +72,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="84.312748"
-     inkscape:cy="73.314938"
+     inkscape:zoom="3.959798"
+     inkscape:cx="88.148632"
+     inkscape:cy="63.769779"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1043"
-     inkscape:window-x="2560"
-     inkscape:window-y="0"
+     inkscape:window-width="2493"
+     inkscape:window-height="1376"
+     inkscape:window-x="67"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -95,7 +95,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -327,7 +327,7 @@
        ns1:pdfconverter="pdf2svg"
        ns1:texconverter="pdflatex"
        ns1:version="0.11.0"
-       transform="matrix(0.441769,0,0,0.441769,31.360316,97.14843)">
+       transform="matrix(0.441769,0,0,0.441769,-12.605521,97.282065)">
       <g
          id="g1718">
         <g
@@ -374,7 +374,7 @@
        ns1:pdfconverter="pdf2svg"
        ns1:texconverter="pdflatex"
        ns1:version="0.11.0"
-       transform="matrix(0.441769,0,0,0.441769,-12.534165,97.456429)">
+       transform="matrix(0.441769,0,0,0.441769,32.233481,96.520984)">
       <g
          id="g1851">
         <g
@@ -421,7 +421,7 @@
        ns1:pdfconverter="pdf2svg"
        ns1:texconverter="pdflatex"
        ns1:version="0.11.0"
-       transform="matrix(0.441769,0,0,0.441769,-16.440337,76.719781)">
+       transform="matrix(0.441769,0,0,0.441769,28.394126,77.25432)">
       <g
          id="g1950">
         <g
@@ -537,7 +537,7 @@
        ns1:pdfconverter="pdf2svg"
        ns1:texconverter="pdflatex"
        ns1:version="0.11.0"
-       transform="matrix(0.441769,0,0,0.441769,28.672586,76.217789)">
+       transform="matrix(0.441769,0,0,0.441769,-14.157356,76.351423)">
       <g
          id="surface1">
         <g
