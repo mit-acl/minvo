@@ -5,7 +5,6 @@
 \usepackage[latin9]{luainputenc}
 \usepackage[letterpaper]{geometry}
 \geometry{verbose,tmargin=2cm,bmargin=2.2cm,lmargin=2.2cm,rmargin=2.2cm}
-\usepackage{xcolor}
 \usepackage{calc}
 \usepackage{amsbsy}
 \usepackage{amstext}
@@ -26,7 +25,7 @@
 
 \usepackage[T1]{fontenc}
 
-\usepackage{hyperref}
+
 
 \usepackage{courier}
 \usepackage{array}
@@ -45,6 +44,7 @@
 \usepackage{placeins}
 \usepackage{graphicx, epstopdf}
 \usepackage[framed, numbered]{matlab-prettifier}
+\usepackage{colortbl}
 
 \definecolor{celadon}{rgb}{0.67, 0.88, 0.69}
 \definecolor{hellgelb}{rgb}{1,1,0.85} 
@@ -103,6 +103,14 @@ frame=tb,                         % Any extra options here
 showstringspaces=false            % 
 }
 
+
+%https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
+%\usepackage{hyperref}
+%\hypersetup{
+%    colorlinks = false,
+%    linkbordercolor = {white}
+%}
+
 \makeatother
 
 \usepackage{babel}
@@ -110,7 +118,7 @@ showstringspaces=false            %
 \title{MINVO Basis: Finding Simpleces with Minimum Volume Enclosing Polynomial
 Curves}
 \author{Jesus Tordesillas Torres\thanks{The author is with the Aerospace Controls Laboratory, MIT, 77 Massachusetts
-Ave., Cambridge, MA, USA \tt{jtorde}@mit.edu}\\ 18.0651 Final Project  	}
+Ave., Cambridge, MA, USA \tt{jtorde}@mit.edu} 18.0651 Final Project  	}
 
 \maketitle
 \renewcommand{\lstlistingname}{Script}
@@ -118,7 +126,7 @@ Ave., Cambridge, MA, USA \tt{jtorde}@mit.edu}\\ 18.0651 Final Project  	}
 \begin{abstract}
 Applications such as computer graphics rendering, path planning for
 robotics and patch splitting algorithms greatly benefit from having
-an $n$-simplex that encloses a given polynomial curve. Probably Bezier
+an $n$-simplex that encloses a given polynomial curve. Probably Bézier
 curves (which use the Bernstein basis) are the most common choice
 for this, since it is guaranteed that the curve is contained inside
 the convex hull of its control points. However, it is known that this
@@ -133,38 +141,82 @@ Sum-Of-Squares (SOS) Programming and moment relaxations.
 \end{abstract}
 
 
+\section*{Supplementary material}
+
+The MATLAB code used for this project has been attached in the submission.
+
 \section{Introduction}
 
-The ability to approximate the space occupied by a given polynomial
-curve with a polyhedra is crucial for many applications. This and
-is the one that enables real-time processing . For intance, in the
-path planning community, a sequence of overlapping polyhedra is usually
-generated in the free space, and then the constraint of the trajectory
-being in free space can be easily enforced by imposing that the control
-points of the associated Bezier curve or B-Spline are inside those
-polyhedra (see \cite{tordesillas2019faster,preiss2017trajectory,sahingoz2014generation}
-for instance). This allows to obtain impose a finite number of convex
-contraints, instead of continuous constraints of the form $c(x,t)\le0\;\forall t$. 
+Bézier curves are extensively used in many different applications,
+which include computer aided design (\cite{dimas19993d,de1999visualization,autodeskInventor,autodeskAutocad,autodeskMaya}),
+simulations and animations (\cite{bargteil2014animation,roth1998bernstein})
+and robotics (\cite{park1995zier,faraway2007modelling,vskrjanc2010optimal,jolly2009bezier,tordesillas2019faster,preiss2017trajectory,sahingoz2014generation}),
+just to mention some. Many of these applications, specially those
+that need to check the intersection between two objects, make use
+of the convex hull property of the Bézier curves. This property allows
+to use the control points, instead of 
 
-The contributions of this paper are summarized as follows:
+The ability to approximate the space occupied by a given polynomial
+curve with a polyhedron is crucial for many of these applications,
+specially those that need to check the intersection between two objects
+in real time. For instance, many path planning algorithms that use
+Bézier curves can easily ensure safety by ensuring the control points
+of the trajectory are inside the sequence of overlapping polyhedra
+that define the free space (see \cite{tordesillas2019faster,preiss2017trajectory,sahingoz2014generation}
+for instance). This allows to obtain impose a finite number of convex
+constraints (of the form $c(x)\le0$), instead of infinite constraints
+of the form $c(x,t)\le0\;\forall t$. 
+
+The basis for the Bézier curves are the Bernstein polynomials, but,
+while they have some other useful properties, they are not designed
+to minimize the volume of the simplex that encloses a given interval
+of the curve. This directly translates into a great conservatism in
+many of the applications mentioned above. The goal of this project
+is to derive a polynomial basis that can be used to generate the simplex
+with minimum volume that encloses a polynomial curve. 
+
+The contributions of this project are summarized as follows:
 \begin{itemize}
-\item wef
-\item Global optimality proof for some $n$ using SOS and moment relaxations. 
+\item Formulation of the optimization problem that solves, without loss
+of generality, for the smallest $n$-simplex that encloses a given
+polynomial curve. Global optima for $n=1$ is obtained using moment
+relaxations and semidefinite programming. Local optima for $n=2,3,4$
+and feasible solutions for $n=5,6,7$ are also obtained. 
+\item A more tractable formulation that imposes a specific structure in
+the polynomials. For this formulation, global optima are obtained
+for $n=1,2,3$ using also moment relaxations and semidefinite programming.
+Local optima are also obtained for $4,5,6,7$. 
 \end{itemize}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1\columnwidth]{src/imgs/comparison3d}
+\par\end{centering}
+\caption{Comparison between the MINVO basis and the Bernstein basis for $n=3$.
+The simplex found using the MINVO basis (left) encloses the $3^{rd}$-order
+polynomial curve in red, and, for any $3^{rd}$-order polynomial curve,
+the MINVO basis generates a simplex that is $2.36$ times smaller
+that the one found using the Bernstein basis (right). \label{fig:Comparison3d}}
+
+\vskip-2ex
+\end{figure}
+
 
 \section{Related work}
 
-Bezier has many applications such as... Many of these applications
-make use of the convex hull property to ...
-
-Probably the paper most related to the problem this project is trying
-to solve is \cite{herron1989polynomial}. In that work, the authors
-imposed a ad-hoc form for the polynomials that form the basis, and
-then solved the optimization problem over the roots of those polynomials.
-They were able to find a local minimum (for that specific form of
-the polynomials) for $n=2$ and $n=3$. These project goes further,
-and tries to find global optimal solutions over all possible polynomials,
-and for higher degrees $n$. 
+A work that attempted to solve exactly the same problem proposed in
+this was the work by Gary Herron. In this work, the author imposed
+a specific structure in the form for the polynomials of the basis,
+and then solved the associated nonconvex optimization problem over
+the roots of those polynomials. For this specific form of the polynomials,
+a global minimizer was found for $n=2$, and local minimizer was found
+for $n=3$, but no global optimality was proven for this. These project
+goes further, and it first proposes the most general formulation that
+does not encode a specific structure of the form of the polynomials,
+proving global and local optimality for some $n$. Then, by imposing
+a structure in the polynomials, this project is able to find local
+minimizers for $n=1,2,3,4,5,6,7$, proving its global optimality for
+$n=1,2,3$. 
 
 A similar problem has also been studied in the hyperspectral unmixing
 of the remote sensing community, which consists of trying to find,
@@ -178,25 +230,7 @@ these works to generate different iterative algorithms to solve it
 (see \cite{rogge2006iterative,iordache2009unmixing,velez2003iterative}
 for instance). 
 
-Explicar convex hull algorithms?
-
-Other related works are \cite{kanazawa2014minimal}, that gives a
-bound for the volume of the smallest $n$-simplex that encloses a
-given convex body. 
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=1\columnwidth]{src/imgs/comparison3d}
-\par\end{centering}
-\caption{Comparison between the MINVO basis and the Bernstein basis. The simplex
-found using the MINVO basis (left) encloses the $3^{rd}$-order polynomial
-curve in red, and, for any $3^{rd}$-order polynomial curve, the MINVO
-basis generates a simplex that is $2.36$ times smaller that the one
-found using the Bernstein basis (right). \label{fig:Comparison3d}}
-
-\vskip-2ex
-\end{figure}
-
+ 
 
 \section{Notation and Definitions}
 
@@ -264,17 +298,31 @@ $dist(\boldsymbol{a},\boldsymbol{\pi})$ & $\begin{array}{c}
 
 Let us also introduce the two following common definitions and their
 respective notations: 
-
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\textbf{$n$-simplex}: Convex hull of $n+1$ points $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$.
+\begin{itemize}
+\item \textbf{$n$-simplex}: Convex hull of $n+1$ points $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\in\mathbb{R}^{n}$.
 These points are called the \textbf{vertexes} of the simplex. The
 letter $S$ will denote simplex, while $S^{n}$ will denote the set
 of all possible $n$-simpleces. A simplex $S$ is often characterized
 by its \textbf{matrix of vertexes} $\boldsymbol{V}:=\left[\begin{array}{ccc}
 \boldsymbol{v}_{0} & \cdots & \boldsymbol{v}_{n}\end{array}\right]$. A simplex whose vertexes are $\{\boldsymbol{0},\boldsymbol{e}_{1},\boldsymbol{e}_{2},...,\boldsymbol{e}_{n}\}$,
 where $\boldsymbol{e}_{i}$ are the vectors of the canonical basis,
-is called a\textbf{ standard simplex}. %
-\end{minipage}}
+is called a\textbf{ standard simplex}. 
+\item \textbf{Polynomial curve} \textbf{of degree} $n$ \textbf{and dimension}
+$k$: Parametric curve $\boldsymbol{p}(t):=\left[\begin{array}{c}
+p_{0}(t)\\
+\vdots\\
+p_{k-1}(t)
+\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}$, where $p_{i}(t)=\boldsymbol{c}_{i}^{T}\boldsymbol{t}$ is a polynomial
+of degree $n$. In this project, we will use the polynomial curves
+of the form $k=n$ and we will refer to them simply as $n-$th order
+polyomial curve. The matrix $\boldsymbol{P}$ is the coefficient matrix,
+and will be denoted as $\boldsymbol{P}:=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}
+\end{array}\right]_{k\times n}\equiv\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times n}$.
+\end{itemize}
 
 \vspace{0.2cm}
 
@@ -287,8 +335,8 @@ p_{k-1}(t)
 \end{array}\right]:=\boldsymbol{P}\boldsymbol{t}$, where $p_{i}(t)=\boldsymbol{c}_{i}^{T}\boldsymbol{t}$ is a polynomial
 of degree $n$. In this project, we will use the polynomial curves
 of the form $k=n$ and we will refer to them simply as $n-$th order
-polyomial curve. The elements of $\boldsymbol{P}$ are the coefficient
-of the polynomials, and will be denoted as $\boldsymbol{P}:=\left[\begin{array}{c}
+polyomial curve. The matrix $\boldsymbol{P}$ is the coefficient matrix,
+and will be denoted as $\boldsymbol{P}:=\left[\begin{array}{c}
 \boldsymbol{c}_{0}^{T}\\
 \vdots\\
 \boldsymbol{c}_{k-1}^{T}
@@ -304,8 +352,14 @@ of the polynomials, and will be denoted as $\boldsymbol{P}:=\left[\begin{array}{
 As discussed in the introduction, the goal of this project is to investigate
 the following optimization problem:
 
-\noindent\fcolorbox{green}{white}{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\textbf{Problem 1}: Given an $n-$th order polyomial curve $\boldsymbol{p}(t)$,
+\definecolor{problem1_color}{RGB}{255,238,213}
+\definecolor{problem2_color}{RGB}{255,233,233}
+\definecolor{problem3_color}{RGB}{221,243,255}
+\definecolor{problem4_color}{RGB}{240,255,229}
+
+\noindent\fcolorbox{black}{problem1_color}{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+
+\textbf{Problem 1}: Given an $n-$th order polynomial curve $\boldsymbol{p}(t)$,
 find the $n$-simplex $S$ with minimum volume that contains $\boldsymbol{p}(t)$
 in the interval $t\in[-1,1]$. In other words:
 \[
@@ -317,6 +371,7 @@ in the interval $t\in[-1,1]$. In other words:
 \begin{array}{cc}
 s.t. & \boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]\end{array}
 \]
+
 %
 \end{minipage}}
 
@@ -335,16 +390,33 @@ a plane. Note that if $\boldsymbol{p}(t)$ is contained in a subspace
 $\mathbb{R}^{m}$($m<n$), then we can solve the problem by simply
 doing a change of variables and solve the problem directly in $\mathbb{R}^{m}$. 
 
-As will be proven later in the report, problem 1 is closely connected
+Note that another way to intepret problem 1 is using the convex hull
+of the curve $\boldsymbol{p}(t)$: the solution of problem 1 will
+give the smallest simplex that completely contains the convex hull
+of the polynomial curve $\boldsymbol{p}(t)$ (see Fig. \ref{fig:comparison_convex_hull}) 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.7\columnwidth]{src/imgs/comparison_convex_hull}
+\par\end{centering}
+\caption{Another way to interpret the MINVO basis is that it attempts to find
+the smallest simplex that completely contains the convex hull (shown
+in blue) of a polynomial curve (shown in red). \label{fig:comparison_convex_hull}}
+
+\vskip-2ex
+\end{figure}
+
+As will be proven later in the report, Problem 1 is closely connected
 this other optimization problem:
 
 \vspace{0.2cm}
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\textbf{Problem }2: Given the vertexes $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}$
+\noindent\fcolorbox{black}{problem2_color}{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+
+\textbf{Problem 2:} Given the vertexes $\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}$
 of an $n$-simplex $S$, find the $n-$th order polyomial curve $\boldsymbol{p}(t)$
 contained in $S$, whose coefficients vectors $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
-span a parallelogram with largest volume. In other words:
+span a parallelogram with largest volume. In other words:{\footnotesize{}
 \[
 \min_{\boldsymbol{p}(t)}\quad f_{2}:=-abs\left(\left|\left[\begin{array}{ccc}
 \boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{1}\end{array}\right]\right|\right)=-abs\left(\left|\left[\begin{array}{c}
@@ -352,13 +424,17 @@ span a parallelogram with largest volume. In other words:
 \boldsymbol{e}^{T}
 \end{array}\right]\right|\right)
 \]
+}{\footnotesize\par}
 
 \[
 \begin{array}{cc}
 s.t. & \boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]\end{array}
 \]
+
 %
 \end{minipage}}
+
+\vspace{0.2cm}
 
 Similar to the previous case, without loss of generality we will assume
 that the simplex $S$ is non-degenerate. In other words, is not contained
@@ -403,26 +479,23 @@ of the polynomial $\lambda_{i}(t)$. Note that we can also write:
 \boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}
 \]
 
-Now note that the second constraint can be rewritten as $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}$(or
-equivalently $\boldsymbol{e}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$).
-
-The geometric interpretation of each $\lambda_{i}(t)$ for $n=3$
-is as follows. First note that
+The geometric interpretation of each $\lambda_{i}(t)$ is as follows.
+First note that
 
 \[
-\boldsymbol{p}(t)=\sum_{i=0}^{3}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{3}+\sum_{i=0}^{2}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{4}\right)
+\boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{n}+\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)
 \]
 
-Defining now$\boldsymbol{n}$ as the normal vector to the plane $\boldsymbol{\pi}$
-formed by the points $\boldsymbol{v}_{1}$,$\boldsymbol{v}_{2}$,$\boldsymbol{v}_{3}$,
+Defining now$\boldsymbol{n}$ as the normal vector to the hyperplane
+$\boldsymbol{\pi}$ formed by the points $\boldsymbol{v}_{1}$,$\boldsymbol{v}_{2}$,...,$\boldsymbol{v}_{n-1}$,
 and with $\boldsymbol{n}^{T}\boldsymbol{p}(t)\ge0$ (i.e. pointing
-towards the interior of the tetrahedron), we have that: 
+towards the interior of the simplex), we have that: 
 \[
-dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{3}\right)\cdot\boldsymbol{n}=
-\]
-
-\[
-=\sum_{i=0}^{2}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{3}\right)\cdot\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)
+\begin{array}{c}
+dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\\
+\\
+=\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)
+\end{array}
 \]
 
 And therefore:
@@ -431,10 +504,11 @@ And therefore:
 \lambda_{0}(t)=\frac{dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right)}{dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)}
 \]
 
-And a similar reasoning applies for $\lambda_{2}(t)$, $\lambda_{3}(t)$
-and $\lambda_{3}(t)$. Hence, each $\lambda_{i}$ represents the ratio
-between the distance of the curve to a plane $i$ and the distance
-from the opposite vertex to that plane $i$ (see Fig. \ref{fig:Geometric-interpretation-of}). 
+A similar reasoning applies for the other $\lambda_{i}(t)$. Hence,
+each $\lambda_{i}$ represents the ratio between the distance of the
+curve to the plane $\boldsymbol{\pi}$ (formed by the points $\boldsymbol{v}_{j}\;,j\neq i$)
+and the distance from $\boldsymbol{v}_{i}$ to that plane $\boldsymbol{\pi}$
+(see Fig. \ref{fig:Geometric-interpretation-of} for the case $n=3$). 
 
 \begin{figure}
 \begin{centering}
@@ -451,6 +525,8 @@ $\boldsymbol{p}(t)=\left[\protect\begin{array}{ccc}
 \vskip-2ex
 \end{figure}
 
+Finally note that the second constraint can be rewritten as $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}$
+(or equivalently $\boldsymbol{e}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$).
 
 \subsection{Objective Function of Problem 1}
 
@@ -470,9 +546,9 @@ Given the previous relationships, note that,
 where in the last step we have used the fact that everything inside
 the second determinant is given (i.e. not a decision variable of the
 optimization problem), and the fact that $\left|\boldsymbol{A}\right|=\left|\boldsymbol{A}^{T}\right|$.
-Therefore, we conclude that $f_{1}\propto abs\left(\frac{1}{|\boldsymbol{A}|}\right)$.
-We can hence maximize $abs(\left|\boldsymbol{A}\right|)$, or, equivalently,
-minimize $-abs\left(\left|\boldsymbol{A}\right|\right)$.
+Therefore, we conclude that $f_{1}\propto\frac{1}{abs\left(|\boldsymbol{A}|\right)}$.
+We can therefore maximize $abs(\left|\boldsymbol{A}\right|)$, or,
+equivalently, minimize $-abs\left(\left|\boldsymbol{A}\right|\right)$.
 
 \subsection{Objective Function of Problem 2}
 
@@ -498,8 +574,9 @@ the following problem:
 
 \vspace{0.2cm}
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\textbf{Problem }3: 
+\noindent\fcolorbox{black}{problem3_color}{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+
+\textbf{Problem 3: }
 
 \[
 \min_{\boldsymbol{A}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
@@ -511,12 +588,12 @@ s.t. & \boldsymbol{A}\boldsymbol{t}\ge\boldsymbol{0}\quad\forall t\in[-1,1]\\
  & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}
 \end{array}
 \]
+
 %
 \end{minipage}}
 
 \vspace{0.2cm}
 
-The relationship between the three problems is given in Fig. \ref{fig:relationships_problems}.
 Note that Problem 3 is nonconvex, since the objective function is
 the determinant of a non-symmetric matrix. 
 
@@ -551,16 +628,6 @@ a nonconvex finite-dimensional optimization problem, where the decision
 variables are the positive semidefinite matrices $\boldsymbol{W}_{i}$
 and $\boldsymbol{V}_{i}$, $i\in[0,n]$. 
 
-\begin{figure}
-\begin{centering}
-\includegraphics[width=0.8\columnwidth]{src/imgs/relationships_problems}
-\par\end{centering}
-\caption{Relationship between problems 1,2,3: The optimal solution of the problems
-1 and 2 can be directly obtained from the solution of problem 3\label{fig:relationships_problems}.}
-
-\vskip-2ex
-\end{figure}
-
 No generality has been lost in problem 3. However, one disadvantage
 is that it easily becomes intractable for larger $n$. To make it
 more tractable, we can try to reduce the number of decision variables
@@ -571,12 +638,14 @@ Using the geometric interpretation of these $\lambda_{i}(t)$ given
 in subsection \ref{subsec:Constraints-of-Problem}, this means that
 each $\lambda_{i}(t)$ should have either real double roots (places
 where the curve is tangent to the plane), and/or roots at $t=\pm1$.
-This translates to the following problem:
+This translates into the formulation shown in Problem 4.
 
 \vspace{0.2cm}
 
-\noindent\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
-\textbf{Problem }4:
+\begin{figure}
+\noindent\fcolorbox{black}{problem4_color}{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+
+\textbf{Problem 4:}
 
 \[
 \min_{\boldsymbol{A}}\quad f_{4}:=-abs\left(\left|\boldsymbol{A}\right|\right)
@@ -612,41 +681,67 @@ b_{i}\ge0\quad i\le\frac{n}{2}\\
 \]
 
 \begin{itemize}
-\item If $\frac{n}{2}$ is odd ($n=2,6,10...)$, add this constraint:
+\item If $\frac{n}{2}$ is odd ($n=2,6,10...)$:
 \end{itemize}
 \[
 \lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
 
-\[
-\]
-
 \begin{itemize}
-\item If $\frac{n}{2}$ is even ($n=4,8,12...)$, add this constraint:
+\item If $\frac{n}{2}$ is even ($n=4,8,12...)$:
 \end{itemize}
 \[
 \lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
+
 %
 \end{minipage}}
+\end{figure}
+
+The relationship between Problems 1, 2, 3 and 4 is given in Fig. \ref{fig:relationships_problems}.
+First note that the structure imposed for the $\lambda_{i}(t)$ in
+Problem 4 guarantees that they are nonnegative for $t\in[-1,1]$.
+Hence the feasible set of Problem 4 is contained in the feasible set
+of Problem 3 or, in other words, any feasible solution of Problem
+4 is feasible for Problem 3 (the converse is not true in general).
+Therefore, $f_{3}^{*}\le f_{4}^{*}$ holds. The matrix $\boldsymbol{A}^{*}$
+found in Problem 3 or 4 can be used to find the vertexes of the simplex
+in Problem 1 (by simply using $\boldsymbol{V}^{*}=\boldsymbol{P}\left(\boldsymbol{A}^{*}\right)^{-1}$
+where $\boldsymbol{P}$ is the coefficient matrix of the polynomial
+given), or to find the polynomial matrix in Problem 2 (by using $\boldsymbol{P}^{*}=\boldsymbol{V}\boldsymbol{A}^{*}$,
+where $\boldsymbol{V}$ contains the vertexes of the simplex given).
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1\columnwidth]{src/imgs/relationships_problems}
+\par\end{centering}
+\caption{Relationship between Problems 1, 2, 3 and 4: Problem 4 and Problem
+3 have the same objective function, but the feasible set of Problem
+4 is contained in the feasible set of Problem 3, and therefore $f_{3}^{*}\le f_{4}^{*}$.
+Both Problem 3 and 4 generate a (potentially locally) optimal solution
+$\boldsymbol{A}^{*}$, which can be applied to any polynomial curve
+to find the simplex in Problem 1, or to any simplex to find the polynomial
+curve in Problem 2. \label{fig:relationships_problems}}
+
+\vskip-2ex
+\end{figure}
 
 \vspace{0.2cm}
 
 
 \section{Results}
 
-The optimization problems above have been solved using the nonconvex
+The optimization Problems 2 and 3 have been solved using the nonconvex
 solvers IPOPT \cite{wachter2006implementation} and Knitro \cite{byrd2006k,byrd1999interior}
-solvers (for Problem 3), the fmincon nonconvex solver \cite{matlabOptToolbox}
+(for Problem 3), the fmincon nonconvex solver \cite{matlabOptToolbox}
 (for Problem 4), and the Yalmip \cite{Lofberg2004} interface. 
 
-We were able to find local minima for Problem 4 for $n=1,2,3,4,5,6,7$.
-For Problem 3, local minima were found for $n=1,2,3$ (the problem
-becomes intractable for higher $n$), and they were the same local
-minima as the ones in Problem 4. The optimal matrices $\boldsymbol{A}$
-found are shown in Table \ref{tab:table_matrices}. Note that any
-permutation in the rows of A will also be a minimizer (since only
-the sign of the determinant is affected).
+We were able to find local minima for Problem 4 for $n=1,2,3,4,5,6,7$,
+and the same local minima were found in Problem 3 for $n=1,2,3,4$
+(Problem 3 becomes intractable for higher $n$). The optimal matrices
+$\boldsymbol{A}$ found are shown in Table \ref{tab:table_matrices}.
+Note that any permutation in the rows of A will also be a minimizer
+(since only the sign of the determinant is affected).
 
 The corresponding plots of the basis functions are shown in Fig. \ref{fig:minvo_and_bernstein},
 together with the Bernstein basis and the Lagrange basis for comparison. 
@@ -658,14 +753,19 @@ problems. Therefore, we can make use of Lasserre's moment method \cite{lasserre2
 and increase the order of the moment relaxation to find tighter lower
 bounds of the original nonconvex polynomial optimization problem.
 Using this technique, we were able to obtain the same objective value
-for $n=1,2,3,4,????$ (in Problem 4), and for $n=1$ (in Problem 3). 
+(proving therefore global optimality) for $n=1,2,3,4$ (in Problem
+4), and for $n=1$ (in Problem 3). 
 
-This results lead us to the following conclusions (also summarized
+These results lead us to the following conclusions (also summarized
 in Table \ref{tab:table_matrices}):
 \begin{itemize}
-\item The solution $n=1$ found is a global minimizer of Problem 3 and 4.
-\item The solutions $n=2$ and $n=3$ are global minimizers for Problem
-4, and at least local minimizers for Problem 3.
+\item The matrix $\boldsymbol{A}$ found for $n=1$ is a global minimizer
+of both Problem 3 and Problem 4.
+\item The matrices $\boldsymbol{A}$ found for $n=2,3,4$ are global minimizers
+for Problem 4, and at least local minimizers for Problem 3.
+\item The matrices $\boldsymbol{A}$ found for $n=5,6,7$ are at least local
+minimizers for Problem 4, and are at least feasible solutions for
+Problem 3.
 \end{itemize}
 In Table \ref{tab:table_matrices}, it is also shown the ratio 
 
@@ -747,12 +847,11 @@ obtained using the Bernstein basis. \label{fig:comparison3d_simplex_given}}
 \begin{centering}
 \includegraphics[width=0.8\columnwidth]{src/imgs/comparison2d}
 \par\end{centering}
-\caption{Change 1)these are the guesses from GPOPS!!! The MINVO (left) is guaranteed
-to be the smallest (irregular) triangle that encloses the $2^{nd}$-order
-polynomial curve in red. On the right, the simplex found using the
-Bezier Basis. The ratio between the two volumes is guaranteed to be
-$\frac{V_{MINVO}}{V_{Berns}}\approx0.7697$\label{fig:comparison2d}
-for any $2^{nd}$-order polynomial curve.}
+\caption{Comparison between the MINVO basis and the Bernstein basis for $n=2$.
+The simplex found using the MINVO basis (left) encloses the $2^{nd}$-order
+polynomial curve in red, and, for any $2^{nd}$-order polynomial curve,
+the MINVO basis generates a simplex that is $\approx1.3$ times smaller
+that the one found using the Bernstein basis (right). \label{fig:comparison2d}}
 
 \vskip-2ex
 \end{figure}
@@ -763,7 +862,7 @@ for any $2^{nd}$-order polynomial curve.}
 
 \begin{table*}
 \begin{centering}
-\begin{tabular}{|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|>{\columncolor{problem3_color}\centering}c|>{\columncolor{problem4_color}\centering}c|}
 \hline 
 \textbf{\hspace{0.1cm}$\boldsymbol{n}$ } & $\boldsymbol{A}$ & $abs\left(\left|\boldsymbol{A}\right|\right)$ & $\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}$ & \textbf{Problem 3} & \textbf{Problem 4}\tabularnewline
 \hline 
@@ -773,11 +872,11 @@ $1$ & {\scriptsize{}$\frac{1}{2}\left[\begin{array}{cc}
 1 & 1
 \end{array}\right]$} & $\frac{1}{2}=0.5$ & $=1$ & Global Opt. & Global Opt.\tabularnewline
 \hline 
-$2$ & {\scriptsize{}$\left[\begin{array}{ccc}
-0.375 & -\frac{\sqrt{3}}{4} & 0.125\\
-0.75 & 0 & 0.75\\
-0.375 & \frac{\sqrt{3}}{4} & 0.125
-\end{array}\right]$} & $\approx0.3247$ & $\approx0.7697$ & $\begin{array}{c}
+$2$ & {\scriptsize{}$\frac{1}{8}\left[\begin{array}{ccc}
+3 & -2\sqrt{3} & 1\\
+-6 & 0 & 6\\
+3 & 2\sqrt{3} & 1
+\end{array}\right]$} & $\frac{3\sqrt{3}}{16}\approx0.3248$ & $\approx0.7697$ & $\begin{array}{c}
 \text{Local Opt.}\\
 \text{(at least)}
 \end{array}$ & Global Opt.\tabularnewline
@@ -874,7 +973,10 @@ of the polynomial curve given (in Problem 1), or of the simplex given
 \begin{centering}
 \includegraphics[width=1\textwidth]{src/imgs/plots_basis}
 \par\end{centering}
-\caption{Comparison between the MINVO, Lagrange and Bernstein basis. \label{fig:minvo_and_bernstein}}
+\caption{Comparison between the MINVO, Lagrange and Bernstein basis for $n=1,2,3,4,5,6,7$.
+All these basis satisfy $\sum_{i=0}^{i=n}\lambda_{i}(t)=1$, and the
+MINVO and Bernstein basis also satisfy $\lambda_{i}(t)\ge0\;\forall t\in[-1,1]$
+\label{fig:minvo_and_bernstein}}
 
 \vskip-2ex
 \end{figure*}

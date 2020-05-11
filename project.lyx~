@@ -10,7 +10,7 @@
 
 \usepackage[T1]{fontenc}
 
-\usepackage{hyperref}
+
 
 \usepackage{courier}
 \usepackage{array}
@@ -87,6 +87,14 @@ commentstyle=\itshape\color{deepgreen},
 frame=tb,                         % Any extra options here
 showstringspaces=false            % 
 }
+
+
+%https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
+%\usepackage{hyperref}
+%\hypersetup{
+%    colorlinks = false,
+%    linkbordercolor = {white}
+%}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false
@@ -186,7 +194,7 @@ End
 \begin_body
 
 \begin_layout Title
-MINVO Basis: Finding Simpleces with Minimum Volume Enclosing Polynomial
+MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial
  Curves
 \end_layout
 
@@ -221,11 +229,11 @@ status open
 
 \begin_layout Plain Layout
 
-
+ 
 \backslash
 
 \backslash
- 18.0651 Final Project  	
+18.0651 Final Project  	
 \end_layout
 
 \end_inset
@@ -276,7 +284,7 @@ Applications such as computer graphics rendering, path planning for robotics
 \end_inset
 
 -simplex that encloses a given polynomial curve.
- Probably Bezier curves (which use the Bernstein basis) are the most common
+ Probably Bézier curves (which use the Bernstein basis) are the most common
  choice for this, since it is guaranteed that the curve is contained inside
  the convex hull of its control points.
  However, it is known that this convex hull is not the one with smallest
@@ -326,14 +334,46 @@ Introduction
 \end_layout
 
 \begin_layout Standard
+Bézier curves are extensively used in many different applications, which
+ include computer aided design (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dimas19993d,de1999visualization,autodeskInventor,autodeskAutocad,autodeskMaya"
+literal "false"
+
+\end_inset
+
+), simulations and animations (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bargteil2014animation,roth1998bernstein"
+literal "false"
+
+\end_inset
+
+) and robotics (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "park1995zier,faraway2007modelling,vskrjanc2010optimal,jolly2009bezier,tordesillas2019faster,preiss2017trajectory,sahingoz2014generation"
+literal "false"
+
+\end_inset
+
+), just to mention some.
+ Many of these applications, specially those that need to check the intersection
+ between two objects, make use of the convex hull property of the Bézier
+ curves.
+ This property allows to use the control points, instead of 
+\end_layout
+
+\begin_layout Standard
 The ability to approximate the space occupied by a given polynomial curve
- with a polyhedra is crucial for many applications.
- This and is the one that enables real-time processing .
- For intance, in the path planning community, a sequence of overlapping
- polyhedra is usually generated in the free space, and then the constraint
- of the trajectory being in free space can be easily enforced by imposing
- that the control points of the associated Bezier curve or B-Spline are
- inside those polyhedra (see 
+ with a polyhedron is crucial for many of these applications, specially
+ those that need to check the intersection between two objects in real time.
+ For instance, many path planning algorithms that use Bézier curves can
+ easily ensure safety by ensuring the control points of the trajectory are
+ inside the sequence of overlapping polyhedra that define the free space
+ (see 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "tordesillas2019faster,preiss2017trajectory,sahingoz2014generation"
@@ -342,8 +382,12 @@ literal "false"
 \end_inset
 
  for instance).
- This allows to obtain impose a finite number of convex contraints, instead
- of continuous constraints of the form 
+ This allows to obtain impose a finite number of convex constraints (of
+ the form 
+\begin_inset Formula $c(x)\le0$
+\end_inset
+
+), instead of infinite constraints of the form 
 \begin_inset Formula $c(x,t)\le0\;\forall t$
 \end_inset
 
@@ -352,14 +396,115 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
+The basis for the Bézier curves are the Bernstein polynomials, but, while
+ they have some other useful properties, they are not designed to minimize
+ the volume of the simplex that encloses a given interval of the curve.
+ This directly translates into a great conservatism in many of the applications
+ mentioned above.
+ The goal of this project is to derive a polynomial basis that can be used
+ to generate the simplex with minimum volume that encloses a polynomial
+ curve.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+This and is the one that enables real-time processing .
+ 
+\end_layout
+
+\begin_layout Plain Layout
+imposing linear separability between the convex hull of its control points
+ and an obstacle.
+ , a sequence of overlapping polyhedra is usually generated in the free
+ space, and then the constraint of the trajectory being in free space can
+ be easily enforced by imposing that the control points of the associated
+ Bezier curve or B-Spline are inside those polyhedra
+\end_layout
+
+\begin_layout Plain Layout
+Explicar convex hull algorithms?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+, such as clipping methods, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "efremov2005robust,sederberg1990curve,schulz2009bezier"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The contributions of this project are summarized as follows:
 \end_layout
 
 \begin_layout Itemize
-wef
+Formulation of the optimization problem that solves, without loss of generality,
+ for the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex that encloses a given polynomial curve.
+ Global optima for 
+\begin_inset Formula $n=1$
+\end_inset
+
+ is obtained using moment relaxations and semidefinite programming.
+ Local optima for 
+\begin_inset Formula $n=2,3,4$
+\end_inset
+
+ and feasible solutions for 
+\begin_inset Formula $n=5,6,7$
+\end_inset
+
+ are also obtained.
+ 
 \end_layout
 
 \begin_layout Itemize
+A more tractable formulation that imposes a specific structure in the polynomial
+s.
+ For this formulation, global optima are obtained for 
+\begin_inset Formula $n=1,2,3$
+\end_inset
+
+ using also moment relaxations and semidefinite programming.
+ Local optima are also obtained for 
+\begin_inset Formula $4,5,6,7$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Global optimality proof for some 
 \begin_inset Formula $n$
 \end_inset
@@ -368,104 +513,9 @@ Global optimality proof for some
  
 \end_layout
 
-\begin_layout Section
-Related work
-\end_layout
-
-\begin_layout Standard
-Bezier has many applications such as...
- Many of these applications make use of the convex hull property to ...
-\end_layout
-
-\begin_layout Standard
-Probably the paper most related to the problem this project is trying to
- solve is 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "herron1989polynomial"
-literal "false"
-
 \end_inset
 
-.
- In that work, the authors imposed a ad-hoc form for the polynomials that
- form the basis, and then solved the optimization problem over the roots
- of those polynomials.
- They were able to find a local minimum (for that specific form of the polynomia
-ls) for 
-\begin_inset Formula $n=2$
-\end_inset
 
- and 
-\begin_inset Formula $n=3$
-\end_inset
-
-.
- These project goes further, and tries to find global optimal solutions
- over all possible polynomials, and for higher degrees 
-\begin_inset Formula $n$
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-A similar problem has also been studied in the hyperspectral unmixing of
- the remote sensing community, which consists of trying to find, in a given
- image pixel, the proportions (or abundances) of each macroscopic materials
- (endmembers) contained in that pixel 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "uezato2019hyperspectral"
-literal "false"
-
-\end_inset
-
-.
- One way to address this problem is to find the simplex with minimum volume
- that encloses a set of points (see 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hendrix2013minimum"
-literal "false"
-
-\end_inset
-
- for instance).
- However, the fact of dealing with many data points, and not necessarily
- distributed along a polynomial curve, leads to these works to generate
- different iterative algorithms to solve it (see 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "rogge2006iterative,iordache2009unmixing,velez2003iterative"
-literal "false"
-
-\end_inset
-
- for instance).
- 
-\end_layout
-
-\begin_layout Standard
-Explicar convex hull algorithms?
-\end_layout
-
-\begin_layout Standard
-Other related works are 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kanazawa2014minimal"
-literal "false"
-
-\end_inset
-
-, that gives a bound for the volume of the smallest 
-\begin_inset Formula $n$
-\end_inset
-
--simplex that encloses a given convex body.
- 
 \end_layout
 
 \begin_layout Standard
@@ -542,6 +592,108 @@ vskip-2ex
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Related work
+\end_layout
+
+\begin_layout Standard
+A work that attempted to solve exactly the same problem proposed in this
+ was the work by Gary Herron.
+ In this work, the author imposed a specific structure in the form for the
+ polynomials of the basis, and then solved the associated nonconvex optimization
+ problem over the roots of those polynomials.
+ For this specific form of the polynomials, a global minimizer was found
+ for 
+\begin_inset Formula $n=2$
+\end_inset
+
+, and local minimizer was found for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, but no global optimality was proven for this.
+ These project goes further, and it first proposes the most general formulation
+ that does not encode a specific structure of the form of the polynomials,
+ proving global and local optimality for some 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ Then, by imposing a structure in the polynomials, this project is able
+ to find local minimizers for 
+\begin_inset Formula $n=1,2,3,4,5,6,7$
+\end_inset
+
+, proving its global optimality for 
+\begin_inset Formula $n=1,2,3$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A similar problem has also been studied in the hyperspectral unmixing of
+ the remote sensing community, which consists of trying to find, in a given
+ image pixel, the proportions (or abundances) of each macroscopic materials
+ (endmembers) contained in that pixel 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "uezato2019hyperspectral"
+literal "false"
+
+\end_inset
+
+.
+ One way to address this problem is to find the simplex with minimum volume
+ that encloses a set of points (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hendrix2013minimum"
+literal "false"
+
+\end_inset
+
+ for instance).
+ However, the fact of dealing with many data points, and not necessarily
+ distributed along a polynomial curve, leads to these works to generate
+ different iterative algorithms to solve it (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "rogge2006iterative,iordache2009unmixing,velez2003iterative"
+literal "false"
+
+\end_inset
+
+ for instance).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Other related works are 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kanazawa2014minimal"
+literal "false"
+
+\end_inset
+
+, that gives a bound for the volume of the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex that encloses a given convex body.
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Section
@@ -1145,7 +1297,6 @@ matrix of vertexes
  standard simplex
 \series default
 .
- 
 \end_layout
 
 \end_inset
@@ -1226,11 +1377,11 @@ p_{k-1}(t)
 \end_inset
 
 th order polyomial curve.
- The elements of 
+ The matrix 
 \begin_inset Formula $\boldsymbol{P}$
 \end_inset
 
- are the coefficient of the polynomials, and will be denoted as 
+ is the coefficient matrix, and will be denoted as 
 \begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
 \boldsymbol{c}_{0}^{T}\\
 \vdots\\
@@ -1247,13 +1398,6 @@ th order polyomial curve.
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset VSpace 0.2cm
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Problem definition
 \end_layout
@@ -1261,6 +1405,13 @@ Problem definition
 \begin_layout Standard
 As discussed in the introduction, the goal of this project is to investigate
  the following optimization problem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1488,7 +1639,93 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_layout
 
 \begin_layout Standard
-As will be proven later in the report, problem 1 is closely connected this
+Note that another way to interpret problem 1 is using the convex hull of
+ the curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+: the solution of problem 1 will give the smallest simplex that completely
+ contains the convex hull of the polynomial curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ (see Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison_convex_hull"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison_convex_hull.png
+	lyxscale 10
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The smallest simplex that encloses a polynomial curve (shown in red) is
+ also the smallest one that completely contains its convex hull (shown in
+ blue).
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:comparison_convex_hull"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As will be proven later in the report, Problem 1 is closely connected this
  other optimization problem:
 \end_layout
 
@@ -1543,10 +1780,10 @@ Problem 2:
 \end_inset
 
 , find the 
-\begin_inset Formula $n-$
+\begin_inset Formula $n$
 \end_inset
 
-th order polyomial curve 
+-th order polynomial curve 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
@@ -1761,10 +1998,6 @@ The geometric interpretation of each
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
- for 
-\begin_inset Formula $n=3$
-\end_inset
-
  is as follows.
  First note that
 \end_layout
@@ -1772,7 +2005,7 @@ The geometric interpretation of each
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{p}(t)=\sum_{i=0}^{3}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{3}+\sum_{i=0}^{2}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{4}\right)
+\boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{n}+\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)
 \]
 
 \end_inset
@@ -1785,7 +2018,7 @@ Defining now
 \begin_inset Formula $\boldsymbol{n}$
 \end_inset
 
- as the normal vector to the plane 
+ as the normal vector to the hyperplane 
 \begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
@@ -1797,8 +2030,8 @@ Defining now
 \begin_inset Formula $\boldsymbol{v}_{2}$
 \end_inset
 
-,
-\begin_inset Formula $\boldsymbol{v}_{3}$
+,...,
+\begin_inset Formula $\boldsymbol{v}_{n-1}$
 \end_inset
 
 , and with 
@@ -1806,13 +2039,13 @@ Defining now
 \end_inset
 
  (i.e.
- pointing towards the interior of the tetrahedron), we have that: 
+ pointing towards the interior of the simplex), we have that: 
 \begin_inset Formula 
 \[
 \begin{array}{c}
-dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{3}\right)\cdot\boldsymbol{n}=\\
+dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\\
 \\
-=\sum_{i=0}^{2}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{3}\right)\cdot\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)
+=\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)
 \end{array}
 \]
 
@@ -1837,16 +2070,8 @@ And therefore:
 \end_layout
 
 \begin_layout Standard
-And a similar reasoning applies for 
-\begin_inset Formula $\lambda_{2}(t)$
-\end_inset
-
-, 
-\begin_inset Formula $\lambda_{3}(t)$
-\end_inset
-
- and 
-\begin_inset Formula $\lambda_{3}(t)$
+A similar reasoning applies for the other 
+\begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
 .
@@ -1854,12 +2079,20 @@ And a similar reasoning applies for
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
- represents the ratio between the distance of the curve to a plane 
-\begin_inset Formula $i$
+ represents the ratio between the distance of the curve to the plane 
+\begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
- and the distance from the opposite vertex to that plane 
-\begin_inset Formula $i$
+ (formed by the points 
+\begin_inset Formula $\boldsymbol{v}_{j}\;,j\neq i$
+\end_inset
+
+) and the distance from 
+\begin_inset Formula $\boldsymbol{v}_{i}$
+\end_inset
+
+ to that plane 
+\begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
  (see Fig.
@@ -1871,6 +2104,10 @@ plural "false"
 caps "false"
 noprefix "false"
 
+\end_inset
+
+ for the case 
+\begin_inset Formula $n=3$
 \end_inset
 
 ).
@@ -2017,11 +2254,11 @@ where in the last step we have used the fact that everything inside the
 
 .
  Therefore, we conclude that 
-\begin_inset Formula $f_{1}\propto abs\left(\frac{1}{|\boldsymbol{A}|}\right)$
+\begin_inset Formula $f_{1}\propto\frac{1}{abs\left(|\boldsymbol{A}|\right)}$
 \end_inset
 
 .
- We can hence maximize 
+ We can therefore maximize 
 \begin_inset Formula $abs(\left|\boldsymbol{A}\right|)$
 \end_inset
 
@@ -2171,20 +2408,8 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-The relationship between the three problems is given in Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:relationships_problems"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- Note that Problem 3 is nonconvex, since the objective function is the determina
-nt of a non-symmetric matrix.
+Note that Problem 3 is nonconvex, since the objective function is the determinan
+t of a non-symmetric matrix.
  
 \end_layout
 
@@ -2499,23 +2724,6 @@ Cuidado que n/2 esta incluido o no si n/2 es odd o even
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\left.\begin{aligned}\lambda_{i}(t)= & -b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{2}}{\prod}(t-t_{j})^{2}\quad i\in\mathcal{I}_{b}\\
-\lambda_{i}(t)= & b_{i}\stackrel[j=1]{\frac{n}{2}}{\prod}(t-t_{j})^{2}\quad i\in\mathcal{I}_{b}\\
-\lambda_{j}(t)= & \lambda_{n-i+1}(-t)\qquad i=\frac{n}{2}+1,...,n\\
-b_{i}\ge0\;\; & \qquad\qquad\qquad\;\;\;\;i\le\frac{n}{2}\\
-\sum_{i=0}^{i=n}\lambda_{i}(t)= & 1
-\end{aligned}
-\right.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
 \begin{array}{c}
 \lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{2}}{\prod}(t-t_{j})^{2}\quad i\in\mathcal{I}_{a}\\
 \lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{2}}{\prod}(t-t_{j})^{2}\quad\quad\quad i\in\mathcal{I}_{b}\\
@@ -2632,7 +2840,46 @@ noprefix "false"
 \end_inset
 
 .
- 
+ First note that the structure imposed for the 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ in Problem 4 guarantees that they are nonnegative for 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+.
+ Hence the feasible set of Problem 4 is contained in the feasible set of
+ Problem 3 or, in other words, any feasible solution of Problem 4 is feasible
+ for Problem 3 (the converse is not true in general).
+ Therefore, 
+\begin_inset Formula $f_{3}^{*}\le f_{4}^{*}$
+\end_inset
+
+ holds.
+ The matrix 
+\begin_inset Formula $\boldsymbol{A}^{*}$
+\end_inset
+
+ found in Problem 3 or 4 can be used to find the vertexes of the simplex
+ in Problem 1 (by simply using 
+\begin_inset Formula $\boldsymbol{V}^{*}=\boldsymbol{P}\left(\boldsymbol{A}^{*}\right)^{-1}$
+\end_inset
+
+ where 
+\begin_inset Formula $\boldsymbol{P}$
+\end_inset
+
+ is the coefficient matrix of the polynomial given), or to find the polynomial
+ matrix in Problem 2 (by using 
+\begin_inset Formula $\boldsymbol{P}^{*}=\boldsymbol{V}\boldsymbol{A}^{*}$
+\end_inset
+
+, where 
+\begin_inset Formula $\boldsymbol{V}$
+\end_inset
+
+ contains the vertexes of the simplex given).
 \end_layout
 
 \begin_layout Standard
@@ -2719,7 +2966,7 @@ Results
 \end_layout
 
 \begin_layout Standard
-The optimization problems above have been solved using the nonconvex solvers
+The optimization Problems 2 and 3 have been solved using the nonconvex solvers
  IPOPT 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -2736,7 +2983,7 @@ literal "false"
 
 \end_inset
 
- solvers (for Problem 3), the fmincon nonconvex solver 
+ (for Problem 3), the fmincon nonconvex solver 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "matlabOptToolbox"
@@ -2761,16 +3008,15 @@ We were able to find local minima for Problem 4 for
 \begin_inset Formula $n=1,2,3,4,5,6,7$
 \end_inset
 
-.
- For Problem 3, local minima were found for 
-\begin_inset Formula $n=1,2,3$
+, and the same local minima were found in Problem 3 for 
+\begin_inset Formula $n=1,2,3,4$
 \end_inset
 
- (the problem becomes intractable for higher 
+ (Problem 3 becomes intractable for higher 
 \begin_inset Formula $n$
 \end_inset
 
-), and they were the same local minima as the ones in Problem 4.
+).
  The optimal matrices 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
@@ -2821,9 +3067,9 @@ literal "false"
 
 , and increase the order of the moment relaxation to find tighter lower
  bounds of the original nonconvex polynomial optimization problem.
- Using this technique, we were able to obtain the same objective value for
- 
-\begin_inset Formula $n=1,2,3,4,????$
+ Using this technique, we were able to obtain the same objective value (proving
+ therefore global optimality) for 
+\begin_inset Formula $n=1,2,3,4$
 \end_inset
 
  (in Problem 4), and for 
@@ -2835,7 +3081,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-This results lead us to the following conclusions (also summarized in Table
+These results lead us to the following conclusions (also summarized in Table
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2850,24 +3096,41 @@ noprefix "false"
 \end_layout
 
 \begin_layout Itemize
-The solution 
+The matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ found for 
 \begin_inset Formula $n=1$
 \end_inset
 
- found is a global minimizer of Problem 3 and 4.
+ is a global minimizer of both Problem 3 and Problem 4.
 \end_layout
 
 \begin_layout Itemize
-The solutions 
-\begin_inset Formula $n=2$
+The matrices 
+\begin_inset Formula $\boldsymbol{A}$
 \end_inset
 
- and 
-\begin_inset Formula $n=3$
+ found for 
+\begin_inset Formula $n=2,3,4$
 \end_inset
 
  are global minimizers for Problem 4, and at least local minimizers for
  Problem 3.
+\end_layout
+
+\begin_layout Itemize
+The matrices 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ found for 
+\begin_inset Formula $n=5,6,7$
+\end_inset
+
+ are at least local minimizers for Problem 4, and are at least feasible
+ solutions for Problem 3.
 \end_layout
 
 \begin_layout Standard
@@ -2896,20 +3159,6 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula 
-\[
-\left.\begin{aligned}\Phi(z) & =-\frac{{\rm 1}}{{\rm 2\pi}{i}}\int_{-\infty}^{+\infty}\frac{N-iT}{x-z}dx,\\
-{\rm \Psi}(z) & =-\frac{{\rm 1}}{{\rm 2\pi}{i}}\int_{-\infty}^{+\infty}\frac{N+iT}{x-z}dx-{\rm \Phi}(z)-z{\rm \Phi}^{'}(z),
-\end{aligned}
-\right.
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 , where 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
@@ -2926,345 +3175,6 @@ noprefix "false"
 Let us know analyze the meaning of these results in both for the Problems
  1 and 2.
  
-\end_layout
-
-\begin_layout Subsection
-From the point of view of Problem 1
-\end_layout
-
-\begin_layout Standard
-Problem 1 attempts to find the simplex with smallest volume the encloses
- a given polynomial curve.
- In Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison2d"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- it is shown the simplex found for 
-\begin_inset Formula $n=2$
-\end_inset
-
-, and in Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:Comparison3d"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- and for 
-\begin_inset Formula $n=3$
-\end_inset
-
-.
- The simplex found using the Bernstein basis is also shown for comparison.
- Let 
-\begin_inset Formula $S$
-\end_inset
-
- and 
-\begin_inset Formula $S_{B}$
-\end_inset
-
- denote the simpleces that the MINVO and Bernstein basis generate respectively,
- we have that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{vol\left(S\right)}{vol\left(S_{B}\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This means, for instance, that for 
-\begin_inset Formula $n=3$
-\end_inset
-
-, the MINVO basis finds a simplex that is 
-\begin_inset Formula $\approx2.36$
-\end_inset
-
- smaller than the one the Bernstein basis finds.
- For 
-\begin_inset Formula $n=7$
-\end_inset
-
-, the MINVO basis is able to obtain a simplex that is 
-\begin_inset Formula $\approx903$
-\end_inset
-
- times
-\series bold
- 
-\series default
-smaller than the one achieved using the Bernstein basis.
- 
-\end_layout
-
-\begin_layout Subsection
-From the point of view of Problem 2
-\end_layout
-
-\begin_layout Standard
-In problem 2, the 
-\begin_inset Formula $n$
-\end_inset
-
--simplex 
-\begin_inset Formula $S$
-\end_inset
-
- is given, and we obtain the polynomial curve that is contained in 
-\begin_inset Formula $S$
-\end_inset
-
-, whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
-\end_inset
-
- span a parallelogram with largest volume.
- The results for a regular triangle and a tetrahedron (
-\begin_inset Formula $n=2$
-\end_inset
-
- and 
-\begin_inset Formula $n=3$
-\end_inset
-
-) are shown in Figs.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison2d_simplex_given"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison3d_simplex_given"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- respectively).
- Similar to the previous case, let 
-\begin_inset Formula $P$
-\end_inset
-
- and 
-\begin_inset Formula $P_{B}$
-\end_inset
-
- denote the parallelograms that the MINVO and Bernstein basis generate respectiv
-ely, we have that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{vol\left(P_{B}\right)}{vol\left(P\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-which means that, for 
-\begin_inset Formula $n=3$
-\end_inset
-
-, the MINVO basis finds a parallelogram 
-\begin_inset Formula $\approx2.36$
-\end_inset
-
- times bigger than the Bernstein basis (
-\begin_inset Formula $\approx903$
-\end_inset
-
- times bigger for 
-\begin_inset Formula $n=7$
-\end_inset
-
-).
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-As we can see from the figures, the polynomial generated by the MINVO basis
- occupies much more space than the one generated using the Bernstein polynomial.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison2d_simplex_given.pdf
-	lyxscale 130
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Optimal solution for Problem 2 with 
-\begin_inset Formula $n=2$
-\end_inset
-
-.
- The triangle is given, and the red polynomial curve using the MINVO basis
- is the one whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
-\end_inset
-
- span a rectangle with largest area, while being contained in the triangle.
- On the right, the curve obtained using the Bernstein basis.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:comparison2d_simplex_given"
-
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison3d_simplex_given.pdf
-	lyxscale 130
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Optimal solution for Problem 2 with 
-\begin_inset Formula $n=3$
-\end_inset
-
-.
- The tetrahedron is given, and the red polynomial curve using the MINVO
- basis is the curve inside the tetrahedron whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{3},\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
-\end_inset
-
- span a paralellogram with largest volume.
- On the right, the curve obtained using the Bernstein basis.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:comparison3d_simplex_given"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -3344,61 +3254,6 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-The matrices found are given in the table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:table_matrices"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-.
- The results for 
-\begin_inset Formula $n=3$
-\end_inset
-
- and 
-\begin_inset Formula $n=4$
-\end_inset
-
- for the MINVO basis are given up to 3 significant digits.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-See
-\end_layout
-
-\begin_layout Plain Layout
-https://tex.stackexchange.com/questions/232080/how-to-change-add-column-background
--colors-in-lyx-i-can-easily-change-add-color/232082
-\end_layout
-
-\begin_layout Plain Layout
-to how to change the color of a column in Lyx
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -3441,6 +3296,26 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent
+\backslash
+resizebox{
+\backslash
+textwidth}{!}{%
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="6">
@@ -3466,7 +3341,7 @@ status open
 \begin_inset Formula $\boldsymbol{n}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -3622,10 +3497,10 @@ Global Opt.
 \begin_layout Plain Layout
 
 \size scriptsize
-\begin_inset Formula $\left[\begin{array}{ccc}
-0.375 & -\frac{\sqrt{3}}{4} & 0.125\\
-0.75 & 0 & 0.75\\
-0.375 & \frac{\sqrt{3}}{4} & 0.125
+\begin_inset Formula $\frac{1}{8}\left[\begin{array}{ccc}
+3 & -2\sqrt{3} & 1\\
+-6 & 0 & 6\\
+3 & 2\sqrt{3} & 1
 \end{array}\right]$
 \end_inset
 
@@ -3638,7 +3513,7 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.3247$
+\begin_inset Formula $\frac{3\sqrt{3}}{16}\approx0.3248$
 \end_inset
 
 
@@ -4127,10 +4002,572 @@ Global Opt.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results for the MINVO basis.
+ 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ denotes the coefficient matrix of the MINVO basis 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(i.e.
+ each polynomial in the basis is given by the rows of 
+\begin_inset Formula $\boldsymbol{A}\boldsymbol{t}$
+\end_inset
+
+),
+\end_layout
+
+\end_inset
+
+ while 
+\begin_inset Formula $\boldsymbol{A}_{B}$
+\end_inset
+
+ represents the matrix of the Bernstein basis (
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+ for both).
+ The bigger the absolute value of the determinant, the smaller the associated
+ simplex (for Problem 1) and the smaller the parallelogram (for Problem
+ 3).
+ These matrices 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ are independent of the polynomial curve given (in Problem 1), or of the
+ simplex given (in Problem 2).
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:table_matrices"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide true
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/plots_basis.pdf
+	lyxscale 130
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between the MINVO, Lagrange and Bernstein basis for 
+\begin_inset Formula $n=1,2,3,4,5,6,7$
+\end_inset
+
+.
+ All these basis satisfy 
+\begin_inset Formula $\sum_{i=0}^{i=n}\lambda_{i}(t)=1$
+\end_inset
+
+, and the MINVO and Bernstein basis also satisfy 
+\begin_inset Formula $\lambda_{i}(t)\ge0\;\forall t\in[-1,1]$
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:minvo_and_bernstein"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From the point of view of Problem 1
+\end_layout
+
+\begin_layout Standard
+Problem 1 attempts to find the simplex with smallest volume the encloses
+ a given polynomial curve.
+ In Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison2d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ it is shown the simplex found for 
+\begin_inset Formula $n=2$
+\end_inset
+
+, and in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Comparison3d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and for 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ The simplex found using the Bernstein basis is also shown for comparison.
+ Let 
+\begin_inset Formula $S$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{B}$
+\end_inset
+
+ denote the simpleces that the MINVO and Bernstein basis generate respectively,
+ we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(S\right)}{vol\left(S_{B}\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means, for instance, that for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the MINVO basis finds a simplex that is 
+\begin_inset Formula $\approx2.36$
+\end_inset
+
+ smaller than the one the Bernstein basis finds.
+ For 
+\begin_inset Formula $n=7$
+\end_inset
+
+, the MINVO basis is able to obtain a simplex that is 
+\begin_inset Formula $\approx903$
+\end_inset
+
+ times
 \series bold
  
 \series default
+smaller than the one achieved using the Bernstein basis.
+ 
+\end_layout
 
+\begin_layout Subsection
+From the point of view of Problem 2
+\end_layout
+
+\begin_layout Standard
+In problem 2, the 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex 
+\begin_inset Formula $S$
+\end_inset
+
+ is given, and we obtain the polynomial curve that is contained in 
+\begin_inset Formula $S$
+\end_inset
+
+, whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
+\end_inset
+
+ span a parallelogram with largest volume.
+ The results for a regular triangle and a tetrahedron (
+\begin_inset Formula $n=2$
+\end_inset
+
+ and 
+\begin_inset Formula $n=3$
+\end_inset
+
+) are shown in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison2d_simplex_given"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison3d_simplex_given"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ respectively).
+ Similar to the previous case, let 
+\begin_inset Formula $P$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{B}$
+\end_inset
+
+ denote the parallelograms that the MINVO and Bernstein basis generate respectiv
+ely, we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{vol\left(P_{B}\right)}{vol\left(P\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which means that, for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the MINVO basis finds a parallelogram 
+\begin_inset Formula $\approx2.36$
+\end_inset
+
+ times bigger than the Bernstein basis (
+\begin_inset Formula $\approx903$
+\end_inset
+
+ times bigger for 
+\begin_inset Formula $n=7$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison3d_simplex_given.pdf
+	lyxscale 130
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Optimal solution for Problem 2 with 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ The tetrahedron is given, and the red polynomial curve using the MINVO
+ basis is the curve inside the tetrahedron whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{3},\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
+\end_inset
+
+ span a paralellogram with largest volume.
+ On the right, the curve obtained using the Bernstein basis.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:comparison3d_simplex_given"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+As we can see from the figures, the polynomial generated by the MINVO basis
+ occupies much more space than the one generated using the Bernstein polynomial.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+FloatBarrier
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Section
+Conclusions and Future Work
+\end_layout
+
+\begin_layout Standard
+This work derived and presented the MINVO basis.
+ The key features of this basis is that it finds the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex that encloses a given polynomial curve (Problem 1), and also finds
+ the polynomial curve that is inside a given simplex, and whose coefficient
+ vectors 
+\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
+\end_inset
+
+ generate a parallelogram with largest volume (Problem 2).
+ Global Optimality was also proven for some 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The exciting results of this project naturally lead to the following questions
+ and conjectures:
+\end_layout
+
+\begin_layout Itemize
+Is the global optimum of Problem 3 the same as the global optimum of Problem
+ 4? In other words, are we losing generality by imposing the specific structure
+ in 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+?.
+ The results seem to indicate that it is likely that no generality is lost.
+ 
+\end_layout
+
+\begin_layout Itemize
+Does there exist an analytical solution (i.e.
+ not numerical) for Problem 3 for any degree 
+\begin_inset Formula $n$
+\end_inset
+
+? 
+\end_layout
+
+\begin_layout Itemize
+Does there exist a recursivity formula to obtain the solution of problem
+ 3 for 
+\begin_inset Formula $n$
+\end_inset
+
+ given the previous solutions 
+\begin_inset Formula $1,...,n-1$
+\end_inset
+
+? Would this recursivity formula allow to easily prove global optimality
+ for all 
+\begin_inset Formula $n$
+\end_inset
+
+ of Problem 3?
+\end_layout
+
+\begin_layout Section
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+The author would like to thank Prof.
+ Gilbert Strang, Prof.
+ Jonathan How, Prof.
+ Johan Löfberg, Ashkan M.
+ Jasour, Kasra Khosoussi, Juan José Madrigal and Marc Adillón for helpul
+ insights and discussions.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "bibliography"
+options "bibtotoc,unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
 \begin_inset Note Note
 status open
 
@@ -4522,238 +4959,54 @@ BERNSTEIN
 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
-\end_layout
+The matrices found are given in the table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:table_matrices"
+plural "false"
+caps "false"
+noprefix "false"
 
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Results for the MINVO basis.
- 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- denotes the coefficient matrix of the MINVO basis (i.e.
- each polynomial in the basis is given by the rows of 
-\begin_inset Formula $\boldsymbol{A}\boldsymbol{t}$
-\end_inset
-
-), while 
-\begin_inset Formula $\boldsymbol{A}_{B}$
-\end_inset
-
- represents the matrix of the Bernstein basis (
-\begin_inset Formula $t\in[-1,1]$
-\end_inset
-
- for both).
- The bigger the absolute value of the determinant, the smaller the associated
- simplex (for Problem 1) and the smaller the parallelogram (for Problem
- 3).
- These matrices 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- are independent of the polynomial curve given (in Problem 1), or of the
- simplex given (in Problem 2).
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "tab:table_matrices"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide true
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/plots_basis.pdf
-	lyxscale 130
-	width 100text%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Comparison between the MINVO, Lagrange and Bernstein basis.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:minvo_and_bernstein"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\end_layout
-
-\begin_layout Section
-Conclusions and Future Work
-\end_layout
-
-\begin_layout Standard
-This work derived and presented the MINVO basis.
- The key features of this basis is that it finds the smallest 
-\begin_inset Formula $n$
-\end_inset
-
--simplex that encloses a given polynomial curve (Problem 1), and also finds
- the polynomial curve that is inside a given simplex, and whose coefficient
- vectors 
-\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
-\end_inset
-
- generate a parallelogram with largest volume (Problem 2).
- Global Optimality was also proven for some 
-\begin_inset Formula $n$
 \end_inset
 
 .
+ The results for 
+\begin_inset Formula $n=3$
+\end_inset
+
+ and 
+\begin_inset Formula $n=4$
+\end_inset
+
+ for the MINVO basis are given up to 3 significant digits.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-The exciting results of this project naturally lead to the following questions
- and conjectures:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+See
 \end_layout
 
-\begin_layout Itemize
-Is the global optimum of Problem 3 the same as the global optimum of Problem
- 4? In other words, are we losing generality by imposing the specific structure
- in 
-\begin_inset Formula $\lambda_{i}(t)$
-\end_inset
-
-?.
- The results seem to indicate that it is likely that no generality is lost.
- 
+\begin_layout Plain Layout
+https://tex.stackexchange.com/questions/232080/how-to-change-add-column-background
+-colors-in-lyx-i-can-easily-change-add-color/232082
 \end_layout
 
-\begin_layout Itemize
-Does there exist an analytical solution (i.e.
- not numerical) for Problem 3 for any degree 
-\begin_inset Formula $n$
-\end_inset
-
-? 
+\begin_layout Plain Layout
+to how to change the color of a column in Lyx
 \end_layout
-
-\begin_layout Itemize
-Does there exist a recursivity formula to obtain the solution of problem
- 3 for 
-\begin_inset Formula $n$
-\end_inset
-
- given the previous solutions 
-\begin_inset Formula $1,...,n-1$
-\end_inset
-
-? Would this recursivity formula allow to easily prove global optimality
- for all 
-\begin_inset Formula $n$
-\end_inset
-
- of Problem 3?
-\end_layout
-
-\begin_layout Section
-Acknowledgements
-\end_layout
-
-\begin_layout Standard
-The author would like to thank Prof.
- Gilbert Strang, Prof.
- Jonathan How, Prof.
- Johan Löfberg, Ashkan M.
- Jasour, Kasra Khosoussi, Juan José Madrigal and Marc Adillón for helpul
- insights and discussions.
- 
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset CommandInset bibtex
-LatexCommand bibtex
-btprint "btPrintCited"
-bibfiles "bibliography"
-options "bibtotoc,unsrt"
 
 \end_inset
 

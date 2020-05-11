@@ -1,5 +1,5 @@
 
-function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
+function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color,radius_sphere)
     cx=pol_x;
     cy=pol_y;
     cz=pol_z;
@@ -20,7 +20,7 @@ function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
 %     plot3(v4(1),v4(2),v4(3),'-o','Color',color,'MarkerSize',10)
 
     color_vertex=[.98 .45 .02];
-    radius=0.02;
+    radius=radius_sphere;
 s1=plotSphere(v1,radius, color_vertex);
 s2=plotSphere(v2,radius, color_vertex);
 s3=plotSphere(v3,radius, color_vertex);

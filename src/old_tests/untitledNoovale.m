@@ -1206,7 +1206,7 @@ scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blu
 
 
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
-% trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','FaceColor','cyan','EdgeColor','k')
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','FaceColor','cyan','EdgeColor','k')
 
 
 %  alpha 0.1

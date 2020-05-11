@@ -79,8 +79,7 @@ for degree=5:7 %TODO: Add 8
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
-   
-   
+      
 end
 
 
@@ -99,7 +98,7 @@ lgd.Position = [0.9,0.9,1,0.3].*lgd.Position;
 % set(sp_hand1, 'Position',new_pos1 ) % set new position of current sub - plot
 
 
-exportAsPdf(gcf,name_figure)
+% exportAsPdf(gcf,name_figure)
 
 
 
@@ -107,13 +106,13 @@ exportAsPdf(gcf,name_figure)
 %% RESULT for 2D for a given polynomial
 figure; hold on;
 set(gcf, 'Position',  [500, 500, 3000, 1000])
-subplot(1,2,1);hold on
+% subplot(1,2,1);hold on
 
 A=getSolutionA(2,"m11");
 
-v1=[0.1, 0.5];
-v2=[0.2  1.1];
-v3=[0.35,  0.1]; 
+v1=[0.1, 0.9];
+v2=[0.4  1.0];
+v3=[0,  0.35]; 
 
 
 vx=[v1(1)  v2(1)  v3(1)]';
@@ -128,13 +127,13 @@ ylim([0 2.0])
 pol_x=A'*vx;
 pol_y=A'*vy;
 
-plot(0,0,'*')
-fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
 
-subplot(1,2,2);hold on
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);hold on;
+
+pol_x=pol_x+[0 0 0.5]';
+
+% subplot(1,2,2);hold on
 A=computeMatrixForBezier(2,"m11");
-fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
-
 
 vx=inv(A')*pol_x;
 vy=inv(A')*pol_y;
@@ -148,16 +147,18 @@ V=[v1; v2; v3];
 fill(V(k,1),V(k,2),'b','LineWidth',1)
 alpha 0.2
 axis equal
-ylim([0 2.0])
-plot(0,0,'*')
 
-a1=subplot(1,2,1);
-a2=subplot(1,2,2);
-allYLim = get([a1 a2], {'YLim'});
-allYLim = cat(2, allYLim{:});
-set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
+xlim([-0.2 1.5])
 
-% exportAsSvg(gcf,'imgs/comparison2d')
+
+% a1=subplot(1,2,1);
+% a2=subplot(1,2,2);
+% allYLim = get([a1 a2], {'YLim'});
+% allYLim = cat(2, allYLim{:});
+% set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
+
+exportAsSvg(gcf,'imgs/comparison2d')
 
 %% RESULT for 2D for a given polynomial
 figure;
@@ -185,7 +186,7 @@ pol_z=A'*vz;
 
 P=[pol_x'; pol_y'; pol_z']
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(view1, view2)
 
@@ -197,7 +198,7 @@ subplot(1,2,2); hold on;
 
 A=computeMatrixForBezier(3,"m11");
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(view1, view2)
 
@@ -271,7 +272,7 @@ allYLim = get([a1 a2], {'YLim'});
 allYLim = cat(2, allYLim{:});
 set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
 
-exportAsSvg(gcf,'imgs/comparison2d_simplex_given')
+% exportAsSvg(gcf,'imgs/comparison2d_simplex_given')
 
 %% RESULT for 3D for a given simplex
 figure;
@@ -315,7 +316,7 @@ pol_z=A'*vz;
 
 P=[pol_x'; pol_y'; pol_z'];
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(view1, view2)
  axis equal;
@@ -337,7 +338,7 @@ pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(view1, view2)
 axis equal;
@@ -353,7 +354,7 @@ arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
-exportAsSvg(gcf,'imgs/comparison3d_simplex_given')
+% exportAsSvg(gcf,'imgs/comparison3d_simplex_given')
 
 %%
 %% GEOMETRIC INTERPRETATION OF LAMBDA_I
@@ -381,7 +382,7 @@ pol_z=A'*vz;
 
 P=[pol_x'; pol_y'; pol_z']
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(view1, view2)
  axis equal;
@@ -411,7 +412,7 @@ pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
 
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g');
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 view(100, 40)
 axis equal;
@@ -427,4 +428,50 @@ arrow3d([0 0 0],[0 0 1],10,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 1 0],10,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],10,'cylinder',[0.2,0.1]);
 
-exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
+% exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
+%%
+
+figure; hold on
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.015);
+poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+% centroid_curve=sum(samples_poly,2)/length(samples_t);
+% scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blue'); 
+% scatter3(samples_poly(1),samples_poly(2),samples_poly(3),405,'Filled','blue'); 
+
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+axis equal
+% aplha 0.3
+
+      camlight
+%      lighting gouraud
+     
+     lightangle(gca,45,0)
+%      lighting gouraud
+%      color_vector=jet;
+%      colormap([color_vector(:,1),color_vector(:,2),color_vector(:,3)])
+     colormap(winter)
+     caxis([0.2 0.7])
+      axis equal
+      axis off
+      
+      view(45, 5)
+      
+%       disp("Exporting to pdf, may take some time")
+%       exportAsPdf(gcf,'imgs/comparison_convex_hull')
+%       disp("Done!")
+
+% saveas(gcf,'imgs/comparison_convex_hull.eps')
+
+%        addpath('./utils/plot2svg/plot2svg')
+%        plot2svg("temperature_standard.svg");
+   
+
+%  printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
+     
+%  saveas(gcf,'imgs/comparison_convex_hull.png')
+ 
+ print(gcf,'imgs/comparison_convex_hull_matlab','-dpng','-r1000')
