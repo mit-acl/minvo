@@ -2,7 +2,7 @@ close all; clc; clear;
 
 global use_yalmip
 
-use_yalmip=true;
+use_yalmip=false;
 
 if (use_yalmip==true)
     sdpvar t
@@ -10,7 +10,7 @@ else
     syms t
 end
 
-deg=4;
+deg=6;
 n=deg;
 
 deg_is_even = (rem(deg, 2) == 0);
@@ -91,38 +91,21 @@ end
 %%
 %Get the coefficients
 coeffic=getCoeffInDecOrder(sum(W), t, deg);
-%%
-%Solve for the coefficients:
-% 
-% 
-% %Solve for the coefficients:
-% disp("Solving linear system")
-% solution=solve(coeffic==[zeros(1,deg) 1],B); %This is a linear system
-% 
-% disp("struct2array")
-% if(deg~=1)
-%     B_solved=(struct2array(solution)');
-%     B_solved=B_solved(:);
-% else
-%     B_solved=solution;
-% end
-% 
-% disp("Substituting")
-% W=subs(W,B,B_solved);
-
-disp("Creating the A matrix")
-%Create the A matrix:
-A=[];
-for i=1:length(W)
-    tmp=getCoeffInDecOrder(W(i),t,deg);
-    sdisplay(tmp)
-    A=[A; tmp];
-end
-
 
 
 %% Solve using yalmip
 if(use_yalmip==true)
+    
+    
+    disp("Creating the A matrix")
+    %Create the A matrix:
+    A=[];
+    for i=1:length(W)
+        tmp=getCoeffInDecOrder(W(i),t,deg);
+        sdisplay(tmp)
+        A=[A; tmp];
+    end
+    
     clear t
     constraints=[];
 
@@ -180,6 +163,30 @@ if(use_yalmip==true)
 else
 %% Solve using fmincon (GlobalSearch)
 
+    %Solve for the coefficients:
+    disp("Solving linear system")
+    solution=solve(coeffic==[zeros(1,deg) 1],B); %This is a linear system
+
+    disp("struct2array")
+    if(deg~=1)
+        B_solved=(struct2array(solution)');
+        B_solved=B_solved(:);
+    else
+        B_solved=solution;
+    end
+
+    disp("Substituting")
+    W=subs(W,B,B_solved);
+
+    disp("Creating the A matrix")
+    %Create the A matrix:
+    A=[];
+    for i=1:length(W)
+            tmp=getCoeffInDecOrder(W(i),t,deg);
+            sdisplay(tmp)
+            A=[A; tmp];
+    end
+
     disp("Computing the determinant")
     %Compute the determinant
     if(deg_is_even==0)
@@ -203,10 +210,10 @@ else
     ms = MultiStart('Display','iter','UseParallel',true);
 
     disp('Running, it usually takes some time until the parpool starts');
-    [xgs,~,~,~,solsgs] = run(ms,problem,2000); %8000
+    [xgs,~,~,~,solsgs] = run(ms,problem,3000); %8000
 
 
-    %% Recover solution
+    %%Recover solution
     B_solution=vpa(subs(B_solved,R,xgs));
     A_solution=double(vpa(subs(A,R,xgs)));
     det(A_solution)
@@ -227,7 +234,7 @@ else
         rootsA=[rootsA ; roots(A_solution(i,:))'];
     end
     rootsA=double(real(rootsA));
-    % save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
+    save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
 
 end
 

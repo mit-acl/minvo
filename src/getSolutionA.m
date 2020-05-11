@@ -33,7 +33,14 @@ elseif(degree==5)
     A=[tmp3; tmp4; tmp2; tmp5; tmp1; tmp6];
     % sol5.A=[tmp4; tmp1; tmp5; tmp3; tmp2; tmp6];
 elseif(degree==6)
-
+    tmp1=A(1,:);
+    tmp2=A(2,:);
+    tmp3=A(3,:);
+    tmp4=A(4,:);
+    tmp5=A(5,:);
+    tmp6=A(6,:);
+    tmp7=A(7,:);
+     A=[tmp4; tmp1; tmp6; tmp7; tmp5; tmp2; tmp3];
 elseif(degree==7)
     tmp1=A(1,:);
     tmp2=A(2,:);

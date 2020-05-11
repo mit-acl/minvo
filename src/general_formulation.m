@@ -3,7 +3,7 @@ set(0,'DefaultFigureWindowStyle','docked') %'normal'
 %Useful to plot the result: http://nurbscalculator.in/
 %READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
-deg=1;
+deg=5;
 deg_is_even = (rem(deg, 2) == 0);
 
 if(deg_is_even==1)
@@ -66,24 +66,32 @@ constraints=[constraints, sum_colums_A(end)==1];
 %obj=-computeDet(A); %This is needed when using fmincon (det(A,'polynomial') doesnt work) 
 obj=-det(A,'polynomial');
 
-A_bezier=computeMatrixForBezier(deg, "m11");
-   
-A_guess=A_bezier;
+constraints=[constraints];
 
-A_guess=getGuessA(deg,"m11");
+% A_bezier=computeMatrixForBezier(deg, "m11");  
+% A_guess=A_bezier;
+% A_guess=getGuessA(deg,"m11");
+% assign(A,A_guess);
 
-assign(A,A_guess);
+[W_tmp V_tmp]=findWVgivenA(getSolutionA(deg,"m11"));
+
+assign(W,W_tmp)
+assign(V,V_tmp)
+% assign(A,getSolutionA(deg,"m11"))
+
+check(constraints)
 
 clear t
 disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ipopt' 'knitro' 'scip'
 
-
-settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+% check(constraints)
+%%
+% settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
-% settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
-% result=optimize(constraints,obj,settings); 
-result=solvemoment(constraints,obj,[],4);
-%check(constraints)
+settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','knitro','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+result=optimize(constraints,obj,settings); 
+% result=solvemoment(constraints,obj,[],4);
+% check(constraints)
 
 A_minvo=value(A);
 
