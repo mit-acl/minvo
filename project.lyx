@@ -279,14 +279,14 @@ LatexCommand tableofcontents
 
 \begin_layout Abstract
 Applications such as computer graphics rendering, path planning for robotics
- and patch splitting algorithms greatly benefit from having an 
+ and finite element simulations greatly benefit from having an 
 \begin_inset Formula $n$
 \end_inset
 
 -simplex that encloses a given polynomial curve.
- Probably Bézier curves (which use the Bernstein basis) are the most common
- choice for this, since it is guaranteed that the curve is contained inside
- the convex hull of its control points.
+ Bézier curves (which use the Bernstein basis) are probably the most common
+ choice for this, since it is guaranteed that each interval of the curve
+ is contained inside the convex hull of its control points.
  However, it is known that this convex hull is not the one with smallest
  volume, causing therefore great conservatism in all the applications mentioned
  before.
@@ -300,7 +300,7 @@ Applications such as computer graphics rendering, path planning for robotics
 \begin_inset Formula $2.36$
 \end_inset
 
- times smaller for 
+ times smaller when 
 \begin_inset Formula $n=3$
 \end_inset
 
@@ -326,7 +326,8 @@ Supplementary material
 \end_layout
 
 \begin_layout Standard
-The MATLAB code used for this project has been attached in the submission.
+The MATLAB code used for this project has been attached in the submission.PONER
+ LINK!!!!!!!!!!!!!
 \end_layout
 
 \begin_layout Section
@@ -351,7 +352,7 @@ literal "false"
 
 \end_inset
 
-) and robotics (
+), and robotics (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "park1995zier,faraway2007modelling,vskrjanc2010optimal,jolly2009bezier,tordesillas2019faster,preiss2017trajectory,sahingoz2014generation"
@@ -360,19 +361,12 @@ literal "false"
 \end_inset
 
 ), just to mention some.
- Many of these applications, specially those that need to check the intersection
- between two objects, make use of the convex hull property of the Bézier
- curves.
- This property allows to use the control points, instead of 
-\end_layout
-
-\begin_layout Standard
-The ability to approximate the space occupied by a given polynomial curve
+ The ability to approximate the space occupied by a given polynomial curve
  with a polyhedron is crucial for many of these applications, specially
  those that need to check the intersection between two objects in real time.
  For instance, many path planning algorithms that use Bézier curves can
- easily ensure safety by ensuring the control points of the trajectory are
- inside the sequence of overlapping polyhedra that define the free space
+ easily ensure safety by ensuring that the control points of the trajectory
+ are inside the sequence of overlapping polyhedra that define the free space
  (see 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -382,26 +376,25 @@ literal "false"
 \end_inset
 
  for instance).
- This allows to obtain impose a finite number of convex constraints (of
- the form 
+ This allows to impose a finite number of constraints (of the form 
 \begin_inset Formula $c(x)\le0$
 \end_inset
 
-), instead of infinite constraints of the form 
+), instead of an infinite number of constraints (of the form 
 \begin_inset Formula $c(x,t)\le0\;\forall t$
 \end_inset
 
-.
+).
  
 \end_layout
 
 \begin_layout Standard
 The basis for the Bézier curves are the Bernstein polynomials, but, while
- they have some other useful properties, they are not designed to minimize
+ having some other useful properties, they are not designed to minimize
  the volume of the simplex that encloses a given interval of the curve.
- This directly translates into a great conservatism in many of the applications
- mentioned above.
- The goal of this project is to derive a polynomial basis that can be used
+ This directly translates into an unnecessary conservatism in many of the
+ applications mentioned above.
+ The goal of this project is to obtain a polynomial basis that can be used
  to generate the simplex with minimum volume that encloses a polynomial
  curve.
  
@@ -487,12 +480,12 @@ Formulation of the optimization problem that solves, without loss of generality,
 \begin_layout Itemize
 A more tractable formulation that imposes a specific structure in the polynomial
 s.
- For this formulation, global optima are obtained for 
+ With this formulation, global optima are obtained for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
- using also moment relaxations and semidefinite programming.
- Local optima are also obtained for 
+ (using also moment relaxations and semidefinite programming), and local
+ optima are obtained for 
 \begin_inset Formula $4,5,6,7$
 \end_inset
 
@@ -549,7 +542,8 @@ Comparison between the MINVO basis and the Bernstein basis for
 \begin_inset Formula $3^{rd}$
 \end_inset
 
--order polynomial curve in red, and, for any 
+-order polynomial curve in red.
+ For any 
 \begin_inset Formula $3^{rd}$
 \end_inset
 
@@ -600,7 +594,15 @@ Related work
 
 \begin_layout Standard
 A work that attempted to solve exactly the same problem proposed in this
- was the work by Gary Herron.
+ was the work by Gary Herron 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "herron1989polynomial"
+literal "false"
+
+\end_inset
+
+.
  In this work, the author imposed a specific structure in the form for the
  polynomials of the basis, and then solved the associated nonconvex optimization
  problem over the roots of those polynomials.
@@ -614,31 +616,31 @@ A work that attempted to solve exactly the same problem proposed in this
 \end_inset
 
 , but no global optimality was proven for this.
- These project goes further, and it first proposes the most general formulation
- that does not encode a specific structure of the form of the polynomials,
- proving global and local optimality for some 
+ These project goes further, and using SOS programming, it first proposes
+ the most general formulation that does not impose any specific structure
+ in the form of the polynomials (apart from being SOS), proving global and
+ local optimality for some 
 \begin_inset Formula $n$
 \end_inset
 
 .
  Then, by imposing a structure in the polynomials, this project is able
- to find local minimizers for 
-\begin_inset Formula $n=1,2,3,4,5,6,7$
-\end_inset
-
-, proving its global optimality for 
+ to find global optima for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
+ and local optima 
+\begin_inset Formula $n=4,5,6,7$
+\end_inset
+
 .
- 
 \end_layout
 
 \begin_layout Standard
-A similar problem has also been studied in the hyperspectral unmixing of
- the remote sensing community, which consists of trying to find, in a given
- image pixel, the proportions (or abundances) of each macroscopic materials
- (endmembers) contained in that pixel 
+A similar problem has also been studied in the hyperspectral unmixing problem
+ inside the remote sensing community, which consists of trying to find,
+ in a given image pixel, the proportions (or abundances) of each macroscopic
+ materials (endmembers) contained in that pixel 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "uezato2019hyperspectral"
@@ -658,8 +660,8 @@ literal "false"
 
  for instance).
  However, the fact of dealing with many data points, and not necessarily
- distributed along a polynomial curve, leads to these works to generate
- different iterative algorithms to solve it (see 
+ distributed along a polynomial curve, leads to the need of different iterative
+ algorithms to solve it (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "rogge2006iterative,iordache2009unmixing,velez2003iterative"
@@ -667,7 +669,7 @@ literal "false"
 
 \end_inset
 
- for instance).
+).
  
 \end_layout
 
@@ -1142,7 +1144,7 @@ t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}\\
 \begin_inset Formula $\begin{array}{c}
 \text{Positive semidefinite cone}\\
 \text{(set of all symmetric positive }\\
-\text{semidefinite m\times m matrices)}
+\text{semidefinite \ensuremath{m\times m} matrices)}
 \end{array}$
 \end_inset
 
@@ -1269,7 +1271,7 @@ vertexes
 \begin_inset Formula $n$
 \end_inset
 
--simpleces.
+-simplexes.
  A simplex 
 \begin_inset Formula $S$
 \end_inset
@@ -1292,7 +1294,7 @@ matrix of vertexes
 \begin_inset Formula $\boldsymbol{e}_{i}$
 \end_inset
 
- are the vectors of the canonical basis, is called a
+ are the vectors of the standard basis, is called a
 \series bold
  standard simplex
 \series default
@@ -1373,10 +1375,10 @@ p_{k-1}(t)
 \end_inset
 
  and we will refer to them simply as 
-\begin_inset Formula $n-$
+\begin_inset Formula $n$
 \end_inset
 
-th order polyomial curve.
+-th order polynomial curves.
  The matrix 
 \begin_inset Formula $\boldsymbol{P}$
 \end_inset
@@ -1483,10 +1485,10 @@ fboxrule}%
 Problem 1
 \series default
 : Given an 
-\begin_inset Formula $n-$
+\begin_inset Formula $n$
 \end_inset
 
-th order polynomial curve 
+-th order polynomial curve 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
@@ -1560,7 +1562,7 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-For instance, for 
+For 
 \begin_inset Formula $n=2$
 \end_inset
 
@@ -1597,7 +1599,7 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \begin_inset Formula $3^{rd}$
 \end_inset
 
--deg polynomials).
+-degree polynomials).
  Without loss of generality, we will assume throughout the paper that the
  polynomial curve 
 \begin_inset Formula $\boldsymbol{p}(t)$
@@ -1616,7 +1618,7 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \begin_inset Formula $n=3$
 \end_inset
 
- this means that, for instance, the curve is not contained in a plane.
+, for instance, this means that the curve is not contained in a plane.
  Note that if 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
@@ -1625,7 +1627,7 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \begin_inset Formula $\mathbb{R}^{m}$
 \end_inset
 
-(
+ (
 \begin_inset Formula $m<n$
 \end_inset
 
@@ -1639,12 +1641,12 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_layout
 
 \begin_layout Standard
-Note that another way to interpret problem 1 is using the convex hull of
- the curve 
+Another way to understand Problem 1 is using the convex hull of the curve
+ 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
-: the solution of problem 1 will give the smallest simplex that completely
+: the solution of Problem 1 will give the smallest simplex that completely
  contains the convex hull of the polynomial curve 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
@@ -1725,7 +1727,7 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-As will be proven later in the report, Problem 1 is closely connected this
+As we will prove later in the report, Problem 1 is closely connected this
  other optimization problem:
 \end_layout
 
@@ -1859,12 +1861,11 @@ Similar to the previous case, without loss of generality we will assume
 \begin_inset Formula $S$
 \end_inset
 
- is non-degenerate.
- In other words, is not contained in 
+ is nondegenerate (it is not contained in 
 \begin_inset Formula $\mathbb{R}^{m}$
 \end_inset
 
-(
+, with 
 \begin_inset Formula $m<n$
 \end_inset
 
@@ -1914,8 +1915,8 @@ Both problems share the same constraint
 \[
 \left.\begin{array}{c}
 \boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}\\
-\sum_{i}\lambda_{i}(t)=1\quad\forall t\\
-\lambda_{i}(t)\ge0\quad\forall i,\forall t\in[-1,1]
+\sum_{i=0}^{n}\lambda_{i}(t)=1\quad\forall t\\
+\lambda_{i}(t)\ge0\quad\forall i=0,..,n\;\;\forall t\in[-1,1]
 \end{array}\right\} 
 \]
 
@@ -1937,7 +1938,7 @@ Taking
 \begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},$
 \end_inset
 
-and matching the coefficients we have that:
+ and matching the coefficients we have that:
 \end_layout
 
 \begin_layout Standard
@@ -1979,18 +1980,11 @@ where we have also defined the
 \end_inset
 
 .
- Note that we can also write:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}
-\]
-
+ We can also write 
+\begin_inset Formula $\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}$
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -1998,8 +1992,7 @@ The geometric interpretation of each
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
- is as follows.
- First note that
+ is as follows: First note that
 \end_layout
 
 \begin_layout Standard
@@ -2014,11 +2007,11 @@ The geometric interpretation of each
 \end_layout
 
 \begin_layout Standard
-Defining now
+Defining now 
 \begin_inset Formula $\boldsymbol{n}$
 \end_inset
 
- as the normal vector to the hyperplane 
+ as the normal vector of the hyperplane 
 \begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
@@ -2031,10 +2024,10 @@ Defining now
 \end_inset
 
 ,...,
-\begin_inset Formula $\boldsymbol{v}_{n-1}$
+\begin_inset Formula $\boldsymbol{v}_{n}$
 \end_inset
 
-, and with 
+, and satisfying 
 \begin_inset Formula $\boldsymbol{n}^{T}\boldsymbol{p}(t)\ge0$
 \end_inset
 
@@ -2079,7 +2072,8 @@ A similar reasoning applies for the other
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
- represents the ratio between the distance of the curve to the plane 
+ represents the ratio between the distance of the curve to the hyperplane
+ 
 \begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
@@ -2091,7 +2085,7 @@ A similar reasoning applies for the other
 \begin_inset Formula $\boldsymbol{v}_{i}$
 \end_inset
 
- to that plane 
+ to that hyperplane 
 \begin_inset Formula $\boldsymbol{\pi}$
 \end_inset
 
@@ -2150,7 +2144,7 @@ Geometric interpretation of
 \end_inset
 
  and the plane formed by the vertexes 
-\begin_inset Formula $\boldsymbol{v}_{i}\;\;i\neq j$
+\begin_inset Formula $\boldsymbol{v}_{i},\;i\neq j$
 \end_inset
 
 , normalized with the distance from 
@@ -2200,7 +2194,11 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-Finally note that the second constraint can be rewritten as 
+Finally, note that the constraint 
+\begin_inset Formula $\sum_{i=0}^{n}\lambda_{i}(t)=1$
+\end_inset
+
+ can be rewritten as 
 \begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}$
 \end_inset
 
@@ -2216,7 +2214,7 @@ Objective Function of Problem 1
 \end_layout
 
 \begin_layout Standard
-Given the previous relationships, note that, 
+Given the previous relationships, we have that 
 \end_layout
 
 \begin_layout Standard
@@ -2236,7 +2234,7 @@ Given the previous relationships, note that,
 \begin_inset Formula 
 \[
 =\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
-\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}^{T}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
+\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
 \]
 
 \end_inset
@@ -2245,8 +2243,12 @@ Given the previous relationships, note that,
 \end_layout
 
 \begin_layout Standard
-where in the last step we have used the fact that everything inside the
- second determinant is given (i.e.
+where we have used the fact that everything inside 
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{P}^{T}\boldsymbol{e}\end{array}\right]$
+\end_inset
+
+ is given (i.e.
  not a decision variable of the optimization problem), and the fact that
  
 \begin_inset Formula $\left|\boldsymbol{A}\right|=\left|\boldsymbol{A}^{T}\right|$
@@ -2303,16 +2305,19 @@ And therefore,
 \end_layout
 
 \begin_layout Subsection
-Equivalent Formulation for problem 1 and 2
+Equivalent Formulation for Problem 1 and 2
 \end_layout
 
 \begin_layout Standard
-Therefore, we can solve problem 1 (or problem 2 respectively) for 
+Therefore, we can solve Problem 1 (or Problem 2 respectively) for 
 \series bold
 any
 \series default
- given polynomial curve (any given simplex) by solving the following problem:
- 
+ given polynomial curve (
+\series bold
+any
+\series default
+ given simplex respectively) by solving the following problem: 
 \end_layout
 
 \begin_layout Standard
@@ -2357,7 +2362,7 @@ Problem 3:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\min_{\boldsymbol{A}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
+\min_{\boldsymbol{A}\in\mathbb{R}^{n+1}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -2408,18 +2413,11 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-Note that Problem 3 is nonconvex, since the objective function is the determinan
-t of a non-symmetric matrix.
- 
-\end_layout
-
-\begin_layout Standard
-We can use now Sum-Of-Squares programming, which is an 
-\emph on
-if and only if 
-\emph default
-condition for univariate polynomials to rewrite the second constraint of
- problem 2 
+As the objective function of Problem 3 is the determinant of a nonsymmetric
+ matrix, it is clearly a nonconvex problem.
+ For the first constraint of Problem 3, we can use the following result
+ of Sum-Of-Squares programming, to rewrite that constraint and leave positive
+ semidefinite matrices as decision variables 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Parrilo09"
@@ -2525,15 +2523,15 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-No generality has been lost in problem 3.
- However, one disadvantage is that it easily becomes intractable for larger
- 
+No generality has been lost in Problem 3.
+ However, one disadvantage of this problem is that it easily becomes intractable
+ for large 
 \begin_inset Formula $n$
 \end_inset
 
 .
  To make it more tractable, we can try to reduce the number of decision
- variables of Problem 4 by imposing an structure in 
+ variables of Problem 3 by imposing an structure in 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
@@ -2552,7 +2550,7 @@ literal "false"
 \end_inset
 
 .
- Using the geometric interpretation of these 
+ Using the geometric interpretation of the 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
@@ -2570,8 +2568,8 @@ noprefix "false"
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
- should have either real double roots (places where the curve is tangent
- to the plane), and/or roots at 
+ should have either real double roots (where the curve is tangent to the
+ plane), and/or roots at 
 \begin_inset Formula $t=\pm1$
 \end_inset
 
@@ -4295,7 +4293,7 @@ noprefix "false"
 \begin_inset Formula $S_{B}$
 \end_inset
 
- denote the simpleces that the MINVO and Bernstein basis generate respectively,
+ denote the simplexes that the MINVO and Bernstein basis generate respectively,
  we have that:
 \end_layout
 
@@ -5764,6 +5762,10 @@ https://mathworld.wolfram.com/HadamardsMaximumDeterminantProblem.html
 
 \begin_layout Plain Layout
 Subdivision
+\end_layout
+
+\begin_layout Plain Layout
+Hablar de las limitations de la MINVO basis (see el otro paper)
 \end_layout
 
 \begin_layout Section

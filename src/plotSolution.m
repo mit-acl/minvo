@@ -460,18 +460,11 @@ axis equal
       
       view(45, 5)
       
-%       disp("Exporting to pdf, may take some time")
 %       exportAsPdf(gcf,'imgs/comparison_convex_hull')
-%       disp("Done!")
-
 % saveas(gcf,'imgs/comparison_convex_hull.eps')
-
-%        addpath('./utils/plot2svg/plot2svg')
+%  addpath('./utils/plot2svg/plot2svg')
 %        plot2svg("temperature_standard.svg");
-   
-
 %  printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
-     
 %  saveas(gcf,'imgs/comparison_convex_hull.png')
  
  print(gcf,'imgs/comparison_convex_hull_matlab','-dpng','-r1000')
