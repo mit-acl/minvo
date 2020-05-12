@@ -88,6 +88,11 @@ frame=tb,                         % Any extra options here
 showstringspaces=false            % 
 }
 
+\hypersetup{
+  colorlinks,
+  citecolor=black,
+  linkcolor=red,
+  urlcolor=blue}
 
 %https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
 %\usepackage{hyperref}
@@ -326,8 +331,27 @@ Supplementary material
 \end_layout
 
 \begin_layout Standard
-The MATLAB code used for this project has been attached in the submission.PONER
- LINK!!!!!!!!!!!!!
+The MATLAB code used for this project can be downloaded from the following
+ link:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size tiny
+\begin_inset CommandInset href
+LatexCommand href
+target "https://www.dropbox.com/s/lro345qygg7bd7j/code_project_Jesus_Tordesillas_Torres.zip?dl=0"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -4209,7 +4233,7 @@ status open
 \begin_inset Graphics
 	filename src/imgs/comparison2d_simplex_given.pdf
 	lyxscale 130
-	width 100col%
+	width 80col%
 
 \end_inset
 
@@ -4462,7 +4486,7 @@ status open
 \begin_inset Graphics
 	filename src/imgs/comparison3d_simplex_given.pdf
 	lyxscale 130
-	width 100col%
+	width 90col%
 
 \end_inset
 
