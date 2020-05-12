@@ -1,4 +1,16 @@
+% /* ----------------------------------------------------------------------------
+%  * Copyright 2020, Jesus Tordesillas Torres, Aerospace Controls Laboratory
+%  * Massachusetts Institute of Technology
+%  * All Rights Reserved
+%  * Authors: Jesus Tordesillas, et al.
+%  * See LICENSE file for the license information
+%  * -------------------------------------------------------------------------- */
+
+
 close all; clear; clc;
+
+addpath(genpath('./utils'));
+
 set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
 set(0,'defaulttextInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
@@ -158,7 +170,7 @@ xlim([-0.2 1.5])
 % allYLim = cat(2, allYLim{:});
 % set([a1 a2], 'YLim', [min(allYLim), max(allYLim)]);
 
-exportAsSvg(gcf,'imgs/comparison2d')
+% exportAsSvg(gcf,'imgs/comparison2d')
 
 %% RESULT for 2D for a given polynomial
 figure;
@@ -460,11 +472,13 @@ axis equal
       
       view(45, 5)
       
-%       exportAsPdf(gcf,'imgs/comparison_convex_hull')
-% saveas(gcf,'imgs/comparison_convex_hull.eps')
-%  addpath('./utils/plot2svg/plot2svg')
-%        plot2svg("temperature_standard.svg");
-%  printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
-%  saveas(gcf,'imgs/comparison_convex_hull.png')
+% WORKS:
+%  print(gcf,'imgs/comparison_convex_hull_matlab','-dpng','-r1000')
  
- print(gcf,'imgs/comparison_convex_hull_matlab','-dpng','-r1000')
+% DON'T WORK:
+% exportAsPdf(gcf,'imgs/comparison_convex_hull')
+% saveas(gcf,'imgs/comparison_convex_hull.eps')
+% addpath('./utils/plot2svg/plot2svg')
+% plot2svg("temperature_standard.svg");
+% printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
+% saveas(gcf,'imgs/comparison_convex_hull.png')

@@ -6,14 +6,13 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function A_guess=getGuessA(degree, interval)
+function exportAsPdf(handle, name_figure)
 
-%Note that these guesses are in [0,1]
-guess=load(strcat('guesses/solutionDeg',num2str(degree),'.mat'));
-A_guess=guess.A;
-
-if(interval=="m11")
-    A_guess=convertAFrom00toM11(A_guess);
-end
+set(handle,'Units','inches');
+screenposition = get(handle,'Position');
+set(gcf,'PaperPosition',[0 0 screenposition(3:4)],'PaperSize',[screenposition(3:4)]);
+print (name_figure, '-dpdf', '-painters')
+set(gcf,'renderer','Painters')
+system(['pdfcrop ',name_figure,'.pdf ',name_figure,'.pdf']);
 
 end

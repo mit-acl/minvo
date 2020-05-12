@@ -1619,7 +1619,7 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_inset
 
 , for instance, this means that the curve is not contained in a plane.
- Note that if 
+ If 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
@@ -1897,8 +1897,7 @@ Both problems share the same constraint
 \begin_inset Formula $\boldsymbol{p}(t)\in S\quad\forall t\in[-1,1]$
 \end_inset
 
-.
- Note that this constraint is equivalent to 
+, which is equivalent to 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
@@ -1992,7 +1991,8 @@ The geometric interpretation of each
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
- is as follows: First note that
+ is as follows.
+ First note that
 \end_layout
 
 \begin_layout Standard
@@ -2154,7 +2154,7 @@ Geometric interpretation of
  to that plane (left).
  For a standard simplex in 3D (right), the curve in red is 
 \begin_inset Formula $\boldsymbol{p}(t)=\left[\begin{array}{ccc}
-\lambda_{1}(t) & \lambda_{2}(t) & \lambda_{3}(t)\end{array}\right]^{T}$
+\lambda_{0}(t) & \lambda_{1}(t) & \lambda_{2}(t)\end{array}\right]^{T}$
 \end_inset
 
 .
@@ -2194,11 +2194,11 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-Finally, note that the constraint 
+With respect to the second constraint 
 \begin_inset Formula $\sum_{i=0}^{n}\lambda_{i}(t)=1$
 \end_inset
 
- can be rewritten as 
+, it can be rewritten as 
 \begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}$
 \end_inset
 
@@ -2515,7 +2515,7 @@ literal "false"
 \end_inset
 
 , 
-\begin_inset Formula $i\in[0,n]$
+\begin_inset Formula $i=0,...,n$
 \end_inset
 
 .
@@ -2524,14 +2524,13 @@ literal "false"
 
 \begin_layout Standard
 No generality has been lost in Problem 3.
- However, one disadvantage of this problem is that it easily becomes intractable
- for large 
+ However, this problem easily becomes intractable for large 
 \begin_inset Formula $n$
 \end_inset
 
 .
  To make it more tractable, we can try to reduce the number of decision
- variables of Problem 3 by imposing an structure in 
+ variables of Problem 3 by imposing a structure in 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
@@ -2838,7 +2837,7 @@ noprefix "false"
 \end_inset
 
 .
- First note that the structure imposed for the 
+ First note that the structure imposed for 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
@@ -2964,8 +2963,12 @@ Results
 \end_layout
 
 \begin_layout Standard
-The optimization Problems 2 and 3 have been solved using the nonconvex solvers
- IPOPT 
+The optimization Problems 3 and 4 have been solved using the nonconvex solvers
+ 
+\emph on
+IPOPT
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "wachter2006implementation"
@@ -2973,7 +2976,11 @@ literal "false"
 
 \end_inset
 
- and Knitro 
+ and 
+\emph on
+Knitro
+\emph default
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "byrd2006k,byrd1999interior"
@@ -2981,7 +2988,11 @@ literal "false"
 
 \end_inset
 
- (for Problem 3), the fmincon nonconvex solver 
+ (for Problem 3), the 
+\emph on
+fmincon
+\emph default
+ nonconvex solver 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "matlabOptToolbox"
@@ -2989,15 +3000,19 @@ literal "false"
 
 \end_inset
 
- (for Problem 4), and the Yalmip 
+ (for Problem 4), and the 
+\emph on
+Yalmip
+\emph default
+ interface 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Lofberg2004"
+key "Lofberg2004,Lofberg2009"
 literal "false"
 
 \end_inset
 
- interface.
+.
  
 \end_layout
 
@@ -3030,12 +3045,15 @@ noprefix "false"
 \end_inset
 
 .
- Note that any permutation in the rows of A will also be a minimizer (since
- only the sign of the determinant is affected).
+ Note that any permutation in the rows of 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ will also be a minimizer, since only the sign of the determinant is affected.
 \end_layout
 
 \begin_layout Standard
-The corresponding plots of the basis functions are shown in Fig.
+The corresponding plots of the MINVO basis functions are shown in Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3046,7 +3064,7 @@ noprefix "false"
 
 \end_inset
 
-, together with the Bernstein basis and the Lagrange basis for comparison.
+, together with the Bernstein and Lagrange bases for comparison.
  
 \end_layout
 
@@ -3067,7 +3085,7 @@ literal "false"
  bounds of the original nonconvex polynomial optimization problem.
  Using this technique, we were able to obtain the same objective value (proving
  therefore global optimality) for 
-\begin_inset Formula $n=1,2,3,4$
+\begin_inset Formula $n=1,2,3$
 \end_inset
 
  (in Problem 4), and for 
@@ -3075,12 +3093,8 @@ literal "false"
 \end_inset
 
  (in Problem 3).
- 
-\end_layout
-
-\begin_layout Standard
-These results lead us to the following conclusions (also summarized in Table
- 
+ These results lead us to the following conclusions (also summarized in
+ Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:table_matrices"
@@ -3111,11 +3125,23 @@ The matrices
 \end_inset
 
  found for 
-\begin_inset Formula $n=2,3,4$
+\begin_inset Formula $n=2,3$
 \end_inset
 
  are global minimizers for Problem 4, and at least local minimizers for
  Problem 3.
+\end_layout
+
+\begin_layout Itemize
+The matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ found for 
+\begin_inset Formula $n=4$
+\end_inset
+
+ is at least a local minimizer of both Problem 3 and Problem 4.
 \end_layout
 
 \begin_layout Itemize
@@ -3157,7 +3183,7 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
-, where 
+where 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
 
@@ -3165,12 +3191,8 @@ noprefix "false"
 \begin_inset Formula $\boldsymbol{A}_{B}$
 \end_inset
 
- denote the associated matrices for the MINVO and Bernstein basis respectively.
- 
-\end_layout
-
-\begin_layout Standard
-Let us know analyze the meaning of these results in both for the Problems
+ denote the coefficient matrices for the MINVO and Bernstein bases respectively.
+ Let us now analyze the meaning of these results in both for the Problems
  1 and 2.
  
 \end_layout
@@ -4127,16 +4149,16 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparison between the MINVO, Lagrange and Bernstein basis for 
+Comparison between the MINVO, and Bernstein and Lagrange bases for 
 \begin_inset Formula $n=1,2,3,4,5,6,7$
 \end_inset
 
 .
- All these basis satisfy 
+ All these bases satisfy 
 \begin_inset Formula $\sum_{i=0}^{i=n}\lambda_{i}(t)=1$
 \end_inset
 
-, and the MINVO and Bernstein basis also satisfy 
+, and the MINVO and Bernstein bases also satisfy 
 \begin_inset Formula $\lambda_{i}(t)\ge0\;\forall t\in[-1,1]$
 \end_inset
 
@@ -4279,7 +4301,7 @@ noprefix "false"
 
 \end_inset
 
- and for 
+ for 
 \begin_inset Formula $n=3$
 \end_inset
 
@@ -4293,7 +4315,7 @@ noprefix "false"
 \begin_inset Formula $S_{B}$
 \end_inset
 
- denote the simplexes that the MINVO and Bernstein basis generate respectively,
+ denote the simplexes that the MINVO and Bernstein bases generate respectively,
  we have that:
 \end_layout
 
@@ -4356,11 +4378,11 @@ In problem 2, the
 \end_inset
 
  span a parallelogram with largest volume.
- The results for a regular triangle and a tetrahedron (
+ The results for a regular triangle (
 \begin_inset Formula $n=2$
 \end_inset
 
- and 
+) and a tetrahedron (
 \begin_inset Formula $n=3$
 \end_inset
 
@@ -4385,8 +4407,8 @@ noprefix "false"
 
 \end_inset
 
- respectively).
- Similar to the previous case, let 
+ respectively.
+ Denoting 
 \begin_inset Formula $P$
 \end_inset
 
@@ -4394,8 +4416,8 @@ noprefix "false"
 \begin_inset Formula $P_{B}$
 \end_inset
 
- denote the parallelograms that the MINVO and Bernstein basis generate respectiv
-ely, we have that:
+ as the parallelograms that the MINVO and Bernstein bases generate respectively,
+ the ratio of their volumes is:
 \end_layout
 
 \begin_layout Standard
@@ -4410,7 +4432,7 @@ ely, we have that:
 \end_layout
 
 \begin_layout Standard
-which means that, for 
+This means that, for 
 \begin_inset Formula $n=3$
 \end_inset
 
@@ -4550,8 +4572,8 @@ This work derived and presented the MINVO basis.
 \begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
 \end_inset
 
- generate a parallelogram with largest volume (Problem 2).
- Global Optimality was also proven for some 
+ span a parallelogram with largest volume (Problem 2).
+ Global optimality was also proven for some 
 \begin_inset Formula $n$
 \end_inset
 
@@ -4565,13 +4587,12 @@ The exciting results of this project naturally lead to the following questions
 
 \begin_layout Itemize
 Is the global optimum of Problem 3 the same as the global optimum of Problem
- 4? In other words, are we losing generality by imposing the specific structure
+ 4? In other words, are we losing optimality by imposing the specific structure
  in 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
-?.
- The results seem to indicate that it is likely that no generality is lost.
+? The results seem to indicate that it is likely that no optimality is lost.
  
 \end_layout
 
@@ -4585,8 +4606,8 @@ Does there exist an analytical solution (i.e.
 \end_layout
 
 \begin_layout Itemize
-Does there exist a recursivity formula to obtain the solution of problem
- 3 for 
+Does there exist a recursive formula to obtain the solution of problem 3
+ for 
 \begin_inset Formula $n$
 \end_inset
 
@@ -4594,8 +4615,8 @@ Does there exist a recursivity formula to obtain the solution of problem
 \begin_inset Formula $1,...,n-1$
 \end_inset
 
-? Would this recursivity formula allow to easily prove global optimality
- for all 
+? Would this recursive formula allow to easily prove global optimality for
+ all 
 \begin_inset Formula $n$
 \end_inset
 
@@ -5766,6 +5787,22 @@ Subdivision
 
 \begin_layout Plain Layout
 Hablar de las limitations de la MINVO basis (see el otro paper)
+\end_layout
+
+\begin_layout Plain Layout
+He usado:
+\end_layout
+
+\begin_layout Plain Layout
+--> globtipoly 
+\end_layout
+
+\begin_layout Plain Layout
+--> Julia 
+\end_layout
+
+\begin_layout Plain Layout
+--> Yalmip 
 \end_layout
 
 \begin_layout Section
