@@ -21,7 +21,7 @@ syms tt real
 
 if(interval=="m11") %[-1,1]
 
-   Abz= convertAFrom00toM11(Abz);
+   Abz= convertAFrom01toM11(Abz);
 
 elseif(interval=="01")%[0,1]
     %Don't do anything

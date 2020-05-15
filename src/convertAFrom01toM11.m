@@ -7,7 +7,7 @@
 %  * -------------------------------------------------------------------------- */
 
 
-function A_converted=convertAFrom00toM11(A)
+function A_converted=convertAFrom01toM11(A)
     
     syms t
     

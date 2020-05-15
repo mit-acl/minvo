@@ -63,8 +63,8 @@ end
 
 
 
-if(interval~="m11")
-    error("TODO")
+if(interval=="01")
+    A=convertAFromM11toM01(A);
 end
 
 end

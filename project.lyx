@@ -2669,6 +2669,35 @@ s.t:
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+REVISAR LAS CONSTRAINTS 
+\begin_inset Formula $\lambda_{i}(t)=\lambda_{n-i+2}(-t)$
+\end_inset
+
+, CREO QUE ALGUN INDICE PUEDE ESTAR MAL
+\end_layout
+
+\begin_layout Plain Layout
+====================================================================
+\end_layout
+
+\begin_layout Plain Layout
+===================================================================
+\end_layout
+
+\begin_layout Plain Layout
+==================================================================
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 
 \series bold
 \bar under
