@@ -1,0 +1,8 @@
+Begin options
+	Major iterations limit 100000 
+	Minor iterations limit 50000 
+	Major feasibility tolerance 1.0e-6
+	Major optimality tolerance 1.0e-6
+	Minor feasibility tolerance 1.0e-6
+	Scale option 2
+End options

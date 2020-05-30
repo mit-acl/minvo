@@ -19,9 +19,6 @@ T3=[t*t*t t*t t 1]';
 
 
 
-
-
-
 %% Plot volume MINVO
 A=getSolutionA(3,"01");
 
@@ -108,7 +105,6 @@ points_bs = bspline_deboor(n,knots,cPoints,num_points );%0:increm:1
 
 
 points_bs_cropped=points_bs(:,0.4*num_points:0.6*num_points);
-
 
 
                                 

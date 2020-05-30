@@ -229,6 +229,10 @@ tt{jtorde}@mit.edu
 \end_inset
 
 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset ERT
 status open
 
@@ -239,6 +243,11 @@ status open
 
 \backslash
 18.0651 Final Project  	
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -1893,6 +1902,17 @@ Similar to the previous case, without loss of generality we will assume
 \begin_inset Formula $m<n$
 \end_inset
 
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+i.e.
+ volume(S) is not zero, http://www.ambrsoft.com/TrigoCalc/Plan3D/PointsCoplanar.htm
+\end_layout
+
+\end_inset
+
 ).
 \end_layout
 
@@ -2380,7 +2400,7 @@ fboxrule}%
 \begin_layout Standard
 
 \series bold
-Problem 3: 
+Problem: 
 \end_layout
 
 \begin_layout Standard
@@ -4108,6 +4128,27 @@ latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+LA MATRIX DEL 4 HAY QUE ORDENARLA!!!!
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+EL CASO N=2 DEBERIA SER GLOBAL OPTIMIMUM?? (I.E.
+ LO PUEDO RESOLVER ANALITICAMENTE O NO?)Lo puedo resolver analiticamente
+ para el problema 4 for sure, pero not sure para el problema 3...
+\end_layout
+
+\end_inset
+
 Results for the MINVO basis.
  
 \begin_inset Formula $\boldsymbol{A}$
