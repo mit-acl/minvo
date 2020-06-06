@@ -1,33 +1,9 @@
+%This function returns the matrix that is valid 
+%--> for all the segments of a Clamped Uniform BSpline,except for the (deg-1) segments at the beginning and (deg-1) segments at the end 
+%--> for all the segments of a NonClamped Uniform BSpline (knots=[a a+delta a+2delta a+3delta,....,a+r*delta, a+(r+1)*delta])
+function A=computeMatrixForBSpline(deg, interval)
 
-function Abs=computeMatrixForBSpline(deg,interval)
+    segment_key=deg
+    A=computeMatrixForClampedUniformBSpline(deg,segment_key,interval)
 
-
-
-if(deg==1)
-    Abs=[-1  1 ;
-         1  0 ];
-elseif(deg==2)
-    Abs=(1/2)*[1  -2   1 ;
-            -2   2  1 ;
-             1   0   0  ];
-elseif(deg==3)
-    Abs=(1/6)*[-1 3 -3 1;
-            3 -6 0 4;
-            -3 3 3 1;
-            1 0 0 0 ];
-else
-    error("Not implemented yet")
-end
-
-
-if(interval=="m11") %[-1,1]
-
-   Abs= convertAFrom01toM11(Abs);
-
-elseif(interval=="01")%[0,1]
-    %Don't do anything
-else
-    error("not implemented yet")
-end
-    
 end
