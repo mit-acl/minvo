@@ -292,8 +292,18 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Abstract
-Applications such as computer graphics rendering, path planning for robotics
- and finite element simulations greatly benefit from having an 
+Applications such as computer graphics rendering, 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+also computer games, to check intersection!!
+\end_layout
+
+\end_inset
+
+path planning for robotics and finite element simulations greatly benefit
+ from having an 
 \begin_inset Formula $n$
 \end_inset
 
