@@ -40,6 +40,7 @@ plot(pos(1,:),pos(2,:),'y')%,'-b'
 syms u;
 
 
+
 deg=2;
 %First interval
 last3cps= cPoints(:,1:3);
@@ -86,7 +87,11 @@ computeMatrixForAnyBSpline(deg,3, knots,"01");
 
 n = 4; %4 for degree 3
 
-knots = [0   0   0   0   0.1  0.2  0.3  0.4    0.5   0.5   0.5   0.5];  % knot vector
+n_int_knots=4
+deltaT=1/(n_int_knots+1);
+interm=deltaT*(1:n_int_knots);
+knots = [zeros(1,4)  interm   (max(interm)+deltaT)*ones(1,4)];  % knot vector
+
 
 cPoints=[ 1         0.5     1.0    3.0   5.0    6.0     3           4;
           -1          0.3   1.0    1.0   2.0    0.0      1           1;
@@ -137,6 +142,71 @@ curve=last4cps*computeMatrixForClampedUniformBSpline(deg,-1,"01")*[u*u*u u*u u 1
 fplot3(curve(1),curve(2),curve(3), [0,1],'y--','LineWidth',3);
 
 view(55,19);
+
+%% Evaluation of jerk along the trajectory
+
+increm=0.00001; %Should be very small (if not the results won't match)
+clc
+%%Numerically
+time=min(knots):increm:max(knots);
+disp("Evaluating bspline_deboor")
+pos = bspline_deboor(n,knots,cPoints,time );
+disp("Done bspline_deboor")
+vel= diff(pos,1,2)/increm;
+accel= diff(vel,1,2)/increm;
+jerk= diff(accel,1,2)/increm;
+
+figure;
+plot(time, pos(1,:)); hold on;
+plot(time(1:(end-1)), vel(1,:),'r'); %axis equal
+plot(time(1:(end-2)), accel(1,:),'g'); %axis equal
+plot(time(1:(end-3)), jerk(1,:),'b'); %axis equal
+
+cost=0.0;
+for i=1:size(jerk,2)
+    cost=cost+norm(jerk(:,i))^2*increm;
+end
+vpa(cost,10)
+
+%%My way of doing it
+
+A{1}=computeMatrixForClampedUniformBSpline(deg,0,"01");
+A{2}=computeMatrixForClampedUniformBSpline(deg,1,"01");
+A{3}=computeMatrixForClampedUniformBSpline(deg,2,"01");
+A{4}=computeMatrixForClampedUniformBSpline(deg,-2,"01");
+A{5}=computeMatrixForClampedUniformBSpline(deg,-1,"01");
+
+
+
+cost_mine=0.0;
+for interval=1:(n_int_knots+1)
+    interval;
+    Q=cPoints(:,interval:(interval+3));
+    A_interval=A{interval};
+    norm_j_interval=norm((1/(deltaT^3))*Q*A_interval*[6 0 0 0]');
+    integral_j_interval_squared=(norm_j_interval^2)*deltaT;
+    cost_mine= cost_mine + integral_j_interval_squared;
+    
+end
+vpa(cost_mine,10)
+
+syms u;
+vel_mine=[];
+accel_mine=[];
+jerk_mine=[];
+time_first_interval=knots(4):increm:knots(5);
+for time_i=time_first_interval
+    u=(time_i-knots(4))/deltaT;
+    vel_i=(1/(deltaT))*cPoints(:,1:4)*A{1}*[3*u*u 2*u 1 0]';
+    accel_i=(1/(deltaT^2))*cPoints(:,1:4)*A{1}*[6*u 2 0 0]';
+    jerk_i=(1/(deltaT^3))*cPoints(:,1:4)*A{1}*[6 0 0 0]';
+    vel_mine=[vel_mine vel_i];
+    accel_mine=[accel_mine accel_i];
+    jerk_mine=[jerk_mine jerk_i];
+end
+plot(time_first_interval, vel_mine(1,:), 'r--',"LineWidth",3)
+plot(time_first_interval, accel_mine(1,:), 'g--',"LineWidth",3)
+plot(time_first_interval, jerk_mine(1,:), 'b--',"LineWidth",3)
 %%
 clc
 A_first_12=12*computeMatrixForAnyBSpline(deg, 4, knots,"01")
