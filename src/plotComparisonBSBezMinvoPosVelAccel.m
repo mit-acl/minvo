@@ -179,7 +179,7 @@ view2=30;
 
 %%Export
 
-exportAsSvg(gcf,'imgs/comparisonBsBezierMinvoPosVelAccel_matlab')
+% exportAsSvg(gcf,'imgs/comparisonBsBezierMinvoPosVelAccel_matlab')
 %%
 
 function plot_arrow_axes(length)

@@ -424,7 +424,7 @@ arrow3d([0 0 0],[0 0 1],10,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 1 0],10,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],10,'cylinder',[0.2,0.1]);
 
-% exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
+%exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
 %%
 
 figure; hold on

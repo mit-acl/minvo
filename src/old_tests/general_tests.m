@@ -1,5 +1,6 @@
 clc; close all;clear;
 set(0,'DefaultFigureWindowStyle','docked');
+addpath(genpath('./../'));
 
 global sol1 sol2 sol3 sol5 T1 T2 T3 T5
 global t
@@ -1256,7 +1257,7 @@ scatter3(p3(1),p3(2),p3(3),405,'Filled','red');
 % fplot(lambda3,interv)
 % fplot(lambda4,interv)
 % fplot(lambda1+lambda2+lambda3+lambda4,interv)
-
+%% 
 %%%%%%%%%%%%%%%%%%%%
 %Check that it's tangent
 %dot((cross(v1-v3,v4-v3)),subs(vpa(diff(poly,t)),t,0.7735486020393007))
@@ -1341,6 +1342,230 @@ figure; hold on;
 fplot(dot(poly_unk,v1-v2),interv);
 fplot(dot(poly_unk,v3-v2),interv);
 fplot(dot(poly_unk,v4-v2),interv);
+
+%% Let us use now the property from Klee (the centroid of the faces needs to belong to the convex body)
+%We will use the standard simplex or this (Fig. 3 left on the project)
+clc;
+%syms a0 b0 c0 d0 real %lambda0 is obtained from the other ones
+syms a1 b1 c1 d1 real %lambda1
+syms a2 b2 c2 d2 real %lambda2
+syms a3 b3 c3 d3 real %lambda0
+
+v0=[0 0 0]';
+v1=[1 0 0]';
+v2=[0 1 0]';
+v3=[0 0 1]';
+
+syms t1 real %lambda1
+syms t2 real %lambda1
+%t1=0.0309;
+%t2=0.7735;
+poly_unk=[a1*t^3+b1*t^2+c1*t+d1;   a2*t^3+b2*t^2+c2*t+d2;   a3*t^3+b3*t^2+c3*t+d3];
+
+poly_unkm1=subs(poly_unk,t,-1);
+poly_unk1=subs(poly_unk,t,1);
+
+poly_unkt1=subs(poly_unk,t,t1);
+poly_unkt2=subs(poly_unk,t,t2);
+
+eq=[];
+
+%Impose that lambda1(t)=lambda2(-t)
+eq=[eq a1==-a2 b1==b2 c1==-c2 d1==d2];
+
+%Impose that at t=-1, it's in the intersection of two faces
+eq=[eq 0==plane_eq_from_three_points(v0,v2,v3,poly_unkm1(1),poly_unkm1(2),poly_unkm1(3))];
+eq=[eq 0==plane_eq_from_three_points(v0,v1,v2,poly_unkm1(1),poly_unkm1(2),poly_unkm1(3))];
+
+%Impose that at t=1, it's in the intersection of two faces
+eq=[eq 0==plane_eq_from_three_points(v0,v1,v3,poly_unk1(1),poly_unk1(2),poly_unk1(3))];
+eq=[eq 0==plane_eq_from_three_points(v1,v2,v3,poly_unk1(1),poly_unk1(2),poly_unk1(3))];
+
+
+%impose that, at t1, it has to be tangent to the plane [v1, v2, v3]
+eq=[eq 0==plane_eq_from_three_points(v1,v2,v3,poly_unkt1(1),poly_unkt1(2),poly_unkt1(3))];
+tangent=subs(vpa(diff(poly_unk,t)),t,t1); normal=cross(v1-v2,v1-v3);
+eq=[eq 0==dot(tangent,normal)];
+
+%impose that, at t2, it has to be tangent to the plane [v0, v2, v3]
+eq=[eq 0==plane_eq_from_three_points(v0,v2,v3,poly_unkt2(1),poly_unkt2(2),poly_unkt2(3))];
+tangent=subs(vpa(diff(poly_unk,t)),t,t2); normal=cross(v0-v2,v0-v3);
+eq=[eq 0==dot(tangent,normal)];
+
+
+s=vpasolve(eq ,[a1, b1, c1, d1,a2, b2, c2, d2,a3, b3, c3, d3]); %Until here everything is linear. s will be a function of t1 and t2
+
+%now prepare the nonlinear system
+poly_unk1=simplify(subs(poly_unk1,s));
+poly_unkm1=simplify(subs(poly_unkm1,s));
+poly_unkt1=simplify(subs(poly_unkt1,s));
+poly_unkt2=simplify(subs(poly_unkt2,s));
+eq=[];
+
+%impose that the centroid of each face passes through the convex hull
+centroid=mean([v1 v2 v3],2); v=(poly_unk1-centroid); w=(centroid-poly_unkt1);
+eq=[eq  (v(1)*w(2) -v(2)*w(1))==0.0 ];%    simplify(v(2)*w(3))== simplify(v(3)*w(2))  ]; %  v(1)*w(3)==v(3)*w(1) 
+
+%impose that the centroid of each face passes through the convex hull
+centroid=mean([v0 v2 v3],2); v=(poly_unkm1-centroid); w=(centroid-poly_unkt2);
+f=(v(2)*w(3) -v(3)*w(2)); [n,d]=numden(f);
+eq=[eq   simplify(d*(v(2)*w(3) -v(3)*w(2)))==0.0  ];%simplify(v(1)*w(2))== simplify(v(2)*w(1)) %  v(1)*w(3)==v(3)*w(1) 
+
+s=solve(eq,'Real',true)
+
+%% Let's check if the volume of the convex hull found is the maximimum of all the volumes
+
+clc;
+%syms a0 b0 c0 d0 real %lambda0 is obtained from the other ones
+syms a1 b1 c1 d1 real %lambda1
+syms a2 b2 c2 d2 real %lambda2
+syms a3 b3 c3 d3 real %lambda0
+
+v0=[0 0 0]';
+v1=[1 0 0]';
+v2=[0 1 0]';
+v3=[0 0 1]';
+V=[v0 v1 v2 v3];
+
+volumes=[]
+% t1=0.0309;
+% t2=0.80;
+
+t1=0.0309;
+t2=0.85;
+
+vol_chs=[];
+vol_pas=[];
+
+
+%for t1=0.1:0.1:1
+%    for t2=0.1:0.1:1
+
+
+poly_unk=[a1*t^3+b1*t^2+c1*t+d1;   a2*t^3+b2*t^2+c2*t+d2;   a3*t^3+b3*t^2+c3*t+d3];
+
+poly_unkm1=subs(poly_unk,t,-1);
+poly_unk1=subs(poly_unk,t,1);
+
+poly_unkt1=subs(poly_unk,t,t1);
+poly_unkt2=subs(poly_unk,t,t2);
+
+eq=[];
+
+%Impose that lambda1(t)=lambda2(-t)
+eq=[eq a1==-a2 b1==b2 c1==-c2 d1==d2];
+
+%Impose that at t=-1, it's in the intersection of two faces
+eq=[eq 0==plane_eq_from_three_points(v0,v2,v3,poly_unkm1(1),poly_unkm1(2),poly_unkm1(3))];
+eq=[eq 0==plane_eq_from_three_points(v0,v1,v2,poly_unkm1(1),poly_unkm1(2),poly_unkm1(3))];
+
+%Impose that at t=1, it's in the intersection of two faces
+eq=[eq 0==plane_eq_from_three_points(v0,v1,v3,poly_unk1(1),poly_unk1(2),poly_unk1(3))];
+eq=[eq 0==plane_eq_from_three_points(v1,v2,v3,poly_unk1(1),poly_unk1(2),poly_unk1(3))];
+
+
+%impose that, at t1, it has to be tangent to the plane [v1, v2, v3]
+eq=[eq 0==plane_eq_from_three_points(v1,v2,v3,poly_unkt1(1),poly_unkt1(2),poly_unkt1(3))];
+tangent=subs(vpa(diff(poly_unk,t)),t,t1); normal=cross(v1-v2,v1-v3);
+eq=[eq 0==dot(tangent,normal)];
+
+%impose that, at t2, it has to be tangent to the plane [v0, v2, v3]
+eq=[eq 0==plane_eq_from_three_points(v0,v2,v3,poly_unkt2(1),poly_unkt2(2),poly_unkt2(3))];
+tangent=subs(vpa(diff(poly_unk,t)),t,t2); normal=cross(v0-v2,v0-v3);
+eq=[eq 0==dot(tangent,normal)];
+%try %neded for the case when points are collinear
+
+var=[a1, b1, c1, d1;a2, b2, c2, d2;a3, b3, c3, d3];
+s=vpasolve(eq  ,symvar(var)); %Until here everything is linear. s will be a function of t1 and t2
+poly_unk=subs(poly_unk,s);
+var_solved=subs(var,s)
+
+
+poly=poly_unk;
+
+pol_x=subs([a1, b1, c1, d1]',s);
+pol_y=subs([a2, b2, c2, d2]',s);
+pol_z=subs([a3, b3, c3, d3]',s);
+
+P=[pol_x'; pol_y'; pol_z'];
+
+figure; hold on
+%volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.015);
+%poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+% centroid_curve=sum(samples_poly,2)/length(samples_t);
+% scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blue'); 
+%scatter3(samples_poly(1),samples_poly(2),samples_poly(3),405,'Filled','blue'); 
+
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+volumes=[volumes av1];
+
+disp('volume convex hull is')
+vol_chs=[vol_chs av1];
+
+disp('volume parallelogram is')
+vol_pas=[vol_pas abs(det([P;[0 0 0 1]]))];
+
+%catch
+%    disp ("EXCEPTION")
+%end
+%    end
+%end
+
+plot(vol_chs, vol_pas)
+
+vol_pas./vol_chs
+
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+%fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+axis equal
+camlight
+%lightangle(gca,45,0)
+%colormap(winter)
+%caxis([0.2 0.7])
+%axis equal
+%axis off
+      
+%view(45, 5)
+
+disp('centroid of convex hull is')
+centroid_function(samples_poly')
+
+mean(V,2)
+
+%%
+
+A_tmp=[-a1-a2-a3    -b1-b2-b3    -c1-c2-c3   1-d1-d2-d3;
+       a1           b1           c1          d1;
+       a2           b2           c2          d2;
+       a3           b3           c3          d3];
+
+%s=vpasolve(eq); %,symvar(A_tmp)
+   
+simplify((t1^2*t2^2 + 2.0*t1^2*t2 - 1.0*t1^2 + 4.0*t1*t2^2 + 2.0*t2^2)*subs(A_tmp, s))
+
+A=getSolutionA(3,"m11")
+
+
+
+%var_sol=[A(1,:), A(2,:), A(3,:)];
+%vpa(subs(eq, var, var_sol))
+
+%figure; hold on;
+
+%axis equal; xlabel('x'); ylabel('y'); zlabel('z')
+%arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+%arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+%arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+%pol=[v0 v1 v2 v3]*A;
+
+%pol_x=pol(1,:);
+%pol_y=pol(2,:);
+%pol_z=pol(3,:);
+
+%fplot3(pol_x*T3,pol(2,:)*T3,pol(3,:)*T3,interv);
+%plot_convex_hull(pol_x',pol_y',pol_z',A,'g',0.001);
 
 %%
 a1=M(1,1); c1=M(1,3);
@@ -1556,7 +1781,9 @@ vx=[sol3.A(1:3,1); 0]/sol3.A(1,4); vy=[sol3.A(1:3,2); 0]/sol3.A(2,4); vz=[sol3.A
 trisurf(k1,vx,vy,vz,'FaceColor','red','FaceAlpha',0.2)
 
 
-
+%%
+syms x y z
+plane_eq_from_three_points(v0, v1, v3,x,y,z)
 
 % fplot3()
 
@@ -1574,7 +1801,7 @@ function result=plane_eq_from_three_points(a,b,c,x,y,z)
     result=det(A)
 end
 
-function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color)
+function volume=plot_convex_hull_tmp(pol_x,pol_y,pol_z,A,color)
     cx=pol_x;
     cy=pol_y;
     cz=pol_z;
@@ -1735,4 +1962,23 @@ tmp=bernsteinMatrix(degree, t);
         Abz=[Abz; double(coeffs(tmp(i),t,'All'))];
 
     end
+end
+
+%Taken from https://www.mathworks.com/matlabcentral/fileexchange/8514-centroid-of-a-convex-n-dimensional-polyhedron
+function C = centroid_function(P)
+k=convhulln(P);
+if length(unique(k(:)))<size(P,1)
+    error('Polyhedron is not convex.');
+end
+T = delaunayn(P);
+n = size(T,1);
+W = zeros(n,1);
+C=0;
+for m = 1:n
+    sp = P(T(m,:),:);
+    [null,W(m)]=convhulln(sp);
+    C = C + W(m) * mean(sp);
+end
+C=C./sum(W);
+return
 end

@@ -229,30 +229,6 @@ tt{jtorde}@mit.edu
 \end_inset
 
 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
- 
-\backslash
-
-\backslash
-18.0651 Final Project  	
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -314,7 +290,7 @@ path planning for robotics and finite element simulations greatly benefit
  However, it is known that this convex hull is not the one with smallest
  volume, causing therefore great conservatism in all the applications mentioned
  before.
- This project derives and presents the MINVO basis, a polynomial basis that
+ This paper derives and presents the MINVO basis, a polynomial basis that
  generates the smallest 
 \begin_inset Formula $n$
 \end_inset
@@ -350,7 +326,7 @@ Supplementary material
 \end_layout
 
 \begin_layout Standard
-The MATLAB code used for this project can be downloaded from the following
+The MATLAB code used for this paper can be downloaded from the following
  link:
 \end_layout
 
@@ -371,6 +347,28 @@ target "https://www.dropbox.com/s/lro345qygg7bd7j/code_project_Jesus_Tordesillas
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section*
+TODOs
+\end_layout
+
+\begin_layout Standard
+Conversion MINVO/Bezier/BSpline
+\end_layout
+
+\begin_layout Standard
+Remark: Problem 4 is also proportial to the volume of the parallelepiped
+\end_layout
+
+\begin_layout Standard
+Say that all the solutions satisfy Klee's theorem (see paper FACET-CENTROIDS
+ AND VOLUME MINIMIZATION)
+\end_layout
+
+\begin_layout Standard
+Cite these ones: https://scholar.google.com/scholar?cites=5781003043623762821&as_s
+dt=40000005&sciodt=0,22&hl=en
 \end_layout
 
 \begin_layout Section
@@ -437,10 +435,28 @@ The basis for the Bézier curves are the Bernstein polynomials, but, while
  the volume of the simplex that encloses a given interval of the curve.
  This directly translates into an unnecessary conservatism in many of the
  applications mentioned above.
- The goal of this project is to obtain a polynomial basis that can be used
+ The goal of this paper is to obtain a polynomial basis that can be used
  to generate the simplex with minimum volume that encloses a polynomial
  curve.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+THERE ARE MORE APPLICATIONS OF THE CONVEX HULL HERE:
+\end_layout
+
+\begin_layout Plain Layout
+OPTIMAL MOTION PLANNING FOR DIFFERENTIALLY FLAT SYSTEMS USING BERNSTEIN
+ APPROXIMATION (see first paragraph pag 183)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -493,7 +509,7 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-The contributions of this project are summarized as follows:
+The contributions are summarized as follows:
 \end_layout
 
 \begin_layout Itemize
@@ -659,7 +675,7 @@ literal "false"
 \end_inset
 
 , but no global optimality was proven for this.
- These project goes further, and using SOS programming, it first proposes
+ These paper goes further, and using SOS programming, it first proposes
  the most general formulation that does not impose any specific structure
  in the form of the polynomials (apart from being SOS), proving global and
  local optimality for some 
@@ -667,8 +683,8 @@ literal "false"
 \end_inset
 
 .
- Then, by imposing a structure in the polynomials, this project is able
- to find global optima for 
+ Then, by imposing a structure in the polynomials, we are able to able to
+ find global optima for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
@@ -746,7 +762,7 @@ Notation and Definitions
 \end_layout
 
 \begin_layout Standard
-This project will use the following notation:
+This paper will use the following notation:
 \end_layout
 
 \begin_layout Standard
@@ -1413,7 +1429,7 @@ p_{k-1}(t)
 \end_inset
 
 .
- In this project, we will use the polynomial curves of the form 
+ In this paper, we will use the polynomial curves of the form 
 \begin_inset Formula $k=n$
 \end_inset
 
@@ -1448,7 +1464,7 @@ Problem definition
 \end_layout
 
 \begin_layout Standard
-As discussed in the introduction, the goal of this project is to investigate
+As discussed in the introduction, the goal of this paper is to investigate
  the following optimization problem:
 \end_layout
 
@@ -2206,9 +2222,15 @@ Geometric interpretation of
 \end_inset
 
  to that plane (left).
- For a standard simplex in 3D (right), the curve in red is 
+ For a standard simplex in 3D (i.e.
+ 
+\begin_inset Formula $\boldsymbol{V}=\left[\begin{array}{cccc}
+\boldsymbol{0} & \boldsymbol{e}_{1} & \boldsymbol{e}_{2} & \boldsymbol{e}_{3}\end{array}\right]$
+\end_inset
+
+) (right), the curve in red is 
 \begin_inset Formula $\boldsymbol{p}(t)=\left[\begin{array}{ccc}
-\lambda_{0}(t) & \lambda_{1}(t) & \lambda_{2}(t)\end{array}\right]^{T}$
+\lambda_{1}(t) & \lambda_{2}(t) & \lambda_{3}(t)\end{array}\right]^{T}$
 \end_inset
 
 .
@@ -4685,7 +4707,7 @@ This work derived and presented the MINVO basis.
 \end_layout
 
 \begin_layout Standard
-The exciting results of this project naturally lead to the following questions
+The exciting results of this work naturally lead to the following questions
  and conjectures:
 \end_layout
 
