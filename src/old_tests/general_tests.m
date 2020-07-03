@@ -1413,7 +1413,7 @@ eq=[eq   simplify(d*(v(2)*w(3) -v(3)*w(2)))==0.0  ];%simplify(v(1)*w(2))== simpl
 
 s=solve(eq,'Real',true)
 
-%% Let's check if the volume of the convex hull found is the maximimum of all the volumes
+%% Let's check if the volume of the convex hull found is the maximimum of all the volumes --- YES!!!
 
 clc;
 %syms a0 b0 c0 d0 real %lambda0 is obtained from the other ones

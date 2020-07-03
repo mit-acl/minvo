@@ -94,6 +94,7 @@ showstringspaces=false            %
   linkcolor=red,
   urlcolor=blue}
 
+\usepackage{arydshln}
 %https://tex.stackexchange.com/questions/50747/options-for-appearance-of-links-in-hyperref
 %\usepackage{hyperref}
 %\hypersetup{
@@ -150,16 +151,16 @@ End
 \use_hyperref false
 \papersize letterpaper
 \use_geometry true
-\use_package amsmath 1
-\use_package amssymb 1
-\use_package cancel 1
-\use_package esint 1
-\use_package mathdots 1
-\use_package mathtools 1
-\use_package mhchem 1
-\use_package stackrel 1
-\use_package stmaryrd 1
-\use_package undertilde 1
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
 \cite_engine basic
 \cite_engine_type default
 \biblio_style plain
@@ -4771,6 +4772,718 @@ LatexCommand bibtex
 btprint "btPrintCited"
 bibfiles "bibliography"
 options "bibtotoc,unsrt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+onecolumn
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Appendix
+\end_layout
+
+\begin_layout Standard
+Proof of Theorem X:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+If 
+\begin_inset Formula $n$
+\end_inset
+
+ is odd 
+\series default
+(
+\begin_inset Formula $n=3,5,7,...$
+\end_inset
+
+).
+ Let us define 
+\begin_inset Formula $a:=\frac{n+1}{2}$
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(a=3 for deg=5)
+\end_layout
+
+\end_inset
+
+, and the parameters 
+\begin_inset Formula $\alpha_{0},\alpha_{1},...,\alpha_{a-2}$
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(
+\begin_inset Formula $a-1$
+\end_inset
+
+ alphas)
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $t_{0},t_{1},...,t_{a-1}$
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(in total 
+\begin_inset Formula $a$
+\end_inset
+
+ ti's)
+\end_layout
+
+\end_inset
+
+.
+ Using the corollary of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mazur2017convex"
+literal "false"
+
+\end_inset
+
+(Sec.
+ 1), every point in 
+\begin_inset Formula $conv(\boldsymbol{p}(t))$
+\end_inset
+
+ can be expressed as a convex combination of 
+\begin_inset Formula $a$
+\end_inset
+
+ points of the polynomial curve.
+ Denote these points as 
+\begin_inset Formula $\boldsymbol{p}(t_{0}),...,\boldsymbol{p}(t_{a-1})$
+\end_inset
+
+.
+ We have then that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{p}(t)=\alpha_{0}\boldsymbol{p}(t_{0})+...+\alpha_{a-2}\boldsymbol{p}(t_{a-2})+\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\boldsymbol{p}(t_{a-1})\quad\alpha_{i}>0,1-\sum_{i=0}^{a-2}\alpha_{i}>0,t_{i}\in[0,1],t_{i}>t_{i-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And therefore, the volume is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}\int_{0}^{1-\alpha_{0}-\alpha_{1}}...\int_{0}^{1-\sum_{i=0}^{a-3}\alpha_{i}}}^{a-1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}Jdt_{a-1}dt_{a-2}...dt_{0}\right]d\alpha_{a-2}d\alpha_{a-3}...d\alpha_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $J$
+\end_inset
+
+ is the absolute value of the Jacobian:
+\begin_inset Formula 
+\[
+J:=abs\left(\left|\begin{array}{cccccc}
+\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a-2}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a-1}}\end{array}\right|\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now note that, defining 
+\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{ccccc}
+t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+\boldsymbol{Q}:=\left[\begin{array}{ccccccccccccc}
+\boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a-1}) & \brokenvert & \boldsymbol{f}(t_{1})-\boldsymbol{f}(t_{a-1}) & \brokenvert & \cdots & \brokenvert & \boldsymbol{f}(t_{a-2})-\boldsymbol{f}(t_{a-1}) & \brokenvert & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \brokenvert & \cdots & \brokenvert & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\end{array}\right]
+\]
+
+\end_inset
+
+we have that:
+\begin_inset Formula 
+\[
+J:=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, note that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{1})-\boldsymbol{f}(t_{a-1}) & \cdots & \boldsymbol{f}(t_{a-2})-\boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
+0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{f}(t_{0}) & \boldsymbol{f}(t_{1}) & \cdots & \boldsymbol{f}(t_{a-2}) & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
+1 & 1 & \cdots & 1 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=abs\left(\left|\begin{array}{ccccccc}
+\boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \boldsymbol{f}(t_{1}) & \frac{\partial\boldsymbol{f}(t_{1})}{\partial t_{1}} & \cdots & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
+1 & 0 & 1 & 0 & \cdots & 1 & 0
+\end{array}\right|\right)=\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}
+\]
+
+\end_inset
+
+Therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)\underbrace{\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-3}\alpha_{i}}}^{a-1\text{ integrals}}\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)d\alpha_{a-2}d\alpha_{a-3}...d\alpha_{0}}_{=\frac{1}{n!}}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a-1}dt_{a-2}...dt_{0}=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{\frac{n-1}{2}}}^{1}}^{a\text{ integrals}}\prod_{i<j}\left(t_{i}-t_{j}\right)^{4}dt_{a-1}dt_{a-2}...dt_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(the 
+\begin_inset Formula $\frac{1}{n!}$
+\end_inset
+
+ is from Mathematica, trying different n)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+If 
+\begin_inset Formula $n$
+\end_inset
+
+ is even
+\series default
+ (n=2,4,6,...): Let us define 
+\begin_inset Formula $a:=\frac{n}{2}-1$
+\end_inset
+
+, and the parameters 
+\begin_inset Formula $\alpha_{0},...,\alpha_{a}$
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(in total 
+\begin_inset Formula $a+1=\frac{n}{2}$
+\end_inset
+
+ alphas)
+\end_layout
+
+\end_inset
+
+ and 
+\begin_inset Formula $t_{0},...,t_{a}$
+\end_inset
+
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(
+\begin_inset Formula $a+1=\frac{n}{2}$
+\end_inset
+
+ ti's in total)
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Using the corollary of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mazur2017convex"
+literal "false"
+
+\end_inset
+
+(Sec.
+ 1), every point in 
+\begin_inset Formula $conv(\boldsymbol{p}(t))$
+\end_inset
+
+ can be expressed as a convex combination of 
+\begin_inset Formula $a+2$
+\end_inset
+
+ points of the polynomial curve, with one point fixed (that we will take
+ as 
+\begin_inset Formula $\boldsymbol{p}(1)$
+\end_inset
+
+).
+ Denote these points as 
+\begin_inset Formula $\boldsymbol{p}(1),\boldsymbol{p}(t_{0}),...,\boldsymbol{p}(t_{a})$
+\end_inset
+
+.
+ We have then that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{p}(t)=\alpha_{0}\boldsymbol{p}(1)+\alpha_{1}\boldsymbol{p}(t_{0})+...+\alpha_{a}\boldsymbol{p}(t_{a-1})+\left(1-\sum_{i=0}^{a}\alpha_{i}\right)\boldsymbol{p}(t_{a})\quad\alpha_{i}>0,1-\sum_{i=0}^{a}\alpha_{i}>0,t_{i}\in[0,1],t_{i}>t_{i-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And therefore, the volume is given by:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}Jdt_{a}dt_{a-1}...dt_{0}\right]d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $J$
+\end_inset
+
+ is the absolute value of the Jacobian:
+\begin_inset Formula 
+\[
+J:=abs\left(\left|\begin{array}{cccccc}
+\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a}}\end{array}\right|\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now note that, defining 
+\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{ccccc}
+t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
+\end_inset
+
+ and 
+\begin_inset Formula 
+\[
+\boldsymbol{Q}:=\left[\begin{array}{ccccccccccccc}
+\boldsymbol{1}-\boldsymbol{f}(t_{a}) & \brokenvert & \boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a}) & \brokenvert & \cdots & \brokenvert & \boldsymbol{f}(t_{a-1})-\boldsymbol{f}(t_{a}) & \brokenvert & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \brokenvert & \cdots & \brokenvert & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\end{array}\right]
+\]
+
+\end_inset
+
+we have that:
+\begin_inset Formula 
+\[
+J:=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-1}\alpha_{i}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, note that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{1}-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a}) & \cdots & \boldsymbol{f}(t_{a-1})-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\\
+0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{1} & \boldsymbol{f}(t_{0}) & \cdots & \boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\\
+1 & 1 & \cdots & 1 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=abs\left(\left|\begin{array}{cccccc}
+\boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}} & \boldsymbol{1}\\
+1 & 0 & \cdots & 1 & 0 & 1
+\end{array}\right|\right)=\left(\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a\}\\
+i=\{0,..,a\}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)\left(\prod_{\begin{array}{c}
+i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)\underbrace{\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}}_{=\frac{1}{n!}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a}dt_{a-1}...dt_{0}\right]=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\left(\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a\}\\
+i=\{0,..,a\}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)\left(\prod_{\begin{array}{c}
+i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)dt_{a}dt_{a-1}...dt_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Degree 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{p}(t)=$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Integrals
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha_{0}\boldsymbol{p}(1)+\left(1-\alpha_{0}\right)\boldsymbol{p}(t_{0})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\int_{0}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\alpha_{0}\boldsymbol{p}(1)+\alpha_{1}\boldsymbol{p}(t_{0})+\left(1-\alpha_{0}-\alpha_{1}\right)\boldsymbol{p}(t_{1})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+wefwefwef
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
