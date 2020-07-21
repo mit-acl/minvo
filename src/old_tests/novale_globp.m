@@ -1,5 +1,5 @@
 close all; clc; clear;
-
+%USING GLOPTIPOLY
 n=3; %breaks (not enough memory) if n>3 
 
 mpol('B',n-1,1)

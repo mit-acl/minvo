@@ -455,6 +455,23 @@ OPTIMAL MOTION PLANNING FOR DIFFERENTIALLY FLAT SYSTEMS USING BERNSTEIN
  APPROXIMATION (see first paragraph pag 183)
 \end_layout
 
+\begin_layout Plain Layout
+Otra aplicaci'on: dynamicasl systems (also for safety, see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kuti2014minimal"
+literal "false"
+
+\end_inset
+
+ )
+\end_layout
+
+\begin_layout Plain Layout
+Otra aplicacion: ver dibujos de https://yalmip.github.io/tutorial/envelopesinbmibn
+b/
+\end_layout
+
 \end_inset
 
 
@@ -769,7 +786,7 @@ This paper will use the following notation:
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="19" columns="2">
+<lyxtabular version="3" rows="20" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -1238,7 +1255,7 @@ Volume of a polyhedron
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1250,7 +1267,7 @@ Volume of a polyhedron
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1258,6 +1275,41 @@ Volume of a polyhedron
 \text{Distance between the point \boldsymbol{a} }\\
 \text{and the plane \boldsymbol{\pi}}
 \end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Pf(\boldsymbol{A})$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Pfaffian of 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+, as defined by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "de1955some"
+literal "false"
+
 \end_inset
 
 
@@ -2651,6 +2703,32 @@ noprefix "false"
 
 .
  This translates into the formulation shown in Problem 4.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+REVISAR LAS CONSTRAINTS 
+\begin_inset Formula $\lambda_{i}(t)=\lambda_{n-i+2}(-t)$
+\end_inset
+
+ DebajoCREO QUE ALGUN INDICE PUEDE ESTAR MAL
+\end_layout
+
+\begin_layout Plain Layout
+====================================================================
+\end_layout
+
+\begin_layout Plain Layout
+===================================================================
+\end_layout
+
+\begin_layout Plain Layout
+==================================================================
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2722,35 +2800,6 @@ s.t:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-REVISAR LAS CONSTRAINTS 
-\begin_inset Formula $\lambda_{i}(t)=\lambda_{n-i+2}(-t)$
-\end_inset
-
-, CREO QUE ALGUN INDICE PUEDE ESTAR MAL
-\end_layout
-
-\begin_layout Plain Layout
-====================================================================
-\end_layout
-
-\begin_layout Plain Layout
-===================================================================
-\end_layout
-
-\begin_layout Plain Layout
-==================================================================
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 
 \series bold
 \bar under
@@ -2765,7 +2814,7 @@ If
 \begin_inset Formula 
 \[
 \begin{array}{c}
-\lambda_{i}(t)=-b_{i}(t-1)\stackrel[j=1]{\frac{n-1}{2}}{\prod}(t-t_{j})^{2}\quad i=0,2,...,n-1\\
+\lambda_{i}(t)=-b_{i}(t-1)\prod_{j=1}^{\frac{n-1}{2}}(t-t_{j})^{2}\quad i=0,2,...,n-1\\
 \lambda_{i}(t)=\lambda_{n-i+2}(-t)\quad\quad\quad i=1,3,...,n\\
 b_{i}\ge0\quad i=0,2,...,n-1\\
 \sum_{i=0}^{i=n}\lambda_{i}(t)=1
@@ -2828,8 +2877,8 @@ Cuidado que n/2 esta incluido o no si n/2 es odd o even
 \begin_inset Formula 
 \[
 \begin{array}{c}
-\lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{2}}{\prod}(t-t_{j})^{2}\quad i\in\mathcal{I}_{a}\\
-\lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{2}}{\prod}(t-t_{j})^{2}\quad\quad\quad i\in\mathcal{I}_{b}\\
+\lambda_{i}(t)=-b_{i}(t+1)(t-1)\prod_{j=1}^{\frac{n-2}{2}}(t-t_{j})^{2}\quad i\in\mathcal{I}_{a}\\
+\lambda_{i}(t)=b_{i}\prod_{j=1}^{\frac{n}{2}}(t-t_{j})^{2}\quad\quad\quad i\in\mathcal{I}_{b}\\
 \lambda_{j}(t)=\lambda_{n-i+1}(-t)\quad\quad\quad i=\frac{n}{2}+1,...,n\\
 b_{i}\ge0\quad i\le\frac{n}{2}\\
 \sum_{i=0}^{i=n}\lambda_{i}(t)=1
@@ -2856,7 +2905,7 @@ If
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{i}(t)=-b_{i}(t+1)(t-1)\stackrel[j=1]{\frac{n-2}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
+\lambda_{i}(t)=-b_{i}(t+1)(t-1)\prod_{j=1}^{\frac{n-2}{4}}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
 
 \end_inset
@@ -2879,7 +2928,7 @@ If
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{i}(t)=b_{i}\stackrel[j=1]{\frac{n}{4}}{\prod}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
+\lambda_{i}(t)=b_{i}\prod_{j=1}^{\frac{n}{4}}(t-t_{j})^{2}(t+t_{j})^{2}\quad\quad i=\frac{n}{2}
 \]
 
 \end_inset
@@ -4170,7 +4219,8 @@ LA MATRIX DEL 4 HAY QUE ORDENARLA!!!!
 
 \end_inset
 
-
+ Creo que Puedo demostrar facilmente que el caso n=2 es global optimum para
+ el problem 3 by simply imposing the centroid necessary condition optimi
 \begin_inset Note Note
 status open
 
@@ -4755,9 +4805,8 @@ Acknowledgements
 \end_layout
 
 \begin_layout Standard
-The author would like to thank Prof.
+The authors would like to thank Prof.
  Gilbert Strang, Prof.
- Jonathan How, Prof.
  Johan Löfberg, Ashkan M.
  Jasour, Kasra Khosoussi, Juan José Madrigal and Marc Adillón for helpul
  insights and discussions.
@@ -4796,6 +4845,40 @@ onecolumn
 
 \begin_layout Section*
 Appendix
+\end_layout
+
+\begin_layout Standard
+Note that all the solutions found satisfy the neccesary condition found
+ by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klee1986facet"
+literal "false"
+
+\end_inset
+
+ (the centroid of each face belongs to the convex body.
+ In our case, to the convex hull of the curve)
+\end_layout
+
+\begin_layout Standard
+Citar 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kuti2014minimal"
+literal "false"
+
+\end_inset
+
+ (obtains same result for 
+\begin_inset Formula $n=2$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+====
 \end_layout
 
 \begin_layout Standard
@@ -4885,12 +4968,36 @@ literal "false"
 \end_inset
 
  points of the polynomial curve.
+ (This paper provides, for a polynomial curve, a tighter bound than 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "eckhoff1993helly"
+literal "false"
+
+\end_inset
+
+.
  Denote these points as 
 \begin_inset Formula $\boldsymbol{p}(t_{0}),...,\boldsymbol{p}(t_{a-1})$
 \end_inset
 
 .
  We have then that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Creo que el 1/n_fact se puede demostrar con esto (ver los ejemplos de la
+ respuesta, son iguales a los que tengo yo): https://math.stackexchange.com/a/2222
+237/564801
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4928,7 +5035,7 @@ where
 \begin_inset Formula 
 \[
 J:=abs\left(\left|\begin{array}{cccccc}
-\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a-2}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a-1}}\end{array}\right|\right)
+\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a-2}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a-1}}\end{array}\right|\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\right)
 \]
 
 \end_inset
@@ -4937,12 +5044,7 @@ J:=abs\left(\left|\begin{array}{cccccc}
 \end_layout
 
 \begin_layout Standard
-Now note that, defining 
-\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{ccccc}
-t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
-\end_inset
-
- and 
+where 
 \begin_inset Formula 
 \[
 \boldsymbol{Q}:=\left[\begin{array}{ccccccccccccc}
@@ -4951,39 +5053,26 @@ t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
 
 \end_inset
 
-we have that:
-\begin_inset Formula 
-\[
-J:=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\right)
-\]
 
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{cccc}
+t^{n} & t^{n-1} & \cdots & t\end{array}\right]^{T}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Now, note that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
-\boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{1})-\boldsymbol{f}(t_{a-1}) & \cdots & \boldsymbol{f}(t_{a-2})-\boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
-0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0
-\end{array}\right|\right)
-\]
-
-\end_inset
-
-
+.
+ Now, note that:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-=abs\left(\left|\begin{array}{cccccccc}
+abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cc}
+\boldsymbol{Q} & \boldsymbol{f}(t_{a-1})\\
+\boldsymbol{0}^{T} & 1
+\end{array}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
 \boldsymbol{f}(t_{0}) & \boldsymbol{f}(t_{1}) & \cdots & \boldsymbol{f}(t_{a-2}) & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
 1 & 1 & \cdots & 1 & 1 & 0 & \cdots & 0
 \end{array}\right|\right)=
@@ -5000,12 +5089,39 @@ abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{ccccccc
 =abs\left(\left|\begin{array}{ccccccc}
 \boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \boldsymbol{f}(t_{1}) & \frac{\partial\boldsymbol{f}(t_{1})}{\partial t_{1}} & \cdots & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
 1 & 0 & 1 & 0 & \cdots & 1 & 0
-\end{array}\right|\right)=\prod_{\begin{array}{c}
+\end{array}\right|_{\left(n+1\right)\times\left(n+1\right)}\right)=\prod_{\begin{array}{c}
 i<j\\
 j=\{0,..,a-1\}\\
 i=\{0,..,a-1\}
-\end{array}}\left(t_{i}-t_{j}\right)^{4}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}=\prod_{\begin{array}{c}
+i\neq j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(t_{i}-t_{j}\right)^{2}
 \]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+=abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{f}(t_{0}) & \boldsymbol{f}(t_{1}) & \cdots & \boldsymbol{f}(t_{a-2}) & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
+1 & 1 & \cdots & 1 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)=
+\]
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -5026,7 +5142,166 @@ Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsy
 \begin_layout Standard
 \begin_inset Formula 
 \[
-=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{\frac{n-1}{2}}}^{1}}^{a\text{ integrals}}\prod_{i<j}\left(t_{i}-t_{j}\right)^{4}dt_{a-1}dt_{a-2}...dt_{0}
+=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}dt_{a-1}dt_{a-2}...dt_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, note that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\underbrace{\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a-1}dt_{a-2}...dt_{0}}_{=\frac{1}{a!}\overbrace{\int_{-1}^{1}\int_{-1}^{1}...\int_{-1}^{1}}^{a\text{ integrals}}...=\frac{2^{a}2^{2a(a-1)}}{a!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a\text{ integrals}}=\frac{2^{a(2a-1)}}{a!}\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Now, using the substitution 
+\begin_inset Formula $t_{i}=2q_{i}-1$
+\end_inset
+
+ (which means that 
+\begin_inset Formula $t_{i}-t_{j}=2\left(q_{i}-q_{j}\right)$
+\end_inset
+
+), we have:====
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\frac{2^{a(2a-1)}}{a!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a\text{ integrals}}\underbrace{\prod_{\begin{array}{c}
+i\neq j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(q_{i}-q_{j}\right)^{2}}_{=\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(q_{i}-q_{j}\right)^{4}}dq_{a-1}dq_{a-2}...dq_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(
+\begin_inset Formula $\prod_{\begin{array}{c}
+i\neq j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(t_{i}-t_{j}\right)^{2}=\prod_{\begin{array}{c}
+i\neq j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}\left(2q_{i}-2q_{j}\right)^{2}=\prod_{\begin{array}{c}
+i\neq j\\
+j=\{0,..,a-1\}\\
+i=\{0,..,a-1\}
+\end{array}}2^{2}\left(q_{i}-q_{j}\right)^{2}=\left(2^{2}\right)^{a(a-1)}=2^{2a(a-1)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, note that we can define (and simply permuting rows):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi_{j}(t)=t^{j}\quad\psi_{j}(t)=jt^{j-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K_{ij}=\int_{0}^{1}\phi_{i}(t)\psi_{j}(t)=j\int_{0}^{1}t^{i+j-1}=\begin{cases}
+0 & i=0,j=0\\
+\frac{j}{i+j} & otherwise
+\end{cases}\qquad\text{K is (n+1)x(n+1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{K}_{ij}=\frac{1}{2}\left(K_{ij}-K_{ji}\right)=\frac{1}{2}\left(\frac{j}{i+j}-\frac{i}{i+j}\right)=\frac{1}{2}\left(\frac{j-i}{j+i}\right)
+\]
+
+\end_inset
+
+(0 otherwise)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left|\hat{K}\right|=\pm\frac{1}{2^{n+1}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)^{2}\implies Pf(\hat{K})=\pm\frac{1}{2^{\frac{n+1}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And therefore: we have that the integrals are: 
+\begin_inset Formula $a!\prod_{0\le i<j\le n}\left(\frac{i-j}{i+j}\right)$
+\end_inset
+
+.
+ Finally:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\frac{2^{a(2a-1)}}{a!}a!\prod_{0\le i<j\le n}\left(\frac{i-j}{i+j}\right)=\underbrace{2^{a(2a-1)}}_{=2^{\frac{n(n+1)}{2}}}\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
 \]
 
 \end_inset
@@ -5154,7 +5429,7 @@ And therefore, the volume is given by:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}Jdt_{a}dt_{a-1}...dt_{0}\right]d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}
+\omega:=Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}Jdt_{a}dt_{a-1}...dt_{0}\right]d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}
 \]
 
 \end_inset
@@ -5171,7 +5446,7 @@ where
 \begin_inset Formula 
 \[
 J:=abs\left(\left|\begin{array}{cccccc}
-\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a}}\end{array}\right|\right)
+\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a}}\end{array}\right|\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-1}\alpha_{i}\right)\right)
 \]
 
 \end_inset
@@ -5180,12 +5455,10 @@ J:=abs\left(\left|\begin{array}{cccccc}
 \end_layout
 
 \begin_layout Standard
-Now note that, defining 
-\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{ccccc}
-t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
-\end_inset
+where
+\end_layout
 
- and 
+\begin_layout Standard
 \begin_inset Formula 
 \[
 \boldsymbol{Q}:=\left[\begin{array}{ccccccccccccc}
@@ -5194,43 +5467,53 @@ t^{n} & t^{n-1} & \cdots & t & 1\end{array}\right]^{T}$
 
 \end_inset
 
-we have that:
-\begin_inset Formula 
-\[
-J:=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{Q}\right|\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-1}\alpha_{i}\right)\right)
-\]
 
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula $\boldsymbol{f}(t):=\left[\begin{array}{cccc}
+t^{n} & t^{n-1} & \cdots & t\end{array}\right]^{T}$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Now, note that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
-\boldsymbol{1}-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a}) & \cdots & \boldsymbol{f}(t_{a-1})-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\\
-0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0
-\end{array}\right|\right)=
-\]
-
-\end_inset
-
-
+.
+ Now, note that:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-abs\left(\left|\begin{array}{cccccccc}
+abs\left(\left|\boldsymbol{Q}\right|\right)=abs\left(\left|\begin{array}{cc}
+\boldsymbol{Q} & \boldsymbol{f}(t_{a})\\
+\boldsymbol{0}^{T} & 1
+\end{array}\right|\right)=abs\left(\left|\begin{array}{cccccccc}
 \boldsymbol{1} & \boldsymbol{f}(t_{0}) & \cdots & \boldsymbol{f}(t_{a-1}) & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\\
 1 & 1 & \cdots & 1 & 1 & 0 & \cdots & 0
 \end{array}\right|\right)=
 \]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+=abs\left(\left|\begin{array}{cccccccc}
+\boldsymbol{1}-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{0})-\boldsymbol{f}(t_{a}) & \cdots & \boldsymbol{f}(t_{a-1})-\boldsymbol{f}(t_{a}) & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}}\\
+0 & 0 & \cdots & 0 & 1 & 0 & \cdots & 0
+\end{array}\right|\right)
+\]
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -5244,11 +5527,10 @@ abs\left(\left|\begin{array}{cccccccc}
 \boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}} & \boldsymbol{1}\\
 1 & 0 & \cdots & 1 & 0 & 1
 \end{array}\right|\right)=\left(\prod_{\begin{array}{c}
-i<j\\
-j=\{0,..,a\}\\
-i=\{0,..,a\}
-\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)\left(\prod_{\begin{array}{c}
-i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)
+i\neq j\\
+i=0:a,\;j=0:a
+\end{array}}\left(t_{i}-t_{j}\right)^{2}\right)\left(\prod_{\begin{array}{c}
+i=0:a\end{array}}\left(t_{i}-1\right)^{2}\right)
 \]
 
 \end_inset
@@ -5257,13 +5539,77 @@ i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)
 \end_layout
 
 \begin_layout Standard
-Therefore:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\underbrace{\left(\prod_{\begin{array}{c}
+i<j\\
+j=\{0,..,a\}\\
+i=\{0,..,a\}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)}_{\equiv\prod_{\begin{array}{c}
+i\neq j\\
+j=0:a,\;j=0:a
+\end{array}}\left(t_{i}-t_{j}\right)^{2}}\equiv\prod_{\begin{array}{c}
+0\le i<j\le a\end{array}}\left(t_{i}-t_{j}\right)^{4}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now note that:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}=\frac{1}{n!}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a}dt_{a-1}...dt_{0}=\frac{1}{(a+1)!}\overbrace{\int_{-1}^{1}\int_{-1}^{1}...\int_{-1}^{1}}^{a+1\text{ integrals}}...=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}dq_{a}dq_{a-1}...dq_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where we have used the sustitution 
+\begin_inset Formula $t_{i}=2q_{i}-1$
+\end_inset
+
+ and used the simmetry.
+ Therefore:
+\end_layout
+
+\begin_layout Standard
+Using now the Pfaffian:
+\end_layout
+
+\begin_layout Standard
+And therefore: we have that the integrals are: 
+\begin_inset Formula $2^{a+1}\left(a+1\right)!\frac{2}{2^{\frac{n+2}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
+\end_inset
+
+.
+ Finally:
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)\underbrace{\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}}_{=\frac{1}{n!}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a}dt_{a-1}...dt_{0}\right]=
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\underbrace{\frac{2^{2a^{2}+5a+3}}{(a+1)!}2^{a+1}\left(a+1\right)!\frac{2}{2^{\frac{n+2}{2}}}}_{=2^{\frac{n(n+1)}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
 \]
 
 \end_inset
@@ -5272,13 +5618,31 @@ Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsy
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
-=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\left(\prod_{\begin{array}{c}
+\omega=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)\underbrace{\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}}_{=\frac{1}{n!}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a}dt_{a-1}...dt_{0}\right]=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\underbrace{\left(\prod_{\begin{array}{c}
 i<j\\
 j=\{0,..,a\}\\
 i=\{0,..,a\}
-\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)\left(\prod_{\begin{array}{c}
+\end{array}}\left(t_{i}-t_{j}\right)^{4}\right)}_{\equiv\prod_{\begin{array}{c}
+i\neq j\\
+j=0:a,\;j=0:a
+\end{array}}\left(t_{i}-t_{j}\right)^{2}}\left(\prod_{\begin{array}{c}
 i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)dt_{a}dt_{a-1}...dt_{0}
 \]
 
@@ -5287,7 +5651,255 @@ i=\{0,..,a\}\end{array}}\left(t_{i}-1\right)^{2}\right)dt_{a}dt_{a-1}...dt_{0}
 
 \end_layout
 
+\begin_layout Plain Layout
+=====================
+\end_layout
+
+\begin_layout Plain Layout
+Now, note that:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\underbrace{\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}abs\left(\left|\boldsymbol{Q}\right|\right)dt_{a}dt_{a-1}...dt_{0}}_{=\frac{1}{(a+1)!}\overbrace{\int_{-1}^{1}\int_{-1}^{1}...\int_{-1}^{1}}^{a+1\text{ integrals}}...=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Now, using the substitution 
+\begin_inset Formula $t_{i}=2q_{i}-1$
+\end_inset
+
+ (which means that 
+\begin_inset Formula $t_{i}-t_{j}=2\left(q_{i}-q_{j}\right)$
+\end_inset
+
+), we have:====
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\omega=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\frac{2^{2a^{2}+5a+3}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}\left(\prod_{\begin{array}{c}
+0\le i<j\le a\end{array}}\left(q_{i}-q_{j}\right)^{4}\right)\left(\prod_{\begin{array}{c}
+0\le i\le a\end{array}}\left(q_{i}-1\right)^{2}\right)dq_{a}dq_{a-1}...dq_{0}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now, note that we can define (and simply permuting rows):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi_{j}(t)=t^{j}\quad\psi_{j}(t)=jt^{j-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+K_{ij}=\int_{0}^{1}\phi_{i}(t)\psi_{j}(t)=j\int_{0}^{1}t^{i+j-1}=\begin{cases}
+0 & i=0,j=0\\
+\frac{j}{i+j} & otherwise
+\end{cases}\qquad\text{K is (n+1)x(n+1)=impar x impar}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\hat{K}_{ij}=\frac{1}{2}\left(K_{ij}-K_{ji}\right)=\frac{1}{2}\left(\frac{j}{i+j}-\frac{i}{i+j}\right)=\frac{1}{2}\left(\frac{j-i}{j+i}\right)\quad i=0:n,j=0:n
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+First of all, note that 
+\begin_inset Formula $Pf(\hat{K})=Pf\left(\underbrace{\left[\begin{array}{cc}
+\hat{K} & \boldsymbol{1}\\
+\boldsymbol{1^{T}} & 0
+\end{array}\right]_{(n+2)\times(n+2)}}_{=\frac{1}{2}\left[\begin{array}{cc}
+2\hat{K} & 2\boldsymbol{1}\\
+2\boldsymbol{1^{T}} & 0
+\end{array}\right]}\right)=\frac{1}{2^{\frac{n+2}{2}}}Pf\left(\left[\begin{array}{cc}
+2\hat{K} & 2\boldsymbol{1}\\
+2\boldsymbol{1^{T}} & 0
+\end{array}\right]\right)=\frac{2}{2^{\frac{n+2}{2}}}Pf\left(\left[\begin{array}{cc}
+2\hat{K} & \boldsymbol{1}\\
+\boldsymbol{1^{T}} & 0
+\end{array}\right]\right)=\frac{2}{2^{\frac{n+2}{2}}}\sqrt{\left|\begin{array}{cc}
+2\hat{K} & 2\boldsymbol{1}\\
+2\boldsymbol{1^{T}} & 0
+\end{array}\right|}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(for the second step see Proposition 2.6 of https://d31kydh6n6r5j5.cloudfront.net/u
+ploads/sites/66/2019/04/pfaffian_comps_06_07.pdf )
+\end_layout
+
+\begin_layout Standard
+For the third step, see properties in wikipedia
+\end_layout
+
+\begin_layout Standard
+For the first step, see paper.
+ 
+\end_layout
+
+\begin_layout Standard
+Now, note that the matrix inside the determinant is 
+\begin_inset Formula $=\left(\frac{p_{i}-p_{j}}{p_{i}+p_{j}}\right)\quad i=0:n+1,j=0:n+1$
+\end_inset
+
+, with 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{array}{c}
+p_{r}=-r\quad\text{if \ensuremath{r\le n}}\\
+p_{n+1}=0
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And therefore (see paper, :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+abs\left(Pf(\hat{K})\right)=\frac{2}{2^{\frac{n+2}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+And therefore: we have that the integrals are: 
+\begin_inset Formula $2^{a+1}\left(a+1\right)!\frac{2}{2^{\frac{n+2}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
+\end_inset
+
+.
+ Finally:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\underbrace{\frac{2^{2a^{2}+5a+3}}{(a+1)!}2^{a+1}\left(a+1\right)!\frac{2}{2^{\frac{n+2}{2}}}}_{=2^{\frac{n(n+1)}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the same formula for 
+\begin_inset Formula $n=even!!!!!$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Citar stackoverflow??
+\end_layout
+
+\begin_layout Standard
+Cuidado, acordarse de poner valores absolutos everywhere!!
+\end_layout
+
+\begin_layout Standard
+Citar theorem 2.2 y 2.3 de de http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.9
+73.6094&rep=rep1&type=pdf (aunque ellos parece que lo cojen de Karlin/Shapley)
+\end_layout
+
+\begin_layout Standard
+Comprobar que las formulas estan bien cuando P es una moment curve (ver
+ formula en 
+\begin_inset Quotes eld
+\end_inset
+
+Geometry of Moment Spaces, page 51
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float table
 wide false
 sideways false
@@ -5481,7 +6093,8 @@ wefwefwef
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
 
@@ -5872,6 +6485,96 @@ BERNSTEIN
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+K_{ij}=\int_{0}^{1}\phi_{i}(t)\psi_{j}(t)=(n-j)\int_{-1}^{1}t^{n-i}t^{n-j-1}=(n-j)\int_{-1}^{1}t^{2n-j-i-1}=\frac{(n-j)}{(2n-j-i)}\left[t^{2n-j-i}\right]_{-1}^{1}=\frac{(n-j)}{(2n-j-i)}\left[1+(-1)^{i+j+1}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\hat{K}_{ij}=\frac{1}{2}\left(K_{ij}-K_{ji}\right)=\frac{1}{2}\frac{\left[1+(-1)^{i+j+1}\right]}{(2n-j-i)}\left(n-j-n+i\right)=\frac{i-j}{2(2n-j-i)}\left((-1)^{i+j+1}+1\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\left|\hat{K}\right|=
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Now, note that we can define (and simply permuting rows):
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\phi_{j}(t)=t^{j}\quad\psi_{j}(t)=jt^{j-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+K_{ij}=\int_{-1}^{1}\phi_{i}(t)\psi_{j}(t)=j\int_{-1}^{1}t^{i+j-1}=\frac{j}{(i+j)}\left[t^{i+j}\right]_{-1}^{1}=\frac{j}{(i+j)}\left[1+(-1)^{i+j+1}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\hat{K}_{ij}=\frac{1}{2}\left(K_{ij}-K_{ji}\right)=\frac{1}{2}\frac{\left(j-i\right)}{(i+j)}\underbrace{\left[1+(-1)^{i+j+1}\right]}_{=esImpar(i+j)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\left|\hat{K}\right|=
+\]
 
 \end_inset
 
