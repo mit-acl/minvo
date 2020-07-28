@@ -9,8 +9,9 @@
 function A=getSolutionA(degree, interval)
 
 %Note that these guesses are in [0,1]
-guess=load(strcat('sols_formula/solutionDeg',num2str(degree),'.mat'));
-A=guess.A;
+sol=load(strcat('sols_formula/solutionDeg',num2str(degree),'.mat'));
+A=sol.A;
+% rootsA=sol.rootsA;
 
 % order stuff
 if(degree==2)
@@ -18,12 +19,25 @@ if(degree==2)
     tmp3=A(3,:);
     A(1,:)=tmp3;
     A(3,:)=tmp1;
+    
+%     tmp1=rootsA(1,:);
+%     tmp3=rootsA(3,:);
+%     rootsA(1,:)=tmp3;
+%     rootsA(3,:)=tmp1;    
+    
 elseif(degree==3)
     tmp1=A(1,:);
     tmp2=A(2,:);
     tmp3=A(3,:);
     tmp4=A(4,:);
     A=[tmp2; tmp3; tmp1; tmp4];
+    
+%     tmp1=rootsA(1,:);
+%     tmp2=rootsA(2,:);
+%     tmp3=rootsA(3,:);
+%     tmp4=rootsA(4,:);
+%     rootsA=[tmp2; tmp3; tmp1; tmp4];
+%     
 elseif(degree==4)
     tmp1=A(1,:);
     tmp2=A(2,:);
