@@ -11,7 +11,7 @@ set(0,'DefaultFigureWindowStyle','docked') %'normal'
 %Useful to plot the result: http://nurbscalculator.in/
 %READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
-deg=1;
+deg=5;
 deg_is_even = (rem(deg, 2) == 0);
 
 if(deg_is_even==1)
@@ -98,7 +98,7 @@ disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ip
 % settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1);
 % %,'ipopt.tol',1e-10  %'penlab.max_outer_iter',100000
-settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','knitro','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
 result=optimize(constraints,obj,settings)
 % result=solvemoment(constraints,obj,[],4);
 % check(constraints)
