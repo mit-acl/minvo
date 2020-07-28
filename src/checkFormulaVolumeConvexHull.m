@@ -7,7 +7,7 @@ close all; clc; clear;
 
 samples_t=-1:0.005:1;
 
-n=2;
+n=4;
 
 lateral_areas=[];
 J1s=[];
@@ -15,11 +15,11 @@ vol_numerics=[];
 
 P=rand(n,n+1);
 
-J1=abs(det([P(:,1:end-1)]));
+% J1=abs(det([P(:,1:end-1)]));
 
 n_is_odd=(mod(n,2)==1) ;
 
-
+disp("***************Checking formula")
 prod=1;
 for i=0:n
 	for j=0:n
@@ -30,7 +30,8 @@ for i=0:n
     end
 end
 
-vol_formula=abs((J1/factorial(n)) * (2^(n*(n+1)/2))*prod); 
+
+vol_formula=abs((abs(det([P(:,1:end-1)]))/factorial(n)) * (2^(n*(n+1)/2))*prod); 
 
 syms t
 T=[];
@@ -42,7 +43,11 @@ samples_poly=double(subs(poly,t,samples_t))';
 %%
 
 disp("Computing the volume numerically")
-[k1,vol_numeric] = convhulln(samples_poly);
+if (n>1)
+  [k1,vol_numeric] = convhulln(samples_poly);
+elseif(n==1)
+    vol_numeric=norm( subs(poly,t,1) - subs(poly,t,-1)  );
+end
     
 if(abs(1-vol_formula/vol_numeric)>1e-3)
     vol_formula;
@@ -56,11 +61,70 @@ else
 end
 
    %lateral_area=area3D(samples_poly(:,1),samples_poly(:,2),samples_poly(:,3));
-   J1s=[J1s, J1];
+%    J1s=[J1s, J1];
    %lateral_areas=[lateral_areas lateral_area];
     vol_numerics=[vol_numerics vol_numeric];
 
+  
+%%
+disp("***************Checking formula theorem 15.2 of Geometry of Moment Spaces")
+syms t
+T=[];
+ for i=0:n
+     T=[t^i;T];
+ end
+ 
+P=[rot90(eye(n)), zeros(n,1)];
+P=convertPFrom01toM11(P);
+
+
+vol_formula=abs((abs(det([P(:,1:end-1)]))/factorial(n)) * (2^(n*(n+1)/2))*prod);
+
+syms k
+vol_formula_geometry_moment_spaces=symprod(beta(k,k) , k, 1, n);
+
+vol_formula_geometry_moment_spaces=vpa(vol_formula_geometry_moment_spaces,8);
+
+if(abs(1-vol_formula/vol_formula_geometry_moment_spaces)>1e-3)
+    disp("Fomula doesn't match the one from theorem 15.2 of Geometry of Moment Spaces");
+
+else
+    disp("GOOD")
+    %vpa(vol_formula/vol_numeric)
+end
+
+
+% poly=P*T;        
+% samples_poly=double(subs(poly,t,samples_t))';  
+% 
+% disp("Computing the volume numerically")
+% [k1,vol_numeric] = convhulln(samples_poly);
+% vol_numeric
+
+
+function P_converted=convertPFrom01toM11(P)
     
+    syms t real
+    
+    tt=t/2.0+0.5;
+    T=[];
+    deg=size(P,2)-1;
+    for i=0:(deg)
+        T=[tt^i T];
+    end
+    
+    tmp=P*T';
+
+    P_converted=[];
+
+    for i=1:size(P,1)
+        coefficients=coeffs(tmp(i),'All');
+        coefficients=[zeros(1,deg+1-length(coefficients)) coefficients];
+        P_converted=[P_converted ;double(vpa(coefficients))];
+    end
+
+end
+
 %%
 
 % if(n_is_odd)

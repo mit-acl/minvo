@@ -375,17 +375,149 @@ TODOs
 \end_layout
 
 \begin_layout Standard
-Say that all the solutions satisfy Klee's theorem (see paper FACET-CENTROIDS
- AND VOLUME MINIMIZATION)
-\end_layout
-
-\begin_layout Standard
 Cite these ones: https://scholar.google.com/scholar?cites=5781003043623762821&as_s
 dt=40000005&sciodt=0,22&hl=en
 \end_layout
 
 \begin_layout Section
-Introduction
+Introduction 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Introduction"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparisonBSBeMV.pdf
+	lyxscale 130
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+For any given 
+\begin_inset Formula $3^{rd}$
+\end_inset
+
+-degree polynomial given, the MINVO basis finds an enclosing simplex that
+ is 2.36 and 254.9 times smaller than the one found by the Bernstein or B-Spline
+ bases respectively.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d_poly_given"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison3d_simplex_given_compressed.pdf
+	lyxscale 130
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+For any given 
+\begin_inset Formula $3$
+\end_inset
+
+-simplex, the MINVO basis finds a polynomial inscribed in the simplex, and
+ whose convex hull is 2.36 and 254.9 times bigger than the one found by the
+ Bernstein or B-Spline bases respectively.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d_simplex_given"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between the MINVO, Bernstein and B-Spline bases for 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -602,83 +734,6 @@ Global optimality proof for some
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison3d.pdf
-	lyxscale 130
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Comparison between the MINVO basis and the Bernstein basis for 
-\begin_inset Formula $n=3$
-\end_inset
-
-.
- The simplex found using the MINVO basis (left) encloses the 
-\begin_inset Formula $3^{rd}$
-\end_inset
-
--order polynomial curve in red.
- For any 
-\begin_inset Formula $3^{rd}$
-\end_inset
-
--order polynomial curve, the MINVO basis generates a simplex that is 
-\begin_inset Formula $2.36$
-\end_inset
-
- times smaller that the one found using the Bernstein basis (right).
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Comparison3d"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Section
 Related work
 \end_layout
@@ -808,15 +863,32 @@ Unless otherwise noted, all the indexes in this paper will start at
 \end_inset
 
 .
+ The notation used throughout the paper is summarized in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Notation-used-in"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
  Let us also introduce the two following common definitions and their respective
  notations.
- This paper will use the following notation:
+ 
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="21" columns="2">
+<lyxtabular version="3" rows="22" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top" width="6cm">
@@ -875,7 +947,7 @@ Scalar
 \begin_inset Formula $\boldsymbol{a}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -884,7 +956,7 @@ Scalar
 \begin_inset Text
 
 \begin_layout Plain Layout
-Column vector 
+Column vector
 \end_layout
 
 \end_inset
@@ -898,7 +970,7 @@ Column vector
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -971,7 +1043,7 @@ Convex hull of a curve
 \begin_inset Formula $|\boldsymbol{A}|$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -1083,7 +1155,7 @@ Size of a matrix (
 \begin_inset Formula $\boldsymbol{a}\ge\boldsymbol{b}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -1175,7 +1247,6 @@ th vector of the standard basis (i.e.
 
 th entry).
  Its size is determined by the context.
- 
 \end_layout
 
 \end_inset
@@ -1206,7 +1277,7 @@ Matrix formed by the rows
 \begin_inset Formula $\boldsymbol{M}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -1280,7 +1351,7 @@ t^{r} & t^{r-1}\cdots & 1\end{array}\right]^{T}\\
 \begin_inset Formula $\mathbb{S}_{+}^{m}$
 \end_inset
 
- 
+
 \end_layout
 
 \end_inset
@@ -1319,7 +1390,9 @@ t^{r} & t^{r-1}\cdots & 1\end{array}\right]^{T}\\
 \begin_inset Text
 
 \begin_layout Plain Layout
-Volume
+Volume 
+\color red
+Lebesgue measure?
 \end_layout
 
 \end_inset
@@ -1344,7 +1417,7 @@ Volume
 \begin_layout Plain Layout
 \begin_inset Formula $\begin{array}{c}
 \text{Distance between the point \boldsymbol{a} }\\
-\text{and the plane \boldsymbol{\pi}}
+\text{and the hyperplane \boldsymbol{\pi}}
 \end{array}$
 \end_inset
 
@@ -1355,7 +1428,7 @@ Volume
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1367,7 +1440,7 @@ Volume
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1389,7 +1462,58 @@ literal "false"
 \end_inset
 </cell>
 </row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\text{MV},\text{Be},\text{BS}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MINVO, Bernstein and B-Spline respectively
+\end_layout
+
+\end_inset
+</cell>
+</row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Notation used in this paper 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Notation-used-in"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -1573,6 +1697,18 @@ p_{k-1}(t)
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, we will use non-clamped uniform B-Splines for comparison, and refer
+ to them simply as B-Splines.
 \end_layout
 
 \begin_layout Section
@@ -1852,6 +1988,10 @@ noprefix "false"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
@@ -1912,9 +2052,16 @@ vskip-2ex
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
-As we will prove later in the report, Problem 1 is closely connected this
- other optimization problem:
+As we will prove later in the report, Problem 1 is closely connected with
+ this other optimization problem: 
+\color red
+[Introduce Theorem 1 here]
 \end_layout
 
 \begin_layout Standard
@@ -2383,7 +2530,7 @@ Both problems share the same constraint
 \left.\begin{array}{c}
 \boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}\\
 \sum_{i=0}^{n}\lambda_{i}(t)=1\quad\forall t\\
-\lambda_{i}(t)\ge0\quad\forall i=0,..,n\;\;\forall t\in[-1,1]
+\lambda_{i}(t)\ge0\quad\forall i=0,..,,n\;\;\forall t\in[-1,1]
 \end{array}\right\} 
 \]
 
@@ -2405,7 +2552,11 @@ Taking
 \begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},$
 \end_inset
 
- and matching the coefficients we have that:
+
+\color red
+ losing generality here? 
+\color inherit
+and matching the coefficients we have that:
 \end_layout
 
 \begin_layout Standard
@@ -2434,6 +2585,11 @@ where we have also defined the
 \end_inset
 
 .
+ 
+\color red
+How do I prove that A is not singular (i.e.
+ I can take the inverse)?
+\color inherit
  The 
 \begin_inset Formula $i$
 \end_inset
@@ -2446,7 +2602,7 @@ where we have also defined the
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
-.
+ in decreasing order.
  We can also write 
 \begin_inset Formula $\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}$
 \end_inset
@@ -2575,6 +2731,8 @@ noprefix "false"
 
 ).
  
+\color red
+Barycentric coordinates??
 \end_layout
 
 \begin_layout Standard
@@ -2586,7 +2744,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename src/imgs/geom_meaning_lambdai_modified.pdf
+	filename src/imgs/geom_meaning_lambdai.pdf
 	lyxscale 130
 	width 100col%
 
@@ -2612,7 +2770,7 @@ Geometric interpretation of
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
- and the plane formed by the vertexes 
+ and the hyperplane formed by the vertexes 
 \begin_inset Formula $\boldsymbol{v}_{i},\;i\neq j$
 \end_inset
 
@@ -2838,7 +2996,7 @@ Problem 3:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\min_{\boldsymbol{A}\in\mathbb{R}^{n+1}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
+\min_{\boldsymbol{A}\in\mathbb{R}^{(n+1)\times(n+1)}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -2906,7 +3064,9 @@ literal "false"
 
 \end_inset
 
-:
+: 
+\color red
+CHECK
 \end_layout
 
 \begin_layout Itemize
@@ -3017,11 +3177,15 @@ No generality has been lost in Problem 3.
 
 .
  As Problem 1 is trying to minimize the volume of the simplex, we can impose
- that the planes of the 
+ that the facets of the 
 \begin_inset Formula $n$
 \end_inset
 
--simplex be tangent to the curve 
+-simplex be tangent 
+\color red
+(vale xa nondiff points?)
+\color inherit
+ to the curve 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "zhou2002algorithms,klee1986facet"
@@ -3116,7 +3280,7 @@ Problem 4:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\min_{\boldsymbol{A}}\quad f_{4}:=-abs\left(\left|\boldsymbol{A}\right|\right)
+\min_{\boldsymbol{A}\in\mathbb{R}^{(n+1)\times(n+1)}}\quad f_{4}:=-abs\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -3592,7 +3756,12 @@ literal "false"
 
 , and increase the order of the moment relaxation to find tighter lower
  bounds of the original nonconvex polynomial optimization problem.
- Using this technique, we were able to obtain the same objective value (proving
+ 
+\color red
+CHECK THIS.
+ 
+\color inherit
+Using this technique, we were able to obtain the same objective value (proving
  therefore global optimality) for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
@@ -3671,45 +3840,12 @@ The matrices
 \end_layout
 
 \begin_layout Standard
-In Table 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "tab:table_matrices"
-plural "false"
-caps "false"
-noprefix "false"
+\begin_inset Float figure
+wide false
+sideways false
+status open
 
-\end_inset
-
-, it is also shown the ratio 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- and 
-\begin_inset Formula $\boldsymbol{A}_{B}$
-\end_inset
-
- denote the coefficient matrices for the MINVO and Bernstein bases respectively.
- Let us now analyze the meaning of these results for Problems 1 and 2.
- 
-\end_layout
-
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
@@ -3718,7 +3854,150 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename src/imgs/comparison2d.pdf
+	filename src/imgs/comparison2d_poly_given.pdf
+	lyxscale 130
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+For any given 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+-degree polynomial curve given, the MINVO basis finds an enclosing simplex
+ that is 
+\begin_inset Formula $\approx1.3$
+\end_inset
+
+ and 
+\begin_inset Formula $\approx5.2$
+\end_inset
+
+ times smaller than the one found by the Bernstein or B-Spline bases respectivel
+y.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison2d_poly_given"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison2d_simplex_given.pdf
+	lyxscale 30
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+For any given 
+\begin_inset Formula $2$
+\end_inset
+
+-simplex, the MINVO basis finds a polynomial curve inscribed in the simplex,
+ and whose convex hull is 
+\begin_inset Formula $\approx1.3$
+\end_inset
+
+ and 
+\begin_inset Formula $\approx5.2$
+\end_inset
+
+ times bigger than the one found by the Bernstein or B-Spline bases respectively.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison2d_simplex_given"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison between the MINVO, Bernstein and B-Spline bases for 
+\begin_inset Formula $n=2$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison2d"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison2d_poly_given.pdf
 	lyxscale 130
 	width 80col%
 
@@ -3752,7 +4031,7 @@ Comparison between the MINVO basis and the Bernstein basis for
  
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:comparison2d"
+name "fig:comparison2d_poly_given"
 
 \end_inset
 
@@ -3773,6 +4052,11 @@ status open
 
 \backslash
 vskip-2ex
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -3850,8 +4134,9 @@ textwidth}{!}{%
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="6">
+<lyxtabular version="3" rows="8" columns="7">
 <features tabularvalignment="middle">
+<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -3906,7 +4191,19 @@ textwidth}{!}{%
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}$
+\begin_inset Formula $\frac{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\frac{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}{abs\left(|\boldsymbol{A}_{\text{BS}}|\right)}$
 \end_inset
 
 
@@ -3995,6 +4292,18 @@ Problem 4
 \begin_inset Text
 
 \begin_layout Plain Layout
+\begin_inset Formula $=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 Global Opt.
 \end_layout
 
@@ -4057,7 +4366,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.7697$
+\begin_inset Formula $\approx1.299$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx5.196$
 \end_inset
 
 
@@ -4138,7 +4459,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.4237$
+\begin_inset Formula $\approx2.360$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx254.9$
 \end_inset
 
 
@@ -4220,7 +4553,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.1651$
+\begin_inset Formula $\approx6.057$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx1.675\cdot10^{5}$
 \end_inset
 
 
@@ -4309,7 +4654,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.0449$
+\begin_inset Formula $\approx22.27$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx1.924\cdot10^{9}$
 \end_inset
 
 
@@ -4399,7 +4756,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.00848$
+\begin_inset Formula $\approx117.8$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx4.750\cdot10^{14}$
 \end_inset
 
 
@@ -4490,7 +4859,19 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\approx0.00110$
+\begin_inset Formula $\approx902.7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\approx2.997\cdot10^{21}$
 \end_inset
 
 
@@ -4669,11 +5050,8 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparison between the MINVO, Bernstein, 
-\color red
-B-Spline
-\color inherit
-, and Lagrange bases for 
+Comparison between the MINVO, Bernstein, B-Spline, and Lagrange bases for
+ 
 \begin_inset Formula $n=1:7$
 \end_inset
 
@@ -4792,29 +5170,154 @@ vskip-2ex
 
 \end_layout
 
-\begin_layout Subsection
-From the point of view of Problem 1
+\begin_layout Standard
+When the polynomial curve is given (i.e.
+ Problem 1), the ratio between the volume of the simplex 
+\begin_inset Formula $S_{\alpha}$
+\end_inset
+
+ obtained by a basis 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and the volume of the simplex 
+\begin_inset Formula $S_{\beta}$
+\end_inset
+
+ obtained by a basis 
+\begin_inset Formula $\beta$
+\end_inset
+
+ (
+\begin_inset Formula $\alpha,\beta\in{\text{MV},\text{Be},\text{BS}}$
+\end_inset
+
+) is given by
 \end_layout
 
 \begin_layout Standard
-Problem 1 attempts to find the simplex with smallest volume the encloses
- a given polynomial curve.
- In Fig.
- 
+\begin_inset Formula 
+\[
+\frac{\text{vol}\left(S_{\alpha}\right)}{\text{vol}\left(S_{\beta}\right)}=\frac{\text{abs}\left(|\boldsymbol{A}_{\beta}|\right)}{\text{abs}\left(|\boldsymbol{A}_{\alpha}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly, when the simplex is given (i.e.
+ Problem 2), the ratio between the volume of the convex hull of the polynomial
+ curve 
+\begin_inset Formula $\boldsymbol{p}_{\alpha}(t)$
+\end_inset
+
+ found by a basis 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and the volume of the convex hull of the polynomial curve 
+\begin_inset Formula $\boldsymbol{p}_{\beta}(t)$
+\end_inset
+
+ found by a basis 
+\begin_inset Formula $\beta$
+\end_inset
+
+ (
+\begin_inset Formula $\alpha,\beta\in{MV,Be,BS}$
+\end_inset
+
+) is given by
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{\text{vol}\left(\text{conv}\left(\boldsymbol{p}_{\alpha}(t)\right)\right)}{\text{vol}\left(\text{conv}\left(\boldsymbol{p}_{\beta}(t)\right)\right)}=\frac{\text{abs}\left(|\boldsymbol{A}_{\alpha}|\right)}{\text{abs}\left(|\boldsymbol{A}_{\beta}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These ratios are shown in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:comparison2d"
+reference "tab:table_matrices"
 plural "false"
 caps "false"
 noprefix "false"
 
 \end_inset
 
- it is shown the simplex found for 
+.
+ The ratios obtained mean the following for Problem 1 (Problem 2 respectively):
+\end_layout
+
+\begin_layout Itemize
+For 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the MINVO basis finds a simplex that has a volume (a polynomial curve
+ whose convex hull has a volume) 
+\begin_inset Formula $\approx2.36$
+\end_inset
+
+ and 
+\begin_inset Formula $\approx254.9$
+\end_inset
+
+ times smaller (bigger) than the one the Bernstein and B-Spline bases find
+ respectively.
+ 
+\end_layout
+
+\begin_layout Itemize
+For 
+\begin_inset Formula $n=7$
+\end_inset
+
+, the MINVO basis finds a simplex that has a volume (a polynomial curve
+ whose convex hull has a volume)
+\begin_inset Formula $\approx902.7$
+\end_inset
+
+ and 
+\begin_inset Formula $\approx2.997\cdot10^{21}$
+\end_inset
+
+ times smaller (bigger) than the one the Bernstein and B-Spline bases find
+ respectively.
+ 
+\end_layout
+
+\begin_layout Standard
+And same applies for other 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ These comparison are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Comparison2d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ (for 
 \begin_inset Formula $n=2$
 \end_inset
 
-, and in Fig.
+), and in Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -4825,255 +5328,12 @@ noprefix "false"
 
 \end_inset
 
- for 
+ (for 
 \begin_inset Formula $n=3$
-\end_inset
-
-.
- The simplex found using the Bernstein basis is also shown for comparison.
- Let 
-\begin_inset Formula $S_{\text{MV}}$
-\end_inset
-
- and 
-\begin_inset Formula $S_{\text{Be}}$
-\end_inset
-
- denote the simplexes that the MINVO and Bernstein bases generate respectively,
- we have that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{vol\left(S_{\text{MV}}\right)}{vol\left(S_{\text{Be}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This means, for instance, that for 
-\begin_inset Formula $n=3$
-\end_inset
-
-, the MINVO basis finds a simplex that is 
-\begin_inset Formula $\approx2.36$
-\end_inset
-
- smaller than the one the Bernstein basis finds.
- For 
-\begin_inset Formula $n=7$
-\end_inset
-
-, the MINVO basis is able to obtain a simplex that is 
-\begin_inset Formula $\approx903$
-\end_inset
-
- times
-\series bold
- 
-\series default
-smaller than the one achieved using the Bernstein basis.
- 
-\end_layout
-
-\begin_layout Subsection
-From the point of view of Problem 2
-\end_layout
-
-\begin_layout Standard
-In problem 2, the 
-\begin_inset Formula $n$
-\end_inset
-
--simplex 
-\begin_inset Formula $S$
-\end_inset
-
- is given, and we obtain the polynomial curve that is contained in 
-\begin_inset Formula $S$
-\end_inset
-
-, whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
-\end_inset
-
- span a parallelogram with largest volume.
- The results for a regular triangle (
-\begin_inset Formula $n=2$
-\end_inset
-
-) and a tetrahedron (
-\begin_inset Formula $n=3$
-\end_inset
-
-) are shown in Figs.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison2d_simplex_given"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison3d_simplex_given"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
- respectively.
- Denoting 
-\begin_inset Formula $P_{\text{MV}}$
-\end_inset
-
- and 
-\begin_inset Formula $P_{B}$
-\end_inset
-
- as the parallelograms that the MINVO and Bernstein bases generate respectively,
- the ratio of their volumes is:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\frac{vol\left(P_{\text{Be}}\right)}{vol\left(P_{\text{MV}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This means that, for 
-\begin_inset Formula $n=3$
-\end_inset
-
-, the MINVO basis finds a parallelogram 
-\begin_inset Formula $\approx2.36$
-\end_inset
-
- times bigger than the Bernstein basis (
-\begin_inset Formula $\approx903$
-\end_inset
-
- times bigger for 
-\begin_inset Formula $n=7$
 \end_inset
 
 ).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison3d_simplex_given.pdf
-	lyxscale 30
-	width 90col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Optimal solution for Problem 2 with 
-\begin_inset Formula $n=3$
-\end_inset
-
-.
- The tetrahedron is given, and the red polynomial curve using the MINVO
- basis is the curve inside the tetrahedron whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{3},\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
-\end_inset
-
- span a paralellogram with largest volume.
- On the right, the curve obtained using the Bernstein basis.
  
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:comparison3d_simplex_given"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-As we can see from the figures, the polynomial generated by the MINVO basis
- occupies much more space than the one generated using the Bernstein polynomial.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-FloatBarrier
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -5195,6 +5455,38 @@ literal "false"
 )
 \end_layout
 
+\begin_layout Standard
+
+\color red
+Authors name stackoverflow references?
+\end_layout
+
+\begin_layout Section
+Necessary condition
+\end_layout
+
+\begin_layout Standard
+As explained in Sec.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Introduction"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, any locally optimal simplex (with respect to its volume) must be a centroidal
+ simplex (i.e.
+ the centroid of its facets must belong to 
+\begin_inset Formula $\text{conv}\left(\boldsymbol{p}(t)\right)$
+\end_inset
+
+).
+ Here we prove 
+\end_layout
+
 \begin_layout Section
 Conclusions and Future Work
 \end_layout
@@ -5269,9 +5561,11 @@ Acknowledgements
 The authors would like to thank Prof.
  Gilbert Strang, Prof.
  Johan Löfberg, Ashkan M.
- Jasour, Kasra Khosoussi, Juan José Madrigal and Marc Adillón for helpul
- insights and discussions.
- 
+ Jasour, Kasra Khosoussi, Kaveh Fathian, Juan José Madrigal and Marc Adillón
+ for helpul insights and discussions.
+
+\color red
+ Is this anonymous??
 \end_layout
 
 \begin_layout Standard
@@ -5438,9 +5732,13 @@ literal "false"
 
 \end_inset
 
+ 
+\color red
 (Sec.
- 1), every point in 
-\begin_inset Formula $conv(\boldsymbol{p}(t))$
+ 1)
+\color inherit
+, every point in 
+\begin_inset Formula $\text{conv}(\boldsymbol{p}(t))$
 \end_inset
 
  can be expressed as a convex combination of 
@@ -5462,9 +5760,13 @@ literal "false"
 \end_inset
 
 .
- We have then that:
+ We have then that: 
+\color red
+Check that I only need this amount of points.
+ 
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 \begin_inset Note Note
 status open
@@ -5483,7 +5785,7 @@ Creo que el 1/n_fact se puede demostrar con esto (ver los ejemplos de la
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boldsymbol{p}(t)=\alpha_{0}\boldsymbol{p}(t_{0})+...+\alpha_{a-2}\boldsymbol{p}(t_{a-2})+\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\boldsymbol{p}(t_{a-1})\quad\alpha_{i}>0,1-\sum_{i=0}^{a-2}\alpha_{i}>0,t_{i}\in[0,1],t_{i}>t_{i-1}
+\boldsymbol{p}(t)=\alpha_{0}\boldsymbol{p}(t_{0})+...+\alpha_{a-2}\boldsymbol{p}(t_{a-2})+\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\boldsymbol{p}(t_{a-1})\quad\alpha_{i+1}>\alpha_{i},0,1-\sum_{i=0}^{a-2}\alpha_{i}>0,t_{i}\in[0,1],t_{i}>t_{i-1}
 \]
 
 \end_inset
@@ -5498,7 +5800,7 @@ And therefore, the volume is given by:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}\int_{0}^{1-\alpha_{0}-\alpha_{1}}...\int_{0}^{1-\sum_{i=0}^{a-3}\alpha_{i}}}^{a-1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}Jdt_{a-1}dt_{a-2}...dt_{0}\right]d\alpha_{a-2}d\alpha_{a-3}...d\alpha_{0}
+\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}\int_{0}^{1-\alpha_{0}-\alpha_{1}}...\int_{0}^{1-\sum_{i=0}^{a-3}\alpha_{i}}}^{a-1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}\int_{t_{1}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}\text{abs}\left(J\right)dt_{a-1}dt_{a-2}...dt_{0}\right]d\alpha_{a-2}d\alpha_{a-3}...d\alpha_{0}
 \]
 
 \end_inset
@@ -5508,13 +5810,13 @@ Vol\left(conv\left(\boldsymbol{p}(t)\right)\right)=\overbrace{\int_{0}^{1}\int_{
 
 \begin_layout Standard
 where 
-\begin_inset Formula $J$
+\begin_inset Formula $\text{abs}\left(J\right)$
 \end_inset
 
  is the absolute value of the Jacobian:
 \begin_inset Formula 
 \[
-J:=\text{abs}\left(\left|\begin{array}{cccccc}
+\text{abs}\left(J\right)=\text{abs}\left(\left|\begin{array}{cccccc}
 \frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a-2}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a-1}}\end{array}\right|\right)\labelrel={sp:propdet}\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{R}\right|\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)\right)
 \]
 
@@ -5560,84 +5862,11 @@ Now, note that:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-=abs\left(\left|\begin{array}{ccccccc}
+=\text{abs}\left(\left|\begin{array}{ccccccc}
 \boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \boldsymbol{f}(t_{1}) & \frac{\partial\boldsymbol{f}(t_{1})}{\partial t_{1}} & \cdots & \boldsymbol{f}(t_{a-1}) & \frac{\partial\boldsymbol{f}(t_{a-1})}{\partial t_{a-1}}\\
 1 & 0 & 1 & 0 & \cdots & 1 & 0
 \end{array}\right|_{\left(n+1\right)\times\left(n+1\right)}\right)\labelrel={sp:vander}\prod_{i<j}\left(t_{i}-t_{j}\right)^{4}=\prod_{i\neq j}\left(t_{i}-t_{j}\right)^{2}
 \]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\lang english
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{sp:propdet}: Expressing the matrix as the product of two matrices and
- applying the properties of the determinants.
- 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{sp:vander}: See 
-\backslash
-cite{hou2015recursion} and 
-\backslash
-cite{3743664}.
- 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{sp:I1}: See ?? 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{sp:sym}: Using simmetry.
- 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-ref{sp:changevar}: Using the change of variables $t_{i}=2q_{i}-1$ 
-\backslash
-cite{3754782}.
- 
-\end_layout
 
 \end_inset
 
@@ -5665,7 +5894,7 @@ Now, note that:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\left|\hat{K}\right|=\pm\frac{1}{2^{n+1}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)^{2}\implies\text{Pf}(\hat{K})=\pm\frac{1}{2^{\frac{n+1}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
+\text{abs}\left(\left|\hat{K}\right|\right)=\frac{1}{2^{n+1}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)^{2}\implies\text{abs}\left(\text{Pf}(\hat{K})\right)=\frac{1}{2^{\frac{n+1}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
 \]
 
 \end_inset
@@ -5685,7 +5914,7 @@ And therefore, we have that
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boxed{\omega=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)I_{1}I_{2}=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)}
+\boxed{\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)I_{1}I_{2}=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)}
 \]
 
 \end_inset
@@ -5693,6 +5922,7 @@ And therefore, we have that
 
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 \begin_inset Note Note
 status open
@@ -5917,7 +6147,11 @@ If
 
  is even
 \series default
- (n=2,4,6,...): Let us define 
+ (
+\begin_inset Formula $n=2,4,6,...$
+\end_inset
+
+): Let us define 
 \begin_inset Formula $a:=\frac{n}{2}-1$
 \end_inset
 
@@ -5977,7 +6211,7 @@ literal "false"
 
 (Sec.
  1), every point in 
-\begin_inset Formula $conv(\boldsymbol{p}(t))$
+\begin_inset Formula $\text{conv}(\boldsymbol{p}(t))$
 \end_inset
 
  can be expressed as a convex combination of 
@@ -5998,6 +6232,7 @@ literal "false"
  We have then that:
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 \begin_inset Formula 
 \[
@@ -6016,7 +6251,7 @@ And therefore, the volume is given by:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\omega:=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}Jdt_{a}dt_{a-1}...dt_{0}\right]d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}
+\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)==\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left[\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(J\right)dt_{a}dt_{a-1}...dt_{0}\right]d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}
 \]
 
 \end_inset
@@ -6026,14 +6261,14 @@ And therefore, the volume is given by:
 
 \begin_layout Standard
 where 
-\begin_inset Formula $J$
+\begin_inset Formula $\text{abs}\left(J\right)$
 \end_inset
 
  is the absolute value of the Jacobian:
 \begin_inset Formula 
 \[
-J:=abs\left(\left|\begin{array}{cccccc}
-\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a}}\end{array}\right|\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{R}\right|\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-1}\alpha_{i}\right)\right)
+\text{abs}\left(J\right):=abs\left(\left|\begin{array}{cccccc}
+\frac{\partial\boldsymbol{p}(t)}{\alpha_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{\alpha_{a}} & \frac{\partial\boldsymbol{p}(t)}{t_{0}} & \cdots & \frac{\partial\boldsymbol{p}(t)}{t_{a}}\end{array}\right|\right)\labelrel={sp:propdet2}\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\left|\boldsymbol{R}\right|\left(\prod_{{\color{red}i=1}}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{{\color{red}a-1}}\alpha_{i}\right)\right)
 \]
 
 \end_inset
@@ -6107,7 +6342,7 @@ status open
 =\text{abs}\left(\left|\begin{array}{cccccc}
 \boldsymbol{f}(t_{0}) & \frac{\partial\boldsymbol{f}(t_{0})}{\partial t_{0}} & \cdots & \boldsymbol{f}(t_{a}) & \frac{\partial\boldsymbol{f}(t_{a})}{\partial t_{a}} & \boldsymbol{1}\\
 1 & 0 & \cdots & 1 & 0 & 1
-\end{array}\right|\right)=\left(\prod_{i\neq j}\left(t_{i}-t_{j}\right)^{2}\right)\left(\prod_{i}\left(t_{i}-1\right)^{2}\right)
+\end{array}\right|\right)\labelrel={sp:vander2}\left(\prod_{i\neq j}\left(t_{i}-t_{j}\right)^{2}\right)\left(\prod_{i}\left(t_{i}-1\right)^{2}\right)
 \]
 
 \end_inset
@@ -6148,17 +6383,20 @@ Now note that:
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $I_{1}:=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{a}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}=\frac{1}{n!}$
+\begin_inset Formula $I_{1}:=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{{\color{red}a}}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}=\frac{1}{n!}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}=\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\int_{[0,1]^{a+1}}..=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
+\begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}\labelrel={sp:sym2}\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV\labelrel={sp:changevar2}\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Note Note
 status open
 
@@ -6168,6 +6406,19 @@ status open
 \overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}\left(\prod_{i<j}\left(q_{i}-q_{j}\right)^{4}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dq_{a}dq_{a-1}...dq_{0}
 \]
 
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}=\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\int_{[0,1]^{a+1}}..=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
 \end_inset
 
 
@@ -6190,10 +6441,10 @@ where we have used the sustitution
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\text{Pf}(\hat{\boldsymbol{K}})=\text{Pf}\left(\left[\begin{array}{cc}
+\text{Pf}(\hat{\boldsymbol{K}})\labelrel={sp:pfwithones}\text{Pf}\left(\left[\begin{array}{cc}
 \hat{\boldsymbol{K}} & \boldsymbol{1}\\
 \boldsymbol{-1^{T}} & 0
-\end{array}\right]\right)=\frac{1}{2^{a+1}}\text{Pf}\left(\left[\begin{array}{cc}
+\end{array}\right]\right)\labelrel={sp:proppf}\frac{1}{2^{a+1}}\text{Pf}\left(\left[\begin{array}{cc}
 2\hat{\boldsymbol{K}} & \boldsymbol{1}\\
 \boldsymbol{-1^{T}} & 0
 \end{array}\right]\right)
@@ -6206,7 +6457,7 @@ where we have used the sustitution
 
 \begin_layout Standard
 and therefore we have that 
-\begin_inset Formula $I_{2}=\frac{2^{2a^{2}+5a+3}}{(a+1)!}2^{a+1}\left(a+1\right)!\text{abs}\left(\text{Pf}(\hat{\boldsymbol{K}})\right)=2^{2a^{2}+5a+3}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
+\begin_inset Formula $I_{2}=\frac{2^{2a^{2}+5a+3}}{(a+1)!}2^{a+1}\left(\left(a+1\right)!\right)\text{abs}\left(\text{Pf}(\hat{\boldsymbol{K}})\right)=2^{2a^{2}+5a+3}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
 \end_inset
 
  
@@ -6279,7 +6530,7 @@ And therefore: we have that the integrals are:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\boxed{\omega=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)I_{1}I_{2}=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)}
+\boxed{\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)I_{1}I_{2}=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)}
 \]
 
 \end_inset
@@ -6327,44 +6578,304 @@ status open
 
 \end_layout
 
+\end_deeper
 \begin_layout Standard
-(for the second step see Proposition 2.6 of https://d31kydh6n6r5j5.cloudfront.net/u
-ploads/sites/66/2019/04/pfaffian_comps_06_07.pdf )
+\begin_inset CommandInset citation
+LatexCommand cite
+key "de1955some"
+literal "false"
+
+\end_inset
+
+
 \end_layout
 
-\begin_layout Standard
-For the third step, see properties in wikipedia
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:propdet}, 
+\backslash
+ref{sp:propdet2}:
 \end_layout
 
-\begin_layout Standard
-For the first step, see paper.
+\end_inset
+
+ Expressing the matrix as the product of two matrices and applying the propertie
+s of the determinants.
  
 \end_layout
 
-\begin_layout Standard
-Citar stackoverflow??
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:vander}, 
+\backslash
+ref{sp:vander2}:
+\end_layout
+
+\end_inset
+
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hou2015recursion,3743664"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:I1}:
+\end_layout
+
+\end_inset
+
+ See ?? 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:sym}, 
+\backslash
+ref{sp:sym2}:
+\end_layout
+
+\end_inset
+
+ Using simmetry.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:changevar}, 
+\backslash
+ref{sp:changevar2}:
+\end_layout
+
+\end_inset
+
+Using the change of variables 
+\begin_inset Formula $t_{i}=2q_{i}-1$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "3754782"
+literal "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:pfwithones}:
+\end_layout
+
+\end_inset
+
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "de1955some"
+literal "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{sp:proppf}:
+\end_layout
+
+\end_inset
+
+ Using the properties of the Pfaffian (
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cite[Proposition~2.6]{austin2007pfaffian}
+\end_layout
+
+\end_inset
+
+) and wikipedia??
 \end_layout
 
 \begin_layout Standard
+
+\bar under
+Remark:
+\bar default
+ When 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ is the curve 
+\begin_inset Formula $\left[\begin{array}{cccc}
+\frac{t+1}{2} & \left(\frac{t+1}{2}\right)^{2} & \cdots & \left(\frac{t+1}{2}\right)^{n}\end{array}\right]^{T}$
+\end_inset
+
+, the formula matches with the one available in 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cite[Theorem~15.2]{karlin1953geometry}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "karlin1953geometry"
+literal "false"
+
+\end_inset
+
+ uses the convention 
+\begin_inset Formula $t\in[0,1]$
+\end_inset
+
+ (instead of 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+) , and therefore it uses the curve 
+\begin_inset Formula $\left[\begin{array}{cccc}
+t & t^{2} & \cdots & t^{n}\end{array}\right]^{T}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+ Indeed, for this curve we have:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)=\prod_{i=1}^{n}\frac{1}{2^{i}}=2^{\frac{-n(n+1)}{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Denoting now the beta function as 
+\begin_inset Formula $\text{B}(x,y)$
+\end_inset
+
+, we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\frac{1}{n!}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)=\frac{1}{n!}\prod_{j=1}^{n}\left(\frac{j!(j-1)!}{(2j-1)!}\right)=\prod_{j=1}^{n}\left(\frac{\left((j-1)!\right)^{2}}{(2j-1)!}\right)=\prod_{j=1}^{n}\text{B}(j,j)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is the same formula as 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+cite[Theorem~15.2]{karlin1953geometry}
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\color red
 Cuidado, acordarse de poner valores absolutos everywhere!!
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Citar theorem 2.2 y 2.3 de de http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.9
 73.6094&rep=rep1&type=pdf (aunque ellos parece que lo cojen de Karlin/Shapley)
-\end_layout
-
-\begin_layout Standard
-Comprobar que las formulas estan bien cuando P es una moment curve (ver
- formula en 
-\begin_inset Quotes eld
-\end_inset
-
-Geometry of Moment Spaces, page 51
-\begin_inset Quotes erd
-\end_inset
-
-)
 \end_layout
 
 \begin_layout Standard
@@ -7661,6 +8172,234 @@ MINVO
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+it is also shown the ratio
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+where 
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{A}_{\text{Be}}$
+\end_inset
+
+ denote the coefficient matrices for the MINVO and Bernstein bases respectively.
+ Let us now analyze the meaning of these results for Problems 1 and 2.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+From the point of view of Problem 1
+\end_layout
+
+\begin_layout Plain Layout
+Problem 1 attempts to find the simplex with smallest volume the encloses
+ a given polynomial curve.
+ In Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison2d_poly_given"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ it is shown the simplex found for 
+\begin_inset Formula $n=2$
+\end_inset
+
+, and in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Comparison3d"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ for 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
+ The simplex found using the Bernstein basis is also shown for comparison.
+ Let 
+\begin_inset Formula $S_{\text{MV}}$
+\end_inset
+
+ and 
+\begin_inset Formula $S_{\text{Be}}$
+\end_inset
+
+ denote the simplexes that the MINVO and Bernstein bases generate respectively,
+ we have that:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\frac{vol\left(S_{\text{MV}}\right)}{vol\left(S_{\text{Be}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+This means, for instance, that for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the MINVO basis finds a simplex that is 
+\begin_inset Formula $\approx2.36$
+\end_inset
+
+ smaller than the one the Bernstein basis finds.
+ For 
+\begin_inset Formula $n=7$
+\end_inset
+
+, the MINVO basis is able to obtain a simplex that is 
+\begin_inset Formula $\approx903$
+\end_inset
+
+ times
+\series bold
+ 
+\series default
+smaller than the one achieved using the Bernstein basis.
+\end_layout
+
+\begin_layout Subsection
+From the point of view of Problem 2
+\end_layout
+
+\begin_layout Plain Layout
+In problem 2, the 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex 
+\begin_inset Formula $S$
+\end_inset
+
+ is given, and we obtain the polynomial curve that is contained in 
+\begin_inset Formula $S$
+\end_inset
+
+, whose coefficients vectors 
+\begin_inset Formula $\boldsymbol{p}_{n},...,\boldsymbol{p}_{1}$
+\end_inset
+
+ span a parallelogram with largest volume.
+ The results for a regular triangle (
+\begin_inset Formula $n=2$
+\end_inset
+
+) and a tetrahedron (
+\begin_inset Formula $n=3$
+\end_inset
+
+) are shown in Figs.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison2d_simplex_given"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison3d_simplex_given"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ respectively.
+ Denoting 
+\begin_inset Formula $P_{\text{MV}}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{B}$
+\end_inset
+
+ as the parallelograms that the MINVO and Bernstein bases generate respectively,
+ the ratio of their volumes is:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\frac{vol\left(P_{\text{Be}}\right)}{vol\left(P_{\text{MV}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+This means that, for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, the MINVO basis finds a parallelogram 
+\begin_inset Formula $\approx2.36$
+\end_inset
+
+ times bigger than the Bernstein basis (
+\begin_inset Formula $\approx903$
+\end_inset
+
+ times bigger for 
+\begin_inset Formula $n=7$
+\end_inset
+
+).
 \end_layout
 
 \end_inset

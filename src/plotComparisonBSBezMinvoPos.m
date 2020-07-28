@@ -114,13 +114,13 @@ volumen_bs=plot_convex_hull(pol_x,pol_y,pol_z,A,'y',0.3);
 subplot(2,2,[3,4]);hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,[min(knots),max(knots)],'r','LineWidth',3);
 
-plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
+%plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
 
 subplot(2,2,1);hold on
-plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
+%plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
 
 subplot(2,2,2);hold on
-plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
+%plot3(points_bs_cropped(1,:),points_bs_cropped(2,:),points_bs_cropped(3,:),'-b')
 
 
 view1=80;
@@ -158,4 +158,4 @@ arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 % ylim([-1.5,1.5]);
 
-% exportAsSvg(gcf,'imgs/comparisonBsBezierMinvo_matlab')
+exportAsSvg(gcf,'imgs/comparisonBSBeMV_matlab')

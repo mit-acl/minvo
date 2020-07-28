@@ -78,7 +78,7 @@ end
 
 
 if(interval=="01")
-    A=convertAFromM11toM01(A);
+    A=convertAFromM11to01(A);
 end
 
 end

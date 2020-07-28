@@ -8,6 +8,8 @@
 
 close all; clc; clear;
 
+%delete(gcp('nocreate')); %Delete the parallel pool
+
 global use_yalmip
 
 use_yalmip=false;
@@ -18,7 +20,7 @@ else
     syms t
 end
 
-deg=6;
+deg=4;
 n=deg;
 
 deg_is_even = (rem(deg, 2) == 0);
@@ -218,12 +220,16 @@ else
     ms = MultiStart('Display','iter','UseParallel',true);
 
     disp('Running, it usually takes some time until the parpool starts');
-    [xgs,~,~,~,solsgs] = run(ms,problem,3000); %8000
+    [xgs,~,~,~,solsgs] = run(ms,problem,100); %8000
 
 
     %%Recover solution
     B_solution=vpa(subs(B_solved,R,xgs));
     A_solution=double(vpa(subs(A,R,xgs)));
+    R_solution=double(vpa(subs(R,R,xgs)));
+    
+    tangencyPoints=sort([R_solution; -R_solution]); %Also the symmetric roots
+    
     det(A_solution)
 
     A=A_solution;
@@ -242,7 +248,9 @@ else
         rootsA=[rootsA ; roots(A_solution(i,:))'];
     end
     rootsA=double(real(rootsA));
-    save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
+    %save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
+    
+    save(['sols_formula/solutionTangencyPointsDeg' num2str(deg) '.mat'],'tangencyPoints');
 
 end
 
