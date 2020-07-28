@@ -430,15 +430,9 @@ literal "false"
 \end_inset
 
  for instance).
- This allows to impose a finite number of constraints (of the form 
-\begin_inset Formula $c(x)\le0$
-\end_inset
-
-), instead of an infinite number of constraints (of the form 
-\begin_inset Formula $c(x,t)\le0\;\forall t$
-\end_inset
-
-).
+ This allows to impose a finite number of constraints only on the vertexes
+ of this outer polyhedral representation of the interval, instead of infinite
+ number of constraints over all the points of the interval of the polynomial.
  
 \end_layout
 
@@ -549,6 +543,8 @@ Formulation of the optimization problem that solves, without loss of generality,
 \end_inset
 
 -simplex that encloses a given polynomial curve.
+ We show that this problem is also equivalent to find the polynomial curve
+ whose convex hull has maximum volume, while being enclosed in a given simplex.
  Global optima for 
 \begin_inset Formula $n=1$
 \end_inset
@@ -567,6 +563,12 @@ Formulation of the optimization problem that solves, without loss of generality,
 \end_layout
 
 \begin_layout Itemize
+
+\color red
+Say sth about the improvement wrt Bernstein/BSplines
+\end_layout
+
+\begin_layout Itemize
 A more tractable formulation that imposes a specific structure in the polynomial
 s.
  With this formulation, global optima are obtained for 
@@ -575,7 +577,7 @@ s.
 
  (using also moment relaxations and semidefinite programming), and local
  optima are obtained for 
-\begin_inset Formula $4,5,6,7$
+\begin_inset Formula $n=4,5,6,7$
 \end_inset
 
 .
@@ -683,7 +685,7 @@ Related work
 
 \begin_layout Standard
 A work that attempted to solve exactly the same problem proposed in this
- was the work by Gary Herron 
+ paper was the work by Gary Herron 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "herron1989polynomial"
@@ -792,16 +794,32 @@ Notation and Definitions
 \end_layout
 
 \begin_layout Standard
-This paper will use the following notation:
+Unless otherwise noted, all the indexes in this paper will start at 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ For instance, 
+\begin_inset Formula $M_{0,3}$
+\end_inset
+
+ is the fourth element of the first row of the matrix 
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+.
+ Let us also introduce the two following common definitions and their respective
+ notations.
+ This paper will use the following notation:
 \end_layout
 
 \begin_layout Standard
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="20" columns="2">
+<lyxtabular version="3" rows="21" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="6cm">
 <row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -923,7 +941,7 @@ Set of points
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\text{conv}(A)$
+\begin_inset Formula $\text{conv}(\boldsymbol{p}(t))$
 \end_inset
 
 
@@ -935,8 +953,8 @@ Set of points
 \begin_inset Text
 
 \begin_layout Plain Layout
-Convex hull of the set 
-\begin_inset Formula $A$
+Convex hull of a curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
 
@@ -1131,7 +1149,7 @@ Column vector of zeros
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\boldsymbol{e}$
+\begin_inset Formula $\boldsymbol{e}_{i}$
 \end_inset
 
 
@@ -1143,11 +1161,52 @@ Column vector of zeros
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\left[\begin{array}{ccccc}
-0 & 0 & \cdots & 0 & 1\end{array}\right]^{T}$
+\begin_inset Formula $i-$
+\end_inset
+
+th vector of the standard basis (i.e.
+ vector with all zeros except a 
+\begin_inset Formula $1$
+\end_inset
+
+ in its 
+\begin_inset Formula $i-$
+\end_inset
+
+th entry).
+ Its size is determined by the context.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{M}_{:,c:d}$
 \end_inset
 
 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Matrix formed by the rows 
+\begin_inset Formula $c,c+1,...,d$
+\end_inset
+
+ of 
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
@@ -1172,8 +1231,8 @@ Column vector of zeros
 \begin_layout Plain Layout
 \begin_inset Formula $\begin{array}{c}
 \left[\begin{array}{ccc}
-t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}\\
-\text{(\ensuremath{n} given by the context)}
+t^{r} & t^{r-1}\cdots & 1\end{array}\right]^{T}\\
+\text{(\ensuremath{r} given by the context)}
 \end{array}$
 \end_inset
 
@@ -1202,8 +1261,8 @@ t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}\\
 \begin_layout Plain Layout
 \begin_inset Formula $\begin{array}{c}
 \left[\begin{array}{cccc}
-1 & \cdots & t^{n-1} & t^{n}\end{array}\right]^{T}\\
-\text{(\ensuremath{n} given by the context)}
+1 & \cdots & t^{r-1} & t^{r}\end{array}\right]^{T}\\
+\text{(\ensuremath{r} given by the context)}
 \end{array}$
 \end_inset
 
@@ -1260,7 +1319,7 @@ t^{n} & t^{n-1}\cdots & 1\end{array}\right]^{T}\\
 \begin_inset Text
 
 \begin_layout Plain Layout
-Volume of a polyhedron
+Volume
 \end_layout
 
 \end_inset
@@ -1338,11 +1397,6 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-Let us also introduce the two following common definitions and their respective
- notations: 
-\end_layout
-
-\begin_layout Standard
 \begin_inset Box Boxed
 position "t"
 hor_pos "c"
@@ -1378,29 +1432,11 @@ status open
 \end_inset
 
 .
- These points are called the 
+ These points are 
 \series bold
 vertexes
 \series default
- of the simplex.
- The letter 
-\begin_inset Formula $S$
-\end_inset
-
- will denote simplex, while 
-\begin_inset Formula $S^{n}$
-\end_inset
-
- will denote the set of all possible 
-\begin_inset Formula $n$
-\end_inset
-
--simplexes.
- A simplex 
-\begin_inset Formula $S$
-\end_inset
-
- is often characterized by its 
+ of the simplex, and will be stacked in the 
 \series bold
 matrix of vertexes
 \series default
@@ -1410,19 +1446,30 @@ matrix of vertexes
 \end_inset
 
 .
- A simplex whose vertexes are 
-\begin_inset Formula $\{\boldsymbol{0},\boldsymbol{e}_{1},\boldsymbol{e}_{2},...,\boldsymbol{e}_{n}\}$
+ A simplex with 
+\begin_inset Formula $\boldsymbol{V}=\left[\begin{array}{cccc}
+\boldsymbol{0} & \boldsymbol{e}_{0} & \cdots & \boldsymbol{e}_{n}\end{array}\right]$
 \end_inset
 
-, where 
-\begin_inset Formula $\boldsymbol{e}_{i}$
-\end_inset
-
- are the vectors of the standard basis, is called a
+ is the 
 \series bold
- standard simplex
+standard simplex
 \series default
 .
+ The letter 
+\begin_inset Formula $S$
+\end_inset
+
+ will denote the simplex, while 
+\begin_inset Formula $S^{n}$
+\end_inset
+
+ will denote the set of all possible 
+\begin_inset Formula $n$
+\end_inset
+
+-simplexes.
+ 
 \end_layout
 
 \end_inset
@@ -1486,11 +1533,25 @@ p_{k-1}(t)
 \end_inset
 
 , where 
-\begin_inset Formula $p_{i}(t)=\boldsymbol{c}_{i}^{T}\boldsymbol{t}$
+\begin_inset Formula $p_{i}(t)$
 \end_inset
 
  is a polynomial of degree 
 \begin_inset Formula $n$
+\end_inset
+
+.
+ The matrix 
+\begin_inset Formula $\boldsymbol{P}$
+\end_inset
+
+ is the coefficient matrix, and will be denoted as 
+\begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}
+\end{array}\right]_{k\times(n+1)}\equiv\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times(n+1)}$
 \end_inset
 
 .
@@ -1507,20 +1568,6 @@ p_{k-1}(t)
 \end_inset
 
 -th order polynomial curves.
- The matrix 
-\begin_inset Formula $\boldsymbol{P}$
-\end_inset
-
- is the coefficient matrix, and will be denoted as 
-\begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
-\boldsymbol{c}_{0}^{T}\\
-\vdots\\
-\boldsymbol{c}_{k-1}^{T}
-\end{array}\right]_{k\times n}\equiv\left[\begin{array}{ccc}
-\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times n}$
-\end_inset
-
-.
 \end_layout
 
 \end_inset
@@ -1632,15 +1679,15 @@ Problem 1
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
- in the interval 
-\begin_inset Formula $t\in[-1,1]$
+ 
+\begin_inset Formula $\forall t\in[-1,1]$
 \end_inset
 
 .
  In other words:
 \begin_inset Formula 
 \[
-\min_{S\in S^{n}}\quad f_{1}:=vol(S)\propto abs\left(\left|\left[\begin{array}{cc}
+\min_{S\in S^{n}}\quad f_{1}:=\text{vol}(S)\propto\text{abs}\left(\left|\left[\begin{array}{cc}
 \boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|\right)
 \]
 
@@ -1742,11 +1789,11 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_inset
 
 .
- For 
-\begin_inset Formula $n=3$
+ In other words, 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
 \end_inset
 
-, for instance, this means that the curve is not contained in a plane.
+.
  If 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
@@ -1759,16 +1806,22 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \begin_inset Formula $m<n$
 \end_inset
 
-), then we can solve the problem by simply doing a change of variables and
- solve the problem directly in 
+), then we can solve the problem by simply using the basis of that subspace
+ 
 \begin_inset Formula $\mathbb{R}^{m}$
 \end_inset
 
 .
- 
+
+\color red
+ Is this true if, for instance, m=1 and n=3??
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 Another way to understand Problem 1 is using the convex hull of the curve
  
 \begin_inset Formula $\boldsymbol{p}(t)$
@@ -1791,6 +1844,11 @@ noprefix "false"
 \end_inset
 
 ) 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2248,12 +2306,18 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-Similar to the previous case, without loss of generality we will assume
- that the simplex 
+Similar to the previous case, we will assume that the matrix of vertexes
+ of the simplex 
 \begin_inset Formula $S$
 \end_inset
 
- is nondegenerate (it is not contained in 
+ satisfy 
+\begin_inset Formula $\left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|\neq0$
+\end_inset
+
+.
+ In other words, the simplex S is not contained in 
 \begin_inset Formula $\mathbb{R}^{m}$
 \end_inset
 
@@ -2272,7 +2336,8 @@ i.e.
 
 \end_inset
 
-).
+.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2395,54 +2460,42 @@ The geometric interpretation of each
 \end_inset
 
  is as follows.
- First note that
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\boldsymbol{p}(t)=\sum_{i=0}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}=\boldsymbol{v}_{n}+\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)
-\]
-
+ Let us define 
+\begin_inset Formula $\boldsymbol{\pi}_{i}$
 \end_inset
 
+ as the hyperplane that passes through the points 
+\begin_inset Formula $\{\boldsymbol{v}_{0},\boldsymbol{v}_{1},...,\boldsymbol{v}_{n}\}\backslash\boldsymbol{v}_{i}$
+\end_inset
 
-\end_layout
-
-\begin_layout Standard
-Defining now 
-\begin_inset Formula $\boldsymbol{n}$
+, and 
+\begin_inset Formula $\boldsymbol{n}_{i}$
 \end_inset
 
  as the normal vector of the hyperplane 
-\begin_inset Formula $\boldsymbol{\pi}$
+\begin_inset Formula $\boldsymbol{\pi}_{i}$
 \end_inset
 
- formed by the points 
-\begin_inset Formula $\boldsymbol{v}_{1}$
-\end_inset
-
-,
-\begin_inset Formula $\boldsymbol{v}_{2}$
-\end_inset
-
-,...,
-\begin_inset Formula $\boldsymbol{v}_{n}$
-\end_inset
-
-, and satisfying 
-\begin_inset Formula $\boldsymbol{n}^{T}\boldsymbol{p}(t)\ge0$
+ that satisfies 
+\begin_inset Formula $\boldsymbol{n}_{i}^{T}\boldsymbol{p}(t)\ge0$
 \end_inset
 
  (i.e.
- pointing towards the interior of the simplex), we have that: 
+ pointing towards the interior of the simplex).
+ Choosing now a vertex 
+\begin_inset Formula $k\in\{0,...,n\}\backslash i$
+\end_inset
+
+ we have that:
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula 
 \[
-\begin{array}{c}
-dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\\
-\\
-=\sum_{i=0}^{n-1}\lambda_{i}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{n}\right)^{T}\boldsymbol{n}=\lambda_{0}(t)\;dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)
-\end{array}
+\boldsymbol{p}(t)=\sum_{j=0}^{n}\lambda_{j}(t)\boldsymbol{v}_{j}=\boldsymbol{v}_{k}+\sum_{\begin{array}{c}
+j=0\\
+j\neq k
+\end{array}}^{n}\lambda_{j}(t)\left(\boldsymbol{v}_{j}-\boldsymbol{v}_{k}\right)
 \]
 
 \end_inset
@@ -2452,12 +2505,13 @@ dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right):=\left(\boldsymbol{p}(t)-\bo
 
 \begin_layout Standard
 And therefore:
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{0}(t)=\frac{dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}\right)}{dist\left(\boldsymbol{v}_{0},\boldsymbol{\pi}\right)}
+\begin{array}{c}
+dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\\
+\\
+=\sum_{j=0}^{n-1}\lambda_{j}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\lambda_{i}(t)\;dist\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)
+\end{array}
 \]
 
 \end_inset
@@ -2466,12 +2520,24 @@ And therefore:
 \end_layout
 
 \begin_layout Standard
-A similar reasoning applies for the other 
-\begin_inset Formula $\lambda_{i}(t)$
+
+\color red
+And therefore:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\lambda_{i}(t)=\frac{dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right)}{dist\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)}
+\]
+
 \end_inset
 
-.
- Hence, each 
+
+\end_layout
+
+\begin_layout Standard
+Hence, each 
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
@@ -2542,15 +2608,15 @@ Geometric interpretation of
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
 
- represents the distance between the vertex 
-\begin_inset Formula $\boldsymbol{v}_{i}$
+ represents the normalized distance between the curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
  and the plane formed by the vertexes 
 \begin_inset Formula $\boldsymbol{v}_{i},\;i\neq j$
 \end_inset
 
-, normalized with the distance from 
+, normalized with the distance from the vertex 
 \begin_inset Formula $\boldsymbol{v}_{i}$
 \end_inset
 
@@ -2558,7 +2624,7 @@ Geometric interpretation of
  For a standard simplex in 3D (i.e.
  
 \begin_inset Formula $\boldsymbol{V}=\left[\begin{array}{cccc}
-\boldsymbol{0} & \boldsymbol{e}_{1} & \boldsymbol{e}_{2} & \boldsymbol{e}_{3}\end{array}\right]$
+\boldsymbol{0} & \boldsymbol{e}_{0} & \boldsymbol{e}_{1} & \boldsymbol{e}_{2}\end{array}\right]$
 \end_inset
 
 ) (right), the curve in red is 
@@ -2608,11 +2674,11 @@ With respect to the second constraint
 \end_inset
 
 , it can be rewritten as 
-\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}$
+\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}_{n}$
 \end_inset
 
  (or equivalently 
-\begin_inset Formula $\boldsymbol{e}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$
+\begin_inset Formula $\boldsymbol{e}_{n}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$
 \end_inset
 
 ).
@@ -2643,7 +2709,7 @@ Given the previous relationships, we have that
 \begin_inset Formula 
 \[
 =\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
-\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
+\boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}_{n}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
 \]
 
 \end_inset
@@ -2654,7 +2720,7 @@ Given the previous relationships, we have that
 \begin_layout Standard
 where we have used the fact that everything inside 
 \begin_inset Formula $\left[\begin{array}{c}
-\boldsymbol{P}^{T}\boldsymbol{e}\end{array}\right]$
+\boldsymbol{P}^{T}\boldsymbol{e}_{n}\end{array}\right]$
 \end_inset
 
  is given (i.e.
@@ -2693,10 +2759,10 @@ Similarly to the previous subsection, we have that
 \[
 \left|\boldsymbol{P}_{:,0:n}\right|=\left|\left[\begin{array}{c}
 \boldsymbol{P}\\
-\boldsymbol{e}^{T}
+\boldsymbol{e}_{n}^{T}
 \end{array}\right]\right|=\left|\left[\begin{array}{c}
 \boldsymbol{V}\\
-\underbrace{\boldsymbol{e}^{T}\boldsymbol{A}^{-1}}_{=\boldsymbol{1}^{T}}
+\underbrace{\boldsymbol{e}_{n}^{T}\boldsymbol{A}^{-1}}_{=\boldsymbol{1}^{T}}
 \end{array}\right]\boldsymbol{A}\right|\propto\left|\boldsymbol{A}\right|
 \]
 
@@ -2711,7 +2777,7 @@ And therefore,
 \end_inset
 
 .
- Note also that 
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -2766,7 +2832,7 @@ fboxrule}%
 \begin_layout Standard
 
 \series bold
-Problem: 
+Problem 3: 
 \end_layout
 
 \begin_layout Standard
@@ -2785,7 +2851,7 @@ Problem:
 \[
 \begin{array}{cc}
 s.t. & \boldsymbol{A}\boldsymbol{t}\ge\boldsymbol{0}\quad\forall t\in[-1,1]\\
- & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}
+ & \boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}_{n}
 \end{array}
 \]
 
@@ -2824,7 +2890,12 @@ end{minipage}}
 
 \begin_layout Standard
 As the objective function of Problem 3 is the determinant of a nonsymmetric
- matrix, it is clearly a nonconvex problem.
+ matrix 
+\begin_inset Formula $\boldsymbol{A}:=\left[\begin{array}{ccc}
+\boldsymbol{\lambda}_{0} & \cdots & \boldsymbol{\lambda}_{n}\end{array}\right]^{T}$
+\end_inset
+
+, it is clearly a nonconvex problem.
  For the first constraint of Problem 3, we can use the following result
  of Sum-Of-Squares programming, to rewrite that constraint and leave positive
  semidefinite matrices as decision variables 
@@ -2984,32 +3055,16 @@ noprefix "false"
 
 .
  This translates into the formulation shown in Problem 4.
-\begin_inset Note Note
-status open
+\end_layout
 
-\begin_layout Plain Layout
+\begin_layout Standard
+
+\color red
 REVISAR LAS CONSTRAINTS 
 \begin_inset Formula $\lambda_{i}(t)=\lambda_{n-i+2}(-t)$
 \end_inset
 
  DebajoCREO QUE ALGUN INDICE PUEDE ESTAR MAL
-\end_layout
-
-\begin_layout Plain Layout
-====================================================================
-\end_layout
-
-\begin_layout Plain Layout
-===================================================================
-\end_layout
-
-\begin_layout Plain Layout
-==================================================================
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -3098,7 +3153,7 @@ If
 \lambda_{i}(t)=-b_{i}(t-1)\prod_{j=1}^{\frac{n-1}{2}}(t-t_{j})^{2}\quad i=0,2,...,n-1\\
 \lambda_{i}(t)=\lambda_{n-i+2}(-t)\quad\quad\quad i=1,3,...,n\\
 b_{i}\ge0\quad i=0,2,...,n-1\\
-\sum_{i=0}^{i=n}\lambda_{i}(t)=1
+\sum_{i=0}^{n}\lambda_{i}(t)=1
 \end{array}
 \]
 
@@ -3162,7 +3217,7 @@ Cuidado que n/2 esta incluido o no si n/2 es odd o even
 \lambda_{i}(t)=b_{i}\prod_{j=1}^{\frac{n}{2}}(t-t_{j})^{2}\quad\quad\quad i\in\mathcal{I}_{b}\\
 \lambda_{j}(t)=\lambda_{n-i+1}(-t)\quad\quad\quad i=\frac{n}{2}+1,...,n\\
 b_{i}\ge0\quad i\le\frac{n}{2}\\
-\sum_{i=0}^{i=n}\lambda_{i}(t)=1
+\sum_{i=0}^{n}\lambda_{i}(t)=1
 \end{array}
 \]
 
@@ -3283,9 +3338,7 @@ noprefix "false"
 
 .
  Hence the feasible set of Problem 4 is contained in the feasible set of
- Problem 3 or, in other words, any feasible solution of Problem 4 is feasible
- for Problem 3 (the converse is not true in general).
- Therefore, 
+ Problem 3, and therefore, 
 \begin_inset Formula $f_{3}^{*}\le f_{4}^{*}$
 \end_inset
 
@@ -3299,12 +3352,12 @@ noprefix "false"
 \begin_inset Formula $\boldsymbol{V}^{*}=\boldsymbol{P}\left(\boldsymbol{A}^{*}\right)^{-1}$
 \end_inset
 
- where 
+, where 
 \begin_inset Formula $\boldsymbol{P}$
 \end_inset
 
- is the coefficient matrix of the polynomial given), or to find the polynomial
- matrix in Problem 2 (by using 
+ is the coefficient matrix of the polynomial given), or to find the coefficient
+ matrix of the polynomial in Problem 2 (by using 
 \begin_inset Formula $\boldsymbol{P}^{*}=\boldsymbol{V}\boldsymbol{A}^{*}$
 \end_inset
 
@@ -3480,16 +3533,32 @@ noprefix "false"
 
 \end_inset
 
-.
- Note that any permutation in the rows of 
-\begin_inset Formula $\boldsymbol{A}$
+, and denoted as 
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
- will also be a minimizer, since only the sign of the determinant is affected.
-\end_layout
+.
+ Note that any permutation in the rows of 
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
+\end_inset
 
-\begin_layout Standard
-The corresponding plots of the MINVO basis functions are shown in Fig.
+will not change the objective value, since only the sign of the determinant
+ is affected.
+ Its determinant 
+\begin_inset Formula $\left|\boldsymbol{A}_{\text{MV}}\right|$
+\end_inset
+
+ is also compared with the one of the Bernstein and B-Spline matrices (denoted
+ as 
+\begin_inset Formula $\boldsymbol{A}_{\text{Be}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\boldsymbol{A}_{\text{BS}}$
+\end_inset
+
+ respectively) The corresponding plots of the MINVO basis functions are
+ shown in Fig.
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3500,7 +3569,11 @@ noprefix "false"
 
 \end_inset
 
-, together with the Bernstein and Lagrange bases for comparison.
+, together with the Bernstein, 
+\color red
+B-Spline
+\color inherit
+, and Lagrange bases for comparison.
  
 \end_layout
 
@@ -3529,8 +3602,12 @@ literal "false"
 \end_inset
 
  (in Problem 3).
- These results lead us to the following conclusions (also summarized in
- Table 
+ 
+\end_layout
+
+\begin_layout Standard
+All these results lead us to the following conclusions, which are also summarize
+d in Table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:table_matrices"
@@ -3540,7 +3617,7 @@ noprefix "false"
 
 \end_inset
 
-):
+:
 \end_layout
 
 \begin_layout Itemize
@@ -3610,7 +3687,7 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
+\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
 \]
 
 \end_inset
@@ -3628,8 +3705,7 @@ where
 \end_inset
 
  denote the coefficient matrices for the MINVO and Bernstein bases respectively.
- Let us now analyze the meaning of these results in both for the Problems
- 1 and 2.
+ Let us now analyze the meaning of these results for Problems 1 and 2.
  
 \end_layout
 
@@ -3806,7 +3882,7 @@ textwidth}{!}{%
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\boldsymbol{A}$
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
 
@@ -3818,7 +3894,7 @@ textwidth}{!}{%
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $abs\left(\left|\boldsymbol{A}\right|\right)$
+\begin_inset Formula $abs\left(\left|\boldsymbol{A}_{\text{MV}}\right|\right)$
 \end_inset
 
 
@@ -3830,7 +3906,7 @@ textwidth}{!}{%
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}$
+\begin_inset Formula $\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}$
 \end_inset
 
 
@@ -4115,11 +4191,11 @@ Global Opt.
 
 \size scriptsize
 \begin_inset Formula $\left[\begin{array}{ccccc}
--1.108 & -0.8108 & 0.9602 & 0.8108 & 0.1483\\
--1.108 & 0.8108 & 0.9602 & -0.8108 & 0.1483\\
 0.5255 & -0.5758 & -0.09435 & 0.1381 & 0.03023\\
-0.5255 & 0.5758 & -0.09435 & -0.1381 & 0.03023\\
-1.166 & 0 & -1.732 & 0 & 0.643
+-1.108 & 0.8108 & 0.9602 & -0.8108 & 0.1483\\
+1.166 & 0 & -1.732 & 0 & 0.643\\
+-1.108 & -0.8108 & 0.9602 & 0.8108 & 0.1483\\
+0.5255 & 0.5758 & -0.09435 & -0.1381 & 0.03023
 \end{array}\right]$
 \end_inset
 
@@ -4491,31 +4567,17 @@ latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-\begin_inset Note Note
-status open
 
-\begin_layout Plain Layout
-LA MATRIX DEL 4 HAY QUE ORDENARLA!!!!
-\end_layout
-
-\end_inset
-
- Creo que Puedo demostrar facilmente que el caso n=2 es global optimum para
+\color red
+Creo que Puedo demostrar facilmente que el caso n=2 es global optimum para
  el problem 3 by simply imposing the centroid necessary condition optimi
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-EL CASO N=2 DEBERIA SER GLOBAL OPTIMIMUM?? (I.E.
+ EL CASO N=2 DEBERIA SER GLOBAL OPTIMIMUM?? (I.E.
  LO PUEDO RESOLVER ANALITICAMENTE O NO?)Lo puedo resolver analiticamente
  para el problema 4 for sure, pero not sure para el problema 3...
-\end_layout
-
-\end_inset
-
+\color inherit
 Results for the MINVO basis.
  
-\begin_inset Formula $\boldsymbol{A}$
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
  denotes the coefficient matrix of the MINVO basis 
@@ -4534,7 +4596,7 @@ status open
 \end_inset
 
  while 
-\begin_inset Formula $\boldsymbol{A}_{B}$
+\begin_inset Formula $\boldsymbol{A}_{\text{Be}}$
 \end_inset
 
  represents the matrix of the Bernstein basis (
@@ -4543,8 +4605,8 @@ status open
 
  for both).
  The bigger the absolute value of the determinant, the smaller the associated
- simplex (for Problem 1) and the smaller the parallelogram (for Problem
- 3).
+ simplex (for Problem 1) and the bigger the convex hull of the curve (for
+ Problem 2).
  These matrices 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
@@ -4607,17 +4669,21 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Comparison between the MINVO, and Bernstein and Lagrange bases for 
-\begin_inset Formula $n=1,2,3,4,5,6,7$
+Comparison between the MINVO, Bernstein, 
+\color red
+B-Spline
+\color inherit
+, and Lagrange bases for 
+\begin_inset Formula $n=1:7$
 \end_inset
 
 .
  All these bases satisfy 
-\begin_inset Formula $\sum_{i=0}^{i=n}\lambda_{i}(t)=1$
+\begin_inset Formula $\sum_{i=0}^{n}\lambda_{i}(t)=1$
 \end_inset
 
-, and the MINVO and Bernstein bases also satisfy 
-\begin_inset Formula $\lambda_{i}(t)\ge0\;\forall t\in[-1,1]$
+, and the MINVO, Bernstein and B-Spline bases also satisfy 
+\begin_inset Formula $\lambda_{i}(t)\ge0\;\;\forall t\in[-1,1]$
 \end_inset
 
  
@@ -4766,11 +4832,11 @@ noprefix "false"
 .
  The simplex found using the Bernstein basis is also shown for comparison.
  Let 
-\begin_inset Formula $S$
+\begin_inset Formula $S_{\text{MV}}$
 \end_inset
 
  and 
-\begin_inset Formula $S_{B}$
+\begin_inset Formula $S_{\text{Be}}$
 \end_inset
 
  denote the simplexes that the MINVO and Bernstein bases generate respectively,
@@ -4780,7 +4846,7 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{vol\left(S\right)}{vol\left(S_{B}\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
+\frac{vol\left(S_{\text{MV}}\right)}{vol\left(S_{\text{Be}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
 \]
 
 \end_inset
@@ -4867,7 +4933,7 @@ noprefix "false"
 
  respectively.
  Denoting 
-\begin_inset Formula $P$
+\begin_inset Formula $P_{\text{MV}}$
 \end_inset
 
  and 
@@ -4881,7 +4947,7 @@ noprefix "false"
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\frac{vol\left(P_{B}\right)}{vol\left(P\right)}=\frac{abs\left(|\boldsymbol{A}_{B}|\right)}{abs\left(|\boldsymbol{A}|\right)}
+\frac{vol\left(P_{\text{Be}}\right)}{vol\left(P_{\text{MV}}\right)}=\frac{abs\left(|\boldsymbol{A}_{\text{Be}}|\right)}{abs\left(|\boldsymbol{A}_{\text{MV}}|\right)}
 \]
 
 \end_inset
@@ -5020,11 +5086,11 @@ Given an
 \end_inset
 
 -th order polynomial curve 
-\begin_inset Formula $\boldsymbol{p}(t)$
+\begin_inset Formula $\boldsymbol{p}(t)=:\boldsymbol{P}\boldsymbol{t}$
 \end_inset
 
 , the MINVO, Bézier or B-Spline control points (i.e.
- the vertexes of the simplex that enclose the curve) can be obtained using
+ the vertexes of the simplex that enclose that curve) can be obtained using
  the formula
 \begin_inset Formula 
 \[
@@ -5038,13 +5104,13 @@ Given an
 
 \begin_layout Standard
 where 
-\begin_inset Formula $x,y\in\{\text{MV},\text{B},\text{BS}\}$
+\begin_inset Formula $x,y\in\{\text{MV},\text{Be},\text{BS}\}$
 \end_inset
 
- (Minvo, Bernstein, B-Spline respectively).
+ (MINVO, Bernstein, B-Spline respectively).
  For instance to convert from MINVO control points to Bernstein control
  points we have that 
-\begin_inset Formula $\boldsymbol{V}_{\text{B}}=\boldsymbol{P}\left(\boldsymbol{A}_{\text{B}}\right)^{-1}=\boldsymbol{V}_{\text{MV}}\boldsymbol{A}_{\text{MV}}\left(\boldsymbol{A}_{\text{B}}\right)^{-1}$
+\begin_inset Formula $\boldsymbol{V}_{\text{Be}}=\boldsymbol{P}\left(\boldsymbol{A}_{\text{Be}}\right)^{-1}=\boldsymbol{V}_{\text{MV}}\boldsymbol{A}_{\text{MV}}\left(\boldsymbol{A}_{\text{Be}}\right)^{-1}$
 \end_inset
 
 .
@@ -5052,7 +5118,7 @@ where
 \begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
- are the ones in table 
+ are the ones shown in table 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:table_matrices"
@@ -5062,12 +5128,12 @@ noprefix "false"
 
 \end_inset
 
-, and the matrices 
+, while the matrices 
 \begin_inset Formula $\boldsymbol{A}_{\text{BS}}$
 \end_inset
 
  and 
-\begin_inset Formula $\boldsymbol{A}_{\text{B}}$
+\begin_inset Formula $\boldsymbol{A}_{\text{Be}}$
 \end_inset
 
  are available in 
@@ -5087,6 +5153,46 @@ literal "false"
  The code provided with this paper contains functions that generate all
  these matrices.
  
+\end_layout
+
+\begin_layout Standard
+
+\color red
+==
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Note that all the solutions found satisfy the neccesary condition found
+ by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klee1986facet"
+literal "false"
+
+\end_inset
+
+ (the centroid of each face belongs to the convex body.
+ In our case, to the convex hull of the curve)
+\end_layout
+
+\begin_layout Standard
+
+\color red
+Citar 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kuti2014minimal"
+literal "false"
+
+\end_inset
+
+ (obtains same result for 
+\begin_inset Formula $n=2$
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Section
@@ -5115,7 +5221,7 @@ This work derived and presented the MINVO basis.
 
 \begin_layout Standard
 The exciting results of this work naturally lead to the following questions
- and conjectures:
+ and conjectures, that we leave as future work:
 \end_layout
 
 \begin_layout Itemize
@@ -5148,9 +5254,8 @@ Does there exist a recursive formula to obtain the solution of problem 3
 \begin_inset Formula $1,...,n-1$
 \end_inset
 
-? Would this recursive formula allow to easily prove global optimality for
- all 
-\begin_inset Formula $n$
+? Would this recursive formula allow to easily prove global optimality 
+\begin_inset Formula $\forall n$
 \end_inset
 
  of Problem 3?
@@ -5200,7 +5305,7 @@ onecolumn
 \end_layout
 
 \begin_layout Section*
-Appendix
+Appendix: Proof of Theorem 1
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Appendix"
@@ -5211,55 +5316,7 @@ name "sec:Appendix"
 \end_layout
 
 \begin_layout Standard
-Note that all the solutions found satisfy the neccesary condition found
- by 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "klee1986facet"
-literal "false"
-
-\end_inset
-
- (the centroid of each face belongs to the convex body.
- In our case, to the convex hull of the curve)
-\end_layout
-
-\begin_layout Standard
-Citar 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kuti2014minimal"
-literal "false"
-
-\end_inset
-
- (obtains same result for 
-\begin_inset Formula $n=2$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Standard
-====
-\end_layout
-
-\begin_layout Standard
-Proof of Theorem X:
-\end_layout
-
-\begin_layout Standard
-For this proof, we will use the following definition: 
-\begin_inset Note Note
-status collapsed
-
-\begin_layout Plain Layout
-(and simply permuting rows)
-\end_layout
-
-\end_inset
-
-Define 
+For this proof, we will denote 
 \begin_inset Formula $\phi_{j}(t):=t^{j}\quad\psi_{j}(t):=jt^{j-1}$
 \end_inset
 
@@ -5273,7 +5330,7 @@ Define
 
 .
  Let us also define the 
-\begin_inset Formula $n+1\times n+1$
+\begin_inset Formula $(n+1)\times(n+1)$
 \end_inset
 
  matrix 
@@ -5369,7 +5426,7 @@ status open
 \begin_inset Formula $i\in\{0,1,...,a-1\}$
 \end_inset
 
-and 
+ and 
 \begin_inset Formula $j\in\{0,1,...,a-1\}$
 \end_inset
 
