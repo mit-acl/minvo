@@ -9,8 +9,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    style="font-style:normal;font-weight:normal;font-size:12px;font-family:Dialog;color-interpolation:auto;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto"
-   width="494.9122"
-   height="536.88385"
+   width="487.79654"
+   height="519.14038"
    version="1.1"
    id="svg175"
    sodipodi:docname="comparison2d_poly_given_modified.svg"
@@ -23,7 +23,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -40,9 +40,9 @@
      inkscape:window-height="1376"
      id="namedview177"
      showgrid="false"
-     inkscape:zoom="1.3086189"
-     inkscape:cx="98.377261"
-     inkscape:cy="246.49767"
+     inkscape:zoom="1.8506666"
+     inkscape:cx="53.877817"
+     inkscape:cy="324.78705"
      inkscape:window-x="67"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -117,7 +117,7 @@
   <g
      id="g173"
      clip-path="url(#clipPath2060)"
-     transform="translate(-1044.3736,-296.50871)">
+     transform="translate(-1044.3736,-314.2522)">
     <defs
        id="defs1">
       <clipPath
@@ -582,7 +582,7 @@
      ns1:pdfconverter="pdf2svg"
      ns1:texconverter="pdflatex"
      ns1:version="0.11.0"
-     transform="matrix(2.887083,0,0,2.887083,-400.9072,-363.65984)">
+     transform="matrix(1.8552067,0,0,1.8552067,-212.99382,-222.19983)">
     <g
        id="surface1">
       <g
@@ -637,7 +637,7 @@
      ns1:pdfconverter="pdf2svg"
      ns1:texconverter="pdflatex"
      ns1:version="0.11.0"
-     transform="matrix(2.887083,0,0,2.887083,-73.06286,-369.09371)">
+     transform="matrix(1.8552067,0,0,1.8552067,76.983998,-227.16757)">
     <g
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
        id="g1280">
@@ -713,7 +713,7 @@
      ns1:pdfconverter="pdf2svg"
      ns1:texconverter="pdflatex"
      ns1:version="0.11.0"
-     transform="matrix(2.887083,0,0,2.887083,-260.05931,-3.3841944)">
+     transform="matrix(1.8552067,0,0,1.8552067,-106.25055,79.406451)">
     <g
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1"
        id="g1474">
@@ -774,7 +774,7 @@
   <g
      style="font-style:normal;font-weight:normal;font-size:12px;font-family:Dialog;color-interpolation:auto;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto"
      id="g173-9"
-     transform="translate(-889.25326,-266.39323)"
+     transform="translate(-889.25326,-284.13672)"
      clip-path="url(#clipPath2066)">
     <defs
        id="defs1-2">
@@ -1232,7 +1232,7 @@
   <g
      style="font-style:normal;font-weight:normal;font-size:12px;font-family:Dialog;color-interpolation:auto;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto"
      id="g173-9-2"
-     transform="translate(-1457.9498,-207.38692)"
+     transform="translate(-1457.9498,-225.13041)"
      clip-path="url(#clipPath2072)">
     <defs
        id="defs1-2-6">

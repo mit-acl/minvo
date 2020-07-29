@@ -215,8 +215,11 @@ End
 \begin_body
 
 \begin_layout Title
-MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial
- Curves
+MINVO Basis: Finding Simpl
+\color red
+exes
+\color inherit
+ with Minimum Volume Enclosing Polynomial Curves
 \end_layout
 
 \begin_layout Author
@@ -289,26 +292,14 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Abstract
-Applications such as computer graphics rendering, 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-also computer games, to check intersection!!
-\end_layout
-
-\end_inset
-
-path planning for robotics and finite element simulations greatly benefit
- from having an 
-\begin_inset Formula $n$
-\end_inset
-
--simplex that encloses a given polynomial curve.
- Bézier curves (which use the Bernstein basis) are probably the most common
- choice for this, since it is guaranteed that each interval of the curve
- is contained inside the convex hull of its control points.
- However, it is known that this convex hull is not the one with smallest
+Outer polyhedral representations of a given polynomial curve are extensively
+ exploited in computer graphics rendering, computer games, path planning
+ for robots and finite element simulations.
+ Bézier curves (which use the Bernstein basis) or B-Splines are a very common
+ choice for this, since their partition-of-unity property guarantees that
+ each interval of the curve is contained inside the convex hull of its control
+ points.
+ However, the convex hull provided by these bases is not the one with smallest
  volume, causing therefore great conservatism in all the applications mentioned
  before.
  This paper derives and presents the MINVO basis, a polynomial basis that
@@ -316,7 +307,11 @@ path planning for robotics and finite element simulations greatly benefit
 \begin_inset Formula $n$
 \end_inset
 
--simplex that encloses any given polynomial curve.
+-simplex that encloses any given 
+\begin_inset Formula $n$
+\end_inset
+
+-th order polynomial curve.
  We show that the MINVO basis is able to obtain a volume that is 
 \begin_inset Formula $2.36$
 \end_inset
@@ -334,6 +329,8 @@ path planning for robotics and finite element simulations greatly benefit
 \end_inset
 
 .
+ Moreover, we show that the MINVO basis also shows for the polynomial curve
+ with biggest convex hull enclosed in a given simplex.
  Global optimality is discussed and proven for some 
 \begin_inset Formula $n$
 \end_inset
@@ -347,8 +344,8 @@ Supplementary material
 \end_layout
 
 \begin_layout Standard
-The MATLAB code used for this paper can be downloaded from the following
- link:
+The code used for this paper is available in the following link: Is this
+ anonymous
 \end_layout
 
 \begin_layout Standard
@@ -363,20 +360,12 @@ The MATLAB code used for this paper can be downloaded from the following
 \size tiny
 \begin_inset CommandInset href
 LatexCommand href
-target "https://www.dropbox.com/s/lro345qygg7bd7j/code_project_Jesus_Tordesillas_Torres.zip?dl=0"
+target "https://www.google.com"
+literal "false"
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Section*
-TODOs
-\end_layout
-
-\begin_layout Standard
-Cite these ones: https://scholar.google.com/scholar?cites=5781003043623762821&as_s
-dt=40000005&sciodt=0,22&hl=en
 \end_layout
 
 \begin_layout Section
@@ -406,7 +395,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename src/imgs/comparisonBSBeMV.pdf
-	lyxscale 130
+	lyxscale 30
 	width 100col%
 
 \end_inset
@@ -455,7 +444,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename src/imgs/comparison3d_simplex_given_compressed.pdf
-	lyxscale 130
+	lyxscale 30
 	width 100col%
 
 \end_inset
@@ -471,9 +460,9 @@ For any given
 \begin_inset Formula $3$
 \end_inset
 
--simplex, the MINVO basis finds a polynomial inscribed in the simplex, and
- whose convex hull is 2.36 and 254.9 times bigger than the one found by the
- Bernstein or B-Spline bases respectively.
+-simplex, the MINVO basis finds a polynomial curve inscribed in the simplex,
+ and whose convex hull is 2.36 and 254.9 times bigger than the one found by
+ the Bernstein or B-Spline bases respectively.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -521,8 +510,8 @@ name "fig:Comparison3d"
 \end_layout
 
 \begin_layout Standard
-Bézier curves are extensively used in many different applications, which
- include computer aided design (
+Bézier and B-Spline curves are extensively used in many different applications,
+ which include computer aided design (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "dimas19993d,de1999visualization,autodeskInventor,autodeskAutocad,autodeskMaya"
@@ -565,15 +554,72 @@ literal "false"
  This allows to impose a finite number of constraints only on the vertexes
  of this outer polyhedral representation of the interval, instead of infinite
  number of constraints over all the points of the interval of the polynomial.
+ Moreover, 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+many clippling algorithms make use of 
+\end_layout
+
+\end_inset
+
+this convex hull property of Bézier curves can also be exploited to compute
+ curve intersections, perform ray tracing or to compute minimum distances
+ between convex shapes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "efremov2005robust,sederberg1990curve,schulz2009bezier,gilbert1988fast,cichella2017optimal"
+literal "false"
+
+\end_inset
+
+.
+ Other applications that benefit from having a polyhedral outer approximation
+ of a curve are envelope approximations in optimization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "envelope2020"
+literal "false"
+
+\end_inset
+
+ and control for dynamical systems 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kuti2014minimal"
+literal "false"
+
+\end_inset
+
+.
+ These polyhedral outer approximations could also be potentially applied
+ to certify adversarial robustness in neural networks (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "everett2020certified,wong2018provable"
+literal "false"
+
+\end_inset
+
+) for neural networks that use polynomials as an input 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhao2019machine"
+literal "false"
+
+\end_inset
+
+.
  
 \end_layout
 
 \begin_layout Standard
-The basis for the Bézier curves are the Bernstein polynomials, but, while
- having some other useful properties, they are not designed to minimize
- the volume of the simplex that encloses a given interval of the curve.
- This directly translates into an unnecessary conservatism in many of the
- applications mentioned above.
+While having some other useful properties, neither the Bernstein basis (polynomi
+al basis used by the Bézier curves) nor the B-Spline basis generate the
+ smallest simplex that encloses a given interval of the curve.
+ This directly translates into an unnecessary conservatism in many of these
+ mentioned applications.
  The goal of this paper is to obtain a polynomial basis that can be used
  to generate the simplex with minimum volume that encloses a polynomial
  curve.
@@ -594,20 +640,17 @@ OPTIMAL MOTION PLANNING FOR DIFFERENTIALLY FLAT SYSTEMS USING BERNSTEIN
 \end_layout
 
 \begin_layout Plain Layout
-Otra aplicaci'on: dynamicasl systems (also for safety, see 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "kuti2014minimal"
-literal "false"
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Cite these ones: https://scholar.google.com/scholar?cites=5781003043623762821&as_s
+dt=40000005&sciodt=0,22&hl=en
+\end_layout
 
 \end_inset
 
- )
-\end_layout
 
-\begin_layout Plain Layout
-Otra aplicacion: ver dibujos de https://yalmip.github.io/tutorial/envelopesinbmibn
-b/
 \end_layout
 
 \end_inset
@@ -643,29 +686,7 @@ Explicar convex hull algorithms?
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-, such as clipping methods, 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "efremov2005robust,sederberg1990curve,schulz2009bezier"
-literal "false"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The contributions are summarized as follows:
+The contributions of this paper are summarized as follows:
 \end_layout
 
 \begin_layout Itemize
@@ -674,64 +695,68 @@ Formulation of the optimization problem that solves, without loss of generality,
 \begin_inset Formula $n$
 \end_inset
 
--simplex that encloses a given polynomial curve.
+-simplex that encloses 
+\series bold
+any
+\series default
+ given polynomial curve.
  We show that this problem is also equivalent to find the polynomial curve
- whose convex hull has maximum volume, while being enclosed in a given simplex.
- Global optima for 
-\begin_inset Formula $n=1$
-\end_inset
-
- is obtained using moment relaxations and semidefinite programming.
- Local optima for 
-\begin_inset Formula $n=2,3,4$
-\end_inset
-
- and feasible solutions for 
-\begin_inset Formula $n=5,6,7$
-\end_inset
-
- are also obtained.
+ whose convex hull has maximum volume, while being enclosed in 
+\series bold
+any
+\series default
+ given simplex.
+ A more tractable formulation by imposing a specific structure in the polynomial
+s is also proposed.
  
 \end_layout
 
 \begin_layout Itemize
+We derive the results for 
+\begin_inset Formula $n=1,2,3,4,5,6$
+\end_inset
 
-\color red
-Say sth about the improvement wrt Bernstein/BSplines
+ and 
+\begin_inset Formula $7$
+\end_inset
+
+, obtaining simplexes that, for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, are 
+\begin_inset Formula $2.36$
+\end_inset
+
+ and 
+\begin_inset Formula $254.9$
+\end_inset
+
+ times smaller than the ones obtained using the Bernstein or B-Spline bases.
+ For 
+\begin_inset Formula $n=7$
+\end_inset
+
+, the simplexes obtained are 902.7 and 
+\begin_inset Formula $2.997\cdot10^{21}$
+\end_inset
+
+ times smaller than the Bernstein or B-Spline bases.
+ 
 \end_layout
 
 \begin_layout Itemize
-A more tractable formulation that imposes a specific structure in the polynomial
-s.
- With this formulation, global optima are obtained for 
+Global optimality is proven for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
- (using also moment relaxations and semidefinite programming), and local
- optima are obtained for 
-\begin_inset Formula $n=4,5,6,7$
+ (in the more tractable formulation) and 
+\begin_inset Formula $n=1,2$
 \end_inset
 
-.
+ (in the more general formulation) using moment relaxations and semidefinite
+ programming.
  
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Global optimality proof for some 
-\begin_inset Formula $n$
-\end_inset
-
- using SOS and moment relaxations.
- 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section
@@ -739,8 +764,7 @@ Related work
 \end_layout
 
 \begin_layout Standard
-A work that attempted to solve exactly the same problem proposed in this
- paper was the work by Gary Herron 
+The work by Gary Herron 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "herron1989polynomial"
@@ -748,12 +772,19 @@ literal "false"
 
 \end_inset
 
-.
- In this work, the author imposed a specific structure in the form for the
- polynomials of the basis, and then solved the associated nonconvex optimization
- problem over the roots of those polynomials.
- For this specific form of the polynomials, a global minimizer was found
- for 
+ attempted to solve this exact problem for 
+\begin_inset Formula $n=2$
+\end_inset
+
+ and 
+\begin_inset Formula $3$
+\end_inset
+
+ by imposing a specific structure in the form for the polynomials of the
+ basis, and then solving the associated nonconvex optimization problem over
+ the roots of those polynomials.
+ For this specific structure of the polynomials, a global minimizer was
+ found for 
 \begin_inset Formula $n=2$
 \end_inset
 
@@ -761,11 +792,39 @@ literal "false"
 \begin_inset Formula $n=3$
 \end_inset
 
-, but no global optimality was proven for this.
- These paper goes further, and using SOS programming, it first proposes
- the most general formulation that does not impose any specific structure
- in the form of the polynomials (apart from being SOS), proving global and
- local optimality for some 
+.
+ Similarly, in the results of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kuti2014minimal"
+literal "false"
+
+\end_inset
+
+, Kuti et al.
+ use the algorithm proposed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "li2008minimum"
+literal "false"
+
+\end_inset
+
+ to obain a minimal simplex that encloses a specific 
+\begin_inset Formula $2^{nd}$
+\end_inset
+
+order polynomial curve.
+ However, it requires running the algorithm for different curves, no global
+ optimality is shown, and only 
+\begin_inset Formula $n=2$
+\end_inset
+
+ was analyzed.
+ Our work presented in this paper goes further, and using SOS programming,
+ it first proposes the most general formulation that does not impose any
+ specific structure in the form of the polynomials (apart from the necesary
+ condition of being SOS), proving global and local optimality for some 
 \begin_inset Formula $n$
 \end_inset
 
@@ -783,10 +842,90 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-A similar problem has also been studied in the hyperspectral unmixing problem
- inside the remote sensing community, which consists of trying to find,
- in a given image pixel, the proportions (or abundances) of each macroscopic
- materials (endmembers) contained in that pixel 
+Some works have focused on the properties of the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex that encloses a given generic convex body.
+ Klee showed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klee1986facet"
+literal "false"
+
+\end_inset
+
+ that any locally optimal simplex (with respect to its volume) that encloses
+ a convex body must be a centroidal simplex (i.e.
+ the centroid of its facets must touch to the convex body).
+ Applied to a curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+, this would mean tha the centroid of its facets must belong to 
+\begin_inset Formula $\text{conv}\left(\boldsymbol{p}(t)\right)$
+\end_inset
+
+.
+ This gives a necessary (but not sufficient) condition of local optimality.
+ Bounds for the volume of the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex that encloses a given convex body have also been found (
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kanazawa2014minimal,galicer2019minimal"
+literal "false"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+When the convex body is a polyhedron (or equivalently the convex hull of
+ a finite sets of points), 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vegter1993finding"
+literal "false"
+
+\end_inset
+
+ classifies the possible minimal circumscribing simplexes, and this classificati
+on is later on used by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zhou2002algorithms"
+literal "false"
+
+\end_inset
+
+.
+ that, exploiting also the necessary condition found by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klee1986facet"
+literal "false"
+
+\end_inset
+
+, derives a 
+\begin_inset Formula $O(k^{4})$
+\end_inset
+
+ algorithm that computes the smallest simplex that contains a finite set
+ of 
+\begin_inset Formula $k$
+\end_inset
+
+ points.
+ A very similar problem has also been studied in the hyperspectral unmixing
+ problem inside the remote sensing community, which consists of trying to
+ find, in a given image pixel, the proportions (or abundances) of each macroscop
+ic materials (endmembers) contained in that pixel 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "uezato2019hyperspectral"
@@ -805,9 +944,8 @@ literal "false"
 \end_inset
 
  for instance).
- However, the fact of dealing with many data points, and not necessarily
- distributed along a polynomial curve, leads to the need of different iterative
- algorithms to solve it (
+ Many different iterative algorithms have been proposed towards this end
+ (
 \begin_inset CommandInset citation
 LatexCommand cite
 key "rogge2006iterative,iordache2009unmixing,velez2003iterative"
@@ -820,27 +958,70 @@ literal "false"
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Other related works are 
+The convex hull of curves has also been studied in the literature.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "kanazawa2014minimal"
+key "ranestad2009convex,sedykh1986structure,derry1956convex"
 literal "false"
 
 \end_inset
 
-, that gives a bound for the volume of the smallest 
-\begin_inset Formula $n$
+ studied the boundaries of these convex hulls, while 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ciripoi2018computing"
+literal "false"
+
 \end_inset
 
--simplex that encloses a given convex body.
-\end_layout
+ focused on the patches of the convex hull of trajectories of polynomial
+ dynamical systems.
+ For a parametric curve 
+\begin_inset Formula $\left[\begin{array}{cccc}
+t & t^{2} & \cdots & t^{n}\end{array}\right]^{T}$
+\end_inset
+
+ (where 
+\begin_inset Formula $t$
+\end_inset
+
+ is in some closed interval)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mazur2017convex"
+literal "false"
 
 \end_inset
 
+ found that number of points needed to represent every point in the convex
+ hull of this curve is 
+\begin_inset Formula $\frac{n+1}{2}$
+\end_inset
+
+, giving therefore a tighter bound than the (
+\begin_inset Formula $n+1$
+\end_inset
+
+) points found using by the Carathéodory's Theorem 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "caratheodory1907variabilitatsbereich,steinitz1913bedingt"
+literal "false"
+
+\end_inset
+
+.
+ This particular curve was also extensively analyzed by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "karlin1953geometry"
+literal "false"
+
+\end_inset
+
+ in the context of moment spaces and orthogonal polynomials, deriving also
+ the volume of the convex hull of this curve.
  
 \end_layout
 
@@ -2664,9 +2845,9 @@ And therefore:
 \begin_inset Formula 
 \[
 \begin{array}{c}
-dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\\
+\text{dist}\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right):=\left(\boldsymbol{p}(t)-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\\
 \\
-=\sum_{j=0}^{n-1}\lambda_{j}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\lambda_{i}(t)\;dist\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)
+=\sum_{j=0}^{n-1}\lambda_{j}(t)\left(\boldsymbol{v}_{i}-\boldsymbol{v}_{k}\right)^{T}\boldsymbol{n}=\lambda_{i}(t)\;\text{dist}\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)
 \end{array}
 \]
 
@@ -2684,7 +2865,7 @@ And therefore:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\lambda_{i}(t)=\frac{dist\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right)}{dist\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)}
+\lambda_{i}(t)=\frac{\text{dist}\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right)}{\text{dist}\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)}
 \]
 
 \end_inset
@@ -2951,7 +3132,45 @@ any
 \series bold
 any
 \series default
- given simplex respectively) by solving the following problem: 
+ given simplex respectively) by solving the following problem
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Note that in Problem 3 the 
+\begin_inset Formula $abs(\cdot)$
+\end_inset
+
+ is not necessary, since any permutation of the rows of 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ will change the sign of 
+\begin_inset Formula $\left|\boldsymbol{A}\right|$
+\end_inset
+
+.
+ We keep it simply for consistency purposes, since later in the solutions
+ we will show a specific order of the rows of 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ for which (for some 
+\begin_inset Formula $n$
+\end_inset
+
+) 
+\begin_inset Formula $\left|\boldsymbol{A}\right|<0$
+\end_inset
+
+, but that allows us to higlight the similarities and differences between
+ this matrix and the ones using Bernstein or B-Spline bases.
+ 
+\end_layout
+
+\end_inset
+
+: 
 \end_layout
 
 \begin_layout Standard
@@ -3855,7 +4074,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename src/imgs/comparison2d_poly_given.pdf
-	lyxscale 130
+	lyxscale 50
 	width 80col%
 
 \end_inset
@@ -3968,91 +4187,6 @@ Comparison between the MINVO, Bernstein and B-Spline bases for
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Comparison2d"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison2d_poly_given.pdf
-	lyxscale 130
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Comparison between the MINVO basis and the Bernstein basis for 
-\begin_inset Formula $n=2$
-\end_inset
-
-.
- The simplex found using the MINVO basis (left) encloses the 
-\begin_inset Formula $2^{nd}$
-\end_inset
-
--order polynomial curve in red, and, for any 
-\begin_inset Formula $2^{nd}$
-\end_inset
-
--order polynomial curve, the MINVO basis generates a simplex that is 
-\begin_inset Formula $\approx1.3$
-\end_inset
-
- times smaller that the one found using the Bernstein basis (right).
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:comparison2d_poly_given"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
 
 \end_inset
 
@@ -4961,39 +5095,29 @@ Results for the MINVO basis.
 \begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
- denotes the coefficient matrix of the MINVO basis 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(i.e.
- each polynomial in the basis is given by the rows of 
-\begin_inset Formula $\boldsymbol{A}\boldsymbol{t}$
-\end_inset
-
-),
-\end_layout
-
-\end_inset
-
- while 
+, 
 \begin_inset Formula $\boldsymbol{A}_{\text{Be}}$
 \end_inset
 
- represents the matrix of the Bernstein basis (
+ and 
+\begin_inset Formula $\boldsymbol{A}_{\text{BS}}$
+\end_inset
+
+ denote the coefficient matrix of the MINVO, Bernstein and B-Spline bases
+ respectively (
 \begin_inset Formula $t\in[-1,1]$
 \end_inset
 
- for both).
+).
  The bigger the absolute value of the determinant, the smaller the associated
  simplex (for Problem 1) and the bigger the convex hull of the curve (for
  Problem 2).
- These matrices 
-\begin_inset Formula $\boldsymbol{A}$
+ The matrices 
+\begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
 \end_inset
 
- are independent of the polynomial curve given (in Problem 1), or of the
- simplex given (in Problem 2).
+ found are independent of the polynomial curve given (in Problem 1), or
+ of the simplex given (in Problem 2).
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -5101,25 +5225,8 @@ vskip-2ex
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
+\begin_inset Note Note
 status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison2d_simplex_given.pdf
-	lyxscale 30
-	width 80col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
 
 \begin_layout Plain Layout
 Optimal solution for Problem 2 with 
@@ -5128,37 +5235,13 @@ Optimal solution for Problem 2 with
 
 .
  The triangle is given, and the red polynomial curve using the MINVO basis
- is the one whose coefficients vectors 
-\begin_inset Formula $\boldsymbol{p}_{2},\boldsymbol{p}_{1}$
-\end_inset
-
- span a rectangle with largest area, while being contained in the triangle.
- On the right, the curve obtained using the Bernstein basis.
+ is the one that has a convex hull with minimum volume.
+ The polyomial curves obtained using the Bernstein or B-Spline bases are
+ also shown for comparison.
  
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:comparison2d_simplex_given"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
 
 \end_inset
 
@@ -5226,7 +5309,7 @@ Similarly, when the simplex is given (i.e.
 \end_inset
 
  (
-\begin_inset Formula $\alpha,\beta\in{MV,Be,BS}$
+\begin_inset Formula $\alpha,\beta\in{\text{MV},\text{Be},\text{BS}}$
 \end_inset
 
 ) is given by
@@ -5483,7 +5566,15 @@ noprefix "false"
 \begin_inset Formula $\text{conv}\left(\boldsymbol{p}(t)\right)$
 \end_inset
 
-).
+) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "klee1986facet"
+literal "false"
+
+\end_inset
+
+.
  Here we prove 
 \end_layout
 
@@ -5561,8 +5652,8 @@ Acknowledgements
 The authors would like to thank Prof.
  Gilbert Strang, Prof.
  Johan Löfberg, Ashkan M.
- Jasour, Kasra Khosoussi, Kaveh Fathian, Juan José Madrigal and Marc Adillón
- for helpul insights and discussions.
+ Jasour, Kasra Khosoussi, Kaveh Fathian, Michael Everett, Juan José Madrigal
+ and Marc Adillón for helpul insights and discussions.
 
 \color red
  Is this anonymous??
@@ -5874,6 +5965,8 @@ Now, note that:
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Now, note that:
 \end_layout
 
@@ -6379,6 +6472,8 @@ j=0:a,\;j=0:a
 \end_layout
 
 \begin_layout Standard
+
+\color red
 Now note that:
 \end_layout
 

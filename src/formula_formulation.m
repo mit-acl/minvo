@@ -20,25 +20,31 @@ else
     syms t
 end
 
-deg=4;
+deg=7;
 n=deg;
 
 deg_is_even = (rem(deg, 2) == 0);
 
 W=[]; B=[];R=[];
-if(deg_is_even==0)
-
+if(deg_is_even==0) %Deg is odd
+    
+    jj=1;
     for i=1:2:deg
+       
         B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-        pol=-Bi*(t-1);
+        pol=-Bi*(t-1); roots_lambda{jj}=[1.0];
         for j=1:(deg-1)/2                                
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);          
             pol=pol*((t-Rij)^2);
         end
         W=[W;pol];
+        jj=jj+1;
     end
     
     W=[W;substitute(W,t,-t)]; %Insert the other half
+%     for jj=(size(roots_lambda,2)+1):2*(size(roots_lambda,2))
+%         roots_lambda{jj}=[-1.0];
+%     end
     
 else %Deg is even
 
@@ -50,38 +56,42 @@ else %Deg is even
         Ia=2:2:(n/2); %n/2+1
         Ib=1:2:(n/2); 
     end
-       
+    
+
+    jj=1;
     for index=1:size(Ia,2)
         i=Ia(index);
         B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-        pol=-Bi*(t+1)*(t-1);
+        jj
+        pol=-Bi*(t+1)*(t-1); roots_lambda{jj}=[-1.0, 1.0];
         for j=1:(n-2)/2
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
             pol=pol*((t-Rij)^2);
         end
         W=[W;pol];
-        W=[W;substitute(pol,t,-t)];
+        jj=jj+1; 
     end  
  
    for index=1:size(Ib,2)
        i=Ib(index);
        B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-       pol=Bi;
+       jj
+       pol=Bi;   roots_lambda{jj}=[];
        for j=1:(n/2)
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
             pol=pol*((t-Rij)^2);
        end
        W=[W;pol];
-       W=[W;substitute(pol,t,-t)];
-
+       jj=jj+1;
    end  
+   
    
    %Force the lambda in the middle to have symmetrical roots
 
-   i=n/2+1;
+   i=n/2+1;  jj=i;
    if(n_2_is_even)
        B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-       pol=B(i);
+       pol=B(i);   roots_lambda{jj}=[];
        for j=1:(n/4)
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
             pol=pol*((t-Rij)^2)*((t+Rij)^2);
@@ -89,13 +99,16 @@ else %Deg is even
        W=[W;pol];
    else
        B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-       pol=-B(i)*(t+1)*(t-1);
+       pol=-B(i)*(t+1)*(t-1); roots_lambda{jj}=[1.0]; %Adding only 1.0 because then I'll later make the symmetric. 
        for j=1:((n-2)/4)
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
             pol=pol*((t-Rij)^2)*((t+Rij)^2);
        end
        W=[W;pol];
    end
+   
+   
+   W=[W;substitute(W(1:end-1,:),t,-t)]; %Force symmetry in the first block except the last row
    
 end
 %%
@@ -173,6 +186,27 @@ if(use_yalmip==true)
 else
 %% Solve using fmincon (GlobalSearch)
 
+    %%%%%%%%%%%%%%%% This section simply stores in a struct the roots of
+    % each lambda_i, to be able to recover them later
+    Atmp=[];
+    for i=1:length(W)
+            tmp=getCoeffInDecOrder(W(i),t,deg);
+            Atmp=[Atmp; tmp];
+    end    
+    
+    for jj=1:(ceil(size(Atmp,1)/2))
+        tmp=symvar(Atmp(jj,:));
+        tmp=subs(tmp,B,zeros(size(B))); %set all the values of B to zero
+        roots_lambda_jj=nonzeros(tmp)' %get all the variables Rij
+        roots_lambda{jj}=[roots_lambda{jj} roots_lambda_jj];
+    end
+    
+    if(deg_is_even)
+        tmp2=ceil(size(Atmp,1)/2);
+        roots_lambda{tmp2}=[roots_lambda{tmp2} -roots_lambda{tmp2}]; %symmetrical roots for this one
+    end
+    
+    %%%%%%%%%%%%%%%
     %Solve for the coefficients:
     disp("Solving linear system")
     solution=solve(coeffic==[zeros(1,deg) 1],B); %This is a linear system
@@ -209,7 +243,7 @@ else
     ub=ones(size(R));
     x0 = rand(size(R));
 
-    opts = optimoptions('fmincon','Algorithm','sqp','MaxIterations',10000);
+    opts = optimoptions('fmincon','Algorithm','sqp','MaxIterations',10000,'StepTolerance',1e-9);
     problem = createOptimProblem('fmincon','objective', ...
         @(R_x) getObj(R_x,R, determ),'x0',x0,'lb',lb,'ub',ub,...
         'nonlcon',@(R_x) getConstraints(R_x,R, B_solved),'options',opts);
@@ -220,8 +254,15 @@ else
     ms = MultiStart('Display','iter','UseParallel',true);
 
     disp('Running, it usually takes some time until the parpool starts');
-    [xgs,~,~,~,solsgs] = run(ms,problem,100); %8000
+    [xgs,fval,exitflag,output,solsgs] = run(ms,problem,400); %8000
 
+    
+    obj_values=[solsgs.Fval]; %In increasing order
+    exit_flags=[solsgs.Exitflag];
+    
+    if(exit_flags(1)==1)
+        disp("LOCAL MINIMA FOUND")
+    end
 
     %%Recover solution
     B_solution=vpa(subs(B_solved,R,xgs));
@@ -229,6 +270,18 @@ else
     R_solution=double(vpa(subs(R,R,xgs)));
     
     tangencyPoints=sort([R_solution; -R_solution]); %Also the symmetric roots
+    
+    for i=1:size(roots_lambda,2)
+        roots_lambda_solution{i}=double(subs(roots_lambda{i}, R, xgs));
+    end
+    
+    s=size(roots_lambda,2);
+    for i=1:s
+        if(i==s && deg_is_even)
+            continue %this lambda doesn't have a symmetric one
+        end
+        roots_lambda_solution{i+s}=-roots_lambda_solution{i}; %Symmetry for the rest of lambda_i
+    end
     
     det(A_solution)
 
@@ -248,9 +301,10 @@ else
         rootsA=[rootsA ; roots(A_solution(i,:))'];
     end
     rootsA=double(real(rootsA));
-    %save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
     
+    save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
     save(['sols_formula/solutionTangencyPointsDeg' num2str(deg) '.mat'],'tangencyPoints');
+    save(['sols_formula/rootsLambdaiDeg' num2str(deg) '.mat'],'roots_lambda_solution');
 
 end
 
