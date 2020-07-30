@@ -9,17 +9,16 @@
 clear; clc; close all;
 set(0,'DefaultFigureWindowStyle','docked') %'normal'
 
-
 deg=3;
 
-A=sdpvar(deg+1, deg+1, 'full');
+tmp=sdpvar(deg, deg+1);
+A=[tmp; [zeros(1,deg) 1]-sum(tmp)]; %With this I can avod adding the constraints sum_colums_A=[0 0 0 1];
+% A=sdpvar(deg+1, deg+1, 'full');
 
 constraints=[];
-sum_colums_A=sum(A);
-constraints=[constraints, sum_colums_A(1,1:end-1)==[zeros(1,size(A,1)-1)]   ];
-constraints=[constraints, sum_colums_A(end)==1];
-
-
+% sum_colums_A=sum(A);
+% constraints=[constraints, sum_colums_A(1,1:end-1)==[zeros(1,size(A,1)-1)]   ];
+% constraints=[constraints, sum_colums_A(end)==1];
 
 A_solution=getSolutionA(deg,"m11"); 
 
@@ -64,35 +63,32 @@ constraints
 
 
 %%%%%%%%%%%%%%%
-
-
-
-obj=-det(A,'polynomial');
+A_cropped=A(1:end-1,1:end-1);
+obj=-det(A_cropped,'polynomial'); % abs(det(A))==abs(det(A_cropped)) because of the constraint sum_rows_A=[0 0 ... 0 1]
 
 assign(A,getSolutionA(deg,"m11"))
 
 % check(constraints)
-%%
+
 clear t
 disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ipopt' 'knitro' 'scip' %,'ipopt.tol',1e-10  %'penlab.max_outer_iter',100000
 
 %%
 
-%settings=sdpsettings('sparsepop.relaxOrder',4,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
-settings=sdpsettings('moment.order',4,'savesolveroutput',1,'savesolverinput',1,'solver','moment','showprogress',1,'verbose',2,'debug',1);
-
+settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+% settings=sdpsettings('moment.order',4,'savesolveroutput',1,'savesolverinput',1,'solver','moment','showprogress',1,'verbose',2,'debug',1);
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1);
 % settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+result=optimize(constraints,obj,settings)
 
 relaxation_order=3;
-if(deg==2)
+if(deg<=3)
     relaxation_order=3; %WORKS
 end
 
-[sol,x,momentdata] = solvemoment(constraints,obj,[],relaxation_order);
+% [sol,x,momentdata] = solvemoment(constraints,obj,[],relaxation_order);
 
-% result=optimize(constraints,obj,settings)
-% result=solvemoment(constraints,obj,[],4);
+
 % check(constraints)
 
 A_minvo=value(A);

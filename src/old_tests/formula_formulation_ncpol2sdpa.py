@@ -108,7 +108,7 @@ print("inequalities are", inequalities)
 
 print(flatten([B_var, R_var]))
 
-sdp=SdpRelaxation(flatten([B_var, R_var]))
+sdp=SdpRelaxation(flatten([B_var, R_var]),verbose=1)
 sdp.get_relaxation(level, objective=obj, inequalities=inequalities, chordal_extension=True)
 sdp.solve()
 print(sdp.primal, sdp.dual)
