@@ -300,6 +300,7 @@ else
     for i=1:size(A_solution,1)
         rootsA=[rootsA ; roots(A_solution(i,:))'];
     end
+    gs
     rootsA=double(real(rootsA));
     
     save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');

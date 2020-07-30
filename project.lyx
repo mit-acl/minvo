@@ -215,11 +215,8 @@ End
 \begin_body
 
 \begin_layout Title
-MINVO Basis: Finding Simpl
-\color red
-exes
-\color inherit
- with Minimum Volume Enclosing Polynomial Curves
+MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial
+ Curves
 \end_layout
 
 \begin_layout Author
@@ -5807,7 +5804,7 @@ status open
 \end_inset
 
 .
- Moreover, we will use 
+ Moreover, and unless otherwise noted, we will use 
 \begin_inset Formula $i\in\{0,1,...,a-1\}$
 \end_inset
 
