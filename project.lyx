@@ -1023,7 +1023,14 @@ literal "false"
 \end_layout
 
 \begin_layout Section
-Notation and Definitions
+Notation and Preliminaries 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Notation-and-Definitions"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1831,7 +1838,7 @@ and dimension
 p_{0}(t)\\
 \vdots\\
 p_{k-1}(t)
-\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}$
+\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}\in\mathbb{R}^{k}$
 \end_inset
 
 , where 
@@ -1857,19 +1864,42 @@ p_{k-1}(t)
 \end_inset
 
 .
- In this paper, we will use the intervals 
+ In this paper, we will use the interval 
 \begin_inset Formula $t\in[-1,1]$
 \end_inset
 
- of polynomial curves of the form 
-\begin_inset Formula $k=n$
+.
+ The subspace that contains that interval and has smallest dimension will
+ be denoted as 
+\begin_inset Formula $\mathbb{R}^{m}\subseteq\mathbb{R}^{k}$
 \end_inset
 
- and we will refer to these intervals simply as 
+.
+ In this paper we will work with the case 
+\begin_inset Formula $n=m=k$
+\end_inset
+
+ (and refer to the intervals of such curves simply as 
 \begin_inset Formula $n$
 \end_inset
 
--th order polynomial curves.
+-th order polynomial curves).
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Embedding"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ will then extend the results to the case 
+\begin_inset Formula $n=m\le k$
+\end_inset
+
+.
+ 
 \end_layout
 
 \end_inset
@@ -1885,17 +1915,175 @@ p_{k-1}(t)
 \end_layout
 
 \begin_layout Standard
-Finally, we will use non-clamped uniform B-Splines for comparison, and refer
- to them simply as B-Splines.
-\end_layout
-
-\begin_layout Section
-Problem definition
+We will use non-clamped uniform B-Splines for comparison, and refer to them
+ simply as B-Splines.
 \end_layout
 
 \begin_layout Standard
-As discussed in the introduction, the goal of this paper is to investigate
- the following optimization problem:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
++++
+\end_layout
+
+\begin_layout Plain Layout
+Note that for the curves 
+\begin_inset Formula $n=m=k$
+\end_inset
+
+, we have that their convex hull has volume, and therefore 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At several points throughout the paper, we will make use of the following
+ theorem:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent
+\backslash
+fcolorbox{black}{white}{
+\backslash
+begin{minipage}[t]{1
+\backslash
+columnwidth - 2
+\backslash
+fboxsep - 2
+\backslash
+fboxrule}%
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Theorem 1:
+\series default
+ The volume of the convex hull of an 
+\begin_inset Formula $n$
+\end_inset
+
+-th order polynomial curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+, with 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+, is given by:
+\size footnotesize
+
+\begin_inset Formula 
+\[
+\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Proof
+\series default
+: See Appendix (Sec.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Appendix"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hfill
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\square$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{minipage}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.2cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Problems definition
+\end_layout
+
+\begin_layout Standard
+The first problem this paper is going to investigate is the following one:
 \end_layout
 
 \begin_layout Standard
@@ -2089,278 +2277,47 @@ x(t) & y(t) & z(t)\end{array}\right]^{T}$
 \end_inset
 
 -degree polynomials).
- Without loss of generality, we will assume throughout the paper that the
- polynomial curve 
+ As explained in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notation-and-Definitions"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we will assume that the curve 
 \begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
- is not contained in a subspace 
-\begin_inset Formula $\mathbb{R}^{m}$
-\end_inset
-
- , with 
-\begin_inset Formula $m<n$
-\end_inset
-
-.
- In other words, 
+ given satisfies 
 \begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
 \end_inset
 
-.
- If 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
- is contained in a subspace 
-\begin_inset Formula $\mathbb{R}^{m}$
-\end_inset
-
- (
-\begin_inset Formula $m<n$
-\end_inset
-
-), then we can solve the problem by simply using the basis of that subspace
- 
-\begin_inset Formula $\mathbb{R}^{m}$
-\end_inset
-
-.
-
-\color red
- Is this true if, for instance, m=1 and n=3??
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Another way to understand Problem 1 is using the convex hull of the curve
- 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
-: the solution of Problem 1 will give the smallest simplex that completely
- contains the convex hull of the polynomial curve 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
- (see Fig.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:comparison_convex_hull"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-) 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename src/imgs/comparison_convex_hull.png
-	lyxscale 10
-	width 70col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-The smallest simplex that encloses a polynomial curve (shown in red) is
- also the smallest one that completely contains its convex hull (shown in
- blue).
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:comparison_convex_hull"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-vskip-2ex
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-As we will prove later in the report, Problem 1 is closely connected with
- this other optimization problem: 
-\color red
-[Introduce Theorem 1 here]
-\end_layout
-
-\begin_layout Standard
-\begin_inset VSpace 0.2cm
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-noindent
-\backslash
-fcolorbox{black}{white}{
-\backslash
-begin{minipage}[t]{1
-\backslash
-columnwidth - 2
-\backslash
-fboxsep - 2
-\backslash
-fboxrule}%
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Theorem 1:
-\series default
- The volume of the convex hull of an 
-\begin_inset Formula $n$
-\end_inset
-
--th order polynomial curve 
-\begin_inset Formula $\boldsymbol{p}(t)$
-\end_inset
-
-, with 
-\begin_inset Formula $t\in[-1,1]$
-\end_inset
-
-, is given by:
-\size footnotesize
-
-\begin_inset Formula 
-\[
-\text{vol}\left(\text{conv}\left(\boldsymbol{p}(t)\right)\right)=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}2^{\frac{n(n+1)}{2}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Proof
-\series default
-: See Appendix (Sec.
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Appendix"
-plural "false"
-caps "false"
-noprefix "false"
-
+ (which implies that its volume is 
+\begin_inset Formula $\neq0$
 \end_inset
 
 ).
- 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-hfill
-\end_layout
-
+ As the simplex S encloses 
+\begin_inset Formula $\boldsymbol{p}(t)$
 \end_inset
 
- 
-\begin_inset Formula $\square$
+, its volume will be 
+\begin_inset Formula $\neq0$
 \end_inset
 
+ and therefore 
+\begin_inset Formula $\left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|\neq0$
+\end_inset
 
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-%
-\end_layout
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{minipage}}
-\end_layout
-
-\end_inset
-
-
+The second problem of this paper is this one:
 \end_layout
 
 \begin_layout Standard
@@ -2483,7 +2440,7 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-Note that another geometric intepretation of Problem 2 is that we are tying
+Another possible geometric interpretation of Problem 2 is that we are trying
  to find the 
 \begin_inset Formula $n$
 \end_inset
@@ -2631,18 +2588,17 @@ end{minipage}}
 \end_layout
 
 \begin_layout Standard
-Similar to the previous case, we will assume that the matrix of vertexes
- of the simplex 
+We will assume that the matrix of vertexes of the simplex 
 \begin_inset Formula $S$
 \end_inset
 
- satisfy 
+ given satisfies 
 \begin_inset Formula $\left|\left[\begin{array}{cc}
 \boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|\neq0$
 \end_inset
 
 .
- In other words, the simplex S is not contained in 
+ In other words, the simplex S given is not contained in a subspace 
 \begin_inset Formula $\mathbb{R}^{m}$
 \end_inset
 
@@ -2650,7 +2606,37 @@ Similar to the previous case, we will assume that the matrix of vertexes
 \begin_inset Formula $m<n$
 \end_inset
 
+.
+ Now note that the optimal solution for this problem is guaranteed to satisfy
+ 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end_inset
 
+ 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This can be easily proven by noting that we are maximizing the absolute
+ value of 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|$
+\end_inset
+
+, and that there exists at least one feasible point (for example the Bézier
+ curve whose control points are 
+\begin_inset Formula $\{\boldsymbol{v}_{0},...,\boldsymbol{v}_{n}\}$
+\end_inset
+
+) with 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
 \begin_inset Note Note
 status open
 
@@ -2661,8 +2647,7 @@ i.e.
 
 \end_inset
 
-.
- 
+
 \end_layout
 
 \begin_layout Section
@@ -2718,77 +2703,6 @@ Both problems share the same constraint
 \end_layout
 
 \begin_layout Standard
-Taking 
-\begin_inset Formula $\lambda_{i}(t)$
-\end_inset
-
- as an 
-\begin_inset Formula $n$
-\end_inset
-
--th degree polynomial 
-\begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t},$
-\end_inset
-
-
-\color red
- losing generality here? 
-\color inherit
-and matching the coefficients we have that:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula 
-\[
-\boldsymbol{P}=\boldsymbol{V}\underbrace{\left[\begin{array}{c}
-\boldsymbol{\lambda}_{0}^{T}\\
-\boldsymbol{\lambda}_{1}^{T}\\
-\vdots\\
-\boldsymbol{\lambda}_{n}^{T}
-\end{array}\right]}_{:=\boldsymbol{A}}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-where we have also defined the 
-\begin_inset Formula $(n+1)\times(n+1)$
-\end_inset
-
- matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
-.
- 
-\color red
-How do I prove that A is not singular (i.e.
- I can take the inverse)?
-\color inherit
- The 
-\begin_inset Formula $i$
-\end_inset
-
--th row of this matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- contains the coefficients of the polynomial 
-\begin_inset Formula $\lambda_{i}(t)$
-\end_inset
-
- in decreasing order.
- We can also write 
-\begin_inset Formula $\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
 The geometric interpretation of each 
 \begin_inset Formula $\lambda_{i}(t)$
 \end_inset
@@ -2806,7 +2720,7 @@ The geometric interpretation of each
 \begin_inset Formula $\boldsymbol{n}_{i}$
 \end_inset
 
- as the normal vector of the hyperplane 
+ as the normal vector of this hyperplane 
 \begin_inset Formula $\boldsymbol{\pi}_{i}$
 \end_inset
 
@@ -2854,16 +2768,10 @@ And therefore:
 \end_layout
 
 \begin_layout Standard
-
-\color red
-And therefore:
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
-\[
-\lambda_{i}(t)=\frac{\text{dist}\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right)}{\text{dist}\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)}
-\]
+\begin{equation}
+\lambda_{i}(t)=\frac{\text{dist}\left(\boldsymbol{p}(t),\boldsymbol{\pi}_{i}\right)}{\text{dist}\left(\boldsymbol{v}_{i},\boldsymbol{\pi}_{i}\right)}\label{eq:normalized_distance}
+\end{equation}
 
 \end_inset
 
@@ -2910,7 +2818,151 @@ noprefix "false"
 ).
  
 \color red
-Barycentric coordinates??
+Barycentric coordinates?? 
+\color inherit
+From Eq.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:normalized_distance"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ it is clear that each 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ is an 
+\begin_inset Formula $n$
+\end_inset
+
+-th degree polynomial, that we will write as 
+\begin_inset Formula $\lambda_{i}(t):=\boldsymbol{\lambda}_{i}^{T}\boldsymbol{t}$
+\end_inset
+
+.
+ Matching the coefficients with 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{P}=\boldsymbol{V}\underbrace{\left[\begin{array}{c}
+\boldsymbol{\lambda}_{0}^{T}\\
+\boldsymbol{\lambda}_{1}^{T}\\
+\vdots\\
+\boldsymbol{\lambda}_{n}^{T}
+\end{array}\right]}_{:=\boldsymbol{A}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where we have also defined the 
+\begin_inset Formula $(n+1)\times(n+1)$
+\end_inset
+
+ matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+, whose 
+\begin_inset Formula $i$
+\end_inset
+
+-th row contains the coefficients of the polynomial 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ in decreasing order.
+ Now note that the constraint 
+\begin_inset Formula $\sum_{i=0}^{n}\lambda_{i}(t)=1$
+\end_inset
+
+, can be rewritten as 
+\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}_{n}$
+\end_inset
+
+ (or equivalently 
+\begin_inset Formula $\boldsymbol{e}_{n}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}\boldsymbol{A}$
+\end_inset
+
+), and therefore we can combine both as:
+\begin_inset Formula 
+\[
+\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}_{n}^{T}
+\end{array}\right]=\left[\begin{array}{c}
+\boldsymbol{V}\\
+\boldsymbol{1}^{T}
+\end{array}\right]\boldsymbol{A}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the matrix 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ is clearly invertible: As 
+\begin_inset Formula $\left|\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}_{n}^{T}
+\end{array}\right|=\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end_inset
+
+, and 
+\begin_inset Formula $\left|\begin{array}{c}
+\boldsymbol{V}\\
+\boldsymbol{1}^{T}
+\end{array}\right|=\left|\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right|\neq0$
+\end_inset
+
+, we have that 
+\begin_inset Formula 
+\[
+\text{rank}\left(\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}_{n}^{T}
+\end{array}\right]\right)=\text{rank}\left(\left[\begin{array}{c}
+\boldsymbol{V}\\
+\boldsymbol{1}^{T}
+\end{array}\right]\right)=n+1
+\]
+
+\end_inset
+
+Therefore, and using the fact that 
+\begin_inset Formula $\text{rank}\left(\boldsymbol{B}\boldsymbol{C}\right)\le\min\left(\text{rank}\left(\boldsymbol{B}\right),\text{rank}\left(\boldsymbol{C}\right)\right)$
+\end_inset
+
+, we conclude that 
+\begin_inset Formula $\text{\text{rank}\left(\boldsymbol{A}\right)}=n+1$
+\end_inset
+
+ (i.e.
+ 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ has full rank).
+ 
 \end_layout
 
 \begin_layout Standard
@@ -3004,22 +3056,6 @@ vskip-2ex
 
 \end_layout
 
-\begin_layout Standard
-With respect to the second constraint 
-\begin_inset Formula $\sum_{i=0}^{n}\lambda_{i}(t)=1$
-\end_inset
-
-, it can be rewritten as 
-\begin_inset Formula $\boldsymbol{A}^{T}\boldsymbol{1}=\boldsymbol{e}_{n}$
-\end_inset
-
- (or equivalently 
-\begin_inset Formula $\boldsymbol{e}_{n}^{T}\boldsymbol{A}^{-1}=\boldsymbol{1}^{T}$
-\end_inset
-
-).
-\end_layout
-
 \begin_layout Subsection
 Objective Function of Problem 1
 \end_layout
@@ -3032,6 +3068,23 @@ Given the previous relationships, we have that
 \begin_inset Formula 
 \[
 \left|\left[\begin{array}{cc}
+\boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|=\left|\boldsymbol{A}^{-T}\left[\begin{array}{c}
+\boldsymbol{P}^{T}\boldsymbol{e}_{n}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\left|\left[\begin{array}{cc}
 \boldsymbol{V}^{T} & \boldsymbol{1}\end{array}\right]\right|=\left|\left[\begin{array}{cc}
 \boldsymbol{A}^{-T}\boldsymbol{P}^{T} & \boldsymbol{1}\end{array}\right]\right|=
 \]
@@ -3041,12 +3094,17 @@ Given the previous relationships, we have that
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 =\left|\boldsymbol{A}^{-T}\right|\left|\left[\begin{array}{c}
 \boldsymbol{P}^{T}\underbrace{\boldsymbol{A}^{T}\boldsymbol{1}}_{=\boldsymbol{e}_{n}}\end{array}\right]\right|\propto\left|\boldsymbol{A}^{-1}\right|=\frac{1}{|\boldsymbol{A}|}
 \]
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -3067,7 +3125,7 @@ where we have used the fact that everything inside
 
 .
  Therefore, we conclude that 
-\begin_inset Formula $f_{1}\propto\frac{1}{abs\left(|\boldsymbol{A}|\right)}$
+\begin_inset Formula $f_{1}\propto\frac{1}{\text{abs}\left(|\boldsymbol{A}|\right)}$
 \end_inset
 
 .
@@ -3076,7 +3134,7 @@ where we have used the fact that everything inside
 \end_inset
 
 , or, equivalently, minimize 
-\begin_inset Formula $-abs\left(\left|\boldsymbol{A}\right|\right)$
+\begin_inset Formula $-\text{abs}\left(\left|\boldsymbol{A}\right|\right)$
 \end_inset
 
 .
@@ -3087,10 +3145,31 @@ Objective Function of Problem 2
 \end_layout
 
 \begin_layout Standard
-Similarly to the previous subsection, we have that
+Similar to the previous subsection, we have that
 \end_layout
 
 \begin_layout Standard
+\begin_inset Formula 
+\[
+\left|\boldsymbol{P}_{:,0:n}\right|=\left|\left[\begin{array}{c}
+\boldsymbol{P}\\
+\boldsymbol{e}_{n}^{T}
+\end{array}\right]\right|=\left|\left[\begin{array}{c}
+\boldsymbol{V}\\
+\boldsymbol{1}^{T}
+\end{array}\right]\boldsymbol{A}\right|\propto\left|\boldsymbol{A}\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 \left|\boldsymbol{P}_{:,0:n}\right|=\left|\left[\begin{array}{c}
@@ -3107,9 +3186,14 @@ Similarly to the previous subsection, we have that
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 And therefore, 
-\begin_inset Formula $f_{2}\propto-abs\left(\left|\boldsymbol{A}\right|\right)$
+\begin_inset Formula $f_{2}\propto-\text{abs}\left(\left|\boldsymbol{A}\right|\right)$
 \end_inset
 
 .
@@ -3135,7 +3219,7 @@ status open
 
 \begin_layout Plain Layout
 Note that in Problem 3 the 
-\begin_inset Formula $abs(\cdot)$
+\begin_inset Formula $\text{abs}(\cdot)$
 \end_inset
 
  is not necessary, since any permutation of the rows of 
@@ -3160,8 +3244,8 @@ Note that in Problem 3 the
 \begin_inset Formula $\left|\boldsymbol{A}\right|<0$
 \end_inset
 
-, but that allows us to higlight the similarities and differences between
- this matrix and the ones using Bernstein or B-Spline bases.
+, but that allows us to highlight the similarities and differences between
+ this matrix and the ones Bernstein and B-Spline bases use.
  
 \end_layout
 
@@ -3212,7 +3296,7 @@ Problem 3:
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\min_{\boldsymbol{A}\in\mathbb{R}^{(n+1)\times(n+1)}}\quad f_{3}:=-abs\left(\left|\boldsymbol{A}\right|\right)
+\min_{\boldsymbol{A}\in\mathbb{R}^{(n+1)\times(n+1)}}\quad f_{3}:=-\text{abs}\left(\left|\boldsymbol{A}\right|\right)
 \]
 
 \end_inset
@@ -5542,6 +5626,714 @@ Authors name stackoverflow references?
 \end_layout
 
 \begin_layout Section
+Curve contained in a subspace 
+\begin_inset Formula $\mathbb{R}^{n}\subseteq\mathbb{R}^{k}$
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Embedding"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So far we have studied the case of a polynomial curve of degree 
+\begin_inset Formula $n$
+\end_inset
+
+ and dimension 
+\begin_inset Formula $k=n$
+\end_inset
+
+.
+ The case 
+\begin_inset Formula $n<k$
+\end_inset
+
+ can easily be solved by simply doing a change of basis between 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+.
+ Defining 
+\begin_inset Formula $\boldsymbol{T}_{k\times n}$
+\end_inset
+
+ as the transformation matrix that takes one point 
+\begin_inset Formula $\boldsymbol{a}'$
+\end_inset
+
+ expressed in the standard basis of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ and transforms it to the standard basis of 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+ (i.e.
+ 
+\begin_inset Formula $\boldsymbol{a}_{k\times1}=\boldsymbol{T}_{k\times n}\left(\boldsymbol{a}'\right)_{n\times1}$
+\end_inset
+
+), the following relationships hold:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Relationship
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Vertexes
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{V}_{k\times(n+1)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{V}'_{n\times(n+1)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{V}=\boldsymbol{T}\boldsymbol{V}'$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Coeff.
+ Matrix
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{P}_{k\times(n+1)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{P}'_{n\times(n+1)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\boldsymbol{P}=\boldsymbol{T}\boldsymbol{P}'$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using the results for 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ (either from problem 1 or 2), we have that 
+\begin_inset Formula $\boldsymbol{P}'=\boldsymbol{V}'\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}$
+\end_inset
+
+ (where 
+\begin_inset Formula $\boldsymbol{P}'$
+\end_inset
+
+ is given for problem 1, and and 
+\begin_inset Formula $\boldsymbol{V}'$
+\end_inset
+
+ is given for problem 2).
+ Therefore, we have that:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{P}=\boldsymbol{T}\boldsymbol{P}'=\boldsymbol{T}\boldsymbol{V}'\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}=\boldsymbol{V}\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which means that, to obtain the 
+\begin_inset Formula $(n+1)$
+\end_inset
+
+ vertexes (expressed in 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+) of the smallest 
+\begin_inset Formula $n$
+\end_inset
+
+-simplex enclosing a polynomial curve of degree 
+\begin_inset Formula $n$
+\end_inset
+
+ embedded in 
+\begin_inset Formula $\mathbb{R}^{n}\subseteq\mathbb{R}^{k}$
+\end_inset
+
+, we can simply use:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{V}_{k\times(n+1)}=\boldsymbol{P}_{k\times(n+1)}\left(\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}\right)^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And same applies for the problem 2, but using:
+\begin_inset Formula 
+\[
+\boldsymbol{P}_{k\times(n+1)}=\boldsymbol{V}_{k\times(n+1)}\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For 
+\begin_inset Formula $k=3$
+\end_inset
+
+, the cases 
+\begin_inset Formula $n=2$
+\end_inset
+
+ and 
+\begin_inset Formula $n=1$
+\end_inset
+
+ are shown in Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:embedding"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/embedded.pdf
+	lyxscale 80
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MINVO basis applied for the case 
+\begin_inset Formula $\mathbb{R}^{n}\subseteq\mathbb{R}^{k}$
+\end_inset
+
+.
+ In this example we have two cases with 
+\begin_inset Formula $k=3$
+\end_inset
+
+: On the left 
+\begin_inset Formula $n=2$
+\end_inset
+
+ (planar curve embedded in 
+\begin_inset Formula $\mathbb{R}^{3}$
+\end_inset
+
+), and on the right 
+\begin_inset Formula $n=1$
+\end_inset
+
+ (segment embedded in 
+\begin_inset Formula $\mathbb{R}^{3}$
+\end_inset
+
+) 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:embedding"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+it in the standard basis of to in such that 
+\begin_inset Formula $\boldsymbol{a}_{k\times1}=T_{k\times n}\left(\boldsymbol{a}'\right)_{n\times1}$
+\end_inset
+
+ (where 
+\begin_inset Formula $\boldsymbol{a}_{k\times1}$
+\end_inset
+
+ is a point expressed in the standard basis of 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+, and 
+\begin_inset Formula $\left(\boldsymbol{a}'\right)_{n\times1}$
+\end_inset
+
+ is the same point but expressed in the standard basis of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+What happens if we have 
+\begin_inset Formula $n<k$
+\end_inset
+
+? This ca In that case, the curve in 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+ is expressed as 
+\begin_inset Formula $\boldsymbol{P}'_{k\times(n+1)}\boldsymbol{t}_{(n+1)\times1}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+.
+ Define also the transformation matrix 
+\begin_inset Formula $T_{k\times n}$
+\end_inset
+
+ as the matrix such that 
+\begin_inset Formula $\boldsymbol{a}_{k\times1}=T_{k\times n}\left(\boldsymbol{a}'\right)_{n\times1}$
+\end_inset
+
+ (where 
+\begin_inset Formula $\boldsymbol{a}_{k\times1}$
+\end_inset
+
+ is a point expressed in the standard basis of 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+, and 
+\begin_inset Formula $\left(\boldsymbol{a}'\right)_{n\times1}$
+\end_inset
+
+ is the same point but expressed in the standard basis of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+).
+ Applying the results obtained for the basis
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{V}'=\boldsymbol{P}'\left(\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}\right)^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Hence, 
+\begin_inset Formula 
+\[
+\boldsymbol{V}=\boldsymbol{T}\boldsymbol{V}'=\boldsymbol{T}\boldsymbol{P}'\left(\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}\right)^{-1}=\boldsymbol{P}\left(\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}\right)^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Similarly, for problem 2 we have 
+\begin_inset Formula $\boldsymbol{P}'=\boldsymbol{V}'\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}$
+\end_inset
+
+ and therefore:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{P}=\boldsymbol{T}\boldsymbol{P}=\boldsymbol{T}\boldsymbol{V}'\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}=\boldsymbol{V}\boldsymbol{A}_{(n+1)\times(n+1)}^{\text{MV}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+In that case, the curve would be embedded in the subspace 
+\begin_inset Formula $\mathbb{R}^{n}\subset\mathbb{R}^{k}$
+\end_inset
+
+.
+ Denoting 
+\begin_inset Formula $\boldsymbol{T}$
+\end_inset
+
+ as the orthogonal projection matrix that satisfies 
+\begin_inset Formula 
+\[
+\boldsymbol{T}_{k\times k}\boldsymbol{x}_{k\times1}=\left[\begin{array}{c}
+\boldsymbol{x}_{n\times1}^{'}\\
+\boldsymbol{0}_{(k-n)\times1}
+\end{array}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+(where 
+\begin_inset Formula $\boldsymbol{x}_{n\times1}^{'}$
+\end_inset
+
+ is the projected point in the subspace 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+).
+ Hence, we have that every point of the curve 
+\begin_inset Formula $\boldsymbol{P}\boldsymbol{t}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbb{R}^{k}$
+\end_inset
+
+ is projected to 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ as 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\boldsymbol{T}_{k\times k}\boldsymbol{P}_{k\times(n+1)}\boldsymbol{t}_{(n+1)\times1}=\left[\begin{array}{c}
+P_{n\times(n+1)}^{'}\\
+\boldsymbol{0}_{(k-n)\times(n+1)}
+\end{array}\right]_{k\times(n+1)}\boldsymbol{t}_{(n+1)\times1}=\left[\begin{array}{c}
+P_{n\times(n+1)}^{'}\boldsymbol{t}_{(n+1)\times1}\\
+\boldsymbol{0}_{(k-n)\times(n+1)}
+\end{array}\right]_{k\times(n+1)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Using now the result in the projection, we have that 
+\begin_inset Formula $\boldsymbol{V}_{n\times(n+1)}^{'}=P_{n\times(n+1)}^{'}\left(A_{(n+1)\times(n+1)}^{\text{MV}}\right)^{-1}$
+\end_inset
+
+.
+ And then: 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Polynomial curve
+\series default
+ 
+\series bold
+of degree
+\series default
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ 
+\series bold
+and dimension
+\series default
+ 
+\begin_inset Formula $k$
+\end_inset
+
+: Parametric curve 
+\begin_inset Formula $\boldsymbol{p}(t):=\left[\begin{array}{c}
+p_{0}(t)\\
+\vdots\\
+p_{k-1}(t)
+\end{array}\right]:=\boldsymbol{P}\boldsymbol{t}$
+\end_inset
+
+, where 
+\begin_inset Formula $p_{i}(t)$
+\end_inset
+
+ is a polynomial of degree 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ The matrix 
+\begin_inset Formula $\boldsymbol{P}$
+\end_inset
+
+ is the coefficient matrix, and will be denoted as 
+\begin_inset Formula $\boldsymbol{P}:=\left[\begin{array}{c}
+\boldsymbol{c}_{0}^{T}\\
+\vdots\\
+\boldsymbol{c}_{k-1}^{T}
+\end{array}\right]_{k\times(n+1)}\equiv\left[\begin{array}{ccc}
+\boldsymbol{p}_{n} & \cdots & \boldsymbol{p}_{0}\end{array}\right]_{k\times(n+1)}$
+\end_inset
+
+.
+ In this paper, we will use the intervals 
+\begin_inset Formula $t\in[-1,1]$
+\end_inset
+
+ of polynomial curves of the form 
+\begin_inset Formula $k=n$
+\end_inset
+
+ and we will refer to these intervals simply as 
+\begin_inset Formula $n$
+\end_inset
+
+-th order polynomial curves.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Necessary condition
 \end_layout
 
@@ -6975,6 +7767,99 @@ Citar theorem 2.2 y 2.3 de de http://citeseerx.ist.psu.edu/viewdoc/download?doi=
 status open
 
 \begin_layout Plain Layout
+(i.e.
+ all 
+\begin_inset Formula $\boldsymbol{\lambda}_{i}^{T}$
+\end_inset
+
+ are linearly independent between each other):
+\end_layout
+
+\begin_layout Plain Layout
+For problem 1, if we had a 
+\begin_inset Formula $\boldsymbol{\lambda}_{j}^{T}$
+\end_inset
+
+ that is a linear combination of the other 
+\begin_inset Formula $\boldsymbol{\lambda}_{u}^{T}$
+\end_inset
+
+ (
+\begin_inset Formula $u\in\{0,...,n\}\backslash j$
+\end_inset
+
+), then 
+\begin_inset Formula 
+\[
+\boldsymbol{p}(t)=\sum_{j=0}^{n}\lambda_{j}(t)\boldsymbol{v}_{j}=\sum_{\begin{array}{c}
+j=0\\
+j\neq u
+\end{array}}^{n}\lambda_{j}(t)\boldsymbol{v}_{j}^{'}=\boldsymbol{v}_{k}+\sum_{\begin{array}{c}
+j=0\\
+j\neq k
+\end{array}}^{n}\lambda_{j}(t)\left(\boldsymbol{v}_{j}-\boldsymbol{v}_{k}\right)=\sum_{i=0,i\neq j}^{n}\lambda_{i}(t)\boldsymbol{v}_{i}'
+\]
+
+\end_inset
+
+ for some 
+\begin_inset Formula $n$
+\end_inset
+
+ points 
+\begin_inset Formula $\boldsymbol{v}_{i}'$
+\end_inset
+
+, and therefore 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ would be embeded in 
+\begin_inset Formula $ $
+\end_inset
+
+is is a linear combination of only 
+\begin_inset Formula $n$
+\end_inset
+
+ points, which cannot span a 
+\begin_inset Formula $n$
+\end_inset
+
+-th order polynomial.
+\end_layout
+
+\begin_layout Plain Layout
+, since is clearly invertible, as can be easily proven by contradiction:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+We can also write 
+\begin_inset Formula $\boldsymbol{V}^{T}=\left(\boldsymbol{P}\boldsymbol{A}^{-1}\right)^{T}=\boldsymbol{A}^{-T}\boldsymbol{P}^{T}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 \omega=\frac{\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)}{n!}\frac{2^{2a^{2}+5a+3}}{(a+1)!}\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}\left(\prod_{i<j}\left(q_{i}-q_{j}\right)^{4}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dq_{a}dq_{a-1}...dq_{0}
@@ -7766,6 +8651,179 @@ BERNSTEIN
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+As explained in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notation-and-Definitions"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, we will focus on the curves that are not embedded in with curves In this
+ work, we will work with the case Without loss of generality, we will assume
+ throughout the paper that the 
+\begin_inset Formula $n$
+\end_inset
+
+-th order polynomial curve is not embedded in a subspace 
+\begin_inset Formula $\subset\mathbb{R}^{n}$
+\end_inset
+
+.
+ the polynomial curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ is not contained in a subspace 
+\begin_inset Formula $\mathbb{R}^{m}$
+\end_inset
+
+ , with 
+\begin_inset Formula $m<n$
+\end_inset
+
+.
+ In other words, 
+\begin_inset Formula $\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ is contained in a subspace 
+\begin_inset Formula $\mathbb{R}^{m}$
+\end_inset
+
+ (
+\begin_inset Formula $m<n$
+\end_inset
+
+), then we can solve the problem by simply using the basis of that subspace
+ 
+\begin_inset Formula $\mathbb{R}^{m}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Another way to understand Problem 1 is using the convex hull of the curve
+ 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+: the solution of Problem 1 will give the smallest simplex that completely
+ contains the convex hull of the polynomial curve 
+\begin_inset Formula $\boldsymbol{p}(t)$
+\end_inset
+
+ (see Fig.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:comparison_convex_hull"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/comparison_convex_hull.png
+	lyxscale 10
+	width 70col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The smallest simplex that encloses a polynomial curve (shown in red) is
+ also the smallest one that completely contains its convex hull (shown in
+ blue).
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:comparison_convex_hull"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vskip-2ex
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
