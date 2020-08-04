@@ -1025,7 +1025,7 @@ literal "false"
 \end_layout
 
 \begin_layout Section
-Notation and Preliminaries 
+Preliminaries
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Notation-and-Definitions"
@@ -1033,6 +1033,10 @@ name "sec:Notation-and-Definitions"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Notation and Definitions
 \end_layout
 
 \begin_layout Standard
@@ -1947,9 +1951,24 @@ Note that for the curves
 
 \end_layout
 
+\begin_layout Subsection
+Volume of the Convex Hull of a Polynomial Curve
+\end_layout
+
 \begin_layout Standard
 At several points throughout the paper, we will make use of the following
- theorem:
+ theorem, that we prove in the Appendix (Sec.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Appendix"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+):
 \end_layout
 
 \begin_layout Standard
