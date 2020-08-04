@@ -21,6 +21,25 @@ for i=1:7
     vpa(value,4)
 end
 
+%% Print all the roots
+clc
+for i=1:7
+    fprintf("n=%f\n",i)
+    [A rootsA]=getSolutionA(i,"m11");
+    matrix_with_roots=[];
+    for j=1:size(rootsA,2)
+        tmp=rootsA{j};
+        if(length(tmp)<(i+1)/2)
+            tmp=[tmp nan];
+        end
+        matrix_with_roots=[matrix_with_roots; tmp];
+    end
+    matrix_with_roots 
+    latex(vpa(sym(matrix_with_roots),4))
+end
+
+
+
 %%
 
 close all; clear; clc;
@@ -141,7 +160,7 @@ lgd.Position = [0.9,0.9,1,0.3].*lgd.Position;
 % set(sp_hand1, 'Position',new_pos1 ) % set new position of current sub - plot
 
 
-exportAsPdf(gcf,name_figure)
+%exportAsPdf(gcf,name_figure)
 
 %% RESULT for 2D for a given polynomial
 figure; hold on;
@@ -200,7 +219,7 @@ axis equal
 xlim([-2 5.5])
 ylim([-1 2.0])
 
-exportAsSvg(gcf,'imgs/comparison2d_poly_given_matlab')
+%exportAsSvg(gcf,'imgs/comparison2d_poly_given_matlab')
 
 %% RESULT for 3D for a given polynomial
 figure;
@@ -266,7 +285,7 @@ arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
-exportAsSvg(gcf,'imgs/comparison3d_poly_given_matlab')
+%exportAsSvg(gcf,'imgs/comparison3d_poly_given_matlab')
 
 %% RESULT for 2D for a given simplex
 figure; hold on;
@@ -323,7 +342,7 @@ ylim([0 2.0])
 fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
 alpha 0.2;xlim([-0.7,0.7]);ylim([-0.1,1.7]);axis equal;
 
-exportAsSvg(gcf,'imgs/comparison2d_simplex_given_matlab')
+%exportAsSvg(gcf,'imgs/comparison2d_simplex_given_matlab')
 
 
 %% GEOMETRIC INTERPRETATION OF LAMBDA_I
@@ -486,7 +505,7 @@ caxis([0.2 0.7])
 
 
 % WORKS:
-print(gcf,'imgs/comparison3d_simplex_given_matlab','-dpng','-r1000')
+%print(gcf,'imgs/comparison3d_simplex_given_matlab','-dpng','-r1000')
  
 % DON'T WORK:
 % exportAsPdf(gcf,'imgs/comparison_convex_hull')
@@ -495,7 +514,173 @@ print(gcf,'imgs/comparison3d_simplex_given_matlab','-dpng','-r1000')
 % plot2svg("temperature_standard.svg");
 % printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
 % saveas(gcf,'imgs/comparison_convex_hull.png')
+%% 
+%% RESULT for 3D for a given polynomial
+figure;
+subplot(1,4,1);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
 
+view1=30; view2=30;
+vx=[ 0    0.7  0.1 0.5]';
+vy=[1.1   0.4  0.1 1.3]';
+vz=[0.8   1  0 0]';
+V=[vx'; vy'; vz'];
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.017);
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+arrow3d([0 0 0],[0 0 0.5],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 0.5 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0.5 0 0],20,'cylinder',[0.2,0.1]);
+view(view1, view2); axis equal;
+
+subplot(1,4,2);hold on
+view1=30; view2=30;
+vx=[ 0.8    1.6  0.1 0.5]';
+vy=[-2.3   -0.6  1.4 0.3]';
+vz=[0.2   -1  0 0.7]';
+V=[vx'; vy'; vz'];
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+view(view1, view2); axis equal;
+
+subplot(1,4,3);hold on
+view1=73.4; view2=35.36;
+vx=[ -1.2    0.2  2.3 0.1]';
+vy=[0.3   -0.5  0.1 -0.5]';
+vz=[0.7   1  -0.4 0.1]';
+V=[vx'; vy'; vz'];
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+view(view1, view2); axis equal;
+
+subplot(1,4,4);hold on
+view1=30; view2=30;
+vx=[ -1.2    0.6  1.3 0.5]';
+vy=[0.3   -0.7  -0.4  0.5]';
+vz=[-1.2   1  -0.4 0.1]';
+V=[vx'; vy'; vz'];
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+view(view1, view2); axis equal;
+
+%exportAsSvg(gcf,'imgs/many_comparisons3d_poly_given_matlab')
+
+%%
+
+figure;
+subplot(1,4,1);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+view1=135; view2=-10.85;
+V=[   -0.6330   -0.2630    0.2512    0.5605;
+   -0.8377    0.8588    0.5514   -0.0264;
+   -0.1283   -0.1064   -0.3873    0.0170];
+vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
+view(view1, view2); axis equal;
+poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+camlight
+lightangle(gca,45,0)
+colormap(winter); axis equal; axis off; 
+caxis([0.2 0.7])
+% 
+subplot(1,4,2);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+view1=289.97; view2=-4.4981;
+V=[    0.1741   -0.0582   -0.6105   -0.5447;
+   -0.5845   -0.5390   -0.5482   -0.1286;
+   -0.3975    0.6886   -0.6586   -0.3778];
+vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.010);
+view(view1, view2); axis equal;
+poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+camlight
+lightangle(gca,45,0)
+colormap(winter); axis equal; axis off; 
+caxis([0.2 0.7])
+
+subplot(1,4,3);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+view1=286.97; view2=0.29;
+V=[    0.9234    0.9049    0.1111    0.5949;
+    0.4302    0.9797    0.2581    0.2622;
+    0.1848    0.4389    0.4087    0.6028];
+vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.010);
+view(view1, view2); axis equal;
+poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+camlight
+lightangle(gca,45,0)
+colormap(winter); axis equal; axis off; 
+caxis([0.2 0.7])
+
+subplot(1,4,4);hold on
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+view1=286.97; view2=0.29;
+V=[    0.7112    0.2967    0.5079    0.8010;
+    0.2217    0.3188    0.0855    0.0292;
+    0.1174    0.4242    0.2625    0.9289];
+vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
+A=getSolutionA(3,"m11");
+pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.006);
+view(view1, view2); axis equal;
+poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
+samples_t=-1:0.01:1;
+samples_poly=double(subs(poly,t,samples_t));
+[k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
+trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+camlight
+lightangle(gca,45,0)
+colormap(winter); axis equal; axis off; 
+caxis([0.2 0.7])
+
+%print(gcf,'imgs/many_comparisons3d_simplex_given_matlab','-dpng','-r1000')
 %%
 
 % figure; hold on

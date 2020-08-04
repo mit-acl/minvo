@@ -7,22 +7,23 @@
 %  * -------------------------------------------------------------------------- */
 
 close all; clc; clear;
-
 %delete(gcp('nocreate')); %Delete the parallel pool
-
 global use_yalmip
 
-use_yalmip=false;
+%%%%%%%% Instructions:
+% Set use_yalmip=true to prove global optimality for n=1,2,3 (using moment relaxations)
+% Set use_yalmip=false to prove local optimality for n=1,2,3,4,5,6,7 (using fmincon from many different initial guesses)
+use_yalmip=true;
+n=3;
 
+%
 if (use_yalmip==true)
     sdpvar t
 else
     syms t
 end
 
-deg=7;
-n=deg;
-
+deg=n;
 deg_is_even = (rem(deg, 2) == 0);
 
 W=[]; B=[];R=[];
@@ -42,9 +43,6 @@ if(deg_is_even==0) %Deg is odd
     end
     
     W=[W;substitute(W,t,-t)]; %Insert the other half
-%     for jj=(size(roots_lambda,2)+1):2*(size(roots_lambda,2))
-%         roots_lambda{jj}=[-1.0];
-%     end
     
 else %Deg is even
 
@@ -62,7 +60,6 @@ else %Deg is even
     for index=1:size(Ia,2)
         i=Ia(index);
         B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-        jj
         pol=-Bi*(t+1)*(t-1); roots_lambda{jj}=[-1.0, 1.0];
         for j=1:(n-2)/2
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
@@ -75,7 +72,6 @@ else %Deg is even
    for index=1:size(Ib,2)
        i=Ib(index);
        B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
-       jj
        pol=Bi;   roots_lambda{jj}=[];
        for j=1:(n/2)
             R=appendElement(R,strcat('R',num2str(i),num2str(j)));  Rij=R(end);
@@ -87,7 +83,6 @@ else %Deg is even
    
    
    %Force the lambda in the middle to have symmetrical roots
-
    i=n/2+1;  jj=i;
    if(n_2_is_even)
        B=appendElement(B,strcat('B',num2str(i)));  Bi=B(end);
@@ -107,7 +102,6 @@ else %Deg is even
        W=[W;pol];
    end
    
-   
    W=[W;substitute(W(1:end-1,:),t,-t)]; %Force symmetry in the first block except the last row
    
 end
@@ -115,17 +109,14 @@ end
 %Get the coefficients
 coeffic=getCoeffInDecOrder(sum(W), t, deg);
 
-
 %% Solve using yalmip
 if(use_yalmip==true)
-    
-    
+        
     disp("Creating the A matrix")
     %Create the A matrix:
     A=[];
     for i=1:length(W)
         tmp=getCoeffInDecOrder(W(i),t,deg);
-        sdisplay(tmp)
         A=[A; tmp];
     end
     
@@ -152,36 +143,19 @@ if(use_yalmip==true)
 
     obj=-det(A,'polynomial');% computeDet(A)
 
+    disp("Starting optimization")
+    [sol,x,momentdata]=solvemoment(constraints,obj,[], 5); 
+   
+%%%Other possible settings you may want to explore
+%     settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+%     assign(A,A_guess);
+%     usual_settings=sdpsettings('savesolveroutput',1,'savesolverinput',1,'showprogress',1,'verbose',2,'debug',1);
+%     settings=sdpsettings('usex0',0,'solver','moment',usual_settings);
+%     settings=sdpsettings(usual_settings,'solver','sparsepop','sparsepop.relaxOrder',4);
+%     settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+%     settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
+%     settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
 
-    % -determ;
-
-
-    % A_bezier=computeMatrixForBezier(deg, "m11");
-    %    
-    % A_guess=A_bezier;
-    % 
-    % A_guess=getGuessA(deg,"m11");
-    % 
-    % assign(A,A_guess);
-
-    % settings=sdpsettings('showprogress',1,'verbose',2,'debug',1);
-    % result=solvemoment(constraints,obj,settings);
-
-    % usual_settings=sdpsettings('savesolveroutput',1,'savesolverinput',1,'showprogress',1,'verbose',2,'debug',1);
-    % 
-    % % settings=sdpsettings('usex0',0,'solver','moment',usual_settings);
-    % settings=sdpsettings(usual_settings,'solver','sparsepop','sparsepop.relaxOrder',4);
-
-
-     settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
-    % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
-    % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','ipopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
-     result=optimize(constraints,obj,settings);
-    disp("Starting Optimization")
-%     [sol,x,momentdata]=solvemoment(constraints,obj); %,[],5
-    
-    disp("Objective value is")
-    det(relaxvalue(obj))
 
 else
 %% Solve using fmincon (GlobalSearch)
@@ -197,7 +171,7 @@ else
     for jj=1:(ceil(size(Atmp,1)/2))
         tmp=symvar(Atmp(jj,:));
         tmp=subs(tmp,B,zeros(size(B))); %set all the values of B to zero
-        roots_lambda_jj=nonzeros(tmp)' %get all the variables Rij
+        roots_lambda_jj=nonzeros(tmp)'; %get all the variables Rij
         roots_lambda{jj}=[roots_lambda{jj} roots_lambda_jj];
     end
     
@@ -295,17 +269,10 @@ else
     interv=[-1,1];
     figure;
     fplot(A_solution*T,interv)
-
-    rootsA=[];
-    for i=1:size(A_solution,1)
-        rootsA=[rootsA ; roots(A_solution(i,:))'];
-    end
-    gs
-    rootsA=double(real(rootsA));
     
-    save(['solutionDeg' num2str(deg) '.mat'],'A','rootsA');
-    save(['sols_formula/solutionTangencyPointsDeg' num2str(deg) '.mat'],'tangencyPoints');
-    save(['sols_formula/rootsLambdaiDeg' num2str(deg) '.mat'],'roots_lambda_solution');
+%     save(['solutionDeg' num2str(deg) '.mat'],'A');%,'rootsA'
+%     save(['sols_formula/solutionTangencyPointsDeg' num2str(deg) '.mat'],'tangencyPoints');
+%     save(['sols_formula/rootsLambdaiDeg' num2str(deg) '.mat'],'roots_lambda_solution');
 
 end
 
@@ -319,7 +286,7 @@ function coeffic=getCoeffInDecOrder(expression, variable, deg)
     
     if (use_yalmip==true)
         %NOTE: IF YOU USE
-        %coeffic=flip(coefficients(expression,variable)'), it return [1 4]
+        %coeffic=flip(coefficients(expression,variable)'), it returns [1 4]
         %for the polynomial t*t +4 (i.e. it doesn't include a 0).
         %That's why the code below is needed. 
          [c,v] = coefficients(expression,variable);
@@ -340,7 +307,7 @@ function coeffic=getCoeffInDecOrder(expression, variable, deg)
              end
          end
         
-        coeffic=flip(coeffic)
+        coeffic=flip(coeffic);
 %         coeffic=flip(coefficients(expression,variable)');
     else
         coeffic=coeffs(expression,variable,'All'); %When using All, no flip!! (gives directly [a  b c d]

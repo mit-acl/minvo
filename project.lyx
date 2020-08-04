@@ -332,7 +332,7 @@ Outer polyhedral representations of a given polynomial curve are extensively
 \begin_inset Formula $n$
 \end_inset
 
- using Sum-Of-Squares (SOS) Programming and moment relaxations.
+ using Branch and Bound, Sum-Of-Squares (SOS) Programming and moment relaxations.
  
 \end_layout
 
@@ -341,8 +341,9 @@ Supplementary material
 \end_layout
 
 \begin_layout Standard
-The code used for this paper is available in the following link: Is this
- anonymous
+The code used for this paper is available in the following link: 
+\color red
+Delete this for the anonymous review
 \end_layout
 
 \begin_layout Standard
@@ -486,6 +487,11 @@ Comparison between the MINVO, Bernstein and B-Spline bases for
 \end_inset
 
 .
+ MINVO obtains globally optimal results for 
+\begin_inset Formula $n=3$
+\end_inset
+
+.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -576,7 +582,7 @@ literal "false"
  of a curve are envelope approximations in optimization 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "envelope2020"
+key "bmibnb2020"
 literal "false"
 
 \end_inset
@@ -747,12 +753,8 @@ Global optimality is proven for
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
- (in the more tractable formulation) and 
-\begin_inset Formula $n=1,2$
-\end_inset
-
- (in the more general formulation) using moment relaxations and semidefinite
- programming.
+ (for both the more general and the more tractable one) using branch and
+ bound, moment relaxations and SOS.
  
 \end_layout
 
@@ -2920,10 +2922,10 @@ Note that the matrix
 \end_inset
 
  is clearly invertible: As 
-\begin_inset Formula $\left|\begin{array}{c}
+\begin_inset Formula $\text{abs}\left(\left|\begin{array}{c}
 \boldsymbol{P}\\
 \boldsymbol{e}_{n}^{T}
-\end{array}\right|=\left|\boldsymbol{P}_{:,0:n}\right|\neq0$
+\end{array}\right|\right)=\text{abs}\left(\left|\boldsymbol{P}_{:,0:n}\right|\right)\neq0$
 \end_inset
 
 , and 
@@ -4033,17 +4035,27 @@ noprefix "false"
 
 \end_inset
 
-, together with the Bernstein, 
-\color red
-B-Spline
-\color inherit
-, and Lagrange bases for comparison.
- 
+, together with the Bernstein, B-Spline, and Lagrange bases for comparison.
+ The roots of each of the MINVO basis functions 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ are shown in Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:roots"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 One natural question to ask is whether the basis found constitutes a global
- minimizer either for Problem 3 or Problem 4.
+ minimizer for either Problem 3 or Problem 4.
  To answer this, first note that both Problem 3 and Problem 4 are polynomial
  optimization problems.
  Therefore, we can make use of Lasserre's moment method 
@@ -4059,18 +4071,31 @@ literal "false"
  
 \color red
 CHECK THIS.
- 
+
 \color inherit
-Using this technique, we were able to obtain the same objective value (proving
+ Using this technique, we were able to obtain the same objective value (proving
  therefore global optimality) for 
 \begin_inset Formula $n=1,2,3$
 \end_inset
 
- (in Problem 4), and for 
-\begin_inset Formula $n=1$
+ in Problem 4.
+ For Problem 3, the moment relaxation technique becomes instractable due
+ to the higher number of variables and to proble global optimality we use
+ instead the branch-and-bound algorithm, that proves global optimality by
+ reducing to 
+\begin_inset Formula $0$
 \end_inset
 
- (in Problem 3).
+ the gap between the upper bounds found by a nonconvex solver, and the lower
+ bounds found using convex relaxations 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bmibnb2020"
+literal "false"
+
+\end_inset
+
+.
  
 \end_layout
 
@@ -4090,28 +4115,15 @@ noprefix "false"
 \end_layout
 
 \begin_layout Itemize
-The matrix 
-\begin_inset Formula $\boldsymbol{A}$
-\end_inset
-
- found for 
-\begin_inset Formula $n=1$
-\end_inset
-
- is a global minimizer of both Problem 3 and Problem 4.
-\end_layout
-
-\begin_layout Itemize
 The matrices 
 \begin_inset Formula $\boldsymbol{A}$
 \end_inset
 
  found for 
-\begin_inset Formula $n=2,3$
+\begin_inset Formula $n=1,2,3$
 \end_inset
 
- are global minimizers for Problem 4, and at least local minimizers for
- Problem 3.
+ are global minimizers of both Problem 3 and Problem 4.
 \end_layout
 
 \begin_layout Itemize
@@ -4605,13 +4617,7 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\begin{array}{c}
-\text{Local Opt.}\\
-\text{(at least)}
-\end{array}$
-\end_inset
-
-
+Global Opt.
 \end_layout
 
 \end_inset
@@ -4698,13 +4704,7 @@ Global Opt.
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\begin{array}{c}
-\text{Local Opt.}\\
-\text{(at least)}
-\end{array}$
-\end_inset
-
-
+Global Opt.
 \end_layout
 
 \end_inset
@@ -5163,14 +5163,6 @@ latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-
-\color red
-Creo que Puedo demostrar facilmente que el caso n=2 es global optimum para
- el problem 3 by simply imposing the centroid necessary condition optimi
- EL CASO N=2 DEBERIA SER GLOBAL OPTIMIMUM?? (I.E.
- LO PUEDO RESOLVER ANALITICAMENTE O NO?)Lo puedo resolver analiticamente
- para el problema 4 for sure, pero not sure para el problema 3...
-\color inherit
 Results for the MINVO basis.
  
 \begin_inset Formula $\boldsymbol{A}_{\text{MV}}$
@@ -5323,6 +5315,640 @@ Optimal solution for Problem 2 with
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:comparison2d_simplex_given"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{
+\backslash
+setlength
+\backslash
+extrarowheight{1pt}
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\backslash
+setlength
+\backslash
+tabcolsep{0pt}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+renewcommand{
+\backslash
+arraystretch}{1.}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+noindent
+\backslash
+resizebox{0.8
+\backslash
+columnwidth}{!}{%
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset space \hspace{}
+\length 0.1cm
+\end_inset
+
+
+\begin_inset Formula $\boldsymbol{n}$
+\end_inset
+
+
+\begin_inset space \hspace{}
+\length 0.1cm
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+Roots of 
+\begin_inset Formula $\lambda_{i}(t),\;t\in[-1,1]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}
+\end{array}\right]=\left[\begin{array}{c}
+1.0\\
+-1.0
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}
+\end{array}\right]=\left[\begin{array}{cc}
+0.5774 & \mathrm{}\\
+-1.0 & 1.0\\
+-0.5774 & \mathrm{}
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}\\
+\boldsymbol{r}(\lambda_{3})^{T}
+\end{array}\right]=\left[\begin{array}{cc}
+0.03088 & 1.0\\
+-1.0 & 0.7735\\
+-0.7735 & 1.0\\
+-1.0 & -0.03088
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $4$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}\\
+\boldsymbol{r}(\lambda_{3})^{T}\\
+\boldsymbol{r}(\lambda_{4})^{T}
+\end{array}\right]=\left[\begin{array}{ccc}
+-0.2872 & 0.835 & \mathrm{}\\
+-1.0 & 0.3657 & 1.0\\
+-0.8618 & 0.8618 & \mathrm{}\\
+-1.0 & -0.3657 & 1.0\\
+-0.835 & 0.2872
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $5$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}\\
+\boldsymbol{r}(\lambda_{3})^{T}\\
+\boldsymbol{r}(\lambda_{4})^{T}\\
+\boldsymbol{r}(\lambda_{5})^{T}
+\end{array}\right]=\left[\begin{array}{ccc}
+-0.4866 & 0.5121 & 1.0\\
+-1.0 & 0.04934 & 0.8895\\
+-0.9057 & 0.5606 & 1.0\\
+-1.0 & -0.5606 & 0.9057\\
+-0.8895 & -0.04934 & 1.0\\
+-1.0 & -0.5121 & 0.4866
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $6$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}\\
+\boldsymbol{r}(\lambda_{3})^{T}\\
+\boldsymbol{r}(\lambda_{4})^{T}\\
+\boldsymbol{r}(\lambda_{5})^{T}\\
+\boldsymbol{r}(\lambda_{6})^{T}
+\end{array}\right]=\left[\begin{array}{cccc}
+-0.6135 & 0.2348 & 0.9137 & \mathrm{}\\
+-1.0 & -0.1835 & 0.6449 & 1.0\\
+-0.9317 & 0.2822 & 0.9214 & \mathrm{}\\
+-1.0 & -0.6768 & 0.6768 & 1.0\\
+-0.9214 & -0.2822 & 0.9317 & \mathrm{}\\
+-1.0 & -0.6449 & 0.1835 & 1.0\\
+-0.9137 & -0.2348 & 0.6135 & \mathrm{}
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $7$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+\begin_inset Formula $\left[\begin{array}{c}
+\boldsymbol{r}(\lambda_{0})^{T}\\
+\boldsymbol{r}(\lambda_{1})^{T}\\
+\boldsymbol{r}(\lambda_{2})^{T}\\
+\boldsymbol{r}(\lambda_{3})^{T}\\
+\boldsymbol{r}(\lambda_{4})^{T}\\
+\boldsymbol{r}(\lambda_{5})^{T}\\
+\boldsymbol{r}(\lambda_{6})^{T}\\
+\boldsymbol{r}(\lambda_{7})^{T}
+\end{array}\right]=\left[\begin{array}{cccc}
+-0.7 & 0.008364 & 0.7132 & 1.0\\
+-1.0 & -0.3509 & 0.4068 & 0.9355\\
+-0.9481 & 0.05239 & 0.7315 & 1.0\\
+-1.0 & -0.753 & 0.4399 & 0.9408\\
+-0.9408 & -0.4399 & 0.753 & 1.0\\
+-1.0 & -0.7315 & -0.05239 & 0.9481\\
+-0.9355 & -0.4068 & 0.3509 & 1.0\\
+-1.0 & -0.7132 & -0.008364 & 0.7
+\end{array}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+latex(vpa(sym(32*computeMatrixForBezier(5,"m11")),4))
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Roots of each 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\boldsymbol{r}(\lambda_{i}(t))$
+\end_inset
+
+ is the column vector that contains the roots of 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+.
+ All the roots 
+\begin_inset Formula $\in(-1,1)$
+\end_inset
+
+ are double roots.
+ The roots 
+\begin_inset Formula $\in\{-1,1\}$
+\end_inset
+
+ are single roots.
+ Each 
+\begin_inset Formula $\lambda_{i}(t)$
+\end_inset
+
+ has 
+\begin_inset Formula $n$
+\end_inset
+
+ real roots in total.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:roots"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/many_comparisons3d_poly_given.pdf
+	lyxscale 80
+	width 100col%
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Simplexes found by the MINVO basis for 4 different 
+\begin_inset Formula $3^{rd}$
+\end_inset
+
+-degree polynomials given (Problem 1).
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d_poly_given-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename src/imgs/many_comparisons3d_simplex_given_compressed2.pdf
+	lyxscale 80
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Polynomial curves obtained using the MINVO basis for 4 different given simplexes
+ (Problem 2) 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d_simplex_given-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+MINVO results for 
+\begin_inset Formula $n=3$
+\end_inset
+
+, where global optimality is guaranteed
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Comparison3d-1"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -5641,7 +6267,12 @@ name "sec:Embedding"
 \end_layout
 
 \begin_layout Standard
-So far we have studied the case of a polynomial curve of degree 
+So far we have studied the case of 
+\begin_inset Formula $n=m=k$
+\end_inset
+
+ (i.e.
+ a polynomial curve of degree 
 \begin_inset Formula $n$
 \end_inset
 
@@ -5649,9 +6280,25 @@ So far we have studied the case of a polynomial curve of degree
 \begin_inset Formula $k=n$
 \end_inset
 
-.
+ and for which the 
+\begin_inset Formula $n$
+\end_inset
+
+ is also smallest dimension of the subpsace the curve is contained in, see
+ Sec.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Notation-and-Definitions"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) .
  The case 
-\begin_inset Formula $n<k$
+\begin_inset Formula $n=m<k$
 \end_inset
 
  can easily be solved by simply doing a change of basis between 
@@ -6760,6 +7407,19 @@ Now, note that:
 \end_layout
 
 \begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $I_{1}:=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-3}\alpha_{i}}}^{a-1\text{ integrals}}\left(\prod_{i=0}^{a-2}\alpha_{i}\right)\left(1-\sum_{i=0}^{a-2}\alpha_{i}\right)d\alpha_{a-2}d\alpha_{a-3}...d\alpha_{0}\labelrel={sp:I1}\frac{1}{n!}$
 \end_inset
 
@@ -6767,12 +7427,26 @@ Now, note that:
 \end_layout
 
 \begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-2}}^{1}}^{a\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a-1}dt_{a-2}...dt_{0}\labelrel={sp:sym}\frac{1}{a!}\int_{[-1,1]^{a}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV\labelrel={sp:changevar}\frac{2^{a(2a-1)}}{a!}\int_{[0,1]^{a}}\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}dV$
 \end_inset
 
 
 \end_layout
 
+\begin_deeper
 \begin_layout Standard
 \begin_inset Formula 
 \[
@@ -6804,6 +7478,7 @@ And therefore, we have that
 
 \end_layout
 
+\end_deeper
 \end_deeper
 \begin_layout Standard
 \begin_inset Note Note
@@ -7267,6 +7942,19 @@ Now note that:
 \end_layout
 
 \begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $I_{1}:=\overbrace{\int_{0}^{1}\int_{0}^{1-\alpha_{0}}...\int_{0}^{1-\sum_{i=0}^{a-1}\alpha_{i}}}^{a+1\text{ integrals}}\left(\prod_{i=1}^{a}\alpha_{i}\right)\left(1-\sum_{i=0}^{{\color{red}a}}\alpha_{i}\right)d\alpha_{a}d\alpha_{a-1}...d\alpha_{0}=\frac{1}{n!}$
 \end_inset
 
@@ -7274,45 +7962,26 @@ Now note that:
 \end_layout
 
 \begin_layout Itemize
+\begin_inset Argument item:1
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $\circ$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}\labelrel={sp:sym2}\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV\labelrel={sp:changevar2}\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula 
-\[
-\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}\left(\prod_{i<j}\left(q_{i}-q_{j}\right)^{4}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dq_{a}dq_{a-1}...dq_{0}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-\begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}=\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\int_{[0,1]^{a+1}}..=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
+\begin_deeper
 \begin_layout Standard
 where we have used the sustitution 
 \begin_inset Formula $t_{i}=2q_{i}-1$
@@ -7349,10 +8018,10 @@ and therefore we have that
 status open
 
 \begin_layout Plain Layout
-\begin_inset Formula $\text{abs}\left(\text{Pf}(\hat{K})\right)=\frac{2}{2^{\frac{n+2}{2}}}\sqrt{\left|\begin{array}{cc}
+\begin_inset Formula $\text{abs}\left(\text{Pf}(\hat{K})\right)=\frac{2}{2^{\frac{n+2}{2}}}\sqrt{\text{abs}\left(\left|\begin{array}{cc}
 2\hat{K} & 2\boldsymbol{1}\\
 -2\boldsymbol{1^{T}} & 0
-\end{array}\right|}=\frac{2}{2^{\frac{n+2}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
+\end{array}\right|\right)}=\frac{2}{2^{\frac{n+2}{2}}}\prod_{0\le i<j\le n}\left(\frac{j-i}{j+i}\right)$
 \end_inset
 
 
@@ -7364,12 +8033,20 @@ status open
  Finally:
 \end_layout
 
+\end_deeper
 \begin_layout Standard
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-Should I include absolute value inside the square root??
+\begin_inset Formula $\overbrace{\int_{0}^{1}\int_{0}^{1}...\int_{0}^{1}}^{a+1\text{ integrals}}\left(\prod_{i<j}\left(q_{i}-q_{j}\right)^{4}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dq_{a}dq_{a-1}...dq_{0}$
+\end_inset
+
+
+\begin_inset Formula $I_{2}:=\overbrace{\int_{-1}^{1}\int_{t_{0}}^{1}...\int_{t_{a-1}}^{1}}^{a+1\text{ integrals}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dt_{a}dt_{a-1}...dt_{0}=\frac{1}{(a+1)!}\int_{[-1,1]^{a+1}}\text{abs}\left(\left|\boldsymbol{R}\right|\right)dV=\frac{2^{a+1}2^{2a(a+1)}2^{2(a+1)}}{(a+1)!}\int_{[0,1]^{a+1}}..=\frac{2^{2a^{2}+5a+3}}{(a+1)!}\int_{[0,1]^{a+1}}\left(\prod_{i\neq j}\left(q_{i}-q_{j}\right)^{2}\right)\left(\prod_{i}\left(q_{i}-1\right)^{2}\right)dV$
+\end_inset
+
+ 
 \end_layout
 
 \end_inset
