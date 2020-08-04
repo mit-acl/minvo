@@ -11,7 +11,7 @@ set(0,'DefaultFigureWindowStyle','docked') %'normal'
 %Useful to plot the result: http://nurbscalculator.in/
 %READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
-deg=4;
+deg=3;
 deg_is_even = (rem(deg, 2) == 0);
 
 if(deg_is_even==1)
@@ -74,7 +74,7 @@ constraints=[constraints, sum_colums_A(end)==1];
 %obj=-computeDet(A); %This is needed when using fmincon (det(A,'polynomial') doesnt work) 
 obj=-det(A,'polynomial');
 
-constraints=[constraints];
+constraints=[constraints obj<=-0.2];
 
 % A_bezier=computeMatrixForBezier(deg, "m11");  
 % A_guess=A_bezier;
@@ -98,7 +98,23 @@ disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ip
 % settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1);
 % %,'ipopt.tol',1e-10  %'penlab.max_outer_iter',100000
-settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+%settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+
+general_settings=sdpsettings('savesolveroutput',0,'savesolverinput',1,'showprogress',2,'verbose',2,'debug',1);
+settings=sdpsettings(general_settings,'usex0',0,'solver','bmibnb','bmibnb.maxiter',5e20000,'bmibnb.maxtime',5e20000);
+settings.bmibnb.uppersolver='fmincon';
+settings.bmibnb.lowersolver='fmincon';
+settings.bmibnb.lpreduce=0;
+settings.bmibnb.absgaptol=0.00000001;
+
+tolerance=1e-13;
+settings.fmincon.TolFunValue=tolerance;
+settings.fmincon.TolFun=tolerance;
+settings.fmincon.TolConSQP=tolerance;
+settings.fmincon.TolCon=tolerance;
+settings.fmincon.TolPCG=tolerance;
+settings.fmincon.TolProjCG=tolerance;
+
 result=optimize(constraints,obj,settings)
 % result=solvemoment(constraints,obj,[],4);
 % check(constraints)
