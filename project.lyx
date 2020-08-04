@@ -326,7 +326,7 @@ Outer polyhedral representations of a given polynomial curve are extensively
 \end_inset
 
 .
- Moreover, we show that the MINVO basis also shows for the polynomial curve
+ Moreover, we show that the MINVO basis also finds the polynomial curve
  with biggest convex hull enclosed in a given simplex.
  Global optimality is discussed and proven for some 
 \begin_inset Formula $n$
