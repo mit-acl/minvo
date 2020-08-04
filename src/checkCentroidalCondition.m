@@ -3,7 +3,7 @@
 % If this condition is true, the vector distance_to_each_centroid should have very small values
 % after running this file
 % Currently the condition is satisfied for degree <=3 (for higher, I think
-% I run into numerical errors)
+% I may be running into numerical errors and tolerances from the solver)
 
 degree=4;
 % V=rand(degree,degree+1);
