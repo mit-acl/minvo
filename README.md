@@ -18,7 +18,7 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 ## Instructions to use the MINVO basis
 
 #### For a particular curve (Problem 1 of the paper)
-Given a matrix P that, in each row <img src="https://render.githubusercontent.com/render/math?math=i">, contains the coefficients (in decreasing order) of the polynomial of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the given curve <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{p}(t), "> <img src="https://render.githubusercontent.com/render/math?math=t\in[-1,1]">, you can obtain the smallest <img src="https://render.githubusercontent.com/render/math?math=n">-simplex that contains that curve by running this:
+Given a matrix <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> that, in each row <img src="https://render.githubusercontent.com/render/math?math=i">, contains the coefficients (in decreasing order) of the polynomial of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the given curve <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{p}(t), "> <img src="https://render.githubusercontent.com/render/math?math=t\in[-1,1]">, you can obtain the smallest <img src="https://render.githubusercontent.com/render/math?math=n">-simplex that contains that curve by running this:
 
 ```matlab
 addpath(genpath('./solutions'));
