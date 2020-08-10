@@ -27,6 +27,7 @@ Given the matrix $\boldsymbol{V}$ whose columns contain the vertexes of the $n$-
 addpath(genpath('./solutions'));
 P=V*getSolutionA(n,"m11");
 ```
+Each row $i$ of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> will contain the coefficients (in decreasing order) of the polynomial of the $i$-th coordinate of the curve. 
 
 
 ## Instructions to derive the MINVO basis
