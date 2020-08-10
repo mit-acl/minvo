@@ -26,7 +26,7 @@ V=P*inv(getSolutionA(n,"m11"))
 ```
 The columns of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> will contain the vertexes of the <img src="https://render.githubusercontent.com/render/math?math=n">-simplex
 
-### For a particular simplex  (Problem 2 of the paper)
+#### For a particular simplex  (Problem 2 of the paper)
 Given the matrix <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> whose columns contain the vertexes of the <img src="https://render.githubusercontent.com/render/math?math=n">-simplex, you can obtain the <img src="https://render.githubusercontent.com/render/math?math=n">-th order polynomial curve (enclosed in that simplex) with largest convex hull by running this:
 
 ```matlab
@@ -38,10 +38,10 @@ Each row <img src="https://render.githubusercontent.com/render/math?math=i"> of 
 
 ## Instructions to derive the MINVO basis
 
-### To generate all the figures of the paper
+#### To generate all the figures of the paper
 You can simply run `plot_solution.m` (you don't need to install any external solver to do this).
 
-### To run the optimization
+#### To run the optimization
 * The file `general_formulation.m` solves Problem 3 in the paper. Follow the instructions in that file to prove local/global optimality.
 * The file `formula_formulation.m` solves Problem 4 in the paper. Follow the instructions in that file to prove local/global optimality.
 
