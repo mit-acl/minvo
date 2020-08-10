@@ -9,7 +9,7 @@
 close all; clear; clc;
 
 addpath(genpath('./utils'));
-addpath(genpath('./solutions_formula'));
+addpath(genpath('./solutions'));
 
 %% Print the ratios of the determinants:
 close all; clear; clc;
