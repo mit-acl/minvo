@@ -1,5 +1,7 @@
 # MINVO Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves #
 
+Example for n=3:
+
 ![](./imgs/minvo3d.png) 
 
 ## Citation
