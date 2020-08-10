@@ -1,3 +1,11 @@
+% /* ----------------------------------------------------------------------------
+%  * Copyright 2020, Jesus Tordesillas Torres, Aerospace Controls Laboratory
+%  * Massachusetts Institute of Technology
+%  * All Rights Reserved
+%  * Authors: Jesus Tordesillas, et al.
+%  * See LICENSE file for the license information
+%  * -------------------------------------------------------------------------- */
+
 % This file checks whether the centroid of each facet of the simplex is
 % contained in the . 
 % If this condition is true, the vector distance_to_each_centroid should have very small values

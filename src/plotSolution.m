@@ -5,6 +5,12 @@
 %  * Authors: Jesus Tordesillas, et al.
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
+
+close all; clear; clc;
+
+addpath(genpath('./utils'));
+addpath(genpath('./solutions_formula'));
+
 %% Print the ratios of the determinants:
 close all; clear; clc;
 disp('abs( det(A_MV)/det(A_Be) )')
@@ -42,9 +48,7 @@ end
 
 %%
 
-close all; clear; clc;
 
-addpath(genpath('./utils'));
 
 set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
 set(0,'defaulttextInterpreter','latex');
