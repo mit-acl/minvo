@@ -21,13 +21,13 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 You can simply do this: 
 
 ### For a particular simplex  (Problem 2 of the paper)
-Given the matrix $\boldsymbol{V}$ whose columns contain the vertexes of the $n$-simplex, you can obtain the $n$-th order polynomial curve that is enclosed in that simplex that has largest convex hull by running this:
+Given the matrix <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> whose columns contain the vertexes of the $n$-simplex, you can obtain the $n$-th order polynomial curve that is enclosed in that simplex that has largest convex hull by running this:
 
 ```matlab
 addpath(genpath('./solutions'));
 P=V*getSolutionA(n,"m11");
 ```
-Each row $i$ of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> will contain the coefficients (in decreasing order) of the polynomial of the $i$-th coordinate of the curve. 
+Each row <img src="https://render.githubusercontent.com/render/math?math=i"> of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> will contain the coefficients (in decreasing order) of the polynomial of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the curve. 
 
 
 ## Instructions to derive the MINVO basis
