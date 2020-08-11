@@ -9,7 +9,7 @@ Example for n=3:
 When using MINVO, please cite [this paper](https://www.google.com/):
 
 ```bibtex
-@inproceedings{tordesillas2019faster,
+@article{tordesillas2020minvo,
   title={{MINVO} Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves},
   author={Tordesillas, Jesus and How, Jonathan P},
   journal={arXiv preprint},
