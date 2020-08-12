@@ -9,8 +9,8 @@
 function longitude=plot_line_convex_hull(pol_x,pol_y,pol_z,A,color,radius_sphere)
 
     
-    P=[pol_x'; pol_y'; pol_z'];
-    V=P*inv(A);
+    P=[pol_x'; pol_y'; pol_z']
+    V=P*inv(A)
     
     vx=V(1,:);
     vy=V(2,:);

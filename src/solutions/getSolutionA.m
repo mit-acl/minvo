@@ -8,6 +8,7 @@
 
 function [A rootsA]=getSolutionA(degree, interval)
 
+
 %Note that these guesses are in [0,1]
 sol=load(strcat('solutionDeg',num2str(degree),'.mat'));
 A_saved=sol.A;

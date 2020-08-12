@@ -142,7 +142,7 @@ end
 rootsA=real(rootsA);
 
 
-save(['solutionDeg' num2str(deg_pol) '.mat'],'A','rootsA')
+save(['solutionGpopsDeg' num2str(deg_pol) '.mat'],'A','rootsA')
 
 % plot (solution.phase.time,solution.phase.state(:,1),'--o')
 % hold on

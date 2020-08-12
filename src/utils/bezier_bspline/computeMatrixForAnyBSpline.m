@@ -14,7 +14,7 @@ j=index_t_start;
 ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
 
 if(deg==1)
-    M=[1 0; 1 1];
+    M=[1 0; -1 1];
     %And now change it to the convention I use
     A=[M(2,:)' M(1,:)'];
     
