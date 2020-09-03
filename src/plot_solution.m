@@ -41,7 +41,7 @@ for i=1:7
         matrix_with_roots=[matrix_with_roots; tmp];
     end
     matrix_with_roots 
-    latex(vpa(sym(matrix_with_roots),4))
+    latex(vpa(sym(matrix_with_roots),4));
 end
 
 
@@ -520,25 +520,40 @@ caxis([0.2 0.7])
 % saveas(gcf,'imgs/comparison_convex_hull.png')
 %% 
 %% RESULT for 3D for a given polynomial
-figure;
-subplot(1,4,1);hold on
+
+
+num_of_intervals=5;
+
+figure; last_figure=get(gcf,'Number');
+set(gcf, 'Position',  [500, 500, 3000, 1000])
+figure(last_figure+1); 
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 
+figure(last_figure); 
+subplot(1,4,1);hold on
 view1=30; view2=30;
-vx=[ 0    0.7  0.1 0.5]';
+vx=[ 0    0.7  0.1 0.5]'; 
 vy=[1.1   0.4  0.1 1.3]';
 vz=[0.8   1  0 0]';
 V=[vx'; vy'; vz'];
 A=getSolutionA(3,"m11");
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.017);
+volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.017)
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-arrow3d([0 0 0],[0 0 0.5],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0 0.5 0],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0.5 0 0],20,'cylinder',[0.2,0.1]);
+plotAxesArrows(0.5)
 view(view1, view2); axis equal;
 
+figure(last_figure+1); 
+subplot(1,4,1); hold on
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.017)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+plotAxesArrows(0.5);
+view(view1, view2); axis equal;
+
+
+figure(last_figure);
 subplot(1,4,2);hold on
 view1=30; view2=30;
 vx=[ 0.8    1.6  0.1 0.5]';
@@ -548,13 +563,20 @@ V=[vx'; vy'; vz'];
 A=getSolutionA(3,"m11");
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+plotAxesArrows(1)
 view(view1, view2); axis equal;
 
+figure(last_figure+1); 
+subplot(1,4,2); hold on
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.030)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+plotAxesArrows(1);
+view(view1, view2); axis equal;
+
+figure(last_figure);
 subplot(1,4,3);hold on
 view1=73.4; view2=35.36;
 vx=[ -1.2    0.2  2.3 0.1]';
@@ -564,13 +586,20 @@ V=[vx'; vy'; vz'];
 A=getSolutionA(3,"m11");
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+plotAxesArrows(1)
 view(view1, view2); axis equal;
 
+figure(last_figure+1); 
+subplot(1,4,3); hold on
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+plotAxesArrows(1);
+view(view1, view2); axis equal;
+
+figure(last_figure);
 subplot(1,4,4);hold on
 view1=30; view2=30;
 vx=[ -1.2    0.6  1.3 0.5]';
@@ -580,16 +609,26 @@ V=[vx'; vy'; vz'];
 A=getSolutionA(3,"m11");
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
-volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037);
+volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+plotAxesArrows(1)
 view(view1, view2); axis equal;
 
-%exportAsSvg(gcf,'imgs/many_comparisons3d_poly_given_matlab')
+figure(last_figure+1); 
+subplot(1,4,4); hold on
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+plotAxesArrows(1);
+view(view1, view2); axis equal;
 
-%%
+% figure(last_figure); 
+% exportAsSvg(gcf,'imgs/many_comparisons3d_poly_given_matlab')
+
+figure(last_figure+1); 
+exportAsSvg(gcf,'imgs/splitted_many_comparisons3d_poly_given_matlab')
+
+%% RESULT for 3D for a given simplex
 
 figure;
 subplot(1,4,1);hold on
@@ -683,6 +722,12 @@ camlight
 lightangle(gca,45,0)
 colormap(winter); axis equal; axis off; 
 caxis([0.2 0.7])
+
+function plotAxesArrows(length)
+arrow3d([0 0 0],[0 0 length],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[0 length 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[length 0 0],20,'cylinder',[0.2,0.1]);
+end
 
 %print(gcf,'imgs/many_comparisons3d_simplex_given_matlab','-dpng','-r1000')
 %%
