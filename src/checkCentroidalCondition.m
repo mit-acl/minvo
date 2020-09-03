@@ -13,7 +13,11 @@
 % Currently the condition is satisfied for degree <=3 (for higher, I think
 % I may be running into numerical errors and tolerances from the solver)
 
-degree=4;
+close all; clc; clear;
+
+addpath(genpath('./solutions'));
+
+degree=5;
 % V=rand(degree,degree+1);
 
 V=[zeros(degree,1) eye(degree)]; %Standard simplex
@@ -42,16 +46,19 @@ end
 distance_to_each_centroid=realmax*ones(1,size(centroids,2));
 
 
+[A rootsA]=getSolutionA(degree, "m11");
+tan_points_and_extrema=cell2mat(rootsA)';
 
 for i=1:size(tan_points_and_extrema,1)
+    disp(i/size(tan_points_and_extrema,1)) %Percentage done
     for ii=1:size(tan_points_and_extrema,1)
         a=subs(P*T,t,tan_points_and_extrema(i)); %one extremum of the segment
         b=subs(P*T,t,tan_points_and_extrema(ii)); %another extremum of the segment
 
-        for j=1:size(centroids,2) %And now compute the distance from that segment to the centroid
+        for j=1:size(centroids,2) %And now compute the distance from that segment to each of the centroids
             
            centroid=centroids(:,j);
-           distance= vpa(minimumDistancePointToSegment(a,b,centroid))
+           distance= vpa(minimumDistancePointToSegment(a,b,centroid));
            distance_to_each_centroid(j)=min(distance_to_each_centroid(j), distance);
            
 %            distance_other=realmax;
@@ -68,6 +75,29 @@ for i=1:size(tan_points_and_extrema,1)
     end
 
 end
+
+
+%%%%%%%%%%%%%%%%%%%%%
+
+% for extrema=[-1,1]
+%     a=subs(P*T,t,extrema); %one extremum of the segment
+%     for tt=-1:0.001:1
+%         tt
+%         
+%         b=subs(P*T,t,tt); %another extremum of the segment
+%         
+%         for j=1:size(centroids,2) %And now compute the distance from that segment to each of the centroids
+%            distance= vpa(minimumDistancePointToSegment(a,b,centroids(:,j)));
+%            distance_to_each_centroid(j)=min(distance_to_each_centroid(j), distance);
+%         end
+%         
+%     end
+% end
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+
 
 
 function d = point_to_line(pt, v1, v2)
