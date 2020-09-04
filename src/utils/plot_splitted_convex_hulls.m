@@ -6,7 +6,7 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function volume=plot_splitted_convex_hulls(P,A,num_of_intervals,color,radius_sphere);
+function [volume, num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,color,radius_sphere);
 
 samples=[];
 samples_t=linspace(-1,1,num_of_intervals+1);
@@ -38,5 +38,9 @@ x=all_vertexes(1,:); y=all_vertexes(2,:); z=all_vertexes(3,:);
 [k1,volume] = convhull(x,y,z);
 s2=trisurf(k1,x,y,z,'LineWidth',1,'FaceColor',color);
 alpha(s2,0.1)
+
+k_all=k1(:);
+k_all_unique=unique(k1);
+num_vertexes=length(k_all_unique); %points that are in the frotier of the convex hull
 
 end

@@ -547,8 +547,8 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,1); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.017)
-title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.017);
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(0.5);
 view(view1, view2); axis equal;
 
@@ -571,8 +571,8 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,2); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.030)
-title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.030)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
 
@@ -594,8 +594,8 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,3); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
-title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
 
@@ -617,8 +617,8 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,4); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-volumen_minvo_splitted=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
-title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)])
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
 
@@ -626,7 +626,7 @@ view(view1, view2); axis equal;
 % exportAsSvg(gcf,'imgs/many_comparisons3d_poly_given_matlab')
 
 figure(last_figure+1); 
-exportAsSvg(gcf,'imgs/splitted_many_comparisons3d_poly_given_matlab')
+% exportAsSvg(gcf,'imgs/splitted_many_comparisons3d_poly_given_matlab')
 
 %% RESULT for 3D for a given simplex
 
