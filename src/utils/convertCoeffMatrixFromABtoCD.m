@@ -7,7 +7,7 @@
 %  * -------------------------------------------------------------------------- */
 
 %P expressed in [a,b] --> P expressed in [c,d]
-function P_converted=convertPFromABtoCD(P,ab,cd)
+function P_converted=convertCoeffMatrixFromABtoCD(P,ab,cd)
 
 syms t tt
 

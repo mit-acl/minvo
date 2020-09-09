@@ -6,7 +6,7 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function tangency_points=getTangencyPoints(degree, interval)
+function tangency_points=getTangencyPoints(degree, interv)
 
 if(degree>7 || degree<=0)
     error('not implemented yet!')
@@ -20,9 +20,10 @@ sol=load(strcat('solutionTangencyPointsDeg',num2str(degree),'.mat'));
 tangency_points=sol.tangencyPoints;
 
 end
-    
-if(interval~="m11")
-    error('not implemented yet!')
+
+
+for i=1:length(tangency_points)
+    tangency_points(i)=convertNumberFromABtoCD(tangency_points(i),[-1,1],interv);
 end
 
 end

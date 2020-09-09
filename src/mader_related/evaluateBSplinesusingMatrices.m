@@ -111,7 +111,7 @@ plot3(pos(1,:),pos(2,:),pos(3,:),'k')%,'-b'
 pos = bspline_deboor(n,knots,cPoints,knots(8):increm:knots(9) );%0:increm:1
 plot3(pos(1,:),pos(2,:),pos(3,:),'y')%,'-b'
 
-Abs=computeMatrixForBSpline(3,"01");
+Abs=getA_BS(3,"01");
 
 syms u;
 
@@ -212,10 +212,10 @@ clc
 A_first_12=12*computeMatrixForAnyBSpline(deg, 4, knots,"01")
 A_second_12=12*computeMatrixForAnyBSpline(deg, 5, knots,"01")
 
-6*computeMatrixForAnyBSpline(deg, 6, knots,"01") %Same as 6*computeMatrixForBSpline(3,"01")
+6*computeMatrixForAnyBSpline(deg, 6, knots,"01") %Same as 6*getA_BS(3,"01")
 
 A_secondlast_12=12*computeMatrixForAnyBSpline(deg, 7, knots,"01") 
-A_last_12=12*computeMatrixForAnyBSpline(deg, 8, knots,"01") %Same as 6*computeMatrixForBSpline(3,"01")
+A_last_12=12*computeMatrixForAnyBSpline(deg, 8, knots,"01") %Same as 6*getA_BS(3,"01")
 
 
 

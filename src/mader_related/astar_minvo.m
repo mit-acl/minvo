@@ -64,7 +64,7 @@ function qiP1_samples=getChildrenOfQ(Q)
               0 1 0];
     end
         
-    Mvel_bs2basis= computeMatrixForBSpline(2,"01")*inv(Perm*getSolutionA(2,"01"));
+    Mvel_bs2basis= getA_BS(2,"01")*inv(Perm*getA_MV(2,"01"));
 %     Mvel_bs2basis=Perm*Mvel_bs2basis;
     
 %     Mvel_bs2basis=eye(3);

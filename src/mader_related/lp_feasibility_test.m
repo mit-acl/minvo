@@ -9,16 +9,16 @@
 
 clc; clear; close all;  
 
-    %For MINVO getSolutionA
-    %For Bezier  computeMatrixForBezier
+    %For MINVO getA_MV
+    %For Bezier  getA_Be
     
-    Mvel_bs2basis0= computeMatrixForClampedUniformBSpline(2,0,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis1= computeMatrixForClampedUniformBSpline(2,1,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis2= computeMatrixForClampedUniformBSpline(2,2,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis3= computeMatrixForClampedUniformBSpline(2,3,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis4= computeMatrixForClampedUniformBSpline(2,4,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis5= computeMatrixForClampedUniformBSpline(2,5,"01")*inv(getSolutionA(2,"01"))
-    Mvel_bs2basis6= computeMatrixForClampedUniformBSpline(2,5,"01")*inv(getSolutionA(2,"01"))
+    Mvel_bs2basis0= computeMatrixForClampedUniformBSpline(2,0,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis1= computeMatrixForClampedUniformBSpline(2,1,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis2= computeMatrixForClampedUniformBSpline(2,2,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis3= computeMatrixForClampedUniformBSpline(2,3,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis4= computeMatrixForClampedUniformBSpline(2,4,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis5= computeMatrixForClampedUniformBSpline(2,5,"01")*inv(getA_MV(2,"01"))
+    Mvel_bs2basis6= computeMatrixForClampedUniformBSpline(2,5,"01")*inv(getA_MV(2,"01"))
 
     v_max=7.0;
     viM2=[0 0 0]';
@@ -130,7 +130,7 @@ zlabel('vi');
 
 
 
-Mvel_bs2basis=computeMatrixForClampedUniformBSpline(2,3,"01")*inv(computeMatrixForBezier(2,"01"))
+Mvel_bs2basis=computeMatrixForClampedUniformBSpline(2,3,"01")*inv(getA_Be(2,"01"))
 Mvel_basis2bs=inv(Mvel_bs2basis);
 
 vel_bs=[];

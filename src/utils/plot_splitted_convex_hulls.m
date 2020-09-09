@@ -6,15 +6,16 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function [volume, num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,color,radius_sphere);
+%A needs to be expressed in t \in interv
+function [volume, num_vertexes]=plot_splitted_convex_hulls(P,A,interv,num_of_intervals,color,radius_sphere);
 
 samples=[];
-samples_t=linspace(-1,1,num_of_intervals+1);
+samples_t=linspace(min(interv),max(interv),num_of_intervals+1);
 all_vertexes=[];%Its columns are the vertexes
 for i=1:(length(samples_t)-1)
     a=samples_t(i);
     b=samples_t(i+1);
-    P_converted=convertPFromABtoCD(P,[a,b],[-1,1]);
+    P_converted=convertCoeffMatrixFromABtoCD(P,[a,b],interv);
     V=P_converted*inv(A);
     all_vertexes=[all_vertexes V];
     %plot_convex_hull(P_converted(1,:)',P_converted(2,:)',P_converted(3,:)',A,'b',0.0017);    

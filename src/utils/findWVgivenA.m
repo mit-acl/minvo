@@ -6,8 +6,6 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-% close all; clc; clear;
-% findWVgivenAtmp(getSolutionA(2,"m11"));
 
 function [W V]=findWVgivenA(A_solution)
     

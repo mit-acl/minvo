@@ -27,7 +27,9 @@ constraints=[];
 % constraints=[constraints, sum_colums_A(1,1:end-1)==[zeros(1,size(A,1)-1)]   ];
 % constraints=[constraints, sum_colums_A(end)==1];
 
-A_solution=getSolutionA(deg,"m11"); 
+A_solution=getA_MV(deg,[-1,1]); 
+
+all_roots=getTangencyPoints(3,[-1,1])';
 
 syms tt real
 T=[];
@@ -35,7 +37,7 @@ for i=0:(deg)
    T=[tt^i ;T];
 end
 
-roots_lambda_i=getRootsLambdai(deg,"m11"); 
+% roots_lambda_i=getRootsLambdai(deg,"m11"); 
 % 
 %%%%%%%%%%%%%%%% Impose the positivity constraints on lambda_i on the roots
 %of lambda_i
@@ -53,14 +55,7 @@ roots_lambda_i=getRootsLambdai(deg,"m11");
 
 %%%%%%%%%%%%%%%% Impose the positivity constraints on lambda_i on ALL the
 % roots of the lambdas
-all_roots=[];
-for i=1:size(A_solution,1)
-    all_roots=[all_roots roots_lambda_i{i}];
-end
-
 % all_roots=[all_roots -1:resolution:1]; %0 0.01 -0.01 0.4 -0.4 0.5 -0.5 -0.35 0.35 -0.7 0.7 -0.8 0.8
-
-
 
 for i=1:size(A_solution,1)
     tmp=[all_roots -1+(2)*rand(1,250) 0.0];
@@ -81,7 +76,7 @@ obj=-det(A_cropped,'polynomial'); % abs(det(A))==abs(det(A_cropped)) because of 
 
 % obj=-computeDet(A_cropped);
 
-assign(A,getSolutionA(deg,"m11"))
+assign(A,getA_MV(deg,[-1,1]))
 
 % check(constraints)
 

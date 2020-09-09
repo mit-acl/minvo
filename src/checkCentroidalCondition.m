@@ -17,17 +17,19 @@ close all; clc; clear;
 
 addpath(genpath('./solutions'));
 
-degree=5;
+degree=3;
 % V=rand(degree,degree+1);
 
 V=[zeros(degree,1) eye(degree)]; %Standard simplex
 
 
-P=V*getSolutionA(degree,"m11")
+interv=[-1,1];
 
-tan_points=getTangencyPoints(degree,"m11");
+P=V*getA_MV(degree,interv)
 
-tan_points_and_extrema=[tan_points; 1.0; -1.0];
+tan_points=getTangencyPoints(degree,interv);
+
+tan_points_and_extrema=[tan_points; min(interv); max(interv)];
 
 syms t real
 T=[];
@@ -46,7 +48,7 @@ end
 distance_to_each_centroid=realmax*ones(1,size(centroids,2));
 
 
-[A rootsA]=getSolutionA(degree, "m11");
+[A rootsA]=getA_MV(degree, interv);
 tan_points_and_extrema=cell2mat(rootsA)';
 
 for i=1:size(tan_points_and_extrema,1)
@@ -75,6 +77,8 @@ for i=1:size(tan_points_and_extrema,1)
     end
 
 end
+
+distance_to_each_centroid
 
 
 %%%%%%%%%%%%%%%%%%%%%

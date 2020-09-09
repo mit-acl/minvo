@@ -6,24 +6,21 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function A_converted=convertAFromM11toM01(A)
-    
-    syms t
-    
-%     tt=t/2.0+0.5;
-    tt=2*(t-0.5);
-    T=[];
-    deg=size(A,1)-1;
-    for i=0:(deg)
-        T=[tt^i T];
-    end
-    
-    tmp=A*T';
+% Returns the A matrix for the Bernstein basis
 
-    A_converted=[];
+function A=getA_Be(deg,interval)
 
-    for i=1:(deg+1)
-        A_converted=[A_converted ;double(vpa(coeffs(tmp(i),'All')))];
-    end
+syms t real
 
+A=[];
+tmp=bernsteinMatrix(deg, t);
+for i=1:length(tmp)
+    A=[A; double(coeffs(tmp(i),t,'All'))];
+
+end
+
+%A is expressed in t\in[0,1] at this point 
+
+A=convertCoeffMatrixFromABtoCD(A,[0,1],interval); 
+    
 end

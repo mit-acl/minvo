@@ -29,7 +29,7 @@ T3=[t*t*t t*t t 1]';
 
 
 %% Plot volume MINVO
-A=getSolutionA(3,"01");
+A=getA_MV(3,"01");
 
 figure;
 subplot(2,2,1);hold on
@@ -62,7 +62,7 @@ fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 
 %% Plot volume Bezier
 subplot(2,2,2);hold on
-A=computeMatrixForBezier(3,"01");
+A=getA_Be(3,"01");
 % pol_x=A'*vx;
 % pol_y=A'*vy;
 % pol_z=A'*vz;

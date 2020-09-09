@@ -11,27 +11,28 @@ close all; clear; clc;
 addpath(genpath('./utils'));
 addpath(genpath('./solutions'));
 
+interv=[-1,1];
+
 %% Print the ratios of the determinants:
-close all; clear; clc;
 disp('abs( det(A_MV)/det(A_Be) )')
 
 for i=1:7
-    value=abs(det(getSolutionA(i,"m11"))/det(computeMatrixForBezier(i,"m11")));
+    value=abs(det(getA_MV(i,interv))/det(getA_Be(i,interv)));
     vpa(value,4)
 end
 
 disp('abs( det(A_MV)/det(A_BS) )')
 
 for i=1:7
-    value=abs(det(getSolutionA(i,"m11"))/det(computeMatrixForNonClampedUniformBSpline(i,"m11")));
+    value=abs(det(getA_MV(i,interv))/det(getA_BS(i,interv)));
     vpa(value,4)
 end
 
 %% Print all the roots
-clc
+
 for i=1:7
     fprintf("n=%f\n",i)
-    [A rootsA]=getSolutionA(i,"m11");
+    [A rootsA]=getA_MV(i,interv);
     matrix_with_roots=[];
     for j=1:size(rootsA,2)
         tmp=rootsA{j};
@@ -58,7 +59,7 @@ set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegend
 name_figure='imgs/plots_basis';
 
 syms t real
-interv=[-1,1];
+
 figure;
 n_rows=8;
 n_cols=4;
@@ -85,26 +86,26 @@ for degree=1:4
 
 
    subplot(n_rows,n_cols,degree);
-   fplot(getSolutionA(degree,"m11")*T,interv);
+   fplot(getA_MV(degree,interv)*T,interv);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title )
    box on
    
    subplot(n_rows,n_cols,n_cols+degree);
-   fplot(computeMatrixForBezier(degree,"m11")*T,interv);
+   fplot(getA_Be(degree,interv)*T,interv);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
       
    subplot(n_rows,n_cols,2*n_cols+degree);
-   fplot(computeMatrixForNonClampedUniformBSpline(degree,"m11")*T,interv);
+   fplot(getA_BS(degree,interv)*T,interv);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{B-Spline, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,3*n_cols+degree);
-   fplot(lagrangePoly(linspace(-1,1,degree+1))*T,interv);
+   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
@@ -121,26 +122,26 @@ for degree=5:7 %TODO: Add 8
     end
 
    subplot(n_rows,n_cols,4*n_cols+1+(degree-5));
-   fplot(getSolutionA(degree,"m11")*T,interv);
+   fplot(getA_MV(degree,interv)*T,interv);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,5*n_cols+1+(degree-5));
-   fplot(computeMatrixForBezier(degree,"m11")*T,interv);
+   fplot(getA_Be(degree,interv)*T,interv);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    
    subplot(n_rows,n_cols,6*n_cols+1+(degree-5));
-   fplot(computeMatrixForNonClampedUniformBSpline(degree,"m11")*T,interv);
+   fplot(getA_BS(degree,interv)*T,interv);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{B-Spline, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,7*n_cols+1+(degree-5));
-   fplot(lagrangePoly(linspace(-1,1,degree+1))*T,interv);
+   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
@@ -171,7 +172,7 @@ figure; hold on;
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 % subplot(1,2,1);hold on
 
-A=getSolutionA(2,"m11");
+A=getA_MV(2,interv);
 
 v1=[0.1, 0.9];
 v2=[0.4  1.0];
@@ -193,7 +194,7 @@ fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);hold on;
 
 %Bernstein
 pol_x=pol_x+[0 0 0.5]';
-A=computeMatrixForBezier(2,"m11");
+A=getA_Be(2,interv);
 vx=inv(A')*pol_x;
 vy=inv(A')*pol_y;
 v1=[vx(1) vy(1)];
@@ -207,7 +208,7 @@ fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
 
 %B-Spline
 pol_x=pol_x+[0 0 1.5]';
-A=computeMatrixForNonClampedUniformBSpline(2,"m11");
+A=getA_BS(2,interv);
 vx=inv(A')*pol_x;
 vy=inv(A')*pol_y;
 v1=[vx(1) vy(1)];
@@ -242,7 +243,7 @@ V=[vx'; vy'; vz'];
 
 
 
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -259,7 +260,7 @@ arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
 %%%% Bernstein
 subplot(1,3,2); hold on; 
-A=computeMatrixForBezier(3,"m11");
+A=getA_Be(3,interv);
 
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'b',0.02);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
@@ -272,7 +273,7 @@ arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
 
 %%%% BSpline
 subplot(1,3,3); hold on; 
-A=computeMatrixForNonClampedUniformBSpline(3,"m11");
+A=getA_BS(3,interv);
 
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'y',0.2);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
@@ -296,7 +297,7 @@ figure; hold on;
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 subplot(1,3,1);hold on
 
-A=getSolutionA(2,"m11");
+A=getA_MV(2,interv);
 
 
 v1=[0.5,  0.0];
@@ -319,7 +320,7 @@ alpha 0.2;xlim([-0.7,0.7]);ylim([-0.1,1.7]);axis equal;
 
 %%%% Bezier
 subplot(1,3,2);hold on
-A=computeMatrixForBezier(2,"m11");
+A=getA_Be(2,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 v1=[vx(1) vy(1)];
@@ -333,7 +334,7 @@ fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
  alpha 0.2;xlim([-0.7,0.7]);ylim([-0.1,1.7]);axis equal;
 %%%% BSpline
 subplot(1,3,3);hold on
-A=computeMatrixForNonClampedUniformBSpline(2,"m11");
+A=getA_BS(2,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 v1=[vx(1) vy(1)];
@@ -354,7 +355,7 @@ figure;
 subplot(1,2,1);hold on
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 view1=150;
 view2=30;
 
@@ -434,7 +435,7 @@ view2=30;
 view1=54;
 view2=-4.5;
 
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -448,7 +449,7 @@ view(view1, view2)
 ylim([-1.5,1.5]);
 
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -461,7 +462,7 @@ caxis([0.2 0.7])
 
 %%%%% Bernstein
 subplot(1,3,2); hold on; 
-A=computeMatrixForBezier(3,"m11");
+A=getA_Be(3,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -472,7 +473,7 @@ axis equal;
 ylim([-1.5,1.5]); 
 
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -486,7 +487,7 @@ caxis([0.2 0.7])
 
 %%%%% BSpline
 subplot(1,3,3); hold on; 
-A=computeMatrixForNonClampedUniformBSpline(3,"m11");
+A=getA_BS(3,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
 pol_z=A'*vz;
@@ -497,7 +498,7 @@ axis equal;
 ylim([-1.5,1.5]); 
 
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -536,7 +537,7 @@ vx=[ 0    0.7  0.1 0.5]';
 vy=[1.1   0.4  0.1 1.3]';
 vz=[0.8   1  0 0]';
 V=[vx'; vy'; vz'];
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.017)
@@ -547,7 +548,7 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,1); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.017);
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,interv,num_of_intervals,'g',0.017);
 title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(0.5);
 view(view1, view2); axis equal;
@@ -560,7 +561,7 @@ vx=[ 0.8    1.6  0.1 0.5]';
 vy=[-2.3   -0.6  1.4 0.3]';
 vz=[0.2   -1  0 0.7]';
 V=[vx'; vy'; vz'];
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
@@ -571,7 +572,7 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,2); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.030)
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,interv,num_of_intervals,'g',0.030)
 title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
@@ -583,7 +584,7 @@ vx=[ -1.2    0.2  2.3 0.1]';
 vy=[0.3   -0.5  0.1 -0.5]';
 vz=[0.7   1  -0.4 0.1]';
 V=[vx'; vy'; vz'];
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
@@ -594,7 +595,7 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,3); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,interv,num_of_intervals,'g',0.025)
 title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
@@ -606,7 +607,7 @@ vx=[ -1.2    0.6  1.3 0.5]';
 vy=[0.3   -0.7  -0.4  0.5]';
 vz=[-1.2   1  -0.4 0.1]';
 V=[vx'; vy'; vz'];
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.037)
@@ -617,7 +618,7 @@ view(view1, view2); axis equal;
 figure(last_figure+1); 
 subplot(1,4,4); hold on
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,num_of_intervals,'g',0.025)
+[volumen_minvo_splitted,num_vertexes]=plot_splitted_convex_hulls(P,A,interv,num_of_intervals,'g',0.025)
 title(["volMVsplitted/volMV= ",num2str(volumen_minvo_splitted/volumen_minvo)," numVertexes= ",num2str(num_vertexes)]);
 plotAxesArrows(1);
 view(view1, view2); axis equal;
@@ -638,13 +639,13 @@ V=[   -0.6330   -0.2630    0.2512    0.5605;
    -0.8377    0.8588    0.5514   -0.0264;
    -0.1283   -0.1064   -0.3873    0.0170];
 vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.02);
 view(view1, view2); axis equal;
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -661,13 +662,13 @@ V=[    0.1741   -0.0582   -0.6105   -0.5447;
    -0.5845   -0.5390   -0.5482   -0.1286;
    -0.3975    0.6886   -0.6586   -0.3778];
 vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.010);
 view(view1, view2); axis equal;
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -684,13 +685,13 @@ V=[    0.9234    0.9049    0.1111    0.5949;
     0.4302    0.9797    0.2581    0.2622;
     0.1848    0.4389    0.4087    0.6028];
 vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.010);
 view(view1, view2); axis equal;
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -707,13 +708,13 @@ V=[    0.7112    0.2967    0.5079    0.8010;
     0.2217    0.3188    0.0855    0.0292;
     0.1174    0.4242    0.2625    0.9289];
 vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
-A=getSolutionA(3,"m11");
+A=getA_MV(3,interv);
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.006);
 view(view1, view2); axis equal;
 poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-samples_t=-1:0.01:1;
+samples_t=min(interv):0.01:max(interv);
 samples_poly=double(subs(poly,t,samples_t));
 [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
 trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
@@ -735,7 +736,7 @@ end
 % figure; hold on
 % volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.015);
 % poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-% samples_t=-1:0.01:1;
+% samples_t=min(interv):0.01:max(interv);
 % samples_poly=double(subs(poly,t,samples_t));
 % % centroid_curve=sum(samples_poly,2)/length(samples_t);
 % % scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blue'); 

@@ -6,7 +6,10 @@
 %  * See LICENSE file for the license information
 %  * -------------------------------------------------------------------------- */
 
-function [A rootsA]=getSolutionA(degree, interval)
+%Returns the A matrix for the MINVO basis (and the roots of each
+%polynomial of the basis)
+
+function [A rootsA]=getA_MV(degree, interval)
 
 
 %Note that these guesses are in [0,1]
@@ -33,9 +36,6 @@ elseif(degree==7)
     co=[3 6 1 8 4 5 2 7]; %correct order
 end
 
-
-
-
 A=[];
 rootsA=[];
 i=1;
@@ -52,20 +52,12 @@ for j=1:length(rootsA)
     rootsA{j}=sort(rootsA{j});
 end
 
-if(interval=="01")
-    A=convertAFromM11to01(A);
-    
-    for j=1:length(rootsA)
-        rootsA{j}=convertFromM11to01(rootsA{j});
-    end
-    
+
+A=convertCoeffMatrixFromABtoCD(A,[-1,1],interval);
+
+for j=1:length(rootsA)
+    rootsA{j}=convertNumberFromABtoCD(rootsA{j},[-1,1],interval);
 end
 
 
-
-end
-
-
-function x_converted=convertFromM11to01(x)
-   x_converted=(x+1)/2.0; %This applies to all the vector
 end

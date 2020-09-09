@@ -31,12 +31,9 @@ function A=computeMatrixForNonClampedUniformBSpline(deg, interval)
         A=[Mk(i,:)'  A];
     end
     
-    if(interval=="m11")
-        A=convertAFrom01toM11(A);
-    else
-        %Do nothing, the formulas above are for the case [0,1]
-    end
+    %A is expressed in t\in[0,1] at this point 
     
+    A=convertCoeffMatrixFromABtoCD(A,[0,1],interval);  
     
     % Other way would be to do this
     %     knots=0:15;

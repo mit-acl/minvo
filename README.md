@@ -24,7 +24,7 @@ Given a matrix <img src="https://render.githubusercontent.com/render/math?math=\
 
 ```matlab
 addpath(genpath('./solutions'));
-V=P*inv(getSolutionA(n,"m11"))
+V=P*inv(getA_MV(n,[-1,1]))
 ```
 The columns of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> will contain the vertexes of the <img src="https://render.githubusercontent.com/render/math?math=n">-simplex
 
@@ -33,7 +33,7 @@ Given the matrix <img src="https://render.githubusercontent.com/render/math?math
 
 ```matlab
 addpath(genpath('./solutions'));
-P=V*getSolutionA(n,"m11");
+P=V*getA_MV(n,[-1,1]);
 ```
 Each row <img src="https://render.githubusercontent.com/render/math?math=i"> of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> will contain the coefficients (in decreasing order) of the polynomial of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the curve <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{p}(t),">  <img src="https://render.githubusercontent.com/render/math?math=t\in[-1,1]">.
 

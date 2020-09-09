@@ -85,10 +85,10 @@ disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ip
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%To prove local optimality of n=4, uncomment this line:
 %settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1);
-[W_tmp, V_tmp]=findWVgivenA(getSolutionA(deg,"m11"));
+[W_tmp, V_tmp]=findWVgivenA(getA_MV(deg,[-1,1]));
 assign(W,W_tmp)
 assign(V,V_tmp)
-%%%% assign(A,getSolutionA(deg,"m11"))
+%%%% assign(A,getA_MV(deg,[-1,1]))
 check(constraints)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
