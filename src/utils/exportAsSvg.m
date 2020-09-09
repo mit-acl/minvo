@@ -7,7 +7,7 @@
 %  * -------------------------------------------------------------------------- */
 
 
-function exportAsPdf(handle, name_figure)
+function exportAsSvg(handle, name_figure)
 
 set(handle,'Units','inches');
 screenposition = get(handle,'Position');
