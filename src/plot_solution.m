@@ -242,7 +242,6 @@ vz=[0.8   1  0 0]';
 V=[vx'; vy'; vz'];
 
 
-
 A=getA_MV(3,interv);
 pol_x=A'*vx;
 pol_y=A'*vy;
@@ -519,8 +518,8 @@ caxis([0.2 0.7])
 % plot2svg("temperature_standard.svg");
 % printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
 % saveas(gcf,'imgs/comparison_convex_hull.png')
-%% 
-%% RESULT for 3D for a given polynomial
+
+%% RESULT for 3D for a given polynomial (with and without splitting)
 
 
 num_of_intervals=5;
@@ -724,13 +723,40 @@ lightangle(gca,45,0)
 colormap(winter); axis equal; axis off; 
 caxis([0.2 0.7])
 
+
+%print(gcf,'imgs/many_comparisons3d_simplex_given_matlab','-dpng','-r1000')
+%% Video
+
+h=figure(7); %Select the figure you want
+for i=1:size(h.Children)
+    subplot(h.Children(i))
+    axis off
+     tmp=gca;
+     if (size(findobj(tmp.Children,'Type','Light'))<1) %If still no light in the subplot
+         camlight %create light
+     end
+    title("");
+    axis vis3d
+    OptionZ.FrameRate=30;OptionZ.Duration=5.5;OptionZ.Periodic=true;
+    %Uncomment next line to record and save the video%%%%%%%%%%%%%%%%%%%
+    %CaptureFigVid([-20,10;-110,10;-190,10;-290,10;-380,10], ['./videos/comparison_given_curve_only_traj_',num2str(i)],OptionZ)
+end
+
+%To move all the subplots at the same time. But if used with vis3d,
+%subplots overlaf
+%Link = linkprop(h.Children, {'CameraUpVector', 'CameraPosition', 'CameraTarget'}) %, 'CameraTarget'
+%setappdata(gcf, 'StoreTheLink', Link);
+
+%%
 function plotAxesArrows(length)
 arrow3d([0 0 0],[0 0 length],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[0 length 0],20,'cylinder',[0.2,0.1]);
 arrow3d([0 0 0],[length 0 0],20,'cylinder',[0.2,0.1]);
 end
 
-%print(gcf,'imgs/many_comparisons3d_simplex_given_matlab','-dpng','-r1000')
+
+
+
 %%
 
 % figure; hold on
