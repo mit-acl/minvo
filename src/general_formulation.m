@@ -100,6 +100,7 @@ general_settings=sdpsettings('savesolveroutput',0,'savesolverinput',1,'showprogr
 settings=sdpsettings(general_settings,'usex0',1,'solver','bmibnb','bmibnb.maxiter',5e20000,'bmibnb.maxtime',5e20000);
 settings.bmibnb.uppersolver='fmincon';
 settings.bmibnb.lowersolver='fmincon';
+settings.bmibnb.lpsolver='linprog';
 settings.bmibnb.lpreduce=1;
 settings.bmibnb.absgaptol=1e-15;
 tolerance=1e-11;
