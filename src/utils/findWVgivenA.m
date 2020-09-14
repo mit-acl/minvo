@@ -7,6 +7,7 @@
 %  * -------------------------------------------------------------------------- */
 
 
+ %Assumes that A is expressed in the interval [-1,1]
 function [W V]=findWVgivenA(A_solution)
     
     deg=size(A_solution,1)-1;
@@ -51,9 +52,9 @@ function [W V]=findWVgivenA(A_solution)
         end
 
         if(deg_is_even==1)
-            lambdai=Twi'*Wi*Twi + (t+1)*(1-t)*Tvi'*Vi*Tvi;
+            lambdai=Twi'*Wi*Twi + (t+1)*(1-t)*Tvi'*Vi*Tvi; %Assumming here that A is expressed in the interval [-1,1]
         else
-            lambdai=(t+1)*Twi'*Wi*Twi + (1-t)*Tvi'*Vi*Tvi;
+            lambdai=(t+1)*Twi'*Wi*Twi + (1-t)*Tvi'*Vi*Tvi;  %Assumming here that A is expressed in the interval [-1,1]
         end
         coeffs_lambdai=flip(coefficients(lambdai,t))';
         A=[A; coeffs_lambdai]; 
