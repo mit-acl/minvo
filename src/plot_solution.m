@@ -54,7 +54,9 @@ end
 set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
 set(0,'defaulttextInterpreter','latex');
 set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
-
+%Let us change now the usual grey background of the matlab figures to white
+%See https://www.mathworks.com/matlabcentral/answers/96816-how-do-i-change-the-default-background-color-of-all-figure-objects-created-in-matlab
+set(0,'defaultfigurecolor',[1 1 1])
 
 name_figure='imgs/plots_basis';
 
@@ -742,10 +744,140 @@ for i=1:size(h.Children)
     %CaptureFigVid([-20,10;-110,10;-190,10;-290,10;-380,10], ['./videos/comparison_given_curve_only_traj_',num2str(i)],OptionZ)
 end
 
-%To move all the subplots at the same time. But if used with vis3d,
+%[Does NOT work] To move all the subplots at the same time. But if used with vis3d,
 %subplots overlaf
 %Link = linkprop(h.Children, {'CameraUpVector', 'CameraPosition', 'CameraTarget'}) %, 'CameraTarget'
 %setappdata(gcf, 'StoreTheLink', Link);
+
+
+
+%% SURFACES!
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start code from https://www.mathworks.com/matlabcentral/fileexchange/37876-construction-of-cubic-bezier-patch-and-surface
+load('teapot'); %loading matrix S. The file teapot.mat is available at BezierPatchSurface/BezierPatchSurface
+% % Matrix S stores all the control points of all the CUBIC patches of
+% % teapot surface such that
+% % S(:,:,:,k) control points of kth patch, where k=1..32
+% % Size of S(:,:,:,k) is 4 x 4 x 3, i.e., 16 control points and each
+% % control point has three values (x,y,z)
+
+% % S(:,:,1,k): x-coordates of control points of kth patch as 4 x 4 matrix 
+% % S(:,:,2,k): y-coordates of control points of kth patch as 4 x 4 matrix 
+% % S(:,:,3,k): z-coordates of control points of kth patch as 4 x 4 matrix
+% % ------------------------------------
+[r c d np]=size(S);
+% % np: number of patches
+ni=40; %number of interpolated values between end control points
+u=linspace(0,1,ni); v=u;  %uniform parameterization
+% % Higher the value of ni smoother the surface but computationally
+% % expensive
+% % ------------------------------------
+% % Cubic Bezier interpolation of control points of each patch
+
+for k=1:np
+    Q(:,:,:,k)=bezierpatchinterp(S(:,:,:,k),u,v); %interpolation of kth patch
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% End code from https://www.mathworks.com/matlabcentral/fileexchange/37876-construction-of-cubic-bezier-patch-and-surface
+
+
+k_plot=[5,15,21];
+teapot_fig=figure; hold on;
+for k=1:np
+    if(ismember(k,k_plot))
+         surface(Q(:,:,1,k),Q(:,:,2,k),Q(:,:,3,k),'FaceColor','red','EdgeColor','none')
+    else
+         surface(Q(:,:,1,k),Q(:,:,2,k),Q(:,:,3,k),'FaceColor','green','EdgeColor','none')
+    end
+end
+
+camlight; axis equal; axis off;
+view(3); box;  view1=12; view2=18.09; view(view1,view2)
+
+% print(teapot_fig,'-dpng','-r500',"teapot_matlab")
+
+n=3; %They are cubic patches
+m=3;
+
+An_Be=getA_Be(n,interv);
+Am_Be=getA_Be(m,interv);
+
+An_MV=getA_MV(n,interv);
+Am_MV=getA_MV(m,interv);
+
+
+figure;set(gcf, 'Position',  [500, 500, 2000, 2500]);tiledlayout('flow')
+
+for i_plot=1:length(k_plot)
+    
+k=k_plot(i_plot);    
+
+SBe_x=S(:,:,1,k);%S(:,:,1,k) has the x-coordinates of all the Bezier control points of the k-th patch
+SBe_y=S(:,:,2,k);%S(:,:,2,k) has the y-coordinates of all the Bezier control points of the k-th patch
+SBe_z=S(:,:,3,k);%S(:,:,3,k) has the z-coordinates of all the Bezier control points of the k-th patch
+
+SMV_x=inv(An_MV)'*An_Be'*SBe_x*Am_Be*inv(Am_MV); %x-coordinates of all the MINVO control points of the k-th patch
+SMV_y=inv(An_MV)'*An_Be'*SBe_y*Am_Be*inv(Am_MV); %...
+SMV_z=inv(An_MV)'*An_Be'*SBe_z*Am_Be*inv(Am_MV); %...
+
+syms u v real
+Tn=[];
+for i=0:(n)
+     Tn=[u^i ;Tn];
+end
+
+Tm=[];
+for i=0:(m)
+     Tm=[v^i ;Tm];
+end
+
+%MINVO
+nexttile;hold on;axis equal; view(view1,view2)
+%See https://cse.taylor.edu/~btoll/s99/424/res/ucdavis/CAGDNotes/Matrix-Cubic-Bezier-Patch/Matrix-Cubic-Bezier-Patch.html
+surface=sym(zeros(3,1));
+surface(1,:)=Tn'*An_MV'*SMV_x*Am_MV*Tm; 
+surface(2,:)=Tn'*An_MV'*SMV_y*Am_MV*Tm; 
+surface(3,:)=Tn'*An_MV'*SMV_z*Am_MV*Tm; 
+fsurf(surface(1), surface(2), surface(3), [min(interv), max(interv), min(interv), max(interv)],'r'); title("")
+
+[k1,vol_MV] = convhull(SMV_x(:),SMV_y(:),SMV_z(:));
+trisurf(k1,SMV_x(:),SMV_y(:),SMV_z(:),'FaceColor','g','FaceAlpha',0.2 )
+camlight;material shiny ; axis off;
+
+%Bernstein (\equiv Bezier)
+%MINVO
+nexttile;hold on;axis equal; view(view1,view2)
+%See https://cse.taylor.edu/~btoll/s99/424/res/ucdavis/CAGDNotes/Matrix-Cubic-Bezier-Patch/Matrix-Cubic-Bezier-Patch.html
+surface=sym(zeros(3,1));
+surface(1,:)=Tn'*An_Be'*SBe_x*Am_Be*Tm; 
+surface(2,:)=Tn'*An_Be'*SBe_y*Am_Be*Tm; 
+surface(3,:)=Tn'*An_Be'*SBe_z*Am_Be*Tm; 
+fsurf(surface(1), surface(2), surface(3), [min(interv), max(interv), min(interv), max(interv)],'r'); title("");   %Should be the same curve as before
+
+[k1,vol_Be] = convhull(SBe_x(:),SBe_y(:),SBe_z(:));
+trisurf(k1,SBe_x(:),SBe_y(:),SBe_z(:),'FaceColor','b','FaceAlpha',0.2 )
+%Alternative form: see https://en.wikipedia.org/wiki/B%C3%A9zier_surface#Equation
+% surface=Tn*An*K
+% surface=zeros(3,1);
+% total=0;
+% for i=1:n+1
+%     for j=1:m+1
+%        total=total+1;
+%        surface= surface+ An(i,:)*Tn*Am(j,:)*Tm*KMV(:,total);
+%     end
+% end
+
+
+camlight; material shiny; axis off;
+
+sprintf('vol_Be/vol_MV= %f',vol_Be/vol_MV)
+
+
+axis equal
+
+end
+
+% print('-dpng','-r500',"teapot_patches_matlab")
 
 %%
 function plotAxesArrows(length)
