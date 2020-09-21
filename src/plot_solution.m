@@ -13,6 +13,13 @@ addpath(genpath('./solutions'));
 
 interv=[-1,1];
 
+set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
+set(0,'defaulttextInterpreter','latex');
+set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
+%Let us change now the usual grey background of the matlab figures to white
+%See https://www.mathworks.com/matlabcentral/answers/96816-how-do-i-change-the-default-background-color-of-all-figure-objects-created-in-matlab
+set(0,'defaultfigurecolor',[1 1 1])
+
 %% Print the ratios of the determinants:
 disp('abs( det(A_MV)/det(A_Be) )')
 
@@ -45,18 +52,7 @@ for i=1:7
     latex(vpa(sym(matrix_with_roots),4));
 end
 
-
-
-%%
-
-
-
-set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
-set(0,'defaulttextInterpreter','latex');
-set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
-%Let us change now the usual grey background of the matlab figures to white
-%See https://www.mathworks.com/matlabcentral/answers/96816-how-do-i-change-the-default-background-color-of-all-figure-objects-created-in-matlab
-set(0,'defaultfigurecolor',[1 1 1])
+%% Plot all the polynomials of the basis
 
 name_figure='imgs/plots_basis';
 
@@ -750,6 +746,101 @@ end
 %setappdata(gcf, 'StoreTheLink', Link);
 
 
+%% Different degrees of curves in 2D and 3D
+
+figure; hold on; tiledlayout('flow');
+
+% subplot(2,5,1); hold on;
+for (deg=2:7)
+    nexttile; hold on;
+    V_MV=rand(2,deg+1);
+    P=V_MV*getA_MV(deg,interv);
+    [k,aMV] = convhull(V_MV'); conv_minvo=plot(V_MV(1,k),V_MV(2,k),'Color',[73 204 73]/255,'LineWidth',2);
+    V_Be=V_MV*getA_MV(deg,interv)*getA_Be(deg,interv)^(-1);
+    [k,aBe] = convhull(V_Be'); conv_Be=plot(V_Be(1,k),V_Be(2,k),'Color',[98 98 200]/255,'LineWidth',2);
+    fplot(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),interv,'r','LineWidth',2); 
+    xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(aBe/aMV,3)])
+end
+hL = legend([conv_minvo,conv_Be],{'MINVO',"B\'{ezier}"});
+
+% exportAsPdf(gcf,'diff_degree2D');
+
+figure; hold on; 
+j=1;
+size_arrows=0.2;
+hlinks=[];
+for (deg=3:7)
+ax1=subplot(2,5,j); j=j+1;
+ hold on;
+a=0.0; b=0.2;
+V_MV=a + (b-a).*rand(3,deg+1);
+P=V_MV*getA_MV(deg,interv);
+[k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:)); trisurf(k,V_MV(1,:),V_MV(2,:),V_MV(3,:),'FaceColor','g','FaceAlpha',0.2);
+V_Be=V_MV*getA_MV(deg,interv)*getA_Be(deg,interv)^(-1);
+fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
+camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
+
+ax2=subplot(2,5,j); j=j+1;
+hold on;
+[k,vol_Be] =  convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); trisurf(k,V_Be(1,:),V_Be(2,:),V_Be(3,:),'FaceColor','b','FaceAlpha',0.2);
+fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
+xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(vol_Be/vol_MV,3)]);
+camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
+ 
+hlinks = [hlinks linkprop([ax1,ax2],{'CameraPosition','CameraUpVector'})];
+end
+
+% print('-dpng','-r500',"diff_degree3D_matlab")
+
+%% Non-rational curves (projection)
+
+V=[zeros(3,1) eye(3)]; %Standard simplex
+
+linewidth=2;
+
+A=getA_MV(3,interv);
+P=V*A;
+
+% figure;
+% vol=plot_convex_hull(P(1,:)',P(2,:)',P(3,:)',A,'g',0.0);
+% fplot3(P(1,:)*T3,P(2,:)*T3,P(3,:)*T3,interv,'r','LineWidth',1);
+% fplot3(curve_projected(1),curve_projected(2),curve_projected(3),interv,'--','LineWidth',2);
+
+figure;
+subplot(2,2,1);hold on;
+
+v_proj=V(:,3);   V_rest=[V(:,1),V(:,2),V(:,4)];
+curve_projected=projectPoint(P*T3,v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'w');
+patch(V_rest(1,:),V_rest(3,:),'green','FaceAlpha',.3); 
+fplot(curve_projected(1),curve_projected(3),interv,'r','LineWidth',linewidth); %Note that we are using the standard simplex
+axis equal; axis off; title('$\pi_2$');
+
+subplot(2,2,2);hold on;
+v_proj=V(:,2);   V_rest=[V(:,1),V(:,3),V(:,4)];
+curve_projected=projectPoint(P*T3,v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'w');
+patch(V_rest(2,:),V_rest(3,:),'green','FaceAlpha',.3);
+fplot(curve_projected(2),curve_projected(3),interv,'r','LineWidth',linewidth,'MeshDensity',300); %Note that we are using the standard simplex
+axis equal; axis off;title('$\pi_1$');
+
+subplot(2,2,3);hold on;
+v_proj=V(:,4);   V_rest=[V(:,1),V(:,2),V(:,3)];
+curve_projected=projectPoint(P*T3,v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'w');
+patch(V_rest(1,:),V_rest(2,:),'green','FaceAlpha',.3); 
+fplot(curve_projected(1),curve_projected(2),interv,'r','LineWidth',linewidth,'MeshDensity',300); %Note that we are using the standard simplex
+axis equal; axis off; title('$\pi_3$');
+
+subplot(2,2,4); hold on;
+v_proj=V(:,1);   V_rest=[V(:,2),V(:,3),V(:,4)];
+curve_projected=projectPoint(P*T3,v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'c');
+V_rest1_camera_plane=projectPoint(V_rest(1,:)',v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'c');
+V_rest2_camera_plane=projectPoint(V_rest(2,:)',v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'c');
+V_rest3_camera_plane=projectPoint(V_rest(3,:)',v_proj,V_rest(:,1),V_rest(:,2),V_rest(:,3),'c');
+tmp=[V_rest1_camera_plane  V_rest2_camera_plane V_rest3_camera_plane];
+patch(tmp(1,:),tmp(2,:),'green','FaceAlpha',.3);
+fplot(curve_projected(1),curve_projected(2),interv,'r','LineWidth',linewidth,'MeshDensity',300); 
+axis equal; axis off;title('$\pi_0$');
+
+% exportAsSvg(gcf,'projections_matlab');
 
 %% SURFACES!
 
@@ -876,57 +967,3 @@ sprintf('vol_Be/vol_MV= %f',vol_Be/vol_MV)
 axis equal
 
 end
-
-% print('-dpng','-r500',"teapot_patches_matlab")
-
-%%
-function plotAxesArrows(length)
-arrow3d([0 0 0],[0 0 length],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[0 length 0],20,'cylinder',[0.2,0.1]);
-arrow3d([0 0 0],[length 0 0],20,'cylinder',[0.2,0.1]);
-end
-
-
-
-
-%%
-
-% figure; hold on
-% volumen_mio=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.015);
-% poly=[pol_x'*T3,pol_y'*T3,pol_z'*T3]';
-% samples_t=min(interv):0.01:max(interv);
-% samples_poly=double(subs(poly,t,samples_t));
-% % centroid_curve=sum(samples_poly,2)/length(samples_t);
-% % scatter3(centroid_curve(1),centroid_curve(2),centroid_curve(3),405,'Filled','blue'); 
-% % scatter3(samples_poly(1),samples_poly(2),samples_poly(3),405,'Filled','blue'); 
-% 
-% [k1,av1] = convhull(samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)');
-% trisurf(k1,samples_poly(1,:)',samples_poly(2,:)',samples_poly(3,:)','EdgeColor','none','FaceAlpha' ,1.0)%,'FaceColor','cyan'
-% fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
-% axis equal
-% % aplha 0.3
-% 
-%       camlight
-% %      lighting gouraud
-%      
-%      lightangle(gca,45,0)
-% %      lighting gouraud
-% %      color_vector=jet;
-% %      colormap([color_vector(:,1),color_vector(:,2),color_vector(:,3)])
-%      colormap(winter)
-%      caxis([0.2 0.7])
-%       axis equal
-%       axis off
-%       
-%       view(45, 5)
-%       
-% % WORKS:
-% %  print(gcf,'imgs/comparison_convex_hull_matlab','-dpng','-r1000')
-%  
-% % DON'T WORK:
-% % exportAsPdf(gcf,'imgs/comparison_convex_hull')
-% % saveas(gcf,'imgs/comparison_convex_hull.eps')
-% % addpath('./utils/plot2svg/plot2svg')
-% % plot2svg("temperature_standard.svg");
-% % printeps(get(gcf,'Number'),'imgs/comparison_convex_hull')
-% % saveas(gcf,'imgs/comparison_convex_hull.png')
