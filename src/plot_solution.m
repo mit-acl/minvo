@@ -842,6 +842,103 @@ axis equal; axis off;title('$\pi_0$');
 
 % exportAsSvg(gcf,'projections_matlab');
 
+%% CONE OF POSITIVE POLYNOMIALS FOR n=2
+
+figure;  hold on;
+n=0.05%Change to .005 for a finer resolution;
+size_grid=1.2%4.7; %was 1.2
+% create coordinates
+[a,b,c] = meshgrid(-size_grid:n:size_grid,-size_grid:n:size_grid,-size_grid:n:size_grid);
+
+increm=0.001;
+interv=[-1,1];
+tt=min(interv):increm:max(interv);
+region3=1.0;
+
+syms t real
+
+for ti=tt
+    ti
+%     root(aa*t^2+bb*t+cc,t)
+    region3=region3 & (a*ti.^2+b*ti+c)>=0;
+end
+
+p=patch(isosurface(a,b,c,region3,0.0));
+set(p,'FaceColor',[255,169,107]/255,'EdgeColor','none','FaceAlpha',.9);
+  xlabel('a');ylabel('b');zlabel('c');
+camlight 
+lighting gouraud
+grid on
+
+%%%
+% pos_root=(-b+sqrt(b.*b-4*a.*c))./(2*a);
+% neg_root=(-b-sqrt(b.*b-4*a.*c))./(2*a);
+% region3=(( imag(pos_root)==0 &(pos_root<=max(interv)) & (pos_root>=min(interv)) ) | ...
+%         (imag(neg_root)==0 &(neg_root<=max(interv)) & (neg_root>=min(interv))));
+% region3=double(region3);
+% region3(region3>0.1)=100;
+% p=patch(isosurface(a,b,c,region3,0.0));
+%%%
+
+A2=getA_MV(2,interv);
+
+arrow3d([0 0 0],A2(1,:),10,'cylinder',[0.4,0.4]);
+arrow3d([0 0 0],A2(2,:),10,'cylinder',[0.2,0.45]);
+arrow3d([0 0 0],A2(3,:),10,'cylinder',[0.4,0.45]);
+
+V=[0;0;0];
+V=[V A2(1,:)' A2(2,:)' A2(3,:)'  A2(1,:)'+A2(2,:)' A2(2,:)'+A2(3,:)' A2(1,:)'+A2(3,:)'  A2(1,:)'+A2(2,:)'+A2(3,:)'];
+
+pts=[V(:,1),V(:,2)];plot3(pts(1,:),pts(2,:),pts(3,:));
+pts=[V(:,1),V(:,3)];plot3(pts(1,:),pts(2,:),pts(3,:));
+pts=[V(:,1),V(:,4)];plot3(pts(1,:),pts(2,:),pts(3,:));
+pts=[V(:,5),V(:,8)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,6),V(:,8)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,7),V(:,8)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,2),V(:,7)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,2),V(:,5)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,3),V(:,5)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,3),V(:,6)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,4),V(:,6)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+pts=[V(:,4),V(:,7)];plot3(pts(1,:),pts(2,:),pts(3,:),'k');
+
+[k1,av1] = convhull(V(1,:),V(2,:),V(3,:));
+trisurf(k1,V(1,:),V(2,:),V(3,:),'FaceColor','cyan','EdgeColor','none','FaceAlpha',0.15)
+set(gca,'DataAspectRatio',[4 6 1])
+view([88,29])
+axis equal; grid off; axis off;
+
+arrow3D_v2([0,0,0] ,sum(A2), 'b', 0.75,0.02);
+arrow3D_v2([0,0,0] ,[1,0,0], 'r', 0.75,0.02);
+arrow3D_v2([0,0,0] ,[0,1,0], 'g', 0.75,0.02);
+
+% print('-dpng','-r500',"cone_A2")
+
+%This plots the boundary of the polynomials that are positive for ALL t
+% hold on;
+% f = @(aa,bb,cc)  bb^2 - 4*aa*cc;
+% interval = [-1.5 1.5 -1.5 1.5 0 1.5];
+% fimplicit3(f,interval)
+
+%This plots the coeff of the polynomials that are (t-r1)^2
+% syms r1 t real
+% fplot3(sym(1),-2*r1,r1*r1,interv)
+
+
+
+% A2_scaled=A2; 
+% A2_scaled(:,1)=A2_scaled(:,1)./A2(:,3);
+% A2_scaled(:,2)=A2_scaled(:,2)./A2(:,3);
+% A2_scaled(:,3)=A2_scaled(:,3)./A2(:,3);
+% arrow3d([0,0,0] ,scaled(1,:),10,'cylinder',[0.4,0.4]);
+% arrow3d([0,0,0] ,scaled(2,:),10,'cylinder',[0.4,0.4]);
+% arrow3d([0,0,0] ,scaled(3,:),10,'cylinder',[0.4,0.4]);
+% 
+% sp=4.0;
+% [x y] = meshgrid(-sp:0.1:sp); % Generate x and y data
+% z = 1.0+0.0*x; % Generate z data
+% surf(x, y, z,'FaceAlpha',0.15) % Plot the surface
+
 %% SURFACES!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Start code from https://www.mathworks.com/matlabcentral/fileexchange/37876-construction-of-cubic-bezier-patch-and-surface
