@@ -35,7 +35,10 @@ function longitude=plot_line_convex_hull(pol_x,pol_y,pol_z,A,color,radius_sphere
     longitude=norm(v1-v2);
        
     axis equal
-    camlight
-    lighting phong
+     tmp=gca;
+     if (size(findobj(tmp.Children,'Type','Light'))<1) %If still no light in the subplot
+         camlight %create light
+     end
+     lighting phong
 
 end

@@ -43,7 +43,10 @@ s3=plotSphere(v3,radius, color_vertex);
     area=norm(cross(V(:,2)-V(:,1),V(:,3)-V(:,1)))/2.0;
     
      axis equal
-     camlight
+     tmp=gca;
+     if (size(findobj(tmp.Children,'Type','Light'))<1) %If still no light in the subplot
+         camlight %create light
+     end
      lighting phong
 
 end

@@ -38,7 +38,7 @@ v3=[1.6     0           4/sqrt(6)]';
 
 V=[v0 v1 v2 v3];
 vx=V(1,:)'; vy=V(2,:)'; vz=V(3,:)';
-A=getA_MV(3,"01");
+A=getA_MV(3,interv);
 P=V*A;
 pol_x=P(1,:)'; pol_y=P(2,:)'; pol_z=P(3,:)';
 v_x=polyder(pol_x)'; v_y=polyder(pol_y)'; v_z=polyder(pol_z)';
@@ -58,14 +58,14 @@ title(['\textbf{Pos, vol=',num2str(volumen_minvo,4),'  $u_p^3$}'])
 %%Velocity
 %figure; hold on;
 subplot(3,3,2); hold on; title('Velocity'); xlabel('vx'); ylabel('vy'); zlabel('vz')
-A=getA_MV(2,"01");
+A=getA_MV(2,interv);
 area_minvo= plot_plane_convex_hull(v_x, v_y, v_z, A, 'g', 0.5);
 fplot3(v_x'*T2,v_y'*T2,v_z'*T2,interv,'r','LineWidth',3);
 title(['\textbf{Vel, area=',num2str(area_minvo,4),'  $u_v^2$}'])
 %%
 %%Acceleration
 subplot(3,3,3); hold on; title('Acceleration'); xlabel('ax'); ylabel('ay'); zlabel('az')
-A=getA_MV(1,"01");
+A=getA_MV(1,interv);
 long_minvo=plot_line_convex_hull(a_x,a_y,a_z,A,'g',1.5);
 fplot3(a_x'*T1,a_y'*T1,a_z'*T1,interv,'r','LineWidth',3);
 title(['\textbf{Accel, long=',num2str(long_minvo,4),'  $u_a$}'])
@@ -73,21 +73,21 @@ title(['\textbf{Accel, long=',num2str(long_minvo,4),'  $u_a$}'])
 %% Plot volume Bezier
 %figure; hold on;
 subplot(3,3,4);hold on;xlabel('x'); ylabel('y'); zlabel('z')
-A=getA_Be(3,"01");
+A=getA_Be(3,interv);
 volumen_bezier=plot_convex_hull(pol_x,pol_y,pol_z,A,'b',0.07);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 title(['\textbf{Pos, vol=',num2str(volumen_bezier,4),'  $u_p^3$}'])
 %%
 %%Velocity
 subplot(3,3,5); hold on;  xlabel('vx'); ylabel('vy'); zlabel('vz')
-A=getA_Be(2,"01");
+A=getA_Be(2,interv);
 area_bezier= plot_plane_convex_hull(v_x, v_y, v_z, A, 'b', 0.5);
 fplot3(v_x'*T2,v_y'*T2,v_z'*T2,interv,'r','LineWidth',3);
 title(['\textbf{Vel, area=',num2str(area_bezier,4),'  $u_v^2$}'])
 
 %%Acceleration
 subplot(3,3,6); hold on; xlabel('ax'); ylabel('ay'); zlabel('az')
-A=getA_Be(1,"01");
+A=getA_Be(1,interv);
 long_bezier= plot_line_convex_hull(a_x,a_y,a_z,A,'b',1.5);
 fplot3(a_x'*T1,a_y'*T1,a_z'*T1,interv,'r','LineWidth',3);
 title(['\textbf{Accel, long=',num2str(long_bezier,4),'  $u_a$}'])
@@ -95,7 +95,7 @@ title(['\textbf{Accel, long=',num2str(long_bezier,4),'  $u_a$}'])
 %% Plot volume B-Spline
 subplot(3,3,7); hold on; title('Position'); xlabel('x'); ylabel('y'); zlabel('z')
 
-A=getA_BS(3,"01");
+A=getA_BS(3,interv);
 
 V=P*inv(A);   %P=VA
 
@@ -119,7 +119,7 @@ title(['\textbf{Pos, vol=',num2str(volumen_bs,4),'  $u_p^3$}'])
 
 %%Velocity
 subplot(3,3,8); hold on; title('Velocity'); xlabel('vx'); ylabel('vy'); zlabel('vz')
-A=getA_BS(2,"01");
+A=getA_BS(2,interv);
 area_bs= plot_plane_convex_hull(v_x, v_y, v_z, A, 'y', 0.5);
 fplot3(v_x'*T2,v_y'*T2,v_z'*T2,interv,'r','LineWidth',3);
 title(['\textbf{Vel, area=',num2str(area_bs,4),'  $u_v^2$}'])
@@ -127,7 +127,7 @@ title(['\textbf{Vel, area=',num2str(area_bs,4),'  $u_v^2$}'])
 %% Acceleration
 %figure; hold on;
 subplot(3,3,9);  hold on; xlabel('ax'); ylabel('ay'); zlabel('az')
-A=getA_BS(1,"01");
+A=getA_BS(1,interv);
 long_bs= plot_line_convex_hull(a_x,a_y,a_z,A,'y',1.5);
 fplot3(a_x'*T1,a_y'*T1,a_z'*T1,interv,'r','LineWidth',3);
 title(['\textbf{Accel, long=',num2str(long_bs,4),'  $u_a$}'])

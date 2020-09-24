@@ -420,17 +420,85 @@ arrow3d([0 0 0],[1 0 0],10,'cylinder',[0.2,0.1]);
 
 %exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
 
+%% Result for 3D for a given simplex
+A=getA_MV(3,interv);
+
+figure;
+subplot(2,2,1);hold on
+set(gcf, 'Position',  [500, 500, 3000, 2000])
+
+v0=[1.1    -1/sqrt(3)   0]';
+v1=[-0.5   -1/sqrt(3)   0.3]';
+v2=[0     2/sqrt(3)   0.8]';
+v3=[0.3     0           4/sqrt(6)]';
+
+V=[v0 v1 v2 v3];
+vx=V(1,:)';vy=V(2,:)';vz=V(3,:)';
+pol_x=A'*vx;pol_y=A'*vy;pol_z=A'*vz;
+P=[pol_x'; pol_y'; pol_z'];
+volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.05);
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+
+%%Plot volume Bezier
+subplot(2,2,2);hold on
+A=getA_Be(3,interv);
+volumen_bezier=plot_convex_hull(pol_x,pol_y,pol_z,A,'b',0.05);
+
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+
+%%Plot volume B-Spline
+subplot(2,2,[3,4]);hold on
+A=getA_BS(3,interv);
+V=P*inv(A);   %P=VA
+
+volumen_bs=plot_convex_hull(pol_x,pol_y,pol_z,A,'y',0.3);
+subplot(2,2,[3,4]);hold on
+fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
+
+
+view1=80;view2=30;
+
+subplot(2,2,1);
+title(['\textbf{MINVO, Volume=',num2str(volumen_minvo,4),'  $u^3$}'])
+view(view1, view2)
+axis equal;
+xlim([-1,2]);
+ylim([-2,2]);
+plotAxesArrows(1);axis off
+
+subplot(2,2,2);
+title(['\textbf{B\''ezier, Volume=',num2str(volumen_bezier,4),'  $u^3$}'])
+view(view1, view2)
+axis equal;plotAxesArrows(1);axis off
+
+subplot(2,2,[3,4]);
+title(['\textbf{B-Spline, Volume=',num2str(volumen_bs,4),'  $u^3$}'])
+view(view1, view2)
+axis equal;
+arrow3d([0 0 0],[0 0 1],20,'cylinder',[0.2,0.1]);
+axis off
+arrow3d([0 0 0],[0 1 0],20,'cylinder',[0.2,0.1]);
+arrow3d([0 0 0],[1 0 0],20,'cylinder',[0.2,0.1]);
+
+% exportAsSvg(gcf,'imgs/comparisonBSBeMV_matlab')
 
 %% RESULT for 3D for a given simplex
 figure;
 subplot(1,3,1);hold on
 set(gcf, 'Position',  [500, 500, 3000, 1000])
 
-view1=80;
-view2=30;
-
 view1=54;
 view2=-4.5;
+
+v0=[0.1 0.5 0]';
+v1=[1 0.2 0.5]';
+v2=[0.8 1 0.4]';
+v3=[0.1 0.7 1.0]';
+
+V=[v0 v1 v2 v3];
+vx=V(1,:)';
+vy=V(2,:)';
+vz=V(3,:)';
 
 A=getA_MV(3,interv);
 pol_x=A'*vx;
@@ -759,12 +827,13 @@ for (deg=2:7)
     V_Be=V_MV*getA_MV(deg,interv)*getA_Be(deg,interv)^(-1);
     [k,aBe] = convhull(V_Be'); conv_Be=plot(V_Be(1,k),V_Be(2,k),'Color',[98 98 200]/255,'LineWidth',2);
     fplot(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),interv,'r','LineWidth',2); 
-    xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(aBe/aMV,3)])
+    xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(aBe/aMV,3)],'FontSize', 17)
 end
-hL = legend([conv_minvo,conv_Be],{'MINVO',"B\'{ezier}"});
+hL = legend([conv_minvo,conv_Be],{'MINVO',"B\'{ezier}"},'FontSize', 17);
+set(gcf,'Position',[166,880,2329,336])
 
 % exportAsPdf(gcf,'diff_degree2D');
-
+%%
 figure; hold on; 
 j=1;
 size_arrows=0.2;
@@ -791,6 +860,45 @@ hlinks = [hlinks linkprop([ax1,ax2],{'CameraPosition','CameraUpVector'})];
 end
 
 % print('-dpng','-r500',"diff_degree3D_matlab")
+
+%% Embeddings with k=3, different n and m
+figure; hold on; set(gcf, 'Position',  [500, 500, 3000, 2000])
+A=getA_MV(3,interv);
+%%Curve with n=3, with m=2 and k=3
+P=[    0.5670   -0.7308   -0.1584    0.8993;
+   -2.0953    0.3654    0.7380   -0.4995;
+    0.7641    0.1827   -0.2898    0.3001];
+P(2,:)=[0 0 0 1]-P(1,:)-2.0*P(3,:) %Plane x+y+2*z=1
+subplot(1,3,1);hold on;
+volumen_minvo=plot_convex_hull(P(1,:)', P(2,:)', P(3,:)',A,'g',0.03);
+fplot3(P(1,:)*T3,P(2,:)*T3,P(3,:)*T3,interv,'r','LineWidth',3);
+xlabel('x'); ylabel('y'); zlabel('z')
+title(['\textbf{Pos, vol=',num2str(volumen_minvo,4),'  $u_p^3$}']); axis off;
+plotAxesArrows(1.8);view(165,22)
+
+%%Curve with n=2, with m=2 and k=3
+P=0.35*[ -2.2849    1.7357    0.3745;
+   -3.5932   -1.0549    1.3875;
+    0.8552    0.4869    0.4401];
+subplot(1,3,2); hold on;
+A=getA_MV(2,interv);
+area_minvo= plot_plane_convex_hull(P(1,:)', P(2,:)', P(3,:)', A, 'g', 0.04);
+fplot3(P(1,:)*T2,P(2,:)*T2,P(3,:)*T2,interv,'r','LineWidth',3);
+title(['\textbf{area=',num2str(area_minvo,4),'  $u_v^2$}']); axis off;
+plotAxesArrows(1);view(-187,7)
+
+%%Curve with n=1, with m=1 and k=3
+subplot(1,3,3); hold on; 
+P=0.05*[   -4.5697    1.7357;
+   -7.1863   -1.0549;
+    7.7104    7.4869]
+A=getA_MV(1,interv);
+long_minvo=plot_line_convex_hull(P(1,:)', P(2,:)', P(3,:)',A,'g',0.03);
+fplot3(P(1,:)*T1,P(2,:)*T1,P(3,:)*T1,interv,'r','LineWidth',3);
+title(['\textbf{long=',num2str(long_minvo,4),'  $u_a$}']); axis off;
+plotAxesArrows(1);view(93,10)
+
+% print('-dpng','-r500',"embedded_curves_matlab")
 
 %% Non-rational curves (projection)
 
