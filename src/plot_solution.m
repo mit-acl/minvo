@@ -818,48 +818,266 @@ end
 
 figure; hold on; tiledlayout('flow');
 
-% subplot(2,5,1); hold on;
+%BOXPLOTS FOR 2D CURVES, WITH DIFFERENT n
+a = -1;
+b = 1;
+
+for deg=2:7
+    ratios=[];
+    A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
+    A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
+    
+    tt=linspace(min(interv),max(interv),deg+1);
+    
+    for (i=1:10000)
+        i
+      
+    P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+        V_MV=P*A_MV_inv;
+        V_Be=P*A_Be_inv;
+        
+       [k,aMV] = convhull(V_MV');       
+       [k,aBe] = convhull(V_Be'); 
+       ratios=[ratios aBe/aMV];
+    end
+    nexttile; hold on;
+    
+%     histogram(ratios,300,'Normalization','probability'); 
+    boxplot(ratios,'symbol',''); yl = ylim; ylim([0.0,max(yl)]);
+    if(deg==2)
+        ylim([0,2*max(yl)]);
+    end
+    if(deg==7)
+        ylim([-3.0,max(yl)]);
+    end   
+    yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+    title(['\textbf{n=',num2str(deg),'}'],'FontSize', 17);
+    set(gca,'xtick',[]); set(gca,'xticklabel',[]);
+    set(gcf,'Position',[1,1,1901,225]);
+end
+%RANDOM CASES FOR 2D CURVES, WITH DIFFERENT n
 for (deg=2:7)
     nexttile; hold on;
-    V_MV=rand(2,deg+1);
-    P=V_MV*getA_MV(deg,interv);
+    P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+    A_MV=getA_MV(deg,interv); 
+    A_Be=getA_Be(deg,interv); 
+        V_MV=P*A_MV^(-1);
+        V_Be=P*A_Be^(-1);
+        
+       [k,aMV] = convhull(V_MV');       
+       [k,aBe] = convhull(V_Be'); 
+       
     [k,aMV] = convhull(V_MV'); conv_minvo=plot(V_MV(1,k),V_MV(2,k),'Color',[73 204 73]/255,'LineWidth',2);
-    V_Be=V_MV*getA_MV(deg,interv)*getA_Be(deg,interv)^(-1);
     [k,aBe] = convhull(V_Be'); conv_Be=plot(V_Be(1,k),V_Be(2,k),'Color',[98 98 200]/255,'LineWidth',2);
     fplot(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),interv,'r','LineWidth',2); 
     xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(aBe/aMV,3)],'FontSize', 17)
 end
-hL = legend([conv_minvo,conv_Be],{'MINVO',"B\'{ezier}"},'FontSize', 17);
+hL = legend([conv_minvo,conv_Be],{'MINVO',"B\'{ezier}"},'FontSize', 12);
 set(gcf,'Position',[166,880,2329,336])
-
 % exportAsPdf(gcf,'diff_degree2D');
-%%
+% savefig('diff_degree2D');
+
+%BOXPLOTS FOR 3D CURVES, WITH DIFFERENT n
+
+figure; hold on; tiledlayout('flow');
+for deg=3:7
+    ratios=[];
+    A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
+    A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
+    tt=linspace(min(interv),max(interv),deg+1);
+    for (i=1:10000)
+        i
+      
+    P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+        V_MV=P*A_MV_inv;
+        V_Be=P*A_Be_inv;
+        
+       [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:));       
+       [k,vol_Be] = convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); 
+       ratios=[ratios vol_Be/vol_MV];
+    end
+    nexttile; hold on;
+    
+%     histogram(ratios,300,'Normalization','probability'); 
+    boxplot(ratios,'symbol',''); yl = ylim; ylim([0.0,max(yl)]);
+    if(deg==3)
+        ylim([0,2*max(yl)]);
+    end
+    if(deg==7)
+        ylim([-3.0,max(yl)]);
+    end   
+    yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+    title(['\textbf{n=',num2str(deg),'}'],'FontSize', 17);
+    set(gca,'xtick',[]); set(gca,'xticklabel',[]);
+end
+set(gcf,'Position',[166,880,2329,336])
+% exportAsPdf(gcf,'diff_degree3D_boxplots');
+% savefig('diff_degree3D_boxplots');
+
+%RANDOM CASES FOR 3D CURVES, WITH DIFFERENT n
 figure; hold on; 
 j=1;
 size_arrows=0.2;
 hlinks=[];
 for (deg=3:7)
-ax1=subplot(2,5,j); j=j+1;
- hold on;
-a=0.0; b=0.2;
-V_MV=a + (b-a).*rand(3,deg+1);
-P=V_MV*getA_MV(deg,interv);
-[k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:)); trisurf(k,V_MV(1,:),V_MV(2,:),V_MV(3,:),'FaceColor','g','FaceAlpha',0.2);
-V_Be=V_MV*getA_MV(deg,interv)*getA_Be(deg,interv)^(-1);
-fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
-camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
+    ax1=subplot(2,5,j); j=j+1;
+     hold on;
+     a=0.0; b=0.2;
 
-ax2=subplot(2,5,j); j=j+1;
-hold on;
-[k,vol_Be] =  convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); trisurf(k,V_Be(1,:),V_Be(2,:),V_Be(3,:),'FaceColor','b','FaceAlpha',0.2);
-fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
-xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(vol_Be/vol_MV,3)]);
-camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
- 
-hlinks = [hlinks linkprop([ax1,ax2],{'CameraPosition','CameraUpVector'})];
+    P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+        polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+    A_MV=getA_MV(deg,interv); 
+    A_Be=getA_Be(deg,interv); 
+        V_MV=P*A_MV^(-1);
+        V_Be=P*A_Be^(-1);
+
+    [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:)); trisurf(k,V_MV(1,:),V_MV(2,:),V_MV(3,:),'FaceColor','g','FaceAlpha',0.2);
+
+    fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
+    camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
+
+    ax2=subplot(2,5,j); j=j+1;
+    hold on;
+    [k,vol_Be] =  convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); trisurf(k,V_Be(1,:),V_Be(2,:),V_Be(3,:),'FaceColor','b','FaceAlpha',0.2);
+    fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
+    xlabel('$x(t)$'); ylabel('$y(t)$'); title(['\textbf{n=',num2str(deg),'}',', $r=$',num2str(vol_Be/vol_MV,3)]);
+    camlight; axis equal; axis off;plotAxesArrows(size_arrows); lighting phong;
+
+    hlinks = [hlinks linkprop([ax1,ax2],{'CameraPosition','CameraUpVector'})];
 end
 
 % print('-dpng','-r500',"diff_degree3D_matlab")
+
+%% Comparison with the area/volume of the convex hull of the curve
+
+%%%%%%%%%%%%%%%%%%%%Case 2D (k=m=2)
+means_MV=[]; means_Be=[];
+stds_MV=[]; stds_Be=[];
+
+all_degs=2:7;
+for deg=all_degs
+    
+    ratios_MV=[];
+    ratios_Be=[];
+    
+    A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
+    A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
+    tt=linspace(min(interv),max(interv),deg+1);
+    for (i=1:500)
+        i
+      
+        P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+            polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+        V_MV=P*A_MV_inv;
+        V_Be=P*A_Be_inv;
+
+       [k,area_MV] = convhull(V_MV');       
+       [k,area_Be] = convhull(V_Be'); 
+
+        samples_poly=double(subs(P*getT(deg,t),t,samples_t))';  
+        [k1,area_numeric] = convhull(samples_poly);
+
+        ratios_MV=[ratios_MV area_MV/area_numeric];
+        ratios_Be=[ratios_Be area_Be/area_numeric];
+    
+    end
+    
+    means_MV=[means_MV mean(ratios_MV)];
+    stds_MV=[stds_MV std(ratios_MV)];
+
+    means_Be=[means_Be mean(ratios_Be)];
+    stds_Be=[stds_Be std(ratios_Be)];
+
+end
+
+figure; hold on;
+
+color_MV=[123,218,104]/255; %[178,238,166]/255;
+color_Be=[179,141,240]/255;
+
+BezierVolumes=shadedErrorBar(all_degs,means_Be,stds_Be,'lineprops',{'-o','Color',color_Be,'markerfacecolor',color_Be,'LineWidth',1},'patchSaturation',0.33);
+MinvoVolumes=shadedErrorBar(all_degs,means_MV,stds_MV,'lineprops',{'-o','Color',color_MV,'markerfacecolor',color_MV,'LineWidth',1},'patchSaturation',0.33);
+title('\textbf{Area ratio w.r.t. conv($P$), case $k=m=2$}','FontSize',13);xticks(all_degs);
+
+xlabel('$n$');
+ylabel('$\frac{\mathrm{area}(\mathrm{conv}(\mathrm{Control\;Points}))}{\mathrm{area}(\mathrm{conv}(P))}$','FontSize',17);
+yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); %ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+
+axes('position',[.2 .4 .5 .4]); box on; tmp=4; xlabel('$n$');
+shadedErrorBar(all_degs(1:tmp),means_Be(1:tmp),stds_Be(1:tmp),'lineprops',{'-o','Color',color_Be,'markerfacecolor',color_Be,'LineWidth',1},'patchSaturation',0.33);
+yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); %ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+MinvoVolumes=shadedErrorBar(all_degs,means_MV,stds_MV,'lineprops',{'-o','Color',color_MV,'markerfacecolor',color_MV,'LineWidth',1},'patchSaturation',0.33);
+axis tight; ylim([0,11]); %xlim([3,4.5])
+legend([BezierVolumes.mainLine,MinvoVolumes.mainLine],{'B\''ezier','MINVO'},'Interpreter','latex')
+
+exportAsPdf(gcf,'area_wrt_convP');
+
+%%%%%%%%%%%%%%%%%%%%Case 3D (k=m=3)
+
+means_MV=[]; means_Be=[];
+stds_MV=[]; stds_Be=[];
+
+all_degs=3:7;
+for deg=all_degs
+    
+    ratios_MV=[];
+    ratios_Be=[];
+    
+    A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
+    A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
+    tt=linspace(min(interv),max(interv),deg+1);
+    for (i=1:500)
+        i
+      
+        P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+            polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
+            polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
+        V_MV=P*A_MV_inv;
+        V_Be=P*A_Be_inv;
+
+       [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:));       
+       [k,vol_Be] = convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); 
+
+        samples_poly=double(subs(P*getT(deg,t),t,samples_t))';  
+        [k1,vol_numeric] = convhull(samples_poly(:,1),samples_poly(:,2),samples_poly(:,3));
+
+        ratios_MV=[ratios_MV vol_MV/vol_numeric];
+        ratios_Be=[ratios_Be vol_Be/vol_numeric];
+    
+    end
+    means_MV=[means_MV mean(ratios_MV)];
+    stds_MV=[stds_MV std(ratios_MV)];
+    means_Be=[means_Be mean(ratios_Be)];
+    stds_Be=[stds_Be std(ratios_Be)];
+end
+
+
+figure; hold on;
+
+color_MV=[123,218,104]/255; %[178,238,166]/255;
+color_Be=[179,141,240]/255;
+
+BezierVolumes=shadedErrorBar(all_degs,means_Be,stds_Be,'lineprops',{'-o','Color',color_Be,'markerfacecolor',color_Be,'LineWidth',1},'patchSaturation',0.33);
+MinvoVolumes=shadedErrorBar(all_degs,means_MV,stds_MV,'lineprops',{'-o','Color',color_MV,'markerfacecolor',color_MV,'LineWidth',1},'patchSaturation',0.33);
+title('\textbf{Volume ratio w.r.t. conv($P$), case $k=m=3$}','FontSize',13);xticks(all_degs);
+
+xlabel('$n$');
+ylabel('$\frac{\mathrm{vol}(\mathrm{conv}(\mathrm{Control\;Points}))}{\mathrm{vol}(\mathrm{conv}(P))}$','FontSize',17);
+yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); %ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+
+axes('position',[.2 .4 .5 .4]); box on; tmp=4; xlabel('$n$');
+shadedErrorBar(all_degs(1:tmp),means_Be(1:tmp),stds_Be(1:tmp),'lineprops',{'-o','Color',color_Be,'markerfacecolor',color_Be,'LineWidth',1},'patchSaturation',0.33);
+yline(1.0,'-.','Color',[255,159,51]/255,'LineWidth',2); %ylabel('$r$','FontSize', 12);  %'LineSpec','-.'
+MinvoVolumes=shadedErrorBar(all_degs,means_MV,stds_MV,'lineprops',{'-o','Color',color_MV,'markerfacecolor',color_MV,'LineWidth',1},'patchSaturation',0.33);
+axis tight; ylim([0,11]); %xlim([3,4.5])
+legend([BezierVolumes.mainLine,MinvoVolumes.mainLine],{'B\''ezier','MINVO'},'Interpreter','latex')
+
+% exportAsPdf(gcf,'volume_wrt_convP');
 
 %% Embeddings with k=3, different n and m
 figure; hold on; set(gcf, 'Position',  [500, 500, 3000, 2000])
