@@ -311,7 +311,7 @@ fill(V(k,1),V(k,2),'g','LineWidth',1)
 pol_x=A'*vx;
 pol_y=A'*vy;
 
-plot(0,0,'*')
+% plot(0,0,'*')
 fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
 alpha 0.2;xlim([-0.7,0.7]);ylim([-0.1,1.7]);axis equal;
 
@@ -344,7 +344,7 @@ ylim([0 2.0])
 fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
 alpha 0.2;xlim([-0.7,0.7]);ylim([-0.1,1.7]);axis equal;
 
-%exportAsSvg(gcf,'imgs/comparison2d_simplex_given_matlab')
+% exportAsSvg(gcf,'comparison2d_simplex_given_matlab')
 
 
 %% GEOMETRIC INTERPRETATION OF LAMBDA_I
@@ -813,6 +813,49 @@ end
 %Link = linkprop(h.Children, {'CameraUpVector', 'CameraPosition', 'CameraTarget'}) %, 'CameraTarget'
 %setappdata(gcf, 'StoreTheLink', Link);
 
+%%
+%% Plot the root distribution of the MINVO basis functions
+figure; hold on;   set(gcf, 'Position',  [1726, 663, 635, 355])
+
+color_MV=[123,218,104]/255; %[178,238,166]/255;
+
+for n=1:7
+    % subplot(7,1,n);  
+    MV_points=getAllRoots_MV(n,interv);
+
+    color=[0.4940, 0.1840, 0.5560];
+    delta=0.05;
+    y_pos=delta*(7-n+1);
+    plot(MV_points,y_pos*ones(size(MV_points)),'-o','MarkerEdgeColor','k', 'MarkerFaceColor', color_MV,'Color',color_MV,'MarkerSize',9,'LineWidth',1.2);
+    h = gca; h.YAxis.Visible = 'off';
+    ylim([0,delta*(n+0.6)])
+    text(-1.2,y_pos,(['\textbf{n=',num2str(n),'}']),'FontSize',11)
+
+%     Uncomment the part below if you want to plot the LGL, LGR and LG points for comparison 
+%     fplot(A*getT(n,t),interv,'k');
+%     offset=0;
+%     N=numel(MV_points)%2*n%+offset
+%    %See page 46 of https://www.researchgate.net/publication/38002446_Advancement_and_analysis_of_Gauss_pseudospectral_transcription_for_optimal_control_problems
+%     lgl=(1-t*t)*diff(legendreP(N-1,t),t);  %its roots are the LGL points
+%     lgr=legendreP(N,t)-legendreP(N-1,t);  %its roots are the LGR points
+%     lg=legendreP(N,t);%its roots are the LG points
+% 
+%     lgl_points=double(solve(lgl==0,t))
+%     lgr_points=double(solve(lgr==0,t))
+%     lg_points=double(solve(lg==0,t))
+    
+%     plot(lgl_points,0.4*ones(size(lgl_points)),'-o', 'MarkerFaceColor', [0, 0.4470, 0.7410]);
+%     plot(lgr_points,0.3*ones(size(lgr_points)),'-o', 'MarkerFaceColor', [0.8500, 0.3250, 0.0980]);
+%     plot(lg_points,0.2*ones(size(lg_points)),'-o', 'MarkerFaceColor', [0.9290, 0.6940, 0.1250]);
+%      title(strcat('\textbf{n=',num2str(n),'}'),'FontSize',10 , 'Position', [-1.1, 0.2, 0])
+%     if(n==1)
+%         legend({'LGL','LGL','LG','Minvo'})
+%     end
+     
+end
+
+title('\textbf{Roots of the MINVO basis functions}'); xlabel('t');
+% exportAsPdf(gcf,'roots_distribution');
 
 %% Different degrees of curves in 2D and 3D
 
@@ -968,7 +1011,7 @@ for deg=all_degs
     A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
     A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
     tt=linspace(min(interv),max(interv),deg+1);
-    for (i=1:500)
+    for (i=1:1000)
         i
       
         P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
@@ -1015,7 +1058,7 @@ MinvoVolumes=shadedErrorBar(all_degs,means_MV,stds_MV,'lineprops',{'-o','Color',
 axis tight; ylim([0,11]); %xlim([3,4.5])
 legend([BezierVolumes.mainLine,MinvoVolumes.mainLine],{'B\''ezier','MINVO'},'Interpreter','latex')
 
-exportAsPdf(gcf,'area_wrt_convP');
+% exportAsPdf(gcf,'area_wrt_convP');
 
 %%%%%%%%%%%%%%%%%%%%Case 3D (k=m=3)
 
@@ -1031,7 +1074,7 @@ for deg=all_degs
     A_MV=getA_MV(deg,interv); A_MV_inv=A_MV^(-1);
     A_Be=getA_Be(deg,interv); A_Be_inv=A_Be^(-1);
     tt=linspace(min(interv),max(interv),deg+1);
-    for (i=1:500)
+    for (i=1:1000)
         i
       
         P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
