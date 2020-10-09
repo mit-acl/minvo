@@ -175,7 +175,7 @@ A=getA_MV(2,interv);
 v1=[0.1, 0.9];
 v2=[0.4  1.0];
 v3=[0,  0.35]; 
-
+%TODO: use P=VA below, instead of component by component
 
 vx=[v1(1)  v2(1)  v3(1)]';
 vy=[v1(2)  v2(2)  v3(2)]';
@@ -187,7 +187,7 @@ pol_x=A'*vx;
 pol_y=A'*vy;
 
 
-fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);hold on;
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',2);hold on;
 
 
 %Bernstein
@@ -201,7 +201,7 @@ v3=[vx(3) vy(3)];
 V=[v1; v2; v3];
 [k,av] = convhull(V);
 fill(V(k,1),V(k,2),'b','LineWidth',1)
-fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',2);
 
 
 %B-Spline
@@ -215,14 +215,14 @@ v3=[vx(3) vy(3)];
 V=[v1; v2; v3];
 [k,av] = convhull(V);
 fill(V(k,1),V(k,2),'y','LineWidth',1)
-fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',3);
+fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',2);
 
 alpha 0.2
 axis equal
 xlim([-2 5.5])
 ylim([-1 2.0])
 
-%exportAsSvg(gcf,'imgs/comparison2d_poly_given_matlab')
+% exportAsSvg(gcf,'comparison2d_poly_given_matlab')
 
 %% RESULT for 3D for a given polynomial
 figure;
