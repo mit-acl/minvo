@@ -29,7 +29,7 @@ constraints=[];
 
 A_solution=getA_MV(deg,[-1,1]); 
 
-all_roots=getTangencyPoints(3,[-1,1])';
+all_roots=getAllRoots_MV(3,[-1,1])';
 
 syms tt real
 T=[];
@@ -88,9 +88,9 @@ disp('Starting optimization') %'solver','bmibnb' 'fmincon' ,'solver','sdpt3' 'ip
 % settings=sdpsettings('sparsepop.relaxOrder',3,'savesolveroutput',1,'savesolverinput',1,'solver','sparsepop','showprogress',1,'verbose',2,'debug',1); %,'ipopt.tol',1e-10
 % settings=sdpsettings('moment.order',4,'savesolveroutput',1,'savesolverinput',1,'solver','moment','showprogress',1,'verbose',2,'debug',1);
 % settings=sdpsettings('usex0',1,'savesolveroutput',1,'savesolverinput',1,'solver','fmincon','showprogress',1,'verbose',2,'debug',1);
-% settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
+settings=sdpsettings('usex0',1,'savesolveroutput',0,'savesolverinput',1,'solver','snopt','showprogress',1,'verbose',2,'debug',1,'fmincon.maxfunevals',300000,'fmincon.MaxIter', 300000);
 
-settings=sdpsettings('usex0',0,'savesolveroutput',0,'savesolverinput',1,'solver','bmibnb','showprogress',2,'verbose',2,'debug',1,'bmibnb.uppersolver','snopt','bmibnb.lowersolver','snopt','bmibnb.lpreduce',1,'bmibnb.maxiter',5e20000,'bmibnb.maxtime',5e20000,'bmibnb.numglobal',5);
+% settings=sdpsettings('usex0',0,'savesolveroutput',0,'savesolverinput',1,'solver','bmibnb','showprogress',2,'verbose',2,'debug',1,'bmibnb.uppersolver','snopt','bmibnb.lowersolver','snopt','bmibnb.lpreduce',1,'bmibnb.maxiter',5e20000,'bmibnb.maxtime',5e20000,'bmibnb.numglobal',5);
 
 
 result=optimize(constraints,obj,settings)

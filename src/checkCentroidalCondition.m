@@ -27,9 +27,9 @@ interv=[-1,1];
 
 P=V*getA_MV(degree,interv)
 
-tan_points=getTangencyPoints(degree,interv);
+tan_points_and_extrema=getAllRoots_MV(degree,interv);
 
-tan_points_and_extrema=[tan_points; min(interv); max(interv)];
+%tan_points_and_extrema=[tan_points; min(interv); max(interv)];
 
 syms t real
 T=[];
