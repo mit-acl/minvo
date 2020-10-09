@@ -58,7 +58,7 @@ end
 %%
 
 %I want to maximize the absolute value of the determinant of A
-detA=computeDet(A);  %I could also write computeDet(A(1:end-1,1:end-1)), because of the constraint A'e
+detA=computeDet(A);  %I could also write computeDet(A(1:end-1,1:end-1)), because of the constraint A'1=e
 % obj=-detA; 
 obj=-log(detA*detA); % same as -log(det(A'*A)), and equivalent to minimizing -detA
 
