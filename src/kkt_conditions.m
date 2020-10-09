@@ -119,13 +119,13 @@ eq=diff(lagrangian,variable);
 
 assert(nnz(simplify(eq_mine-eq))==0);
 
-
+disp("All tests have passed!")
 
 %% Older tests:
 
 % T=toeplitz([gi' znh],[gi(1) znh]);
 % should_be=Rg*( diff(T,variable)*gi + T*diff(gi,variable)   )
-% mine=2*Rg*(Ln^(jj-1))*[gi;zeros(n-numel(gi),1)]; %Same as Rg*(diffMorV(T,variable)*g1 + T*diffMorV(g1,variable))  
+% mine=2*Rg*(Ln^(jj-1))*[gi;zeros(n-numel(gi),1)]; %Same as Rg*(diff(T,variable)*g1 + T*diff(g1,variable))  
 % simplify(should_be-mine)
 
 % syms a b c d f h jj k greal
@@ -215,7 +215,7 @@ assert(nnz(simplify(eq_mine-eq))==0);
 % 
 % size_L=numel(v)+2;
 % L=[zeros(1,size_L);[eye(size_L-1) zeros(size_L-1,1)]];
-% mine=2*Rg*(L^(jj-1))*[v;0;0]; %Same as Rg*(diffMorV(T,variable)*g1 + T*diffMorV(g1,variable))  
+% mine=2*Rg*(L^(jj-1))*[v;0;0]; %Same as Rg*(diff(T,variable)*g1 + T*diff(g1,variable))  
 % 
 % simplify(should_be-mine)
 % 
@@ -293,16 +293,16 @@ assert(nnz(simplify(eq_mine-eq))==0);
 % 
 % derivate_should_be=diff(detA,g1(1));
 % 
-% should_be=diffMorV(A,g1(1))
+% should_be=diff(A,g1(1))
 % 
-% derivate_mine=det(A)*trace(inv(A)*diffMorV(A,g1(1))) ; %This is good
+% derivate_mine=det(A)*trace(inv(A)*diff(A,g1(1))) ; %This is good
 % 
 % simplify(derivate_should_be-derivate_mine)
 % 
 % %%
 % 
 % variable=h1(1);
-% Q=diffMorV(A,variable);
+% Q=diff(A,variable);
 % 
 % % A(2:end,:)=[7 0 0 0; 0 -5 0 0; 0 0 0 20]  (this is to simplify the calculations, if not Matlab fails to simplify correctly sometimes)
 % 
@@ -322,3 +322,19 @@ assert(nnz(simplify(eq_mine-eq))==0);
 % 
 % % lambda=
 % % L=detA*trace(inv(A)*Q)+
+
+% function result=tSum(A)
+% 
+%     if size(A,1)~=size(A,2)
+%         error("Matrix has to be square")
+%     end
+% 
+%     A_flipped=flip(A);
+%     result=[];
+%     
+%     for i=-(size(A,1)-1):1:(size(A,1)-1)
+%         result=[result; sum(diag(A_flipped,i))];
+%     end
+%     
+%     
+% end
