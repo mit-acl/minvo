@@ -10,6 +10,7 @@ set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegend
 %%Degree=2
 n = 3; %3 for degree 2
 
+interv=[0,1];
 
 n_int_knots=4
 deltaT=1/(n_int_knots+1);
@@ -44,44 +45,44 @@ syms u;
 deg=2;
 %First interval
 last3cps= cPoints(:,1:3);
-curve=last3cps*computeMatrixForClampedUniformBSpline(deg,0,"01")*[u*u u 1]';
+curve=last3cps*computeMatrixForClampedUniformBSpline(deg,0,interv)*[u*u u 1]';
 fplot(curve(1),curve(2), [0,1],'k--','LineWidth',3);
 
 disp("====")
 %Second interval
 last3cps= cPoints(:,2:4);
-curve=last3cps*computeMatrixForClampedUniformBSpline(deg,1,"01")*[u*u u 1]';
+curve=last3cps*computeMatrixForClampedUniformBSpline(deg,1,interv)*[u*u u 1]';
 fplot(curve(1),curve(2), [0,1],'r--','LineWidth',3);
 
 
 disp("====")
 %Third interval
 last3cps= cPoints(:,3:5);
-curve=last3cps*computeMatrixForClampedUniformBSpline(deg,2,"01")*[u*u u 1]';
+curve=last3cps*computeMatrixForClampedUniformBSpline(deg,2,interv)*[u*u u 1]';
 fplot(curve(1),curve(2), [0,1],'b--','LineWidth',3);
 
 %Fourth interval
 last3cps= cPoints(:,4:6);
-curve=last3cps*computeMatrixForClampedUniformBSpline(deg,-2,"01")*[u*u u 1]';
+curve=last3cps*computeMatrixForClampedUniformBSpline(deg,-2,interv)*[u*u u 1]';
 fplot(curve(1),curve(2), [0,1],'g--','LineWidth',3);
 
 %Fifth interval
 last3cps= cPoints(:,5:7);
-curve=last3cps*computeMatrixForClampedUniformBSpline(deg,-1,"01")*[u*u u 1]';
+curve=last3cps*computeMatrixForClampedUniformBSpline(deg,-1,interv)*[u*u u 1]';
 fplot(curve(1),curve(2), [0,1],'y--','LineWidth',3);
 %%
 clc
-2*computeMatrixForAnyBSpline(deg,3, knots,"01")
-2*computeMatrixForAnyBSpline(deg,4, knots,"01")
-2*computeMatrixForAnyBSpline(deg,5, knots,"01")
-2*computeMatrixForAnyBSpline(deg,6, knots,"01")
-2*computeMatrixForAnyBSpline(deg,7, knots,"01")
+2*computeMatrixForAnyBSpline(deg,3, knots,interv)
+2*computeMatrixForAnyBSpline(deg,4, knots,interv)
+2*computeMatrixForAnyBSpline(deg,5, knots,interv)
+2*computeMatrixForAnyBSpline(deg,6, knots,interv)
+2*computeMatrixForAnyBSpline(deg,7, knots,interv)
 
 %%
 clc
 knots=[0 1 2 3 4 5]
 deg=2
-computeMatrixForAnyBSpline(deg,3, knots,"01");
+computeMatrixForAnyBSpline(deg,3, knots,interv);
 %% Degree=3
 
 
@@ -111,19 +112,19 @@ plot3(pos(1,:),pos(2,:),pos(3,:),'k')%,'-b'
 pos = bspline_deboor(n,knots,cPoints,knots(8):increm:knots(9) );%0:increm:1
 plot3(pos(1,:),pos(2,:),pos(3,:),'y')%,'-b'
 
-Abs=getA_BS(3,"01");
+Abs=getA_BS(3,interv);
 
 syms u;
 
 deg=3;
 %First interval
 last4cps= cPoints(:,1:4);
-curve=last4cps*computeMatrixForClampedUniformBSpline(deg,0,"01")*[u*u*u u*u u 1]';
+curve=last4cps*computeMatrixForClampedUniformBSpline(deg,0,interv)*[u*u*u u*u u 1]';
 fplot3(curve(1),curve(2),curve(3), [0,1],'r--','LineWidth',3);
 
 %Second interval
 last4cps= cPoints(:,2:5);
-curve=last4cps*computeMatrixForClampedUniformBSpline(deg,1,"01")*[u*u*u u*u u 1]';
+curve=last4cps*computeMatrixForClampedUniformBSpline(deg,1,interv)*[u*u*u u*u u 1]';
 fplot3(curve(1),curve(2),curve(3), [0,1],'b--','LineWidth',3);
 
 %Third interval
@@ -133,12 +134,12 @@ fplot3(curve(1),curve(2),curve(3), [0,1],'g--','LineWidth',3);
 
 %Fourth interval
 last4cps= cPoints(:,4:7);
-curve=last4cps*computeMatrixForClampedUniformBSpline(deg,-2,"01")*[u*u*u u*u u 1]';
+curve=last4cps*computeMatrixForClampedUniformBSpline(deg,-2,interv)*[u*u*u u*u u 1]';
 fplot3(curve(1),curve(2),curve(3), [0,1],'k--','LineWidth',3);
 
 %Fifth interval
 last4cps= cPoints(:,5:8);
-curve=last4cps*computeMatrixForClampedUniformBSpline(deg,-1,"01")*[u*u*u u*u u 1]';
+curve=last4cps*computeMatrixForClampedUniformBSpline(deg,-1,interv)*[u*u*u u*u u 1]';
 fplot3(curve(1),curve(2),curve(3), [0,1],'y--','LineWidth',3);
 
 view(55,19);
@@ -170,11 +171,11 @@ vpa(cost,10)
 
 %%My way of doing it
 
-A{1}=computeMatrixForClampedUniformBSpline(deg,0,"01");
-A{2}=computeMatrixForClampedUniformBSpline(deg,1,"01");
-A{3}=computeMatrixForClampedUniformBSpline(deg,2,"01");
-A{4}=computeMatrixForClampedUniformBSpline(deg,-2,"01");
-A{5}=computeMatrixForClampedUniformBSpline(deg,-1,"01");
+A{1}=computeMatrixForClampedUniformBSpline(deg,0,interv);
+A{2}=computeMatrixForClampedUniformBSpline(deg,1,interv);
+A{3}=computeMatrixForClampedUniformBSpline(deg,2,interv);
+A{4}=computeMatrixForClampedUniformBSpline(deg,-2,interv);
+A{5}=computeMatrixForClampedUniformBSpline(deg,-1,interv);
 
 
 
@@ -209,13 +210,13 @@ plot(time_first_interval, accel_mine(1,:), 'g--',"LineWidth",3)
 plot(time_first_interval, jerk_mine(1,:), 'b--',"LineWidth",3)
 %%
 clc
-A_first_12=12*computeMatrixForAnyBSpline(deg, 4, knots,"01")
-A_second_12=12*computeMatrixForAnyBSpline(deg, 5, knots,"01")
+A_first_12=12*computeMatrixForAnyBSpline(deg, 4, knots,interv)
+A_second_12=12*computeMatrixForAnyBSpline(deg, 5, knots,interv)
 
-6*computeMatrixForAnyBSpline(deg, 6, knots,"01") %Same as 6*getA_BS(3,"01")
+6*computeMatrixForAnyBSpline(deg, 6, knots,interv) %Same as 6*getA_BS(3,"01")
 
-A_secondlast_12=12*computeMatrixForAnyBSpline(deg, 7, knots,"01") 
-A_last_12=12*computeMatrixForAnyBSpline(deg, 8, knots,"01") %Same as 6*getA_BS(3,"01")
+A_secondlast_12=12*computeMatrixForAnyBSpline(deg, 7, knots,interv) 
+A_last_12=12*computeMatrixForAnyBSpline(deg, 8, knots,interv) %Same as 6*getA_BS(3,"01")
 
 
 
