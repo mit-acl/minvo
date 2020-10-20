@@ -18,6 +18,7 @@ addpath(genpath('./solutions'));
 n=3;
 n_is_even = (rem(n, 2) == 0);
 
+
 syms t real
 
 constraints=[];
@@ -28,7 +29,7 @@ H=sym('H_%d%d',[n+1,floor((n-1)/2)+1],'real');
 A=[];
 lambdas=[];
 for i=1:(n+1)
-   
+    i
     coeff_G=G(i,:);
     coeff_H=H(i,:);
     
@@ -55,7 +56,6 @@ for i=1:(n+1)
     
 end
 
-%%
 
 %I want to maximize the absolute value of the determinant of A
 detA=computeDet(A);  %I could also write computeDet(A(1:end-1,1:end-1)), because of the constraint A'1=e
@@ -69,6 +69,11 @@ l=sym('l',[n+1,1],'real');
 
 lagrangian=obj+l'*eq_constraint;
 
+if(n_is_even)
+   error("These KKT conditions below are for odd n")
+end
+
+
 equations=[];
 all_sym=[G(:);H(:)];
 for i=1:length(all_sym)
@@ -76,13 +81,13 @@ for i=1:length(all_sym)
 end
 equations=[equations ; eq_constraint==0];
 
-% disp('Solving equations!')
-% s=solve(equations,[C(:);D(:);l(:)]) %Takes forever
+% % disp('Solving equations!')
+% % s=solve(equations,[C(:);D(:);l(:)]) %Takes forever
 
 n_half=floor(n/2); %=(n-1)/2 when n is odd
 
 
-ii=1; jj=2;
+ii=2; jj=1;
 gi=G(ii,:)';
 variable=G(ii,jj);
 
@@ -94,34 +99,61 @@ A_mine=[];
 for i=1:(n+1)
     g_i=G(i,:)';
     h_i=H(i,:)';
-    A_mine=[A_mine;g_i'*toeplitz([g_i' znh],[g_i(1) znh])'*Rg' + h_i'*toeplitz([h_i' znh],[h_i(1) znh])'*Rh'];  %NOTE THAT i COULD USE conv(a,b) INSTEAD OF toeplitz(f(a))*b (conv also gives multiplication). But in matlab, conv() does not work with symbolic variables. 
+    AiT=Rg*toeplitz([g_i' znh],[g_i(1) znh])*g_i  + Rh*toeplitz([h_i' znh],[h_i(1) znh])*h_i;
+    A_mine=[A_mine;AiT'];  %NOTE THAT i COULD USE conv(a,b) INSTEAD OF toeplitz(f(a))*b (conv also gives multiplication). But in matlab, conv() does not work with symbolic variables. 
 end
 
-simplify(A_mine-A);
+A_mine2=[rowWiseConv(G,G) rowWiseConv(H,H)]*[Rg';Rh'];
 
+assert(nnz(simplify(A_mine-A))==0);
+assert(nnz(simplify(A_mine2-A))==0);
+
+disp("OK, the matrices A coincide!")
+%%
 LnP1=[zeros(1,n+1);[eye(n) zeros(n,1)]];
 Ln=[zeros(1,n);[eye(n-1) zeros(n-1,1)]];
 
-QGij=diff(A,variable)
+QGij=diff(A,variable);
 QGij_mine=2*LnP1^(ii-1)*[  [gi' zeros(1,n-numel(gi))]*((Ln')^(jj-1))*Rg';  
                                         zeros(n,n+1)                 ];
 
 assert(nnz(simplify(QGij-QGij_mine))==0); %Check both results are the same
 
-eq_mine=trace((-2*inv(A)+l*ones(size(l))')*QGij);
+kkt_eq_mine=trace((-2*inv(A)+l*ones(size(l))')*QGij);
 
-ee=[zeros(1,n) 1]';
+% ee=[zeros(1,n) 1]';
 %eq_mine=trace((-2*eye(n+1)+l*ee')*inv(A)*QGij); Note that this also holds
 %(because of the constraint A'1=e, but the assert below will not be
 %satisfied due to the fact that we are already sustituting
 
-eq=diff(lagrangian,variable);
+kkt_eq=diff(lagrangian,variable);
 
-assert(nnz(simplify(eq_mine-eq))==0);
+assert(nnz(simplify(kkt_eq_mine-kkt_eq))==0);
 
-disp("All tests have passed!")
+disp("OK, all tests have passed!")
 
-%% Older tests:
+
+%%
+function result=rowWiseConv(A,B) %MATLAB conv() function doesn't work with symbolic variables
+
+    if(size(A,1)~=size(B,1) || size(A,2)~=size(B,2))
+        error("Matrices have to have the same size") 
+    end
+    
+    syms t real
+    nn=size(A,2)-1;
+    T=getT(nn,t);
+    result=[];
+    for i=1:size(A,1)
+        poly_multiplication=(A(i,:)*T)*(B(i,:)*T); %Note that discrete convolution is the same as polynomial multiplication
+        coefficients=coeffs(poly_multiplication,t,'All');
+        coefficients=[zeros(1,2*nn-numel(coefficients)+1) coefficients];
+        result=[result ;coefficients];
+    end
+    
+end
+
+%% Older code:
 
 % T=toeplitz([gi' znh],[gi(1) znh]);
 % should_be=Rg*( diff(T,variable)*gi + T*diff(gi,variable)   )
