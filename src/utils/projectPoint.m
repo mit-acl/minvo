@@ -1,3 +1,11 @@
+% /* ----------------------------------------------------------------------------
+%  * Copyright 2020, Jesus Tordesillas Torres, Aerospace Controls Laboratory
+%  * Massachusetts Institute of Technology
+%  * All Rights Reserved
+%  * Authors: Jesus Tordesillas, et al.
+%  * See LICENSE file for the license information
+%  * -------------------------------------------------------------------------- */
+
 function projected=projectPoint(p, v, q1,q2,q3,frame)
 % Performs a perspective projection of the point p (expressed in the world coordinates), 
 % doing raycasting from the viewpoint v, using the plane formed by 

@@ -1,3 +1,11 @@
+% /* ----------------------------------------------------------------------------
+%  * Copyright 2020, Jesus Tordesillas Torres, Aerospace Controls Laboratory
+%  * Massachusetts Institute of Technology
+%  * All Rights Reserved
+%  * Authors: Jesus Tordesillas, et al.
+%  * See LICENSE file for the license information
+%  * -------------------------------------------------------------------------- */
+
 %%This file tries to check numerically if there exists a recursive formula of the polynomials
 %%of the MINVO basis. It does so by imposing conditions between the
 %%polynomials of different n, and then solving by least squares
