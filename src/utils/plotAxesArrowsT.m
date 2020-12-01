@@ -7,7 +7,7 @@
 %  * -------------------------------------------------------------------------- */
 
 
-%T is the 
+%T is the 4x4 pose matrix: [R t; 0 1]
 function plotAxesArrowsT(length, w_T_b)
 
 w_t_b=w_T_b(1:3,4);
