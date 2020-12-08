@@ -1,7 +1,6 @@
 
 function Abs=computeMatrixForClampedUniformBSpline(deg,segment_key,interval)
 
-
 % *****segment_key= 0 --> Will give the matrix for the segment 0
 % *****segment_key= 1 --> Will give the matrix for the segment 1
 % *****...
@@ -16,7 +15,7 @@ function Abs=computeMatrixForClampedUniformBSpline(deg,segment_key,interval)
 % *****segment (antepenultimo);
 % *****segment_key= -1 --> Will give the matrix for the last segment
 
-n_int_knots=6;
+n_int_knots=15; %should be sufficiently big (TODO: don't hack this)
 deltaT=1/(n_int_knots+1);
 interm=deltaT*(1:n_int_knots);
 knots = [zeros(1,deg+1)   interm   (max(interm)+deltaT)*ones(1,deg+1)];

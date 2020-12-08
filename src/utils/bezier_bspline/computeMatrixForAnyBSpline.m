@@ -1,5 +1,7 @@
 function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
 
+%index_t_start is 1-based
+
 %Everything here is for interval t \in [0,1]
 
 %Following the notation from
@@ -9,9 +11,6 @@ function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
 
 % i=3;
 
-j=index_t_start;
-
-ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
 
 if(deg==1)
     M=[1 0; -1 1];
@@ -19,6 +18,9 @@ if(deg==1)
     A=[M(2,:)' M(1,:)'];
     
 elseif(deg==2)
+    
+    j=index_t_start;
+    ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
     
     m00=(tiP1-ti)/(tiP1-tiM1);
     m01=(ti-tiM1)/(tiP1-tiM1);
@@ -40,6 +42,9 @@ elseif(deg==2)
     A=[M(3,:)' M(2,:)' M(1,:)'];
 
 elseif(deg==3)
+    
+    j=index_t_start;
+    ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
     
     m00=((tiP1-ti)^2)/((tiP1-tiM1)*(tiP1-tiM2));
     m02=((ti-tiM1)^2)/((tiP2 -tiM1)*(tiP1 -tiM1));
