@@ -19,11 +19,9 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 
 ## Instructions to use the MINVO basis
 
-#### For a particular curve (Problem 1 of the paper)
-See an example (with `n=3`) in [`curve_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/curve_given3D.m)
+* **For a particular curve (Problem 1 of the paper)**: See an example (with `n=3`) in [`curve_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/curve_given3D.m)
 
-#### For a particular simplex  (Problem 2 of the paper)
-See an example (with `n=3`) in [`simplex_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/simplex_given3D.m)
+* **For a particular simplex  (Problem 2 of the paper)**: See an example (with `n=3`) in [`simplex_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/simplex_given3D.m)
 
 
 ## Instructions to derive the MINVO basis
