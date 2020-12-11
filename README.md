@@ -10,9 +10,9 @@ When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726
 
 ```bibtex
 @article{tordesillas2020minvo,
-  title={{MINVO} Basis: Finding Simplexes with Minimum Volume Enclosing Polynomial Curves},
+  title={{MINVO} basis: Finding simplexes with minimum volume enclosing polynomial curves},
   author={Tordesillas, Jesus and How, Jonathan P},
-  journal={arXiv preprint},
+  journal={arXiv preprint arXiv:2010.10726},
   year={2020}
 }
 ```
