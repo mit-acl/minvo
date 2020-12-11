@@ -30,9 +30,9 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 You can simply run `plot_solution.m` (you don't need to install any external solver to do this).
 
 #### To run the optimization
-* The file `general_formulation_sos.m` solves Problem 3 in the paper using SOS.
-* The file `general_formulation_lukacs_theorem.m` solves Problem 3 in the paper using the Markov–Lukács Theorem. 
-* The file `formula_formulation.m` solves Problem 4 in the paper. 
+* The file [`general_formulation_sos.m`](https://github.com/mit-acl/minvo/blob/master/src/general_formulation_sos.m) solves Problem 3 in the paper using SOS.
+* The file [`general_formulation_lukacs_theorem.m`](https://github.com/mit-acl/minvo/blob/master/src/general_formulation_lukacs_theorem.m) solves Problem 3 in the paper using the Markov–Lukács Theorem. 
+* The file [`formula_formulation.m`](https://github.com/mit-acl/minvo/blob/master/src/formula_formulation.m) solves Problem 4 in the paper. 
 
 Follow the instructions in each file to prove local/global optimality.
 
