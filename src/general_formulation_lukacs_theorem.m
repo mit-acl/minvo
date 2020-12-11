@@ -20,7 +20,8 @@ interv=[-1,1];
 
 constraints=[];
 
-use_yalmip=false; %if false, it will attempt to find a local minima
+use_yalmip=false; %if false, it will attempt to find a local minimum
+                  %if true, it will use bmibnb to find a gobal minimum
 
    
 if(use_yalmip)
