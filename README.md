@@ -35,5 +35,4 @@ You can simply run `plot_solution.m` (you don't need to install any external sol
 
 Depending on the settings you choose in each file, you may need to install [YALMIP](https://yalmip.github.io/) (tested with [this release](https://github.com/yalmip/YALMIP/releases/tag/R20200116_hotfix)), [SNOPT](https://ccom.ucsd.edu/~optimizers/) and/or [MOSEK](https://www.mosek.com/).   
 
-## Approval for release
-This code was approved for release by The Boeing Company in December 2020. 
+> **Approval for release**: This code was approved for release by The Boeing Company in December 2020. 
