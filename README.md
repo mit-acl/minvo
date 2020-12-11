@@ -2,11 +2,11 @@
 
 Example for n=3:
 
-![](./imgs/minvo3d.png) 
+[![](./imgs/minvo3d.png)](https://www.youtube.com/watch?v=f_JOYud9LUU) 
 
 ## Citation
 
-When using MINVO, please cite [this paper](https://www.google.com/):
+When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://www.youtube.com/watch?v=f_JOYud9LUU)):
 
 ```bibtex
 @article{tordesillas2020minvo,
