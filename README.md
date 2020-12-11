@@ -23,13 +23,12 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 
 * **For a particular simplex  (Problem 2 of the paper)**: See an example (with `n=3`) in [`simplex_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/simplex_given3D.m)
 
+To obtain all the figures of the paper, you can  simply run [`plot_solution.m`](https://github.com/mit-acl/minvo/blob/master/src/plot_solution.m) 
+
+You don't need to install any external solvers for the steps above.
 
 ## Instructions to derive the MINVO basis
 
-#### To generate all the figures of the paper
-You can simply run `plot_solution.m` (you don't need to install any external solver to do this).
-
-#### To run the optimization
 * The file [`general_formulation_sos.m`](https://github.com/mit-acl/minvo/blob/master/src/general_formulation_sos.m) solves Problem 3 in the paper using SOS.
 * The file [`general_formulation_lukacs_theorem.m`](https://github.com/mit-acl/minvo/blob/master/src/general_formulation_lukacs_theorem.m) solves Problem 3 in the paper using the Markov–Lukács Theorem. 
 * The file [`formula_formulation.m`](https://github.com/mit-acl/minvo/blob/master/src/formula_formulation.m) solves Problem 4 in the paper. 
