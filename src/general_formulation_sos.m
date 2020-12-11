@@ -8,8 +8,6 @@
 
 clear; clc; close all;
 set(0,'DefaultFigureWindowStyle','docked') %'normal'
-%Useful to plot the result: http://nurbscalculator.in/
-%READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
 
 deg=3;
 deg_is_even = (rem(deg, 2) == 0);
@@ -181,3 +179,7 @@ end
     
    
 end
+
+
+%Useful to plot the result: http://nurbscalculator.in/
+%READ THIS: https://yalmip.github.io/example/nonconvexquadraticprogramming/
