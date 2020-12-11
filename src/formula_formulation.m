@@ -13,7 +13,7 @@ global use_yalmip
 %%%%%%%% Instructions:
 % Set use_yalmip=true to prove global optimality for n=1,2,3 (using moment relaxations)
 % Set use_yalmip=false to prove local optimality for n=1,2,3,4,5,6,7 (using fmincon from many different initial guesses)
-use_yalmip=true;
+use_yalmip=false;
 n=3;
 
 %
