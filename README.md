@@ -33,6 +33,6 @@ You can simply run `plot_solution.m` (you don't need to install any external sol
 * The file `general_formulation.m` solves Problem 3 in the paper. Follow the instructions in that file to prove local/global optimality.
 * The file `formula_formulation.m` solves Problem 4 in the paper. Follow the instructions in that file to prove local/global optimality.
 
-Depending on the settings you choose in each file, you may need to install [YALMIP](https://yalmip.github.io/) (tested with [this release](https://github.com/yalmip/YALMIP/releases/tag/R20200116_hotfix)), [SNOPT](https://ccom.ucsd.edu/~optimizers/) and/or [MOSEK](https://www.mosek.com/).   
+Depending on the settings you choose in each file, you may need to install [YALMIP](https://yalmip.github.io/) (tested with [this release](https://github.com/yalmip/YALMIP/releases/tag/R20200116_hotfix)), [SNOPT](https://ccom.ucsd.edu/~optimizers/) and/or [MOSEK](https://www.mosek.com/).  
 ---------
 > **Approval for release**: This code was approved for release by The Boeing Company in December 2020. 
