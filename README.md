@@ -30,8 +30,11 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 You can simply run `plot_solution.m` (you don't need to install any external solver to do this).
 
 #### To run the optimization
-* The file `general_formulation.m` solves Problem 3 in the paper. Follow the instructions in that file to prove local/global optimality.
-* The file `formula_formulation.m` solves Problem 4 in the paper. Follow the instructions in that file to prove local/global optimality.
+* The file `general_formulation_sos.m` solves Problem 3 in the paper using SOS.
+* The file `general_formulation_lukacs_theorem.m` solves Problem 3 in the paper using the Markov–Lukács Theorem. 
+* The file `formula_formulation.m` solves Problem 4 in the paper. 
+
+Follow the instructions in each file to prove local/global optimality.
 
 Depending on the settings you choose in each file, you may need to install [YALMIP](https://yalmip.github.io/) (tested with [this release](https://github.com/yalmip/YALMIP/releases/tag/R20200116_hotfix)), [SNOPT](https://ccom.ucsd.edu/~optimizers/) and/or [MOSEK](https://www.mosek.com/). 
 
