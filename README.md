@@ -20,22 +20,10 @@ When using MINVO, please cite [this paper](https://www.google.com/):
 ## Instructions to use the MINVO basis
 
 #### For a particular curve (Problem 1 of the paper)
-Given a matrix <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> that, in each row <img src="https://render.githubusercontent.com/render/math?math=i">, contains the coefficients (in decreasing order) of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the <img src="https://render.githubusercontent.com/render/math?math=n">-th order polynomial curve <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{p}(t), "> <img src="https://render.githubusercontent.com/render/math?math=t\in[-1,1]">, you can obtain the smallest <img src="https://render.githubusercontent.com/render/math?math=n">-simplex that contains that curve by running this:
-
-```matlab
-addpath(genpath('./solutions'));
-V=P*inv(getA_MV(n,[-1,1]))
-```
-The columns of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> will contain the vertexes of the <img src="https://render.githubusercontent.com/render/math?math=n">-simplex
+See an example (with `n=3`) in [`curve_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/curve_given3D.m)
 
 #### For a particular simplex  (Problem 2 of the paper)
-Given the matrix <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{V}"> whose columns contain the vertexes of the <img src="https://render.githubusercontent.com/render/math?math=n">-simplex, you can obtain the <img src="https://render.githubusercontent.com/render/math?math=n">-th order polynomial curve (enclosed in that simplex) with largest convex hull by running this:
-
-```matlab
-addpath(genpath('./solutions'));
-P=V*getA_MV(n,[-1,1]);
-```
-Each row <img src="https://render.githubusercontent.com/render/math?math=i"> of <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{P}"> will contain the coefficients (in decreasing order) of the polynomial of the <img src="https://render.githubusercontent.com/render/math?math=i">-th coordinate of the curve <img src="https://render.githubusercontent.com/render/math?math=\boldsymbol{p}(t),">  <img src="https://render.githubusercontent.com/render/math?math=t\in[-1,1]">.
+See an example (with `n=3`) in [`simplex_given3D.m`](https://github.com/mit-acl/minvo/blob/master/src/simplex_given3D.m)
 
 
 ## Instructions to derive the MINVO basis
