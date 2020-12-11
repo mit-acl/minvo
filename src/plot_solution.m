@@ -424,22 +424,26 @@ arrow3d([0 0 0],[1 0 0],10,'cylinder',[0.2,0.1]);
 
 %exportAsSvg(gcf,'imgs/geom_meaning_lambdai')
 
-%% Result for 3D for a given simplex
+%% Results for 3D for a given polynomial
 A=getA_MV(3,interv);
 
 figure;
 subplot(2,2,1);hold on
 set(gcf, 'Position',  [500, 500, 3000, 2000])
 
-v0=[1.1    -1/sqrt(3)   0]';
-v1=[-0.5   -1/sqrt(3)   0.3]';
-v2=[0     2/sqrt(3)   0.8]';
-v3=[0.3     0           4/sqrt(6)]';
-
-V=[v0 v1 v2 v3];
-vx=V(1,:)';vy=V(2,:)';vz=V(3,:)';
-pol_x=A'*vx;pol_y=A'*vy;pol_z=A'*vz;
-P=[pol_x'; pol_y'; pol_z'];
+P=[   -0.7616    0.8679    0.3745   -0.2492;
+      -1.1977   -0.5274    1.3875    0.2882;
+      0.2851    0.2435    0.4401    0.5502];
+% v0=[1.1    -1/sqrt(3)   0]';
+% v1=[-0.5   -1/sqrt(3)   0.3]';
+% v2=[0     2/sqrt(3)   0.8]';
+% v3=[0.3     0           4/sqrt(6)]';
+% 
+% V=[v0 v1 v2 v3];
+% vx=V(1,:)';vy=V(2,:)';vz=V(3,:)';
+% pol_x=A'*vx;pol_y=A'*vy;pol_z=A'*vz;
+% P=[pol_x'; pol_y'; pol_z'];
+pol_x=P(1,:)'; pol_y=P(2,:)'; pol_z=P(3,:)';
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.05);
 fplot3(pol_x'*T3,pol_y'*T3,pol_z'*T3,interv,'r','LineWidth',3);
 
