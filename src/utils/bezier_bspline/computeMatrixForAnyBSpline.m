@@ -11,8 +11,9 @@ function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
 
 % i=3;
 
-
-if(deg==1)
+if(deg==0)
+    A=1;
+elseif(deg==1)
     M=[1 0; -1 1];
     %And now change it to the convention I use
     A=[M(2,:)' M(1,:)'];

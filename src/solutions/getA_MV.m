@@ -20,7 +20,9 @@ sol=load(strcat('rootsLambdaiDeg',num2str(degree),'.mat'));
 roots_lambdai=sol.roots_lambda_solution;
 
 % order stuff
-if(degree==1)
+if(degree==0)
+    co=[1];
+elseif(degree==1)
     co=[1 2]; %correct order
 elseif(degree==2)
     co=[3 2 1]; %correct order
@@ -34,6 +36,8 @@ elseif(degree==6)
     co=[2 5 3 4 7 1 6]; %correct order
 elseif(degree==7)
     co=[3 6 1 8 4 5 2 7]; %correct order
+else
+    error("Not implemented yet")
 end
 
 A=[];
