@@ -8,6 +8,7 @@
 
 %This file fits a function to the roots of the MINVO basis functions for n=2,...,7
 %The function fitted can be used to estimate the roots of the MINVO basis functions for n>7 
+%You may have to run this file several times to get a satisfactory solution. The smallest residual found so far is 0.00501613
 
 close all; clear; clc;
 addpath(genpath('./utils'));
