@@ -12,13 +12,6 @@
 function [A rootsA]=getA_MV(degree, interval)
 
 
-%Note that these guesses are in [0,1]
-sol=load(strcat('solutionDeg',num2str(degree),'.mat'));
-A_saved=sol.A;
-
-sol=load(strcat('rootsLambdaiDeg',num2str(degree),'.mat'));
-roots_lambdai=sol.roots_lambda_solution;
-
 % order stuff
 if(degree==0)
     co=[1];
@@ -37,8 +30,18 @@ elseif(degree==6)
 elseif(degree==7)
     co=[3 6 1 8 4 5 2 7]; %correct order
 else
-    error("Not implemented yet")
+    warning('on')
+    warning("Using approximated roots (i.e., feasible but not optimal)")
+    [A rootsA]=getA_MV_Approx(degree, interval);
+    return
 end
+
+sol=load(strcat('solutionDeg',num2str(degree),'.mat'));
+A_saved=sol.A;
+
+sol=load(strcat('rootsLambdaiDeg',num2str(degree),'.mat'));
+roots_lambdai=sol.roots_lambda_solution;
+
 
 A=[];
 rootsA=[];
