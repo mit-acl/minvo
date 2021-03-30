@@ -12,8 +12,8 @@
 clear;  close all; clc;
 set(0,'DefaultFigureWindowStyle','docked') %'normal'
 
-addpath(genpath('./utils'));
-addpath(genpath('./solutions'));
+addpath(genpath('./../utils'));
+addpath(genpath('./../solutions'));
 
 n=3;
 n_is_even = (rem(n, 2) == 0);
