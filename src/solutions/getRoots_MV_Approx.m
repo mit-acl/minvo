@@ -3,6 +3,7 @@ function rootsA=getRoots_MV_Approx(n,interv)
    %Compute all the inner roots in interv
    %-------------------------------------
    
+   %These values have been found in fit_MV_roots.m
    b=[0.27350297910476373264287985875853, 3.0385093464854278089148920116713, 0.47785675906936553314352522647823, 772.6680998615668158890912309289];
    approx_roots=[];
    for ic=0:(n-1) %index of the cluster
