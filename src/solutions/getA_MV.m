@@ -30,8 +30,8 @@ elseif(degree==6)
 elseif(degree==7)
     co=[3 6 1 8 4 5 2 7]; %correct order
 else
-    warning('on')
-    warning("Using approximated roots (i.e., feasible but not optimal)")
+    %warning('on')
+    %warning("Using approximated roots (i.e., feasible but not optimal)")
     [A rootsA]=getA_MV_Approx(degree, interval);
     return
 end

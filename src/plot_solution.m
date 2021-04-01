@@ -31,18 +31,42 @@ T6=[t^6 T5']';
 T7=[t^7 T6']';
 
 %% Print the ratios of the determinants:
+disp('abs( det(A_MV) )')
+n_max=10;
+for i=1:n_max
+    value=abs(det(getA_MV(i,interv)));
+    vpa(value,4)
+end
+
+
 disp('abs( det(A_MV)/det(A_Be) )')
 
-for i=1:7
+for i=1:n_max
     value=abs(det(getA_MV(i,interv))/det(getA_Be(i,interv)));
     vpa(value,4)
 end
 
 disp('abs( det(A_MV)/det(A_BS) )')
 
-for i=1:7
+for i=1:n_max
     value=abs(det(getA_MV(i,interv))/det(getA_BS(i,interv)));
     vpa(value,4)
+end
+%%
+disp('All')
+clc
+for n=[1:n_max 12 14 16 18 20]
+    fprintf('----n=%d\n',n)
+    detAMV_Approx=abs(det(getA_MV_Approx(n,interv)));
+    if(n<=7)
+    detAMV=abs(det(getA_MV(n,interv)));
+    else
+        detAMV=nan;
+    end
+    
+    b=abs(detAMV_Approx/det(getA_Be(n,interv)));
+    c=abs(detAMV_Approx/det(getA_BS(n,interv)));
+    vpa([detAMV ; detAMV_Approx; log10(b); log10(c)],3)
 end
 
 %% Print all the roots
@@ -168,6 +192,25 @@ lgd.Position = [0.9,0.9,1,0.3].*lgd.Position;
 
 
 %exportAsPdf(gcf,name_figure)
+
+%% Plot the MINVO basis functions for high degrees
+
+figure;
+font_size_title=12;
+index_plot=1;
+all_degrees=[10,16,24,30];%:5:30;
+
+for degree=all_degrees
+   subplot(1,numel(all_degrees),index_plot);
+   fplot(getA_MV(degree,interv)*getT(degree,t),interv);
+   xlabel('t'); ylim([0,inf]);
+   title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title )
+   box on
+   index_plot=index_plot+1;
+end
+
+% set(gcf, 'Position',  [966         450        1378         191])
+% exportAsPdf(gcf,'plots_basis_high_degree')
 
 %% RESULT for 2D for a given polynomial
 figure; hold on;
@@ -946,6 +989,31 @@ end
 title('\textbf{Roots of the MINVO basis functions}'); xlabel('t');
 % exportAsPdf(gcf,'roots_distribution');
 
+%% Distribution of roots for many different n, including high degrees
+figure;hold on;
+n_max=20;
+for n=1:n_max
+    MV_points=getAllRoots_MV(n,interv);
+    color_MV=[123,218,104]/255; %[178,238,166]/255;
+    delta=0.05;
+    y_pos=delta*(n_max-n+1);
+    plot(MV_points,y_pos*ones(size(MV_points)),'-o','MarkerEdgeColor','k', 'MarkerFaceColor', color_MV,'Color',color_MV,'MarkerSize',5,'LineWidth',1.2);
+    h = gca; h.YAxis.Visible = 'off';
+    ylim([0,delta*(n+0.6)])
+    if(n<=9)
+        x_pos=1.06;
+    else
+        x_pos=1.05;
+    end
+    text(x_pos,y_pos,(['',num2str(n),'']),'FontSize',11)
+     
+end
+
+title('\textbf{Roots of the MINVO basis functions}'); xlabel('t');
+text(1.055,delta*(n_max+1.5),(['\textbf{n}']),'FontSize',11)
+
+% set(gcf, 'Position',  [7.9167    6.8438    9.5625    3.6979])
+% exportAsPdf(gcf,'roots_distribution_all_matlab');
 
 %% Embeddings with k=3, different n and m
 figure; hold on; set(gcf, 'Position',  [500, 500, 3000, 2000])
@@ -1035,6 +1103,71 @@ fplot(curve_projected(1),curve_projected(2),interv,'r','LineWidth',linewidth,'Me
 axis equal; axis off;title('$\pi_0$');
 
 % exportAsSvg(gcf,'projections_matlab');
+
+%%  Plot of more projections
+
+%From R^6 to R^2
+subplot(1,2,1); hold on;
+degree_init=6;
+degree_end=2;
+A=getA_MV(degree_init,interv);
+p=A(2:end,:)*getT(degree_init,t);
+proj=projectOntoPlaneXEquals0(p,degree_end);
+plotStandardSimplex2D('g')
+fplot(proj(1),proj(2),interv,'r','LineWidth',2,'MeshDensity',200);
+title(['$\bf{R}^{', num2str(degree_init),'} \rightarrow \bf{R}^{', num2str(degree_end),'}$'])
+axis off; axis equal;
+
+%From R^10 to R^2
+subplot(1,2,2); hold on;
+degree_init=10;
+degree_end=2;
+A=getA_MV(degree_init,interv);
+p=A(2:end,:)*getT(degree_init,t);
+proj=projectOntoPlaneXEquals0(p,degree_end);
+plotStandardSimplex2D('g')
+fplot(proj(1),proj(2),interv,'r','LineWidth',2,'MeshDensity',200);
+title(['$\bf{R}^{', num2str(degree_init),'} \rightarrow \bf{R}^{', num2str(degree_end),'}$'])
+axis off; axis equal;
+exportAsSvg(gcf,'projections_higher_degree2d_matlab');
+
+%From R^5 to R^3
+figure
+subplot(1,2,1); hold on;
+degree_init=5;
+degree_end=3;
+A=getA_MV(degree_init,interv);
+p=A(2:end,:)*getT(degree_init,t);
+proj=projectOntoPlaneXEquals0(p,degree_end);
+plotStandardSimplex3D('g',0.02)
+fplot3(proj(1),proj(2),proj(3),interv,'r','LineWidth',2,'MeshDensity',200);
+title(['$\bf{R}^{', num2str(degree_init),'} \rightarrow \bf{R}^{', num2str(degree_end),'}$'])
+view([108,14.8])
+length_arrow=1.3;
+arrow3d([0 0 0],[0 0 length_arrow],20,'cylinder',[0.1,0.1]);
+arrow3d([0 0 0],[0 length_arrow 0],20,'cylinder',[0.1,0.1]);
+arrow3d([0 0 0],[length_arrow 0 0],20,'cylinder',[0.1,0.1]);
+axis off;
+
+%From R^12 to R^3
+subplot(1,2,2); hold on;
+degree_init=12;
+degree_end=3;
+A=getA_MV(degree_init,interv);
+p=A(2:end,:)*getT(degree_init,t);
+proj=projectOntoPlaneXEquals0(p,degree_end);
+plotStandardSimplex3D('g',0.02)
+fplot3(proj(1),proj(2),proj(3),interv,'r','LineWidth',2,'MeshDensity',200);
+title(['$\bf{R}^{', num2str(degree_init),'} \rightarrow \bf{R}^{', num2str(degree_end),'}$'])
+view([108,14.8])
+length_arrow=1.3;
+arrow3d([0 0 0],[0 0 length_arrow],20,'cylinder',[0.1,0.1]);
+arrow3d([0 0 0],[0 length_arrow 0],20,'cylinder',[0.1,0.1]);
+arrow3d([0 0 0],[length_arrow 0 0],20,'cylinder',[0.1,0.1]);
+axis off;
+
+% set(gcf, 'Position',  [966         200        1178         391])
+% exportAsSvg(gcf,'projections_higher_degree3d_matlab');
 
 %% CONE OF POSITIVE POLYNOMIALS FOR n=2
 

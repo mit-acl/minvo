@@ -36,7 +36,7 @@ function [A rootsA]=getA_MV_Approx(n,interv)
 %     b_solved=solve(sum(diag(b)*C*tt)==ones(1,n+1))
 %     A=double(diag(subs(b,b_solved))*C);
     
-    norm(sum(A)-ee')
+%     norm(sum(A)-ee');
 %     assert(norm(sum(A)-ee')<1e-3);
 
 end

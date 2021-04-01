@@ -61,7 +61,7 @@ end
 xdata=all(:,1:(end-1));
 
 zdata=all(:,end); %value
-b0 = 100*rand(1,4);%-amplitude/2.0;
+b0 = 100*rand(1,3);%-amplitude/2.0;
 
 % [b,resnorm,residual] = lsqcurvefit(@fun,b0,xdata,zdata,[],[],optimoptions('lsqcurvefit','Algorithm','levenberg-marquardt'));
 % opts = optimoptions('fmincon','Algorithm','sqp','MaxIterations',10000,'StepTolerance',1e-9);
