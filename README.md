@@ -10,7 +10,7 @@ MINVO roots:
 
 ## Citation
 
-When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://youtu.be/x5ORkDCe4O0)):
+When using MINVO, please cite this paper ([video](https://youtu.be/x5ORkDCe4O0)):
 
 ```bibtex
 @article{tordesillas2020minvo,
