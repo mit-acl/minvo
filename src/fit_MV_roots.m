@@ -68,6 +68,8 @@ b0 = 100*rand(1,3);%-amplitude/2.0;
 problem = createOptimProblem('lsqcurvefit','x0',b0,'objective',@fun,'lb',[],'ub',[],'xdata',xdata,'ydata',zdata);%,'options',opts
 ms = MultiStart('PlotFcns',@gsplotbestf,'Display','iter','UseParallel',true);
 [b,errormulti] = run(ms,problem,2550) %b will contain the parameters fitted
+%Note that errormulti is norm(fun(b, xdata)-zdata)^2
+%%
 
 for n=2:n_max
     figure(1);

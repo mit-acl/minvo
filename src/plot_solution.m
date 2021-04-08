@@ -32,7 +32,7 @@ T7=[t^7 T6']';
 
 %% Print the ratios of the determinants:
 disp('abs( det(A_MV) )')
-n_max=10;
+n_max=8;
 for i=1:n_max
     value=abs(det(getA_MV(i,interv)));
     vpa(value,4)
@@ -55,7 +55,8 @@ end
 %%
 disp('All')
 clc
-for n=[1:n_max 12 14 16 18 20]
+relative_errors=[]
+for n=[1:n_max 10 14 18]
     fprintf('----n=%d\n',n)
     detAMV_Approx=abs(det(getA_MV_Approx(n,interv)));
     if(n<=7)
@@ -63,6 +64,8 @@ for n=[1:n_max 12 14 16 18 20]
     else
         detAMV=nan;
     end
+    
+    relative_errors=[relative_errors, (abs(detAMV_Approx-detAMV))/detAMV];
     
     b=abs(detAMV_Approx/det(getA_Be(n,interv)));
     c=abs(detAMV_Approx/det(getA_BS(n,interv)));
