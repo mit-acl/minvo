@@ -4,6 +4,10 @@ Example for n=3:
 
 [![](./imgs/minvo3d.png)](https://www.youtube.com/watch?v=f_JOYud9LUU) 
 
+MINVO roots:
+
+[![](./imgs/MINVO_roots.png)](https://www.youtube.com/watch?v=f_JOYud9LUU) 
+
 ## Citation
 
 When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://youtu.be/x5ORkDCe4O0)):
