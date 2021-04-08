@@ -6,7 +6,7 @@ Example for n=3:
 
 ## Citation
 
-When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://www.youtube.com/watch?v=f_JOYud9LUU)):
+When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://youtu.be/x5ORkDCe4O0)):
 
 ```bibtex
 @article{tordesillas2020minvo,
