@@ -2,11 +2,11 @@
 
 Example for n=3:
 
-[![](./imgs/minvo3d.png)](https://www.youtube.com/watch?v=f_JOYud9LUU) 
+[![](./imgs/minvo3d.png)](https://www.youtube.com/watch?v=x5ORkDCe4O0) 
 
 MINVO roots:
 
-[![](./imgs/MINVO_roots.png)](https://www.youtube.com/watch?v=f_JOYud9LUU) 
+[![](./imgs/MINVO_roots.png)](https://www.youtube.com/watch?v=x5ORkDCe4O0) 
 
 ## Citation
 
