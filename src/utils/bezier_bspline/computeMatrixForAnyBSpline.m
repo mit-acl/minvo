@@ -1,4 +1,27 @@
+%  clc; clear;
+% computeMatrixForAnyBSpline_buena(4,3,[0 0 0 0 1 1 1 1],[0,1])
+% 
+% deg=3;
+% index_t_start=4;
+% knots=[0 1 2 3 4 5 6];
+% interval=[0,1];
+
 function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
+
+M=getM(deg, index_t_start, knots,interval);
+
+%And now change the order of the rows/columns to the convention I use
+A=[];
+for i=1:size(M,1) 
+    A=[M(i,:)'  A];
+end
+
+
+A=convertCoeffMatrixFromABtoCD(A,[0,1],interval); 
+
+end
+
+function M=getM(deg, index_t_start, knots,interval)
 
 %index_t_start is 1-based
 
@@ -11,78 +34,53 @@ function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
 
 % i=3;
 
-if(deg==0)
-    A=1;
-elseif(deg==1)
-    M=[1 0; -1 1];
-    %And now change it to the convention I use
-    A=[M(2,:)' M(1,:)'];
-    
-elseif(deg==2)
-    
-    j=index_t_start;
-    ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
-    
-    m00=(tiP1-ti)/(tiP1-tiM1);
-    m01=(ti-tiM1)/(tiP1-tiM1);
-    m02=0.0;
-    
-    m10=-2*(tiP1-ti)/(tiP1-tiM1);
-    m11=2*(tiP1-ti)/(tiP1-tiM1);
-    m12=0.0;
-    
-    m20=(tiP1-ti)/(tiP1-tiM1);
-    m21= -(tiP1-ti)*(   (1/(tiP1-tiM1))  + (1/(tiP2-ti)) );
-    m22=(tiP1-ti)/(tiP2-ti); %Note that I think there is a typo in the paper mentioned above in this term (says tiM1 in the denominator, but I think it's ti (if not the row of M doesn't sum 0)
-    
-    M=[m00 m01 m02;
-    m10 m11 m12;
-    m20 m21 m22];
+if(deg>0)
+    Mkm1=getM(deg-1, index_t_start, knots,interval);
 
-    %And now change it to the convention I use
-    A=[M(3,:)' M(2,:)' M(1,:)'];
-
-elseif(deg==3)
     
-    j=index_t_start;
-    ti=knots(j); tiP1=knots(j+1); tiP2=knots(j+2); tiP3=knots(j+3); tiM1=knots(j-1); tiM2=knots(j-2);
+    k=deg+1;
+    i=index_t_start-1;
+   
+
+    d0_vector=[];
+%     d0_vector_debeser=[];
+    for jj=0:(k-2)
+        j=i-k+2+jj;
+        d0_vector=[d0_vector getd0(i,j,k,knots)]; 
+%         d0_vector_debeser=[d0_vector_debeser (i-j)/(k-1)]; 
+    end
+       
+   d1_vector=[];
+%    d1_vector_debeser=[];
+   for jj=0:(k-2)
+        d1_vector=[d1_vector getd1(i,i-k+2+jj,k,knots)]; 
+%         d1_vector_debeser=[d1_vector_debeser 1/(k-1)]; 
+    end
     
-    m00=((tiP1-ti)^2)/((tiP1-tiM1)*(tiP1-tiM2));
-    m02=((ti-tiM1)^2)/((tiP2 -tiM1)*(tiP1 -tiM1));
-    m01=1-m00-m02;
-    m03=0;
-
-    m10=-3*m00; 
-    m12 =3*(tiP1-ti)*(ti-tiM1)/((tiP2-tiM1)*(tiP1 -tiM1));
-    m11 =3*m00-m12;
-    m13=0;
-
-    m20 = 3*m00; 
-    m22 = 3*((tiP1-ti)^2)/((tiP2-tiM1)*(tiP1 -tiM1));
-    m21 = -3*m00-m22;
-    m23= 0;
-
-
-    m30 = -m00;
-    m33= ((tiP1-ti)^2)/((tiP3-ti)*(tiP2-ti));
-    m32 = -m22/3 - m33 - ((tiP1-ti)^2)/((tiP2-ti)*(tiP2-tiM1));
-    m31 = m00-m32-m33;
-    M=[m00 m01 m02 m03;
-       m10 m11 m12 m13;
-       m20 m21 m22 m23;
-       m30 m31 m32 m33];
-
-    %And now change it to the convention I use
-    A=[M(4,:)' M(3,:)' M(2,:)' M(1,:)'];
+    %d0_vector should have (k-1) elements
     
+    Mk=[Mkm1; zeros(1,size(Mkm1,2))]*[diag([1-d0_vector])+(k>2)*diag([d0_vector(1:end-1)],1)  [zeros(k-2,1);d0_vector(end)]]+...
+      +[zeros(1,size(Mkm1,2)); Mkm1]*[diag([-d1_vector])+(k>2)*diag([d1_vector(1:end-1)],1)  [zeros(k-2,1);d1_vector(end)]]   ;
+    
+    M=Mk;
 else
-    error("Not implemented yet")
-    
+    M=1;
 end
 
 
-%A is expressed in t\in[0,1] at this point 
 
-A=convertCoeffMatrixFromABtoCD(A,[0,1],interval); 
 
 end
+
+function result=getd0(i,j,k,knots)
+    result=(knots(i+1)-knots(j+1))/(knots(j+k-1+1)-knots(j+1)); %Note that +1 is added due to the Matlab 1-indexing
+end
+
+function result=getd1(i,j,k,knots)
+    result=(knots(i+1+1)-knots(i+1))/(knots(j+k-1+1)-knots(j+1));%Note that +1 is added due to the Matlab 1-indexing
+end
+
+%    Mkm1=[1 0;-1 1];
+%    Mkm1=[ 0.5000    0.5000         0;
+%           -1.0000    1.0000         0;
+%            0.5000   -1.0000    0.5000];
