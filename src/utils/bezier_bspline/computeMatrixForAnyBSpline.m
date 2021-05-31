@@ -1,11 +1,3 @@
-%  clc; clear;
-% computeMatrixForAnyBSpline_buena(4,3,[0 0 0 0 1 1 1 1],[0,1])
-% 
-% deg=3;
-% index_t_start=4;
-% knots=[0 1 2 3 4 5 6];
-% interval=[0,1];
-
 function A=computeMatrixForAnyBSpline(deg, index_t_start, knots,interval)
 
 M=getM(deg, index_t_start, knots,interval);
@@ -30,9 +22,8 @@ function M=getM(deg, index_t_start, knots,interval)
 %Following the notation from
 %https://link.springer.com/article/10.1007/s003710050206 
 %("General matrix representations for B-splines"
-% See bottom box page 181
+% See Theorem 1 of page 180
 
-% i=3;
 
 if(deg>0)
     Mkm1=getM(deg-1, index_t_start, knots,interval);
@@ -43,21 +34,15 @@ if(deg>0)
    
 
     d0_vector=[];
-%     d0_vector_debeser=[];
     for jj=0:(k-2)
         j=i-k+2+jj;
         d0_vector=[d0_vector getd0(i,j,k,knots)]; 
-%         d0_vector_debeser=[d0_vector_debeser (i-j)/(k-1)]; 
     end
        
    d1_vector=[];
-%    d1_vector_debeser=[];
    for jj=0:(k-2)
         d1_vector=[d1_vector getd1(i,i-k+2+jj,k,knots)]; 
-%         d1_vector_debeser=[d1_vector_debeser 1/(k-1)]; 
-    end
-    
-    %d0_vector should have (k-1) elements
+   end
     
     Mk=[Mkm1; zeros(1,size(Mkm1,2))]*[diag([1-d0_vector])+(k>2)*diag([d0_vector(1:end-1)],1)  [zeros(k-2,1);d0_vector(end)]]+...
       +[zeros(1,size(Mkm1,2)); Mkm1]*[diag([-d1_vector])+(k>2)*diag([d1_vector(1:end-1)],1)  [zeros(k-2,1);d1_vector(end)]]   ;
@@ -84,3 +69,11 @@ end
 %    Mkm1=[ 0.5000    0.5000         0;
 %           -1.0000    1.0000         0;
 %            0.5000   -1.0000    0.5000];
+
+%  clc; clear;
+% computeMatrixForAnyBSpline_buena(4,3,[0 0 0 0 1 1 1 1],[0,1])
+% 
+% deg=3;
+% index_t_start=4;
+% knots=[0 1 2 3 4 5 6];
+% interval=[0,1];
