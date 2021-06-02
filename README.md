@@ -13,11 +13,11 @@ MINVO roots:
 When using MINVO, please cite this paper ([pdf](https://arxiv.org/abs/2010.10726), [video](https://youtu.be/x5ORkDCe4O0)):
 
 ```bibtex
-@article{tordesillas2020minvo,
+@article{tordesillas2021minvo,
   title={{MINVO} basis: Finding simplexes with minimum volume enclosing polynomial curves},
   author={Tordesillas, Jesus and How, Jonathan P},
   journal={arXiv preprint arXiv:2010.10726},
-  year={2020}
+  year={2021}
 }
 ```
 
