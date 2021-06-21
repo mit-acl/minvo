@@ -106,6 +106,8 @@ set(gcf, 'Position',  [500, 500, 2000, 2500])
 
 font_size_title=12;
 
+lw=2.0;
+
 for degree=1:4
    
    T=[];
@@ -115,26 +117,26 @@ for degree=1:4
 
 
    subplot(n_rows,n_cols,degree);
-   fplot(getA_MV(degree,interv)*T,interv);
+   fplot(getA_MV(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title )
    box on
    
    subplot(n_rows,n_cols,n_cols+degree);
-   fplot(getA_Be(degree,interv)*T,interv);
+   fplot(getA_Be(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
       
    subplot(n_rows,n_cols,2*n_cols+degree);
-   fplot(getA_BS(degree,interv)*T,interv);
+   fplot(getA_BS(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{B-Spline, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,3*n_cols+degree);
-   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv);
+   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv,'LineWidth',lw);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
@@ -151,26 +153,26 @@ for degree=5:7 %TODO: Add 8
     end
 
    subplot(n_rows,n_cols,4*n_cols+1+(degree-5));
-   fplot(getA_MV(degree,interv)*T,interv);
+   fplot(getA_MV(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,5*n_cols+1+(degree-5));
-   fplot(getA_Be(degree,interv)*T,interv);
+   fplot(getA_Be(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{Bernstein, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    
    subplot(n_rows,n_cols,6*n_cols+1+(degree-5));
-   fplot(getA_BS(degree,interv)*T,interv);
+   fplot(getA_BS(degree,interv)*T,interv,'LineWidth',lw);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{B-Spline, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
    
    subplot(n_rows,n_cols,7*n_cols+1+(degree-5));
-   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv);
+   fplot(lagrangePoly(linspace(min(interv),max(interv),degree+1))*T,interv,'LineWidth',lw);
    xlabel('t'); %ylim([0,inf]);
    title(strcat('\textbf{Lagrange, n=',num2str(degree),'}'),'FontSize',font_size_title)
    box on
@@ -182,7 +184,7 @@ end
 % set(gca, 'Position',[0.7813, 0.1100, 0.0371, 0.8150]);
 
 sp_hand1=subplot(n_rows,n_cols,[20, 24, 28])
-plot(0,0,  0,0,  0,0,  0,0,  0,0,  0,0, 0,0 ,0,0,  0,0)
+plot(0,0,  0,0,  0,0,  0,0,  0,0,  0,0, 0,0 ,0,0,  0,0,'LineWidth',lw)
 axis off
 lgd=legend('$\lambda_0(t)$','$\lambda_1(t)$','$\lambda_2(t)$','$\lambda_3(t)$','$\lambda_4(t)$','$\lambda_5(t)$','$\lambda_6(t)$','$\lambda_7(t)$')
 lgd.FontSize = 17;
@@ -194,7 +196,7 @@ lgd.Position = [0.9,0.9,1,0.3].*lgd.Position;
 % set(sp_hand1, 'Position',new_pos1 ) % set new position of current sub - plot
 
 
-%exportAsPdf(gcf,name_figure)
+exportAsPdf(gcf,'plots_basis')
 
 %% Plot the MINVO basis functions for high degrees
 
@@ -205,15 +207,15 @@ all_degrees=[10,16,24,30];%:5:30;
 
 for degree=all_degrees
    subplot(1,numel(all_degrees),index_plot);
-   fplot(getA_MV(degree,interv)*getT(degree,t),interv);
+   fplot(getA_MV(degree,interv)*getT(degree,t),interv,'LineWidth',1.5);
    xlabel('t'); ylim([0,inf]);
    title(strcat('\textbf{MINVO, n=',num2str(degree),'}'),'FontSize',font_size_title )
    box on
    index_plot=index_plot+1;
 end
 
-% set(gcf, 'Position',  [966         450        1378         191])
-% exportAsPdf(gcf,'plots_basis_high_degree')
+set(gcf, 'Position',  [966         450        1378         191])
+exportAsPdf(gcf,'plots_basis_high_degree')
 
 %% RESULT for 2D for a given polynomial
 figure; hold on;
