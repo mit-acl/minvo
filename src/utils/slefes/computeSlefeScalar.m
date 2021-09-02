@@ -1,3 +1,16 @@
+%Author: Jesus Tordesillas, jtorde@mit.edu, September 2021
+
+%This code follows closely Sec. 3.3 of the paper "Threading Splines through 3D channels"
+
+%Other related papers:
+   % Efficient Pixel-Accurate Rendering of Curved Surfaces
+   % SLEVEs for planar spline curves
+   % Efficient Pixel-Accurate Rendering of Curved Surfaces
+   % Package SubLiME (subdividable linear maximum-norm enclosure) package, downloadable from   http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
+
+%This function has been tested (to check for correctness) against the result pproduced by the "uniexample.c" function of http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
+
+   
 function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, interv)
 
 
@@ -23,15 +36,14 @@ function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, int
     A_Be=getA_Be(deg,interv); 
     V=P*inv(A_Be);
     
-    l=(1-t_break_points)*V(1)+t_break_points*V(end); %Eq. 2 of "Efficient Pixel-Accurate Rendering of Curved Surfaces"
-    
-    
+%     l=(1-t_break_points)*V(1)+t_break_points*V(end); 
+        
     %auxiliary variables
     x1=t_break_points(1);  x2=t_break_points(end);
     y1=V(1);               y2=V(end);
     
     l=((y2-y1)/(x2-x1))*(t_break_points-x1)  + y1;  %Linear interpolation between (x1,y1) and (x2,y2) (i.e., between the first and last Bezier control points)
-    
+                                                    %See paragraph above Eq. 1 in Sec. 3.3 of paper "Threading Splines through 3D channels"
     p_up=l;
     p_down=l;
     
@@ -39,14 +51,16 @@ function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, int
         
         %auxiliary variables
         tmp=(j-1)*2*(num_break_points)+1;
-        delta2jp=(V(j)-2*V(j+1)+V(j+2));
+        second_diff=(V(j)-2*V(j+1)+V(j+2)); %See Equation below Fig. 6 in Sec. 3.3 of paper "Threading Splines through 3D channels"
+                                            %Note that Matlab uses 1-indexing
+        
         
         a_jdm_up=   data( tmp:(tmp+num_break_points-1) )';
         a_jdm_down= data( (tmp+num_break_points):(tmp+2*num_break_points-1) )';
         
-        %Eq. 2 of "Efficient Pixel-Accurate Rendering of Curved Surfaces" 
-        p_up=   p_up+ max(0,delta2jp)*a_jdm_up + min(0,delta2jp)*a_jdm_down; 
-        p_down= p_down+ min(0,delta2jp)*a_jdm_up + max(0,delta2jp)*a_jdm_down; 
+        %See equations below Eq. 1 in Sec. 3.3 of paper "Threading Splines through 3D channels"
+        p_up=   p_up+ max(0,second_diff)*a_jdm_up + min(0,second_diff)*a_jdm_down; 
+        p_down= p_down+ min(0,second_diff)*a_jdm_up + max(0,second_diff)*a_jdm_down; 
     end
 
 end

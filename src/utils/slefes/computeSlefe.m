@@ -1,5 +1,7 @@
-%The function (and hence "computeSlefeScalar" as well) has been tested (to check for correctness) against the result
-%produced by "uniexample.c" function of http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
+%Author: Jesus Tordesillas, jtorde@mit.edu, September 2021
+
+%This function (and hence "computeSlefeScalar" as well) has been tested (to check for correctness) against the result
+%produced by the "uniexample.c" function of http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
 
 function breakpoints=computeSlefe(P, num_seg, interv)
 
