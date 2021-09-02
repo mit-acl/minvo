@@ -1,0 +1,9 @@
+SubLiME -- Subdividable Linear Max-norm Enclosure
+Copyright (C) 2002 SurfLab, University of Florida.
+
+This program is free for educational/research purpose.
+You will need to gain permissions from authors before you
+can use this program for any commercial usage.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY. 
