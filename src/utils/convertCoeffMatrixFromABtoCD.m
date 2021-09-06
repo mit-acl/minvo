@@ -7,7 +7,16 @@
 %  * -------------------------------------------------------------------------- */
 
 %P expressed in [a,b] --> P expressed in [c,d]
-function P_converted=convertCoeffMatrixFromABtoCD(P,ab,cd)
+
+%Note that the spatial curve is the same one. I.e., denoting Pt=P*T  and  P_converted_t=P_converted*T
+%        fplot(Pt(1,:),Pt(2,:), [a,b]);   and
+%        fplot(P_converted_t(1,:),P_converted_t(2,:), [c,d]);   
+%generate the same plots
+
+%In other words,  P_converted_t(c) = Pt(a)
+%                 P_converted_t(d) = Pt(b)
+% (and they also match in between)
+function P_converted=convertCoeffMatrixFromABtoCD(P,ab,cd) 
 
 syms t tt
 
