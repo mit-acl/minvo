@@ -1,20 +1,16 @@
 close all; clear; clc;
 
-addpath(genpath('./utils'));
-addpath(genpath('./solutions'));
-
+addpath(genpath('./utils')); addpath(genpath('./solutions'));
 set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
-set(0,'defaulttextInterpreter','latex');
-set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
-set(0,'defaultfigurecolor',[1 1 1])
+set(0,'defaulttextInterpreter','latex'); set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex'); set(0,'defaultfigurecolor',[1 1 1])
+
 
 interv=[-1,1];
 
 all_deg=2:9;%
 all_seg=1:9;
-
-export_figures=false;
-
+%% Plot enclosures for random 2D curves
+export_figures=true;
 for deg=all_deg
 
 figure;
@@ -32,7 +28,7 @@ P=generateRandPol(deg,interv);
 % [vertices_raw, area_union, vertices_union]=myfunction(P, 'MV',interv, num_seg)
 subplot(3,num_col_plots,j);
 [num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'MV', interv, num_seg, true);
-x_lim_fig=xlim; y_lim_fig=ylim; text(0.5,1.3,['\textbf{num div} \boldmath{$=',num2str(num_seg),'$}'],'HorizontalAlignment','center','Units','normalized')
+text(0.5,1.3,[' \boldmath{$h=',num2str(num_seg),'$}'],'HorizontalAlignment','center','Units','normalized')
 
 subplot(3,num_col_plots,num_col_plots+j);
 [num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Be', interv, num_seg, true);
@@ -44,10 +40,10 @@ end
 
 
 subplot(3,num_col_plots,1)
-x_lim_fig=xlim; y_lim_fig=ylim; ht = text(-0.1,0.5,'\textbf{MINVO}','HorizontalAlignment','center','Units','normalized'); set(ht,'Rotation',90)
+ht = text(-0.1,0.5,'\textbf{MINVO}','HorizontalAlignment','center','Units','normalized'); set(ht,'Rotation',90)
 
 subplot(3,num_col_plots,num_col_plots+1)%x_lim_fig(1)-0.1*(x_lim_fig(2)-x_lim_fig(1)),mean(y_lim_fig)
-x_lim_fig=xlim; y_lim_fig=ylim; ht = text(-0.1,0.5,'\textbf{B\''ezier}','HorizontalAlignment','center','Units','normalized' ); set(ht,'Rotation',90)
+ht = text(-0.1,0.5,'\textbf{B\''ezier}','HorizontalAlignment','center','Units','normalized' ); set(ht,'Rotation',90)
 
 subplot(3,num_col_plots,2*num_col_plots+1)
 x_lim_fig=xlim; y_lim_fig=ylim; ht = text(-0.1,0.5,'\textbf{SLEFE}','HorizontalAlignment','center','Units','normalized' ); set(ht,'Rotation',90)
@@ -55,47 +51,14 @@ x_lim_fig=xlim; y_lim_fig=ylim; ht = text(-0.1,0.5,'\textbf{SLEFE}','HorizontalA
 set(gcf,'Position',[413         608        1638         400])
 
 if(export_figures)
-    exportAsPdf(gcf,['comparison_sleves_deg_',num2str(deg)]);
+    exportAsPdf(gcf,['comparison_slefes_deg_',num2str(deg)]);
 end
 
 end
 
-%%
-% all_MV=[]; all_Be=[]; all_Slefe=[];
-% 
-% 
-% for i=1:1000
-%     i
-% num_seg=3;
-% deg=randi([min(all_deg),max(all_deg)],1);
-% P=generateRandPol(deg,interv);
-% 
-% [a, b, c, d]=myfunction(P, 'MV', interv, num_seg, false); all_MV=[all_MV; [a, b, c, d]];
-% [a, b, c, d]=myfunction(P, 'Be', interv, num_seg, false); all_Be=[all_Be; [a, b, c, d]];
-% [a, b, c, d]=myfunction(P, 'Slefe', interv, num_seg, false); all_Slefe=[all_Slefe; [a, b, c, d]];
-% 
-% end
 
-%%
-% close all; clc
-% figure; hold on;
-% x=[all_MV(:,3),all_Be(:,3),all_Slefe(:,3)*0.0];
-% boxplot(x,'symbol','','Labels',{'MINVO','B\''ezier','Slefe'}); title('Area hull');
-% hAx=gca; hAx.XAxis.TickLabelInterpreter='latex'; hAx.YAxis.TickLabelInterpreter='latex';
-% disp('Area hull, Mean, std')
-% mean(x)
-% std(x)
-% 
-% figure; hold on;
-% x=[all_MV(:,4),all_Be(:,4),all_Slefe(:,4)*0.0];
-% boxplot(x,'symbol','','Labels',{'MINVO','B\''ezier','Slefe'}); title('Area union');
-% hAx=gca; hAx.XAxis.TickLabelInterpreter='latex'; hAx.YAxis.TickLabelInterpreter='latex';
-% disp('Area union, Mean, std')
-% mean(x)
-% std(x)
-
-%%
-
+%%  MonteCarlo analysis for many random polynomialss
+%   NOTE: THIS SECTION TAKES ~25 MIN to finish. If you simply want to generate the plots, you can load "data_comparison_slefes.mat" in ./other folder
 all_MV.num_vertices_raw=zeros(numel(all_seg),numel(all_deg));
 all_MV.area_union=zeros(numel(all_seg),numel(all_deg));
 all_MV.num_vertices_union=zeros(numel(all_seg),numel(all_deg));
@@ -116,7 +79,8 @@ for deg=all_deg
         counter
         
         tmp_MV=[];    tmp_Be=[];    tmp_Slefe=[];
-        for i=1:1
+        for i=1:100
+            i
             P=generateRandPol(deg,interv);
             [a, b, c, d, ee]=myfunction(P, 'MV', interv, num_seg, false); tmp_MV=[tmp_MV; [a, b, c, d, ee]];
             [a, b, c, d, ee]=myfunction(P, 'Be', interv, num_seg, false); tmp_Be=[tmp_Be; [a, b, c, d, ee]];
@@ -150,65 +114,58 @@ end
 
 %%
 close all;
-n_col=4;
-subplot(2,n_col,1);
-matrix_value=all_Be.area_union./all_MV.area_union;
-imagesc(matrix_value); title ('Area Union'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value); caxis([0 4])
+n_col=4;  size_titles=12;
 
+%Area union
+subplot(2,n_col,1);        plotMatrix(all_Be.area_union./all_MV.area_union, '$r=\frac{[\mathrm{Area}_\mathrm{union,\;Be}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$',all_deg, all_seg);
+text(0.5,1.1,'\textbf{Area union}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
+
+subplot(2,n_col,n_col+1);  plotMatrix(all_Slefe.area_union./all_MV.area_union, '$r=\frac{[\mathrm{Area}_\mathrm{union,\;SLEFE}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$',all_deg, all_seg);
+
+%Area hull
+subplot(2,n_col,2);        plotMatrix(all_Be.area_hull./all_MV.area_hull, '$r=\frac{[\mathrm{Area}_\mathrm{hull,\;Be}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
+text(0.5,1.1,'\textbf{Area hull}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
+
+subplot(2,n_col,n_col+2);  plotMatrix(all_Slefe.area_hull./all_MV.area_hull, '$r=\frac{[\mathrm{Area}_\mathrm{hull,\;SLEFE}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
+
+%Num vertices union
+subplot(2,n_col,3);        plotMatrix(all_Be.num_vertices_union./all_MV.num_vertices_union, '$r=\frac{[\mathrm{Vert}_\mathrm{union,\;Be}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$',all_deg, all_seg);
+text(0.5,1.1,'\textbf{Num. vertices union}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
+
+subplot(2,n_col,n_col+3);  plotMatrix(all_Slefe.num_vertices_union./all_MV.num_vertices_union, '$r=\frac{[\mathrm{Vert}_\mathrm{union,\;SLEFE}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$',all_deg, all_seg);
+
+%Num vertices hull
+subplot(2,n_col,4);        plotMatrix(all_Be.num_vertices_hull./all_MV.num_vertices_hull, '$r=\frac{[\mathrm{Vert}_\mathrm{hull,\;Be}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
+text(0.5,1.1,'\textbf{Num. vertices hull}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
+
+subplot(2,n_col,n_col+4);  plotMatrix(all_Slefe.num_vertices_hull./all_MV.num_vertices_hull, '$r=\frac{[\mathrm{Vert}_\mathrm{hull,\;SLEFE}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
+
+
+subplot(2,n_col,1); 
+ht = text(-0.3,0.5,'\textbf{MINVO vs. B\''ezier}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
 subplot(2,n_col,n_col+1);
-matrix_value=all_Slefe.area_union./all_MV.area_union;
-imagesc(matrix_value); title ('Area Union'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
+ht = text(-0.3,0.5,'\textbf{MINVO vs. SLEFE}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
 
-subplot(2,n_col,2);
-matrix_value=all_Be.area_hull./all_MV.area_hull;
-imagesc(matrix_value); title ('Area Hull'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
+set(gcf,'Position',[ 475         582        1619         586])
 
-subplot(2,n_col,n_col+2);
-matrix_value=all_Slefe.area_hull./all_MV.area_hull;
-imagesc(matrix_value); title ('Area Hull'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
-
-subplot(2,n_col,3);
-matrix_value=all_Be.num_vertices_union./all_MV.num_vertices_union;
-imagesc(matrix_value); title ('Num Vertices union'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
-
-subplot(2,n_col,n_col+3);
-matrix_value=all_Slefe.num_vertices_union./all_MV.num_vertices_union;
-imagesc(matrix_value); title ('Num Vertices union'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
-
-subplot(2,n_col,4);
-matrix_value=all_Be.num_vertices_hull./all_MV.num_vertices_hull;
-imagesc(matrix_value); title ('Num Vertices hull'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
-
-subplot(2,n_col,n_col+4);
-matrix_value=all_Slefe.num_vertices_hull./all_MV.num_vertices_hull;
-imagesc(matrix_value); title ('Num Vertices hull'); doLabelStuff(all_deg, all_seg); plotRectangles(matrix_value);
-
-
-%%
-% subplot(1,4,2)
-% imagesc(all_Be.area_union./all_MV.area_union); title ('Area Union');
-% doLabelStuff(all_deg, all_seg);
-% 
-% subplot(1,4,2)
-% imagesc(all_Be.num_vertices_raw./all_MV.num_vertices_raw); title ('num_vertices_raw');
-% doLabelStuff(all_deg, all_seg);
-
-% for i=1:1000
-%     i
-% num_seg=3;
-% deg=randi([min(all_deg),max(all_deg)],1);
-% P=generateRandPol(deg,interv);
-% 
-% [a, b, c, d]=myfunction(P, 'MV', interv, num_seg, false); all_MV=[all_MV; [a, b, c, d]];
-% [a, b, c, d]=myfunction(P, 'Be', interv, num_seg, false); all_Be=[all_Be; [a, b, c, d]];
-% [a, b, c, d]=myfunction(P, 'Slefe', interv, num_seg, false); all_Slefe=[all_Slefe; [a, b, c, d]];
-% 
-% end
+exportAsPdf(gcf,['comparison_slefes_colored_matrices']);
 
 %% Functions
 
-function plotRectangles(matrix_value)
+function plotMatrix(matrix_value, label_colorbar, all_deg, all_seg)
 
+imagesc(matrix_value); %title (title_string);
+
+%%%% Label Stuff
+xlabel('Degree $n$'); ylabel('Num. of intervals $h$');
+c=colorbar;  c.Label.Interpreter = 'latex'; c.Label.String = label_colorbar; c.TickLabelInterpreter= 'latex'; c.Label.FontSize=13;
+%set( c.Label,'Rotation',0);; set(c.Label,'HorizontalAlignment','left')
+
+xticklabels(sprintfc('%d',all_deg)); yticklabels(sprintfc('%d',all_seg)); %yticklabels(sprintfc('%d',flip(all_seg)));
+set(gca, 'YTick', 1:numel(all_seg)); set(gca, 'XTick', 1:numel(all_deg));
+%%%%
+
+%%%Plot rectangles
 hold on;
 for i=1:size(matrix_value,1)
     for j=1:size(matrix_value,2)
@@ -219,13 +176,9 @@ for i=1:size(matrix_value,1)
         end
     end
 end
-end
+%%%
 
-function doLabelStuff(all_deg, all_seg)
-xlabel('\textbf{Degree $n$}'); ylabel('\textbf{Num of intervals $h$}');
-c=colorbar; c.Label.String = 'r'; c.Label.Interpreter = 'latex'; c.TickLabelInterpreter= 'latex';
-xticklabels(sprintfc('%d',all_deg)); yticklabels(sprintfc('%d',all_seg)); %yticklabels(sprintfc('%d',flip(all_seg)));
-set(gca, 'YTick', 1:numel(all_seg)); set(gca, 'XTick', 1:numel(all_deg));
+
 end
 
 function  P=generateRandPol(deg,interv)
@@ -249,21 +202,17 @@ if(strcmp(basis,'Be'))
     A=getA_Be(n,interv); inv_A=inv(A);
     num_vertices_raw=(n+1)*num_seg -  (num_seg-1) ;
     color=[179,141,240]/255;
-    name_basis='\textbf{B\''ezier}';
 
 elseif(strcmp(basis,'MV'))
     A=getA_MV(n,interv); inv_A=inv(A);
     num_vertices_raw=(n+1)*num_seg;
     color=[123,218,104]/255;
-    name_basis='\textbf{MINVO}';
     
 elseif(strcmp(basis,'Slefe'))
     
     breakpoints=computeSlefe(P, num_seg, interv);
-    color=[255,141,59]/255;
-    
     num_vertices_raw=4*num_of_breakpts;
-    name_basis='\textbf{Slefe}';
+    color=[255,141,59]/255;    
     
 else
     error("Not implemented yet")
@@ -271,12 +220,9 @@ end
 
 poly_union=[];
 
-
-
 for i=1:(length(samples_t)-1)
     if(strcmp(basis,'Be')||strcmp(basis,'MV'))
-        a=samples_t(i);
-        b=samples_t(i+1);
+        a=samples_t(i);     b=samples_t(i+1);
         P_converted=convertCoeffMatrixFromABtoCD(P,[a,b],interv);
         V=P_converted*inv_A;
     elseif (strcmp(basis,'Slefe'))
@@ -303,16 +249,20 @@ area_union=area(poly_union);
 %                                  ...]
 
 
-vertices=filterVerticesPolyShape(poly_union);
-num_vertices_union=size(vertices,1);
-[k,area_hull] = convhull(vertices);
-num_vertices_hull=numel(k);
+vertices_union=filterVerticesPolyShape(poly_union);
+num_vertices_union=size(vertices_union,1);
+[k,area_hull] = convhull(vertices_union);
+num_vertices_hull=numel(unique(k));
+
+
+assert(num_vertices_hull<=num_vertices_union);
+assert(area_hull>=(1-1e-7)*area_union)
 
 if(do_plot)
     hold on; plot(poly_union,'FaceColor',color)
-    plot(vertices(:,1),vertices(:,2),'.k', 'MarkerSize',15)
+    plot(vertices_union(:,1),vertices_union(:,2),'.k', 'MarkerSize',15)
     plotCurve(P,interv); %axis off;
-    title(['Ve=[',num2str(num_vertices_raw),', ',num2str(num_vertices_union),'] Ar=[',formatNumber(area_hull),', ', formatNumber(area_union),']'],'FontSize',8.2)
+    title(['Ve=[',num2str(num_vertices_union),', ',num2str(num_vertices_hull),'] Ar=[',formatNumber(area_union),', ', formatNumber(area_hull),']'],'FontSize',8.2)
     box on;
     set(gca,'xtick',[]); set(gca,'xticklabel',[])
     set(gca,'ytick',[]); set(gca, 'yticklabel',[])
@@ -336,7 +286,7 @@ end
 function vertices=filterVerticesPolyShape(poly)
 
     vertices=poly.Vertices;
-    vertices(any(isnan(vertices), 2), :) = [];
+    vertices(any(isnan(vertices), 2), :) = []; %remove the rows with nnan
     vertices=uniquetol(vertices,'ByRows',true); %See https://www.mathworks.com/help/matlab/ref/uniquetol.html
 
 end
@@ -347,73 +297,5 @@ function plotCurve(P,interv)
     T=getT(deg,t);  fplot(P(1,:)*T,P(2,:)*T,interv,'r','LineWidth',2);
 end
 
-%%
-
-
-% deg=3;
-
-%Coefficients of the polynomial curve
-% P=[ -18.1250    9.3750   31.2500    6.2500  246.8750  274.3750
-%     -46.8750  -46.8750  281.2500  -93.7500 -234.3750  180.6250];
-
-% all_vertexes=[];%Its columns are the vertexes
-% for i=1:(length(t_breakpoints)-1)
-%     a=t_breakpoints(i);
-%     b=t_breakpoints(i+1);
-%     P_converted=convertCoeffMatrixFromABtoCD(P,[a,b],interv);
-%     A_MV=getA_MV(deg,interv); 
-%     V=P_converted*inv(A_MV);
-%     all_vertexes=[all_vertexes V];
-%     %plot_convex_hull(P_converted(1,:)',P_converted(2,:)',P_converted(3,:)',A,'b',0.0017);    
-% end
-% plot_splitted_convex_hulls(P,A_MV,interv,num_seg,'r',0.01)
-
-% A_MV=getA_MV(deg,interv); 
-% 
-% 
-% %%%%%%%%%%%%%%%%%%%%%%
-% A=A_MV;
-% num_of_intervals=num_seg;
-% color='r';
-% radius_sphere=0.01;
-%%%%%%%%%%%%%%%%%%%%%%%%
-% samples=[];
-% 
-% all_vertexes=[];%Its columns are the vertexes
-% vertices_union=
-% plot(poly_union.Vertices(:,1),poly_union.Vertices(:,2),'o')
-% figure;  hold on;
-%    plot(V(1,k),V(2,k))
-%     plot(poly_segment)
-%     plot(vertices_segment(1,:),vertices_segment(2,:),'o')
-%     
-%     all_vertexes=[all_vertexes V];
-    %plot_convex_hull(P_converted(1,:)',P_converted(2,:)',P_converted(3,:)',A,'b',0.0017);   
-% 
-% color_vertex=[.98 .45 .02];
-% 
-% % for i=1:size(all_vertexes,2)
-% %     s1=plotSphere(all_vertexes(:,i),radius_sphere, color_vertex);
-% % end
-% 
-% axis equal
-% tmp=gca;
-% if (size(findobj(tmp.Children,'Type','Light'))<1) %If still no light in the subplot
-%  camlight %create light
-% end
-% lighting phong
-% 
-%  
-% x=all_vertexes(1,:); y=all_vertexes(2,:); %z=all_vertexes(3,:);
-% [k1,area] = convhull(x,y);
-% s2=trisurf(k1,x,y,z,'LineWidth',1,'FaceColor',color);
-% alpha(s2,0.1)
-% 
-% k_all=k1(:);
-% k_all_unique=unique(k1);
-% num_vertexes=length(k_all_unique); %points that are in the frotier of the convex hull
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%
-% % plot_splitted_convex_hulls(P,A,interv,num_of_intervals,'g',0.017);
 
 
