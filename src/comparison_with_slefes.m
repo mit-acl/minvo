@@ -20,20 +20,20 @@ deg
 num_col_plots=numel(all_seg);
 %%%%
 j=1;
-for num_seg=all_seg
+for num_int=all_seg
 
 %Generate polynomial passing through random points
 P=generateRandPol(deg,interv);
     
-% [vertices_raw, area_union, vertices_union]=myfunction(P, 'MV',interv, num_seg)
+% [vertices_raw, area_union, vertices_union]=myfunction(P, 'MV',interv, num_int)
 subplot(3,num_col_plots,j);
-[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'MV', interv, num_seg, true);
-text(0.5,1.3,[' \boldmath{$h=',num2str(num_seg),'$}'],'HorizontalAlignment','center','Units','normalized')
+[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'MV', interv, num_int, true);
+text(0.5,1.3,[' \boldmath{$h=',num2str(num_int),'$}'],'HorizontalAlignment','center','Units','normalized')
 
 subplot(3,num_col_plots,num_col_plots+j);
-[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Be', interv, num_seg, true);
+[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Be', interv, num_int, true);
 subplot(3,num_col_plots,2*num_col_plots+j);
-[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Slefe', interv, num_seg, true);
+[num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Slefe', interv, num_int, true);
 
 j=j+1
 end
@@ -57,7 +57,7 @@ end
 end
 
 
-%%  MonteCarlo analysis for many random polynomialss
+%%  MonteCarlo analysis for many random polynomials
 %   NOTE: THIS SECTION TAKES ~25 MIN to finish. If you simply want to generate the plots, you can load "data_comparison_slefes.mat" in ./other folder
 all_MV.num_vertices_raw=zeros(numel(all_seg),numel(all_deg));
 all_MV.area_union=zeros(numel(all_seg),numel(all_deg));
@@ -74,7 +74,7 @@ all_Be.num_vertices_hull=zeros(numel(all_seg),numel(all_deg));
 counter=1;
 
 for deg=all_deg
-    for num_seg=all_seg
+    for num_int=all_seg
         
         counter
         
@@ -82,31 +82,31 @@ for deg=all_deg
         for i=1:100
             i
             P=generateRandPol(deg,interv);
-            [a, b, c, d, ee]=myfunction(P, 'MV', interv, num_seg, false); tmp_MV=[tmp_MV; [a, b, c, d, ee]];
-            [a, b, c, d, ee]=myfunction(P, 'Be', interv, num_seg, false); tmp_Be=[tmp_Be; [a, b, c, d, ee]];
-            [a, b, c, d, ee]=myfunction(P, 'Slefe', interv, num_seg, false); tmp_Slefe=[tmp_Slefe; [a, b, c, d, ee]];
+            [a, b, c, d, ee]=myfunction(P, 'MV', interv, num_int, false); tmp_MV=[tmp_MV; [a, b, c, d, ee]];
+            [a, b, c, d, ee]=myfunction(P, 'Be', interv, num_int, false); tmp_Be=[tmp_Be; [a, b, c, d, ee]];
+            [a, b, c, d, ee]=myfunction(P, 'Slefe', interv, num_int, false); tmp_Slefe=[tmp_Slefe; [a, b, c, d, ee]];
         end
-        index_num_seg=num_seg-min(all_seg)+1;
+        index_num_int=num_int-min(all_seg)+1;
         index_deg=deg-min(all_deg)+1;
         
         
-        all_MV.num_vertices_raw(index_num_seg,index_deg)=mean(tmp_MV(:,1));
-        all_MV.area_union(index_num_seg,index_deg)=mean(tmp_MV(:,2));
-        all_MV.num_vertices_union(index_num_seg,index_deg)=mean(tmp_MV(:,3));
-        all_MV.area_hull(index_num_seg,index_deg)=mean(tmp_MV(:,4));
-        all_MV.num_vertices_hull(index_num_seg,index_deg)=mean(tmp_MV(:,5));
+        all_MV.num_vertices_raw(index_num_int,index_deg)=mean(tmp_MV(:,1));
+        all_MV.area_union(index_num_int,index_deg)=mean(tmp_MV(:,2));
+        all_MV.num_vertices_union(index_num_int,index_deg)=mean(tmp_MV(:,3));
+        all_MV.area_hull(index_num_int,index_deg)=mean(tmp_MV(:,4));
+        all_MV.num_vertices_hull(index_num_int,index_deg)=mean(tmp_MV(:,5));
         
-        all_Be.num_vertices_raw(index_num_seg,index_deg)=mean(tmp_Be(:,1));
-        all_Be.area_union(index_num_seg,index_deg)=mean(tmp_Be(:,2));
-        all_Be.num_vertices_union(index_num_seg,index_deg)=mean(tmp_Be(:,3));
-        all_Be.area_hull(index_num_seg,index_deg)=mean(tmp_Be(:,4));
-        all_Be.num_vertices_hull(index_num_seg,index_deg)=mean(tmp_Be(:,5));
+        all_Be.num_vertices_raw(index_num_int,index_deg)=mean(tmp_Be(:,1));
+        all_Be.area_union(index_num_int,index_deg)=mean(tmp_Be(:,2));
+        all_Be.num_vertices_union(index_num_int,index_deg)=mean(tmp_Be(:,3));
+        all_Be.area_hull(index_num_int,index_deg)=mean(tmp_Be(:,4));
+        all_Be.num_vertices_hull(index_num_int,index_deg)=mean(tmp_Be(:,5));
         
-        all_Slefe.num_vertices_raw(index_num_seg,index_deg)=mean(tmp_Slefe(:,1));
-        all_Slefe.area_union(index_num_seg,index_deg)=mean(tmp_Slefe(:,2));
-        all_Slefe.num_vertices_union(index_num_seg,index_deg)=mean(tmp_Slefe(:,3));
-        all_Slefe.area_hull(index_num_seg,index_deg)=mean(tmp_Slefe(:,4));
-        all_Slefe.num_vertices_hull(index_num_seg,index_deg)=mean(tmp_Slefe(:,5));
+        all_Slefe.num_vertices_raw(index_num_int,index_deg)=mean(tmp_Slefe(:,1));
+        all_Slefe.area_union(index_num_int,index_deg)=mean(tmp_Slefe(:,2));
+        all_Slefe.num_vertices_union(index_num_int,index_deg)=mean(tmp_Slefe(:,3));
+        all_Slefe.area_hull(index_num_int,index_deg)=mean(tmp_Slefe(:,4));
+        all_Slefe.num_vertices_hull(index_num_int,index_deg)=mean(tmp_Slefe(:,5));
         
         counter=counter+1;
     end
@@ -142,9 +142,9 @@ subplot(2,n_col,n_col+4);  plotMatrix(all_Slefe.num_vertices_hull./all_MV.num_ve
 
 
 subplot(2,n_col,1); 
-ht = text(-0.3,0.5,'\textbf{MINVO vs. B\''ezier}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
+ht = text(-0.3,0.5,'\textbf{B\''ezier vs. MINVO}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
 subplot(2,n_col,n_col+1);
-ht = text(-0.3,0.5,'\textbf{MINVO vs. SLEFE}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
+ht = text(-0.3,0.5,'\textbf{SLEFE vs. MINVO}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
 
 set(gcf,'Position',[ 475         582        1619         586])
 
@@ -159,6 +159,17 @@ imagesc(matrix_value); %title (title_string);
 %%%% Label Stuff
 xlabel('Degree $n$'); ylabel('Num. of intervals $h$');
 c=colorbar;  c.Label.Interpreter = 'latex'; c.Label.String = label_colorbar; c.TickLabelInterpreter= 'latex'; c.Label.FontSize=13;
+
+caxis([0,2])
+
+tmp=c.TickLabels;
+c.TickLabels{end}=['$>',c.TickLabels{end},'$'];
+% last_tick_label=tmp(end);
+% tmp(end)={['>',last_tick_label{1}]};
+% c.TickLabels=tmp;
+
+% cbh.TickLabels = num2cell(1:8) ;
+
 %set( c.Label,'Rotation',0);; set(c.Label,'HorizontalAlignment','left')
 
 xticklabels(sprintfc('%d',all_deg)); yticklabels(sprintfc('%d',all_seg)); %yticklabels(sprintfc('%d',flip(all_seg)));
@@ -169,11 +180,19 @@ set(gca, 'YTick', 1:numel(all_seg)); set(gca, 'XTick', 1:numel(all_deg));
 hold on;
 for i=1:size(matrix_value,1)
     for j=1:size(matrix_value,2)
+        
+        value_string=num2str(formatNumber(matrix_value(i,j)));
         if(matrix_value(i,j)>1) %MINVO performs better
-            rectangle('Position',[j-0.5,i-0.5,1.0,1.0],'EdgeColor','r')
+            rectangle('Position',[j-0.5,i-0.5,1.0,1.0],'EdgeColor','r','LineWidth',1.3)
 %             plot([j-0.5,j+0.5],[i-0.5,i+0.5])
-            plot(j,i,'.r')
+%             plot(j,i,'.r')
+            text(j,i,['\textbf{',value_string,'}'],'HorizontalAlignment','center','FontSize',6,'Color','r')
+        else
+            text(j,i,value_string,'HorizontalAlignment','center','FontSize',6,'Color','k')
         end
+        
+        
+        
     end
 end
 %%%
@@ -190,27 +209,27 @@ P= [polyfit(tt,(b-a).*rand(size(tt)) + a,deg);
 
 end
 
-function [num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, basis, interv, num_seg, do_plot)
+function [num_vertices_raw, area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, basis, interv, num_int, do_plot)
 
-num_of_breakpts=(num_seg+1);
+num_of_breakpts=(num_int+1);
 
 n=size(P,2)-1; %degree
 
-samples_t=linspace(min(interv),max(interv),num_seg+1);
+samples_t=linspace(min(interv),max(interv),num_int+1);
 
 if(strcmp(basis,'Be'))
     A=getA_Be(n,interv); inv_A=inv(A);
-    num_vertices_raw=(n+1)*num_seg -  (num_seg-1) ;
+    num_vertices_raw=(n+1)*num_int -  (num_int-1) ;
     color=[179,141,240]/255;
 
 elseif(strcmp(basis,'MV'))
     A=getA_MV(n,interv); inv_A=inv(A);
-    num_vertices_raw=(n+1)*num_seg;
+    num_vertices_raw=(n+1)*num_int;
     color=[123,218,104]/255;
     
 elseif(strcmp(basis,'Slefe'))
     
-    breakpoints=computeSlefe(P, num_seg, interv);
+    breakpoints=computeSlefe(P, num_int, interv);
     num_vertices_raw=4*num_of_breakpts;
     color=[255,141,59]/255;    
     
@@ -276,7 +295,7 @@ function result=formatNumber(number)
     tmp=num2str(number,2);
     if(contains(tmp,'e'))
         %Number is in engineering format (e.g., 2e+5)
-        result=strrep(tmp,'+',''); %strrep will change 1e+02--> 1e2 (for shorter notation)
+        result=strrep(tmp,'+0',''); %strrep will change 1e+02--> 1e2 (for shorter notation)
     else
         result=num2str(number,'%.2f');
     end
