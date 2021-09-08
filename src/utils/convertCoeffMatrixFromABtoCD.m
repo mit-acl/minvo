@@ -18,7 +18,7 @@
 % (and they also match in between)
 function P_converted=convertCoeffMatrixFromABtoCD(P,ab,cd) 
 
-syms t tt
+syms t real
 
 a=ab(1);
 b=ab(2);
@@ -48,7 +48,8 @@ tmp=P*T';
 P_converted=[];
 
 for i=1:size(P,1)
-    P_converted=[P_converted ;double(vpa(coeffs(tmp(i),'All')))];
+    
+    P_converted=[P_converted ;vpa(coeffs(tmp(i),t,'All'))];
 end
 
 end
