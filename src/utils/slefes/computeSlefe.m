@@ -3,7 +3,7 @@
 %This function (and hence "computeSlefeScalar" as well) has been tested (to check for correctness) against the result
 %produced by the "uniexample.c" function of http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
 
-function breakpoints=computeSlefe(P, num_seg, interv)
+function [breakpoints,comp_time]=computeSlefe(P, num_seg, interv)
 
 deg=size(P,2)-1; %degree
 dim=size(P,1); %number of coordinates
@@ -12,10 +12,14 @@ num_of_breakpts=(num_seg+1);
 
 p_down=[]; p_up=[];
 
+comp_time=0;
+
 for i=1:dim %For each of the coordinates
-     [t_break_points, p_down_i, p_up_i]=computeSlefeScalar(P(i,:), deg, num_seg, interv);
+     [t_break_points, p_down_i, p_up_i,comp_time_i]=computeSlefeScalar(P(i,:), deg, num_seg, interv);
      p_down=[p_down; p_down_i];
      p_up=[p_up; p_up_i];
+     
+     comp_time=comp_time+comp_time_i;
 end
 
 %Now, p_down is a dim x num_of_breakpoints matrix  

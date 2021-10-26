@@ -12,7 +12,7 @@
 %This function has been tested (to check for correctness) against the result pproduced by the "uniexample.c" function of http://www.cise.ufl.edu/research/SurfLab/download/SubLiME.tar.gz
 
    
-function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, interv)
+function [t_break_points, p_down, p_up, comp_time]= computeSlefeScalar(P, deg, num_seg, interv)
 
 
     %%% See  %See https://www.mathworks.com/matlabcentral/answers/250997-how-to-use-relative-path-to-use-matlab-file-in-another-computer
@@ -23,6 +23,8 @@ function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, int
     filename=[pathstr,'/thirdparty/SubLiME/range/unirange-',num2str(deg),'_',num2str(num_seg),'.asc'];
     
     if ~isfile(filename)
+        deg
+        num_seg
         error("These values haven't been tabulated yet. Change the deg or # of segments")
     end
     
@@ -43,8 +45,14 @@ function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, int
     x1=t_break_points(1);  x2=t_break_points(end);
     y1=V(1);               y2=V(end);
     
-    l=((y2-y1)/(x2-x1))*(t_break_points-x1)  + y1;  %Linear interpolation between (x1,y1) and (x2,y2) (i.e., between the first and last Bezier control points)
+    y1_ones=y1*ones(size(t_break_points));
+    x1_ones=x1*ones(size(t_break_points));
+    
+    tic;
+    l=((y2-y1)/(x2-x1))*(t_break_points-x1_ones)  + y1_ones;  %Linear interpolation between (x1,y1) and (x2,y2) (i.e., between the first and last Bezier control points)
                                                     %See paragraph above Eq. 1 in Sec. 3.3 of paper "Threading Splines through 3D channels"
+    comp_time=toc;
+
     p_up=l;
     p_down=l;
     
@@ -52,16 +60,35 @@ function [t_break_points, p_down, p_up]= computeSlefeScalar(P, deg, num_seg, int
         
         %auxiliary variables
         tmp=(j-1)*2*(num_break_points)+1;
-        second_diff=(V(j)-2*V(j+1)+V(j+2)); %See Equation below Fig. 6 in Sec. 3.3 of paper "Threading Splines through 3D channels"
-                                            %Note that Matlab uses 1-indexing
         
         
         a_jdm_up=   data( tmp:(tmp+num_break_points-1) )';
         a_jdm_down= data( (tmp+num_break_points):(tmp+2*num_break_points-1) )';
         
-        %See equations below Eq. 1 in Sec. 3.3 of paper "Threading Splines through 3D channels"
-        p_up=   p_up+ max(0,second_diff)*a_jdm_up + min(0,second_diff)*a_jdm_down; 
-        p_down= p_down+ min(0,second_diff)*a_jdm_up + max(0,second_diff)*a_jdm_down; 
+        tic;
+        second_diff=(V(j)-2*V(j+1)+V(j+2)); %See Equation below Fig. 6 in Sec. 3.3 of paper "Threading Splines through 3D channels"
+                                            %Note that Matlab uses 1-indexing
+                                            
+                                            
+        %The part below implements the equations below Eq. 1 in Sec. 3.3 of paper "Threading Splines through 3D channels"
+        
+        %Option 1
+%         p_up=   p_up+ max(0,second_diff)*a_jdm_up + min(0,second_diff)*a_jdm_down; 
+%         p_down= p_down+ min(0,second_diff)*a_jdm_up + max(0,second_diff)*a_jdm_down; 
+        
+        %Option 2 (same as option 1, but faster)
+        if(second_diff>0)
+             p_up=   p_up+   second_diff*a_jdm_up; 
+             p_down= p_down+ second_diff*a_jdm_down; 
+        else
+             p_up=   p_up +  second_diff*a_jdm_down; 
+             p_down= p_down+ second_diff*a_jdm_up; 
+        end
+        
+
+        timer_tmp=toc;
+        comp_time=comp_time+timer_tmp;
+        
     end
 
 end
