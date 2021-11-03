@@ -6,8 +6,11 @@ set(0,'defaulttextInterpreter','latex'); set(groot, 'defaultAxesTickLabelInterpr
 
 
 interv=[-1,1];
-all_deg=2:7;
-all_break_points=min(all_deg+1):max(all_deg+1); 
+
+
+all_deg=2:7;%
+% all_subdiv=1:6;
+all_break_points=2:8;%Only used for Slefe
 
 
 all_ratios=zeros(numel(all_break_points), numel(all_deg));

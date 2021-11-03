@@ -9,7 +9,7 @@ interv=[-1,1];
 
 all_deg=2:7;%
 all_subdiv=1:6;
-all_break_points=min(all_deg+1):max(all_deg+1); %Only used for Slefe
+all_break_points=2:8;%Only used for Slefe %min(all_deg+1):max(all_deg+1); 
 %% Plot enclosures for random 2D curves
 export_figures=true;
 for deg=all_deg
@@ -69,7 +69,7 @@ all_Slefe={};
 
 
 counter=1;
-tic;
+
 for deg=all_deg
     for num_int=all_subdiv
         
@@ -110,7 +110,7 @@ for deg=all_deg
         counter=counter+1;
     end
 end
-toc
+
 %%
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -193,8 +193,8 @@ end
 % subplot(nrows,n_col,n_col+1);
 % ht = text(-0.3,0.5,'\textbf{SLEFE vs. MINVO}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles); set(ht,'Rotation',90)
 
-set(gcf,'Position',[ 649  106  976  1121])
-
+% set(gcf,'Position',[ 649  106  976  1121])
+set(gcf,'Position',[ 649  106  976  1170])
 exportAsPdf(gcf,['comparison_slefes_colored_matrices']);
 
 %% Functions
