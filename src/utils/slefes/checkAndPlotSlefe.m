@@ -20,6 +20,10 @@
 
 %And then compile and run: `make example` and `./uniexample`
 
+%Note that, once you execute `./uniexample`, you can change the number of
+%segments by using the + and - in your keyboard (the max number of segments
+%you'll be able to use is defined by MAXSEG (see uniexample.c file)
+
 close all; clear; clc;
 
 addpath(genpath('./../../utils')); addpath(genpath('./../../solutions'));
