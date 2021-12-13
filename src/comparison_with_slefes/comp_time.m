@@ -38,10 +38,14 @@ for i=1:numel(all_break_points)
 
         for tmp=1:30
 
-            P=generateRandPol(deg,interv);
+            P=generateRandPol1D(deg,interv); 
             V_Be=P*inv(A_Be);
 
-            [~,comp_time_slefe]=computeSlefe(P, num_seg, interv); %Note that, internally, this function uses the Bezier CPs. But the conversion P --> V_Be is not taken into account for the timer
+            [t_break_points, p_down, p_up, comp_time_slefe]=computeSlefeScalarSpeedOptimized(P, deg, num_seg, interv); %Note that, internally, this function uses the Bezier CPs. But the conversion P --> V_Be is not taken into account for the timer
+%             [t_break_points2, p_down2, p_up2, comp_time_slefe]=computeSlefeScalar(P, deg, num_seg, interv); 
+%         
+% %             isequal(p_up,p_up2)
+% %             isequal(p_down,p_down2)
             
 
             tic
