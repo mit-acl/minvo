@@ -10,7 +10,7 @@ interv=[-1,1];
 all_deg=2:7;%
 all_subdiv=1:6;
 all_break_points=2:8;%Only used for Slefe %min(all_deg+1):max(all_deg+1); 
-smooth=true;
+smooth=false;
 
 if(smooth==true)
     string_append='_smooth';
