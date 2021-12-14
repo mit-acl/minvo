@@ -10,6 +10,16 @@ interv=[-1,1];
 all_deg=2:7;%
 all_subdiv=1:6;
 all_break_points=2:8;%Only used for Slefe %min(all_deg+1):max(all_deg+1); 
+smooth=true;
+
+if(smooth==true)
+    string_append='_smooth';
+else
+    string_append='_nonsmooth';
+end
+
+rng('shuffle')
+
 %% Plot enclosures for random 2D curves
 export_figures=true;
 for deg=all_deg
@@ -23,19 +33,36 @@ for deg=all_deg
     j=1;
     for subdiv=all_subdiv
         %Generate polynomial passing through random points
-        P=generateRandPol(deg,interv);
+        if(smooth==true)
+            P=generateRandSmoothPol(deg,interv);
+        else
+            P=generateRandPol(deg,interv);
+        end
+
 
         % [vertices_raw, area_union, vertices_union]=myfunction(P, 'MV',interv, num_int)
         subplot(3,num_col_plots,j);
-        [area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'MV', interv, subdiv, 0, true);
+        [area_union_MV, num_vertices_union_MV, area_hull_MV, num_vertices_hull_MV]=myfunction(P, 'MV', interv, subdiv, 0, true);
         text(0.5,1.3,[' \boldmath{$s=',num2str(subdiv),'$}'],'HorizontalAlignment','center','Units','normalized')
 
         subplot(3,num_col_plots,num_col_plots+j);
-        [area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Be', interv, subdiv, 0, true);
+        [area_union_Be, num_vertices_union_Be, area_hull_Be, num_vertices_hull_Be]=myfunction(P, 'Be', interv, subdiv, 0, true);
         subplot(3,num_col_plots,2*num_col_plots+j);
-        [area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, 'Slefe', interv, subdiv, deg+1, true); %Note that we are using deg+1 breakpoints
+        [area_union_SL, num_vertices_union_SL, area_hull_SL, num_vertices_hull_SL]=myfunction(P, 'Slefe', interv, subdiv, deg+1, true); %Note that we are using deg+1 breakpoints
 
-        j=j+1
+        if(subdiv>1)
+            MV_smaller_union=(area_union_SL>area_union_MV);
+            MV_smaller_hull=(area_hull_SL>area_hull_MV);
+            if(MV_smaller_union && MV_smaller_hull)
+                fprintf("Both, n=%d, s=%d \n", deg, subdiv)
+            elseif(MV_smaller_union)
+                fprintf("Smaller Union, n=%d, s=%d \n", deg, subdiv)
+            elseif(MV_smaller_hull)
+                fprintf("Smaller Hull, n=%d, s=%d \n", deg, subdiv)
+            end
+        end
+
+        j=j+1;
     end
 
 
@@ -51,16 +78,16 @@ for deg=all_deg
     set(gcf,'Position',[413         608        1638         400])
 
     if(export_figures)
-        exportAsPdf(gcf,['comparison_slefes_deg_',num2str(deg)]);
+        exportAsPdf(gcf,['comparison_slefes_deg_',num2str(deg),string_append]);
     end
 
 end
 
-
+disp("Done!")
 
 
 %%  MonteCarlo analysis for many random polynomials
-%   NOTE: THIS SECTION TAKES ~4h to finish. If you simply want to generate the plots, you can load "data_comparison_slefes.mat" 
+%   NOTE: THIS SECTION TAKES ~4h to finish. If you simply want to generate the plots, you can load "data_comparison_slefes_smooth.mat" 
 
 
 all_MV=[];
@@ -78,7 +105,11 @@ for deg=all_deg
         tmp_MV=[];    tmp_Be=[];    tmp_Slefe=cell(1,size(all_break_points,2));
         for i=1:100
             i
-            P=generateRandPol(deg,interv);
+            if(smooth==true)
+                P=generateRandSmoothPol(deg,interv);
+            else
+                P=generateRandPol(deg,interv);
+            end
             [a, b, c, d]=myfunction(P, 'MV', interv, num_int, 0, false);     tmp_MV=[tmp_MV;       [a, b, c, d]];
             [a, b, c, d]=myfunction(P, 'Be', interv, num_int, 0, false);     tmp_Be=[tmp_Be;       [a, b, c, d]];
             for j=1:numel(all_break_points)
@@ -195,7 +226,7 @@ end
 
 % set(gcf,'Position',[ 649  106  976  1121])
 set(gcf,'Position',[ 649  106  976  1170])
-exportAsPdf(gcf,['comparison_slefes_colored_matrices']);
+exportAsPdf(gcf,['comparison_slefes_colored_matrices',string_append]);
 
 %% Functions
 
