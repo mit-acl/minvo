@@ -14,6 +14,8 @@ function volume=plot_convex_hull(pol_x,pol_y,pol_z,A,color,radius_sphere)
     P=[pol_x'; pol_y'; pol_z'];
     V=P*inv(A);
 
+    V=double(V);
+
     v1=V(:,1);
     v2=V(:,2);
     v3=V(:,3);
