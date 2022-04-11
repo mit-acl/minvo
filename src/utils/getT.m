@@ -8,4 +8,5 @@
 
 function result=getT(degree,variable)
 result=(variable.^[degree:-1:0])';
+result(end)=1.0; %This is needed due to a bug in Casadi
 end
