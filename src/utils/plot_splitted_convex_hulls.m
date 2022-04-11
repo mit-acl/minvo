@@ -21,6 +21,8 @@ for i=1:(length(samples_t)-1)
     %plot_convex_hull(P_converted(1,:)',P_converted(2,:)',P_converted(3,:)',A,'b',0.0017);    
 end
 
+all_vertexes=double(all_vertexes);
+
 color_vertex=[.98 .45 .02];
 
 for i=1:size(all_vertexes,2)

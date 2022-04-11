@@ -8,6 +8,7 @@
 
 function handle=plotSphere(position, radius, color)
 
+    position=double(position);
 
     [x,y,z] = sphere(50);
 

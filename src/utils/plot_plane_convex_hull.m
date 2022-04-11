@@ -13,6 +13,8 @@ function area=plot_plane_convex_hull(pol_x,pol_y,pol_z,A,color,radius_sphere)
     
     P=[pol_x'; pol_y'; pol_z'];
     V=P*inv(A);
+
+    V=double(V);
     
     vx=V(1,:);
     vy=V(2,:);

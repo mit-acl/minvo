@@ -251,6 +251,7 @@ v1=[vx(1) vy(1)];
 v2=[vx(2) vy(2)];  
 v3=[vx(3) vy(3)];
 V=[v1; v2; v3];
+V=double(V);
 [k,av] = convhull(V);
 fill(V(k,1),V(k,2),'b','LineWidth',1)
 fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',2);
@@ -265,6 +266,7 @@ v1=[vx(1) vy(1)];
 v2=[vx(2) vy(2)];  
 v3=[vx(3) vy(3)];
 V=[v1; v2; v3];
+V=double(V);
 [k,av] = convhull(V);
 fill(V(k,1),V(k,2),'y','LineWidth',1)
 fplot(pol_x'*T2,pol_y'*T2,interv,'r','LineWidth',2);
@@ -739,7 +741,7 @@ vx=[ 0    0.7  0.1 0.5]';
 vy=[1.1   0.4  0.1 1.3]';
 vz=[0.8   1  0 0]';
 V=[vx'; vy'; vz'];
-A=getA_MV(3,interv);
+A=double(getA_MV(3,interv));
 pol_x=A'*vx; pol_y=A'*vy; pol_z=A'*vz;
 P=[pol_x'; pol_y'; pol_z'];
 volumen_minvo=plot_convex_hull(pol_x,pol_y,pol_z,A,'g',0.017)
@@ -1213,7 +1215,7 @@ grid on
 %%%
 
 A2=getA_MV(2,interv);
-
+A2=double(A2);
 arrow3d([0 0 0],A2(1,:),10,'cylinder',[0.4,0.4]);
 arrow3d([0 0 0],A2(2,:),10,'cylinder',[0.2,0.45]);
 arrow3d([0 0 0],A2(3,:),10,'cylinder',[0.4,0.45]);
@@ -1360,6 +1362,10 @@ surface(2,:)=Tn'*An_MV'*SMV_y*Am_MV*Tm;
 surface(3,:)=Tn'*An_MV'*SMV_z*Am_MV*Tm; 
 fsurf(surface(1), surface(2), surface(3), [min(interv), max(interv), min(interv), max(interv)],'r'); title("")
 
+SMV_x=double(SMV_x);
+SMV_y=double(SMV_y);
+SMV_z=double(SMV_z);
+
 [k1,vol_MV] = convhull(SMV_x(:),SMV_y(:),SMV_z(:));
 trisurf(k1,SMV_x(:),SMV_y(:),SMV_z(:),'FaceColor','g','FaceAlpha',0.2 )
 camlight;material shiny ; axis off;
@@ -1419,6 +1425,9 @@ for deg=2:7
         polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
         V_MV=P*A_MV_inv;
         V_Be=P*A_Be_inv;
+
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
         
        [k,aMV] = convhull(V_MV');       
        [k,aBe] = convhull(V_Be'); 
@@ -1449,6 +1458,9 @@ for (deg=2:7)
         V_MV=P*A_MV^(-1);
         V_Be=P*A_Be^(-1);
         
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
+
        [k,aMV] = convhull(V_MV');       
        [k,aBe] = convhull(V_Be'); 
        
@@ -1478,6 +1490,9 @@ for deg=3:7
         polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
         V_MV=P*A_MV_inv;
         V_Be=P*A_Be_inv;
+
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
         
        [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:));       
        [k,vol_Be] = convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); 
@@ -1519,6 +1534,9 @@ for (deg=3:7)
         V_MV=P*A_MV^(-1);
         V_Be=P*A_Be^(-1);
 
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
+
     [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:)); trisurf(k,V_MV(1,:),V_MV(2,:),V_MV(3,:),'FaceColor','g','FaceAlpha',0.2);
 
     fplot3(P(1,:)*getT(deg,t),P(2,:)*getT(deg,t),P(3,:)*getT(deg,t),interv,'r','LineWidth',2); 
@@ -1558,6 +1576,9 @@ for deg=all_degs
             polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
         V_MV=P*A_MV_inv;
         V_Be=P*A_Be_inv;
+
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
 
        [k,area_MV] = convhull(V_MV');       
        [k,area_Be] = convhull(V_Be'); 
@@ -1622,6 +1643,9 @@ for deg=all_degs
             polyfit(tt,(b-a).*rand(size(tt)) + a,deg)];
         V_MV=P*A_MV_inv;
         V_Be=P*A_Be_inv;
+
+        V_MV=double(V_MV);
+        V_Be=double(V_Be);
 
        [k,vol_MV] = convhull(V_MV(1,:),V_MV(2,:),V_MV(3,:));       
        [k,vol_Be] = convhull(V_Be(1,:),V_Be(2,:),V_Be(3,:)); 
