@@ -168,45 +168,45 @@ end
 
 close all;
 n_col=4;  size_titles=10; nrows=size(all_break_points,2)+1;
-
+size_numbers_matrix=4.6;
 %Area union
-subplot(nrows,n_col,1);        plotMatrix(all_Be.area_union./all_MV.area_union, '$r=\frac{[\mathrm{Area}_\mathrm{union,\;Be}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$',all_deg, all_subdiv);
+subplot(nrows,n_col,1);        plotMatrix(all_Be.area_union./all_MV.area_union, '$r=\frac{[\mathrm{Area}_\mathrm{union,\;Be}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$',all_deg, all_subdiv, size_numbers_matrix);
 text(0.5,1.1,'\textbf{Area union}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
 
 for j=1:size(all_break_points,2)
-    subplot(nrows,n_col,j*n_col+1);  plotMatrix(all_Slefe{j}.area_union./all_MV.area_union, ['$r=\frac{[\mathrm{Area}_{\mathrm{union,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$'],all_deg, all_subdiv);
+    subplot(nrows,n_col,j*n_col+1);  plotMatrix(all_Slefe{j}.area_union./all_MV.area_union, ['$r=\frac{[\mathrm{Area}_{\mathrm{union,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Area}_\mathrm{union,\;MV}]}$'],all_deg, all_subdiv, size_numbers_matrix);
 end
 
 
 %Area hull
-subplot(nrows,n_col,2);        plotMatrix(all_Be.area_hull./all_MV.area_hull, '$r=\frac{[\mathrm{Area}_\mathrm{hull,\;Be}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$',all_deg, all_subdiv);
+subplot(nrows,n_col,2);        plotMatrix(all_Be.area_hull./all_MV.area_hull, '$r=\frac{[\mathrm{Area}_\mathrm{hull,\;Be}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$',all_deg, all_subdiv, size_numbers_matrix);
 text(0.5,1.1,'\textbf{Area hull}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
 
 % subplot(nrows,n_col,n_col+2);  plotMatrix(all_Slefe.area_hull./all_MV.area_hull, '$r=\frac{[\mathrm{Area}_\mathrm{hull,\;SLEFE}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
 
 for j=1:size(all_break_points,2)
-    subplot(nrows,n_col,j*n_col+2);  plotMatrix(all_Slefe{j}.area_hull./all_MV.area_hull, ['$r=\frac{[\mathrm{Area}_{\mathrm{hull,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$'],all_deg, all_subdiv);
+    subplot(nrows,n_col,j*n_col+2);  plotMatrix(all_Slefe{j}.area_hull./all_MV.area_hull, ['$r=\frac{[\mathrm{Area}_{\mathrm{hull,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Area}_\mathrm{hull,\;MV}]}$'],all_deg, all_subdiv, size_numbers_matrix);
 end
 
 
 %Num vertices union
-subplot(nrows,n_col,3);        plotMatrix(all_Be.num_vertices_union./all_MV.num_vertices_union, '$r=\frac{[\mathrm{Vert}_\mathrm{union,\;Be}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$',all_deg, all_subdiv);
+subplot(nrows,n_col,3);        plotMatrix(all_Be.num_vertices_union./all_MV.num_vertices_union, '$r=\frac{[\mathrm{Vert}_\mathrm{union,\;Be}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$',all_deg, all_subdiv, size_numbers_matrix);
 text(0.5,1.1,'\textbf{Num. vertices union}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
 
 % subplot(nrows,n_col,n_col+3);  plotMatrix(all_Slefe.num_vertices_union./all_MV.num_vertices_union, '$r=\frac{[\mathrm{Vert}_\mathrm{union,\;SLEFE}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$',all_deg, all_seg);
 
 for j=1:size(all_break_points,2)
-    subplot(nrows,n_col,j*n_col+3);  plotMatrix(all_Slefe{j}.num_vertices_union./all_MV.num_vertices_union, ['$r=\frac{[\mathrm{Vert}_{\mathrm{union,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$'],all_deg, all_subdiv);
+    subplot(nrows,n_col,j*n_col+3);  plotMatrix(all_Slefe{j}.num_vertices_union./all_MV.num_vertices_union, ['$r=\frac{[\mathrm{Vert}_{\mathrm{union,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Vert}_\mathrm{union,\;MV}]}$'],all_deg, all_subdiv, size_numbers_matrix);
 end
 
 %Num vertices hull
-subplot(nrows,n_col,4);        plotMatrix(all_Be.num_vertices_hull./all_MV.num_vertices_hull, '$r=\frac{[\mathrm{Vert}_\mathrm{hull,\;Be}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$',all_deg, all_subdiv);
+subplot(nrows,n_col,4);        plotMatrix(all_Be.num_vertices_hull./all_MV.num_vertices_hull, '$r=\frac{[\mathrm{Vert}_\mathrm{hull,\;Be}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$',all_deg, all_subdiv, size_numbers_matrix);
 text(0.5,1.1,'\textbf{Num. vertices hull}','HorizontalAlignment','center','Units','normalized','FontSize',size_titles)
 
 % subplot(nrows,n_col,n_col+4);  plotMatrix(all_Slefe.num_vertices_hull./all_MV.num_vertices_hull, '$r=\frac{[\mathrm{Vert}_\mathrm{hull,\;SLEFE}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$',all_deg, all_seg);
 
 for j=1:size(all_break_points,2)
-    subplot(nrows,n_col,j*n_col+4);  plotMatrix(all_Slefe{j}.num_vertices_hull./all_MV.num_vertices_hull, ['$r=\frac{[\mathrm{Vert}_{\mathrm{hull,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$'],all_deg, all_subdiv);
+    subplot(nrows,n_col,j*n_col+4);  plotMatrix(all_Slefe{j}.num_vertices_hull./all_MV.num_vertices_hull, ['$r=\frac{[\mathrm{Vert}_{\mathrm{hull,\;SL}_',num2str(all_break_points(j)),'}]}{[\mathrm{Vert}_\mathrm{hull,\;MV}]}$'],all_deg, all_subdiv, size_numbers_matrix);
 end
 
 subplot(nrows,n_col,1); 
@@ -229,44 +229,6 @@ set(gcf,'Position',[ 649  106  976  1170])
 exportAsPdf(gcf,['comparison_slefes_colored_matrices',string_append]);
 
 %% Functions
-
-function plotMatrix(matrix_value, label_colorbar, all_deg, all_seg)
-
-imagesc(matrix_value); %title (title_string);
-
-%%%% Label Stuff
-xlabel('$n$'); ylabel('$s$');
-c=colorbar;  c.Label.Interpreter = 'latex'; c.Label.String = label_colorbar; c.TickLabelInterpreter= 'latex'; c.Label.FontSize=13;
-
-caxis([0,2])
-
-tmp=c.TickLabels;
-c.TickLabels{end}=['$>',c.TickLabels{end},'$'];
-
-xticklabels(sprintfc('%d',all_deg)); yticklabels(sprintfc('%d',all_seg)); %yticklabels(sprintfc('%d',flip(all_seg)));
-set(gca, 'YTick', 1:numel(all_seg)); set(gca, 'XTick', 1:numel(all_deg));
-%%%%
-
-font_size=4.6;
-
-%%%Plot rectangles
-hold on;
-for i=1:size(matrix_value,1)
-    for j=1:size(matrix_value,2)
-        
-        value_string=num2str(formatNumber(matrix_value(i,j),2));
-        if(matrix_value(i,j)>1) %MINVO performs better
-            rectangle('Position',[j-0.5,i-0.5,1.0,1.0],'EdgeColor','r','LineWidth',1.3)
-%             plot([j-0.5,j+0.5],[i-0.5,i+0.5])
-%             plot(j,i,'.r')
-            text(j,i,['\textbf{',value_string,'}'],'HorizontalAlignment','center','FontSize',font_size,'Color','r')
-        else
-            text(j,i,value_string,'HorizontalAlignment','center','FontSize',font_size,'Color','k')
-        end
-    end
-end
-end
-
 function [area_union, num_vertices_union, area_hull, num_vertices_hull]=myfunction(P, basis, interv, num_int_subdiv, num_of_breakpts, do_plot)
 
 n=size(P,2)-1; %degree
@@ -348,30 +310,9 @@ end
 
 end
 
-function result=formatNumber(number, digits)
-    tmp=num2str(number,2);
-    if(contains(tmp,'e'))
-        %Number is in engineering format (e.g., 2e+5)
-        result=strrep(tmp,'+0',''); %strrep will change 1e+02--> 1e2 (for shorter notation)
-    else
-        result=num2str(number,['%.',num2str(digits),'f']);
-    end
-end
 
 
-function vertices=filterVerticesPolyShape(poly)
 
-    vertices=poly.Vertices;
-    vertices(any(isnan(vertices), 2), :) = []; %remove the rows with nnan
-    vertices=uniquetol(vertices,'ByRows',true); %See https://www.mathworks.com/help/matlab/ref/uniquetol.html
-
-end
-
-function plotCurve(P,interv)
-    deg=size(P,2)-1; %degree
-    syms t real
-    T=getT(deg,t);  fplot(P(1,:)*T,P(2,:)*T,interv,'r','LineWidth',2);
-end
 
 
 
