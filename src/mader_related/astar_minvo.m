@@ -8,6 +8,7 @@
 
 
 clc; clear; close all; 
+addpath(genpath('./../utils')); addpath(genpath('./../solutions'));
 
 q0=[0 0 0]';
 q1=[0 0 0]';
@@ -64,7 +65,7 @@ function qiP1_samples=getChildrenOfQ(Q)
               0 1 0];
     end
         
-    Mvel_bs2basis= getA_BS(2,"01")*inv(Perm*getA_MV(2,"01"));
+    Mvel_bs2basis= getA_BS(2,[0,1])*inv(Perm*getA_MV(2,[0,1]));
 %     Mvel_bs2basis=Perm*Mvel_bs2basis;
     
 %     Mvel_bs2basis=eye(3);
@@ -81,7 +82,7 @@ function qiP1_samples=getChildrenOfQ(Q)
 
     V_MV=sdpvar(3,3,'full');
     V3_Bs=sdpvar(3,1);                
-    constraints=[V_MV==(Vbs_first_block*Mvel_bs2basis(1:2,1:3)+V3_Bs*Mvel_bs2basis(3,1:3))];
+    constraints=[V_MV==(Vbs_first_block*double(Mvel_bs2basis(1:2,1:3))+V3_Bs*double(Mvel_bs2basis(3,1:3)))];
 
     tmp=V_MV(:);
     for j=1:size(tmp,1)
@@ -94,6 +95,7 @@ function qiP1_samples=getChildrenOfQ(Q)
         qiP1_samples=[];
         return;
     end
+    disp("Problem solved");
     V3_Bs_lower= value(V3_Bs);  
     result=optimize(constraints,-obj,sdpsettings('usex0',0,'solver','fmincon','showprogress',0,'verbose',0,'debug',0 ));
     V3_Bs_upper= value(V3_Bs);  
