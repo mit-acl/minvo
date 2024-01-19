@@ -2,9 +2,17 @@ close all; clear; clc;
 
 addpath(genpath('./utils')); addpath(genpath('./solutions'));
 
+set(0,'DefaultFigureWindowStyle','normal') %'normal' 'docked'
+set(0,'defaulttextInterpreter','latex');
+set(groot, 'defaultAxesTickLabelInterpreter','latex'); set(groot, 'defaultLegendInterpreter','latex');
+%Let us change now the usual grey background of the matlab figures to white
+%See https://www.mathworks.com/matlabcentral/answers/96816-how-do-i-change-the-default-background-color-of-all-figure-objects-created-in-matlab
+set(0,'defaultfigurecolor',[1 1 1])
+
 figure; hold on;  syms t real;
 
 deg=2;
+basis='Be' %or 'BS'
 n_interv=5;
 T=getT(deg,t);
 
@@ -27,6 +35,12 @@ for i=1:n_interv
     A=computeMatrixForAnyBSpline(deg, deg+1+segment_key, knots, interv)
 
     V=all_V(:,i:i+deg);
+
+    if (strcmp(basis,'Be'))
+        A_Be=getA_Be(deg,interv);
+        V=double(V*A*inv(A_Be));
+        A=A_Be;
+    end
     
     P=V*A;
     pol_x=P(1,:)'; pol_y=P(2,:)';
